@@ -1,3 +1,9 @@
+// Require libraries
+// const axios = import('axios');
+
+// Define constants
+const lidwoord_url = "https://welklidwoord.nl/"
+
 // initialize text input
 var input = document.getElementById("input");
 input.addEventListener("keydown", (e) => {
@@ -28,5 +34,27 @@ const commands = {
     command: (args) => {
         console.log(args);
     }
+  },
+
+  clear: {
+    brief: "Clears the screen",
+    command: () => {
+      var clear = true
+    }
+  },
+
+  deofhet: {
+    brief: "Prints pronoun of word",
+    command: (args) => {
+      let content = axios.get("https://jsonplaceholder.typicode.com/posts/1")
+      let data = content.then((response) => response.data)
+      // let content = axios.get(`${lidwoord_url}${args[0]}`)
+      console.log(data)
+      console.log(content)
+      return(`_${content.data(`In de Nederlandse taal gebruiken wij (.*?) ${args[0]}`, content).group(1)}_ ${noun}`)
+    }
   }
+
 }
+
+// console.log(commands["deofhet"].command("huis"))
