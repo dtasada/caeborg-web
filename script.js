@@ -1,10 +1,11 @@
-// Require libraries
-// const axios = import('axios');
+// P R E R E Q U I S I T E S
 
-// Define constants
-const lidwoord_url = "https://welklidwoord.nl/"
 
-// initialize text input
+// C O N S T A N T S
+const lidwoord_url = "https://welklidwoord.nl/banaan"
+console.log(get(lidwoord_url))
+
+// H T M L  T A G S  A S  V A R I A B L E S
 var input = document.getElementById("input-box");
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
@@ -14,7 +15,7 @@ input.addEventListener("keydown", (e) => {
 });
 const output_list = document.getElementById("output-list")
 
-// the main input parser for the program
+// M A I N  T E X T  P A R S E R  A N D  L E X E R
 function parseInput(text) {
   // init variables+
   let args = text.split(" ");
@@ -28,12 +29,13 @@ function parseInput(text) {
   }
 }
 
-// all the commands stored in a struct
+// S T R U C T  O F  F U N C T I O N S
 const commands = {
   help: {
     brief: "The help function",
     command: (args) => {
         console.log(args);
+		send("asdasd");
     }
   },
 
@@ -58,7 +60,18 @@ const commands = {
 
 }
 
-function send(text) {
-	const label = document.createElement("label");
-	
+// I M P O R T A N T  F U N C T I O N S
+function send(txt) {
+	const li = document.createElement("li");
+	const node = document.createTextNode(txt);
+	li.appendChild(node);
+	output_list.appendChild(li);
+}
+
+async function get(url) {
+	let headers = new Headers();
+	const response = await fetch(url
+	);
+	const jsonData = await response.json();
+	return jsonData;
 }
