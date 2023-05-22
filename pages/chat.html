@@ -5,8 +5,8 @@
 
 <head>
   <link rel="stylesheet" href="../style.css">
-  <script type="text/javascript" src="script.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="icon" type="image/x-icon" href="../img/logo.png">
+  <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
   <meta charset="utf-8">
   <title>Caeborg - Chat</title>
 </head>
@@ -21,6 +21,7 @@
     <div>
       <ol id="sidebar-list">
         <li><button onclick="location.href='chat.html'">Chat</button></li>
+        <li><button onclick="location.href='calc.html'">Calculator</button></li>
         <li><button onclick="location.href='games.html'">Games</button></li>
         <li><button onclick="location.href='graph.html'">Graph</button></li>
         <li><button onclick="location.href='translate.html'">Translate</button></li>
@@ -38,10 +39,12 @@
 
   <section id="input-sec">
     <div>
-      <input type="text" placeholder="Enter function here..." id="input-box" name="" value="">
-      <button onclick="execFunc()" id="submit-button">Submit</button>
+      <input type="text" placeholder="Enter function here..." id="input-box" name="" value="asd">
+      <button onclick="parseInput()" id="submit-button">Submit</button>
     </div>
   </section>
+
+  <script type="text/javascript" src="../script.js"></script>
 
 </body>
 </html>

@@ -2,27 +2,34 @@
 
 
 // C O N S T A N T S
-const lidwoord_url = "https://welklidwoord.nl/banaan"
-console.log(get(lidwoord_url))
+const lidwoord_url = "https://welklidwoord.nl/banaan";
+console.log(get(lidwoord_url));
 
 // H T M L  T A G S  A S  V A R I A B L E S
-var input = document.getElementById("input-box");
+var input = document.getElementById("input-box").value;
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     parseInput(input.value);
     input.value = "";
   }
 });
-const output_list = document.getElementById("output-list")
+
+const output_list = document.getElementById("output-list");
 
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
+
+var output = [];
+
 function parseInput(text) {
-  // init variables+
+  // init variables
+  output.push(text);
+  console.log(output[0])
   let args = text.split(" ");
   let command = args.shift();
   // execute command
   if (command in commands) {
-    commands[command].command(args);
+    output.push(commands[command].command(args));
+    console.log(output[0]);
     console.log(`Command ${command} is found`);
   } else {
     console.log(`Command ${command} not found`);
@@ -61,16 +68,6 @@ const commands = {
 }
 
 // I M P O R T A N T  F U N C T I O N S
-
-function execFunc () {
-  let funcName = document.getElementById('input-box').value;
-  // if (typeof window[funcName] === 'function') {
-    window[funcName]();
-    // } else {
-    // console.log('Function does not exist!');
-    // }
-  }
-}
 
 function send(txt) {
 	const li = document.createElement("li");
