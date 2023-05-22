@@ -61,6 +61,17 @@ const commands = {
 }
 
 // I M P O R T A N T  F U N C T I O N S
+
+function execFunc () {
+  let funcName = document.getElementById('input-box').value;
+  // if (typeof window[funcName] === 'function') {
+    window[funcName]();
+    // } else {
+    // console.log('Function does not exist!');
+    // }
+  }
+}
+
 function send(txt) {
 	const li = document.createElement("li");
 	const node = document.createTextNode(txt);

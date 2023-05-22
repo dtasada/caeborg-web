@@ -1,15 +1,32 @@
 <!DOCTYPE html>
+<html lang="en" dir="ltr">
 
 <html>
 
-<body>
-  <!--#include virtual="../index.html" -->
+<head>
   <link rel="stylesheet" href="../style.css">
+  <script type="text/javascript" src="script.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <meta charset="utf-8">
+  <title>Caeborg - Chat</title>
+</head>
 
-  <head>
-    <meta charset="utf-8">
-    <title>Caeborg - Chat</title>
-  </head>
+<body>
+
+  <section id="header-sec">
+    <a href="../index.html"><img src="../img/logo.png" height="48"></a>
+  </section>
+
+  <section id="sidebar-section">
+    <div>
+      <ol id="sidebar-list">
+        <li><button onclick="location.href='chat.html'">Chat</button></li>
+        <li><button onclick="location.href='games.html'">Games</button></li>
+        <li><button onclick="location.href='graph.html'">Graph</button></li>
+        <li><button onclick="location.href='translate.html'">Translate</button></li>
+      </ol>
+    </div>
+  </section>
 
   <section id="output-sec">
     <div>
@@ -21,11 +38,10 @@
 
   <section id="input-sec">
     <div>
-      <input id="input-box" type="text" name="" value="">
-      <button id="submit-button">Submit</button>
+      <input type="text" placeholder="Enter function here..." id="input-box" name="" value="">
+      <button onclick="execFunc()" id="submit-button">Submit</button>
     </div>
   </section>
 
 </body>
-
 </html>
