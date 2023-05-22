@@ -38,5 +38,9 @@
 }
 
 #output-sec {
+  float: right;
+}
+
+#sidebar-sec {
   float: left;
 }

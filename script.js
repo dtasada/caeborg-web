@@ -12,6 +12,7 @@ input.addEventListener("keydown", (e) => {
     input.value = "";
   }
 });
+const output_list = document.getElementById("output-list")
 
 // the main input parser for the program
 function parseInput(text) {
@@ -57,4 +58,7 @@ const commands = {
 
 }
 
-// console.log(commands["deofhet"].command("huis"))
+function send(text) {
+	const label = document.createElement("label");
+	
+}
