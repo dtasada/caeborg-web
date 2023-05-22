@@ -5,7 +5,7 @@
 const lidwoord_url = "https://welklidwoord.nl/"
 
 // initialize text input
-var input = document.getElementById("input");
+var input = document.getElementById("input-box");
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     parseInput(input.value);
