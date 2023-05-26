@@ -14,7 +14,8 @@ input.addEventListener("keydown", (e) => {
   }
 });
 
-const output_list = document.getElementById("output-list");
+// const output_list = document.getElementById("output-list");
+const output_list = document.querySelector('input[name="input-box"]');
 
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
 
