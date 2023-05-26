@@ -6,7 +6,7 @@ const lidwoord_url = "https://welklidwoord.nl/banaan";
 console.log(get(lidwoord_url));
 
 // H T M L  T A G S  A S  V A R I A B L E S
-var input = document.getElementById("input-box").value;
+var input = document.getElementById("input-box");
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     parseInput(input.value);
@@ -78,8 +78,7 @@ function send(txt) {
 
 async function get(url) {
 	let headers = new Headers();
-	const response = await fetch(url
-	);
+	const response = await fetch(url);
 	const jsonData = await response.json();
 	return jsonData;
 }
