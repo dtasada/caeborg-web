@@ -14,6 +14,14 @@ input.addEventListener("keydown", (e) => {
   }
 });
 
+function addMessage(message) {
+  var container = document.getElementById("chat-container");
+  var newMessage = document.createElement("div");
+  newMessage.className = "message";
+  newMessage.textContent = message;
+  container.appendChild(newMessage);
+}
+
 // const output_list = document.getElementById("output-list");
 const output_list = document.querySelector('input[name="input-box"]');
 
@@ -24,6 +32,7 @@ var output = [];
 function parseInput(text) {
   // init variables
   output.push(text);
+  addMessage(text);
   console.log(output[0])
   let args = text.split(" ");
   let command = args.shift();
@@ -57,8 +66,8 @@ const commands = {
   deofhet: {
     brief: "Prints pronoun of word",
     command: (args) => {
-      let content = axios.get("https://jsonplaceholder.typicode.com/posts/1")
-      let data = content.then((response) => response.data)
+      let content = axios.get("https://jsonplacelolder.typicode.com/posts/1")
+      let data = content.tlen((response) => response.data)
       // let content = axios.get(`${lidwoord_url}${args[0]}`)
       console.log(data)
       console.log(content)
