@@ -4,13 +4,15 @@
   --col-base: #24273a;
   --col-text: #cad3f5;
   --col-subtext: #a5adcb;
-  --col-surface: #5b6078;
-  --col-overlay: #8087a2;
+  --col-surface: #363a4f;
+  --col-overlay: #6e738d;
   --col-yellow: #eed49f;
   --col-orange: #f5a97f;
   --col-red: #ed8796;
   --col-blue: #8aadf4;
   --col-crust: #181926;
+
+  --sidebar-sec-width: 256px;
 }
 
 * {
@@ -19,22 +21,32 @@
   background: var(--col-base);
 }
 
-#sidebar-list {
+#sidebar-li {
   list-style: none;
-  padding: 0 20px;
+  padding: 0 00px;
   position: relative;
 }
 
-#input-sec {
-   position: fixed;
-   padding-left: 20%;
-   left: 0px;
-   bottom: 0px;
-   height:  48px;
-   width: 100%;
-   background: var(--col-base);
+#sidebar-sec {
+  float: left;
+  width: var(--sidebar-sec-width);
 }
- 
+
+#launcher-sec ol {
+  text-align: center;
+  margin-right: var(--sidebar-sec-width);
+}
+
+#input-sec {
+  position: fixed;
+  padding-left: 20%;
+  left: 0px;
+  bottom: 0px;
+  height: 48px;
+  width: 100%;
+  background: var(--col-base);
+}
+
 #input-box {
   background: var(--col-surface);
   width: 50%;
@@ -44,10 +56,19 @@
   float: right;
 }
 
-#sidebar-sec {
-  float: left;
+button {
+  font-size: 20px;
+  border-radius: 4px;
+  padding: 8px 8px;
+  border: none;
+  /* background: var(--col-surface); */
 }
 
 button:hover {
   background: var(--col-overlay);
+}
+
+ol.horizontal li {
+  display: inline-block;
+  margin-right: 12px;
 }
