@@ -1,7 +1,8 @@
 // P R E R E Q U I S I T E S
-
+const puppeteer = require('puppeteer-extra');
 
 // C O N S T A N T S
+/*
 const lidwoord_url = "https://welklidwoord.nl/banaan";
 console.log(get(lidwoord_url));
 
@@ -92,3 +93,32 @@ async function get(url) {
 	const jsonData = await response.json();
 	return jsonData;
 }
+
+*/
+
+async function favicon(url) {
+  const pluginStealth = require('puppeteer-extra-plugin-stealth');
+  puppeteer.use(pluginStealth());
+  
+  const browser = await puppeteer.launch({headless: true});
+  const page = await browser.newPage();
+  await page.setExtraHTTPHeaders({ 
+		'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36', 
+		'upgrade-insecure-requests': '1', 
+		'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8', 
+		'accept-encoding': 'gzip, deflate, br', 
+		'accept-language': 'en-US,en;q=0.9,en;q=0.8' 
+	}); 
+  
+  await page.goto(url);
+
+  const [el] = await page.$x('//*[@id="main"]/div[2]/p[1]/a');
+  const src = await el.getProperty('src');
+  const srcTxt = await src.jsonValue();
+
+  console.log(srcTxt);
+  
+  browser.close();
+}
+ 
+favicon('https://besticon-demo.herokuapp.com/icons?url=hageveld.magister.net#result')

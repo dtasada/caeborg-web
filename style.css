@@ -23,13 +23,21 @@
 
 #sidebar-li {
   list-style: none;
-  padding: 0 00px;
-  position: relative;
+  padding: 00px 00px;
+  position: fixed;
+}
+
+#sidebar-li li,
+#sidebar-li button {
+  background: var(--col-crust);
 }
 
 #sidebar-sec {
   float: left;
   width: var(--sidebar-sec-width);
+  margin-left: -00px;
+  height: 100vh;
+  background: var(--col-crust);
 }
 
 #launcher-sec ol {
@@ -61,7 +69,6 @@ button {
   border-radius: 4px;
   padding: 8px 8px;
   border: none;
-  /* background: var(--col-surface); */
 }
 
 button:hover {
@@ -70,5 +77,4 @@ button:hover {
 
 ol.horizontal li {
   display: inline-block;
-  margin-right: 12px;
 }
