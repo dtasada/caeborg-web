@@ -13,12 +13,17 @@
   --col-crust: #181926;
 
   --sidebar-sec-width: 256px;
+  --header-sec-height: 56px;
 }
 
 * {
   font-family: "JetBrains Mono", sans-serif;
   color: var(--col-text);
   background: var(--col-base);
+}
+
+#header-sec {
+  height: var(--header-sec-height);
 }
 
 #sidebar-li {
@@ -35,8 +40,8 @@
 #sidebar-sec {
   float: left;
   width: var(--sidebar-sec-width);
+  height: calc(100vh - var(--header-sec-height));
   margin-left: -00px;
-  height: 100vh;
   background: var(--col-crust);
 }
 
