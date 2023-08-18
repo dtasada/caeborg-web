@@ -1,8 +1,8 @@
 // P R E R E Q U I S I T E S
 
 // C O N S T A N T S
-
 const lidwoord_url = "https://welklidwoord.nl/banaan";
+const chem_url = "https://opsin.ch.cam.ac.uk/opsin/";
 // console.log(get(lidwoord_url));
 
 // H T M L  T A G S  A S  V A R I A B L E S
@@ -23,7 +23,8 @@ function addMessage(message) {
 }
 
 // const output_list = document.getElementById("output-list");
-const output_list = document.querySelector('input[name="input-box"]');
+// const output_list = document.querySelector('input[name="input-box"]');
+const ordered_list = document.getElementById("output-text");
 
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
 
@@ -32,7 +33,7 @@ var output = [];
 function parseInput(text) {
   // init variables
   output.push(text);
-  addMessage(text);
+  // addMessage(text);
   let args = text.split(" ");
   let command = args.shift();
   // execute command
@@ -59,6 +60,22 @@ const commands = {
     command: () => {
       var clear = true
     }
+  },
+
+  chem: {
+    brief: "Gives the structure of given IUPAC organic compound name",
+    command: (args) => {
+      let compound = args[0];
+      let url = `${chem_url}${compound}.png`;
+      fetch(url)
+        .then(res => {return res.blob()})
+        .then(blob => {
+          var src = URL.createObjectURL(blob);
+          img = document.createElement("img");
+          img.setAttribute("src", src);
+          send(compound)
+        })
+    }
   }
 
   // deofhet: {
@@ -76,19 +93,26 @@ const commands = {
 }
 
 // I M P O R T A N T  F U N C T I O N S
-
 function send(txt) {
 	const li = document.createElement("li");
-	const node = document.createTextNode(txt);
-	li.appendChild(node);
-	output_list.appendChild(li);
+	li.innerText = txt;
+  ordered_list.appendChild(li);
 }
 
-async function get(url) {
-	let headers = new Headers();
-	const response = await fetch(url);
-	const jsonData = await response.json();
-	return jsonData;
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false); // false for synchronous request
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
 }
 
-// fetch();
+function fetchImg(url) {
+  fetch(url)
+        .then(res => {return res.blob()})
+        .then(blob => {
+          var img = URL.createObjectURL(blob);
+          return img;
+          // document.getElementById('img').setAttribute('src', img);
+        })
+}
