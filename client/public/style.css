@@ -14,6 +14,7 @@
 
   --sidebar-sec-width: 256px;
   --header-sec-height: 56px;
+	--input-sec-height: 28px;
 }
 
 * {
@@ -21,6 +22,23 @@
   color: var(--col-text);
   background: var(--col-base);
 }
+
+button {
+  font-size: 20px;
+  border-radius: 4px;
+  padding: 8px 8px;
+  border: none;
+}
+
+ol.horizontal li {
+  display: inline-block;
+}
+
+#sidebar-li button:hover,
+button:hover {
+  background: var(--col-overlay);
+}
+
 
 #header-sec {
   height: var(--header-sec-height);
@@ -37,12 +55,25 @@
   background: var(--col-crust);
 }
 
+#sidebar-li button {
+	margin-left: 16px;
+}	
+
 #sidebar-sec {
   float: left;
   width: var(--sidebar-sec-width);
   height: calc(100vh - var(--header-sec-height));
-  margin-left: -00px;
+  margin-left: -10px;
   background: var(--col-crust);
+}
+
+#rest-sec {
+	/* position: fixed; */
+	width: 100% - var(--sidebar-sec-width);
+	height: 100% - var(--header-sec-height);
+	margin-left: var(--sidebar-sec-width);
+	margin-top: var(--header-sec-height);
+	/* bottom: 0px; */
 }
 
 #launcher-sec ol {
@@ -51,35 +82,22 @@
 }
 
 #input-sec {
-  position: fixed;
-  padding-left: 20%;
-  left: 0px;
-  bottom: 0px;
-  height: 48px;
+  position: sticky;
+  bottom: 16px;
+  height: var(--input-sec-height);
   width: 100%;
   background: var(--col-base);
 }
 
 #input-box {
   background: var(--col-surface);
-  width: 50%;
+  width: 80%;
 }
 
 #output-sec {
-  float: right;
+	position: absolute;
+	padding-left: 20%;
+	bottom: var(--input-sec-height);
 }
 
-button {
-  font-size: 20px;
-  border-radius: 4px;
-  padding: 8px 8px;
-  border: none;
-}
 
-button:hover {
-  background: var(--col-overlay);
-}
-
-ol.horizontal li {
-  display: inline-block;
-}
