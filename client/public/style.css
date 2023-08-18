@@ -15,6 +15,7 @@
   --sidebar-sec-width: 256px;
   --header-sec-height: 56px;
 	--input-sec-height: 28px;
+	--output-padding-left: 12px;
 }
 
 * {
@@ -24,6 +25,13 @@
 }
 
 button {
+  font-size: 20px;
+  border-radius: 4px;
+  padding: 8px 8px;
+  border: none;
+}
+
+input {
   font-size: 20px;
   border-radius: 4px;
   padding: 8px 8px;
@@ -67,36 +75,36 @@ button:hover {
   background: var(--col-crust);
 }
 
-#rest-sec {
-	/* position: fixed; */
-	width: 100% - var(--sidebar-sec-width);
-	height: 100% - var(--header-sec-height);
-	margin-left: var(--sidebar-sec-width);
-	margin-top: var(--header-sec-height);
-	/* bottom: 0px; */
-}
-
 #launcher-sec ol {
   text-align: center;
   margin-right: var(--sidebar-sec-width);
 }
 
+#rest-sec {
+	position: absolute;
+	width: calc(100% - var(--sidebar-sec-width));
+	height: calc(100% - var(--header-sec-height));
+	left: var(--sidebar-sec-width);
+	top: var(--header-sec-height);
+}
+
 #input-sec {
-  position: sticky;
+  position: fixed;
   bottom: 16px;
-  height: var(--input-sec-height);
   width: 100%;
   background: var(--col-base);
 }
 
 #input-box {
   background: var(--col-surface);
-  width: 80%;
+	margin-left: var(--output-padding-left);
+  width: 75%;
 }
 
 #output-sec {
 	position: absolute;
-	padding-left: 20%;
+	padding-left: var(--output-padding-left);
+	padding-bottom: var(--output-padding-left);
 	bottom: var(--input-sec-height);
 }
 
