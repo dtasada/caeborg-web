@@ -98,7 +98,7 @@ button:hover {
 #input-box {
   background: var(--col-surface);
 	margin-left: var(--output-padding-left);
-  width: 75%;
+  width: 79%;
 }
 
 #output-sec {
