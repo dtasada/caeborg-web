@@ -5,7 +5,7 @@ quoteButton.addEventListener("click", generateQuote);
 var img = document.createElement("img");
 document.body.appendChild(img);
 
-function generateQuote () {
+function generateQuote() {
     fetch(quoteUrl)
       .then(async res => {
         let img_url = await res.text();

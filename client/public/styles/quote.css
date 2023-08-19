@@ -1,3 +1,14 @@
-body {
-    background-color: #289D8C;
+@import "../style.css";
+
+button {
+	position: fixed;
+	left: calc(50% - var(--sidebar-sec-width) + 12px);
+	bottom: var(--footer-sec-height);
+	font-size: 40px;
+}
+
+img {
+	position: fixed;
+	top: 5%;
+	left: calc(50% - var(--sidebar-sec-width) - 190px);
 }

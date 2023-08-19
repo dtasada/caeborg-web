@@ -14,12 +14,14 @@
 
   --sidebar-sec-width: 256px;
   --header-sec-height: 56px;
+	--footer-sec-height: 28px;
 }
 
 * {
   font-family: "JetBrains Mono", sans-serif;
   color: var(--col-text);
-  background: var(--col-base);
+  background-color: var(--col-base);
+	box-sizing: border-box;
 }
 
 iframe {
@@ -45,14 +47,25 @@ ol.horizontal li {
   display: inline-block;
 }
 
-#sidebar-li button:hover,
-button:hover {
-  background: var(--col-overlay);
+.button-list button {
+	/* width: calc(var(--sidebar-sec-width) - 32px); */ /* Rounded corners, centered buttons & text */
+	/* padding-left: 20%; text-align: left; */					/* Align center */ 
+	width: var(--sidebar-sec-width);
+	margin-left: 0px !important;
+	border-radius: 0px !important;
 }
-
 
 #header-sec {
   height: var(--header-sec-height);
+	background-color: var(--col-crust);
+}
+
+#sidebar-sec {
+  float: left;
+  width: var(--sidebar-sec-width);
+  height: calc(100vh - var(--header-sec-height));
+  margin-left: -10px;
+  background: var(--col-crust);
 }
 
 #sidebar-li {
@@ -70,12 +83,9 @@ button:hover {
 	margin-left: 16px;
 }	
 
-#sidebar-sec {
-  float: left;
-  width: var(--sidebar-sec-width);
-  height: calc(100vh - var(--header-sec-height));
-  margin-left: -10px;
-  background: var(--col-crust);
+#sidebar-li button:hover,
+button:hover {
+  background: var(--col-overlay);
 }
 
 #launcher-sec ol {
@@ -84,6 +94,7 @@ button:hover {
 }
 
 #rest-sec {
+	border-radius: 16px;
 	position: absolute;
 	width: calc(100% - var(--sidebar-sec-width));
 	height: calc(100% - var(--header-sec-height));

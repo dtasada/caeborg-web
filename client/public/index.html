@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+
+<html lang="en" dir="ltr" style="background-color: var(--col-crust); overflow: hidden;">
 	
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,14 +12,14 @@
 	<script type="text/javascript" src="../src/index.js"></script>
 </head>
 
-<body>
+<body style="min-height: 100vh;">
 
   <section id="header-sec">
     <a href="index.html"><img src="img/logo.png" height="48"></a>
   </section>
 
   <section id="sidebar-sec">
-    <ol id="sidebar-li">
+    <ol id="sidebar-li" class="button-list">
       <li><button onclick="switchFrame('calc')">Calculator</button></li>
       <li><button onclick="switchFrame('chat')">Chat</button></li>
       <li><button onclick="switchFrame('chemtools')">ChemTools</button></li>
