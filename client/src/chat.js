@@ -6,11 +6,15 @@ const chem_url = "https://opsin.ch.cam.ac.uk/opsin/";
 // console.log(get(lidwoord_url));
 
 // H T M L  T A G S  A S  V A R I A B L E S
+var submit = document.getElementById("submit-button");
+submit.addEventListener("click", () => {
+  parseInput(input.value)
+})
+
 var input = document.getElementById("input-box");
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     parseInput(input.value);
-    input.value = "";
   }
 });
 
