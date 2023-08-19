@@ -51,29 +51,46 @@ const commands = {
     brief: "The help function",
     command: (args) => {
         console.log(args);
-		send("asdasd");
+		    send(commands);
     }
   },
 
   clear: {
     brief: "Clears the screen",
     command: () => {
-      var clear = true
+      while(ordered_list.firstChild) {
+        ordered_list.removeChild(ordered_list.firstChild);
+      }
     }
   },
 
   chem: {
     brief: "Gives the structure of given IUPAC organic compound name",
     command: (args) => {
-      let compound = args[0];
+      // init
+      let compound = args.join(" ");
       let url = `${chem_url}${compound}.png`;
+      // fetch
       fetch(url)
-        .then(res => {return res.blob()})
+      .then(async res => {
+        if(!res.ok) {
+          let text = await res.text();
+          send(`<i>${text}</i>`);
+          // throw new Error(text);
+         }
+        else {
+         return res.blob();
+       }    
+      })
         .then(blob => {
           var src = URL.createObjectURL(blob);
+          // image creation and attributes
           img = document.createElement("img");
           img.setAttribute("src", src);
-          send(compound)
+          img.setAttribute("id", "compound-img")
+          // sending
+          send(`<b>${compound}</b>`);
+          sendImg(img);
         })
     }
   }
@@ -95,24 +112,12 @@ const commands = {
 // I M P O R T A N T  F U N C T I O N S
 function send(txt) {
 	const li = document.createElement("li");
-	li.innerText = txt;
+	li.innerHTML = txt;
   ordered_list.appendChild(li);
 }
 
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false); // false for synchronous request
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
-}
-
-function fetchImg(url) {
-  fetch(url)
-        .then(res => {return res.blob()})
-        .then(blob => {
-          var img = URL.createObjectURL(blob);
-          return img;
-          // document.getElementById('img').setAttribute('src', img);
-        })
+function sendImg(img) {
+  const li = document.createElement("li");
+  li.appendChild(img);
+  ordered_list.appendChild(li);
 }
