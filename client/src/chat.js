@@ -1,9 +1,9 @@
 // P R E R E Q U I S I T E S
 
 // C O N S T A N T S
-const lidwoord_url = "https://welklidwoord.nl/banaan";
-const chem_url = "https://opsin.ch.cam.ac.uk/opsin/";
-// console.log(get(lidwoord_url));
+const lidwoordUrl = "https://welklidwoord.nl/banaan";
+const chemUrl = "https://opsin.ch.cam.ac.uk/opsin/";
+// console.log(get(lidwoordUrl));
 
 // H T M L  T A G S  A S  V A R I A B L E S
 var submit = document.getElementById("submit-button");
@@ -73,29 +73,13 @@ const commands = {
     command: (args) => {
       // init
       let compound = args.join(" ");
-      let url = `${chem_url}${compound}.png`;
-      // fetch
-      fetch(url)
-      .then(async res => {
-        if(!res.ok) {
-          let text = await res.text();
-          send(`<i>${text}</i>`);
-          // throw new Error(text);
-         }
-        else {
-         return res.blob();
-       }    
-      })
-        .then(blob => {
-          var src = URL.createObjectURL(blob);
-          // image creation and attributes
-          img = document.createElement("img");
-          img.setAttribute("src", src);
-          img.setAttribute("id", "compound-img")
-          // sending
-          send(`<b>${compound}</b>`);
-          sendImg(img);
-        })
+      let url = `${chemUrl}${compound}.png`;
+      img = document.createElement("img");
+      img.src = url
+      img.id = "compound-img"
+      // sending
+      send(`<b>${compound}</b>`);
+      sendImg(img);
     }
   }
 
@@ -104,7 +88,7 @@ const commands = {
   //   command: (args) => {
   //     let content = axios.get("https://jsonplacelolder.typicode.com/posts/1")
   //     let data = content.tlen((response) => response.data)
-  //     // let content = axios.get(`${lidwoord_url}${args[0]}`)
+  //     // let content = axios.get(`${lidwoordUrl}${args[0]}`)
   //     console.log(data)
   //     console.log(content)
   //     return(`_${content.data(`In de Nederlandse taal gebruiken wij (.*?) ${args[0]}`, content).group(1)}_ ${noun}`)
