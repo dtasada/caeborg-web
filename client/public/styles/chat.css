@@ -3,3 +3,7 @@
     /* image-rendering: pixelated;
     image-rendering: optiize-contrast; */
 }
+
+#output-text {
+    list-style: none;
+}
