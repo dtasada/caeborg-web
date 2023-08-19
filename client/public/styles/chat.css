@@ -1,9 +1,37 @@
-#compound-img {
-    width: 300px;
-    /* image-rendering: pixelated;
-    image-rendering: optiize-contrast; */
+@import "../style.css";
+
+:root {
+	--input-sec-height: 28px;
+	--output-padding-left: 12px;
 }
 
-#output-text {
-    list-style: none;
+#input-sec {
+  position: fixed;
+  bottom: 16px;
+  width: 100%;
+  background: var(--col-base);
+}
+
+#input-sec input {
+  background: var(--col-surface);
+	margin-left: var(--output-padding-left);
+  width: 79%;
+}
+
+#output-sec {
+	position: absolute;
+	/* padding-left: var(--output-padding-left); */
+	padding-left: 0px;
+	padding-bottom: var(--output-padding-left);
+	bottom: var(--input-sec-height);
+}
+
+#output-sec ol {
+  list-style: none;
+}
+
+#compound-img {
+  width: 300px;
+  /* image-rendering: pixelated;
+  image-rendering: optiize-contrast; */
 }

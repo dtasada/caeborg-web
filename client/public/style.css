@@ -14,8 +14,6 @@
 
   --sidebar-sec-width: 256px;
   --header-sec-height: 56px;
-	--input-sec-height: 28px;
-	--output-padding-left: 12px;
 }
 
 * {
@@ -87,25 +85,3 @@ button:hover {
 	left: var(--sidebar-sec-width);
 	top: var(--header-sec-height);
 }
-
-#input-sec {
-  position: fixed;
-  bottom: 16px;
-  width: 100%;
-  background: var(--col-base);
-}
-
-#input-box {
-  background: var(--col-surface);
-	margin-left: var(--output-padding-left);
-  width: 79%;
-}
-
-#output-sec {
-	position: absolute;
-	padding-left: var(--output-padding-left);
-	padding-bottom: var(--output-padding-left);
-	bottom: var(--input-sec-height);
-}
-
-
