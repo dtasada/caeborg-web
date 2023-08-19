@@ -27,6 +27,7 @@
 iframe {
 	width: 100%;
 	height: 100%;
+	border-radius: 12px;
 }
 
 button {
@@ -94,7 +95,6 @@ button:hover {
 }
 
 #rest-sec {
-	border-radius: 16px;
 	position: absolute;
 	width: calc(100% - var(--sidebar-sec-width));
 	height: calc(100% - var(--header-sec-height));
