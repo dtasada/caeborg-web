@@ -17,6 +17,9 @@
   --sidebar-sec-width: 256px;
   --header-sec-height: 56px;
 	--footer-sec-height: 28px;
+	--right-margin-width: var(--footer-sec-height);
+	--headerfooter-height: calc(var(--header-sec-height) + var(--footer-sec-height));
+	--sidebarrightmargin-width: calc(var(--sidebar-sec-width) + var(--right-margin-width));
 }
 
 * {
@@ -42,6 +45,11 @@ button {
   border: none;
 }
 
+#sidebar-ol li button,
+button:hover {
+  background: var(--col-overlay);
+}
+
 input {
   font-size: 16px;
   padding: 8px 8px;
@@ -62,48 +70,5 @@ ol.horizontal li {
 	border-radius: 0px;
 }
 
-#header-sec {
-  height: var(--header-sec-height);
-	background-color: var(--col-crust);
-}
-
-#sidebar-sec {
-  float: left;
-  width: var(--sidebar-sec-width);
-  height: calc(100vh - var(--header-sec-height));
-  margin-left: -10px;
-  background: var(--col-crust);
-}
-
-#sidebar-li {
-  list-style: none;
-  padding: 00px 00px;
-  position: fixed;
-}
-
-#sidebar-li li,
-#sidebar-li button {
-  background: var(--col-crust);
-}
-
-#sidebar-li button {
-	margin-left: 16px;
-}	
-
-#sidebar-li button:hover,
-button:hover {
-  background: var(--col-overlay);
-}
-
-#launcher-sec ol {
-  text-align: center;
-  margin-right: var(--sidebar-sec-width);
-}
-
-#rest-sec {
-	position: absolute;
-	width: calc(100% - var(--sidebar-sec-width));
-	height: calc(100% - var(--header-sec-height));
-	left: var(--sidebar-sec-width);
-	top: var(--header-sec-height);
-}
+.flexbox-container { display: flex; }
+.flexbox-container ol li { min-width: 56px; }
