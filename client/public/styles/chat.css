@@ -1,38 +1,72 @@
-@import "../style.css";
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,500;0,700;0,800;1,100;1,500;1,700;1,800&display=swap");
+* {
+  font-family: "JetBrains Mono", sans-serif;
+  color: #cad3f5;
+  background-color: #24273a;
+  border-radius: 32px;
+  box-sizing: border-box; }
 
-:root {
-	--input-sec-height: 28px;
-	--output-padding-left: 12px;
-}
+body {
+  background-color: #181926; }
+
+iframe {
+  width: 100%;
+  height: 100%; }
+
+button {
+  font-size: 20px;
+  padding: 8px 8px;
+  border: none; }
+  button:hover {
+    background: #6e738d; }
+
+input {
+  font-size: 16px;
+  padding: 8px 8px;
+  border: none; }
+
+ol.horizontal li {
+  display: inline-block; }
+
+.button-list button {
+  /* width: calc($sidebar-sec-width - 32px); */
+  /* Rounded corners, centered buttons & text */
+  /* padding-left: 20%; text-align: left; */
+  /* Align center */
+  width: 256px;
+  margin-left: 0px !important;
+  border-radius: 0px; }
+
+.flexbox-container {
+  display: flex; }
+
+.flexbox-container ol li {
+  min-width: 56px; }
 
 #input-sec {
   position: fixed;
   bottom: 16px;
   width: 100%;
-  background: var(--col-base);
-}
-
-#input-sec input {
-  background: var(--col-surface);
-	margin-left: var(--output-padding-left);
-	margin-top: 16px;
-  width: calc(100% - 128px);
-}
+  background: #24273a; }
+  #input-sec input {
+    background: #363a4f;
+    margin-left: 12px;
+    margin-top: 16px;
+    width: calc(100% - 128px); }
 
 #output-sec {
-	position: absolute;
-	/* padding-left: var(--output-padding-left); */
-	padding-left: 0px;
-	padding-bottom: var(--output-padding-left);
-	bottom: var(--input-sec-height);
-}
-
-#output-sec ol { list-style: none; }
-
-/* #output-sec li { margin-top: 12px; } */
+  position: absolute;
+  /* padding-left: $output-padding-left; */
+  padding-left: 0px;
+  padding-bottom: 12px;
+  bottom: 28px;
+  /* li { margin-top: 12px; } */ }
+  #output-sec ol {
+    list-style: none; }
 
 #compound-img {
   width: 300px;
   /* image-rendering: pixelated;
-  image-rendering: optiize-contrast; */
-}
+  image-rendering: optiize-contrast; */ }
+
+/*# sourceMappingURL=chat.css.map */

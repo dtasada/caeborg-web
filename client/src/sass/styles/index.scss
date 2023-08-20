@@ -1,0 +1,60 @@
+@import "../style";
+
+* {
+	background-color: $col-crust;
+}
+
+#header-sec {
+  height: $header-sec-height;
+	background-color: $col-crust;
+}
+
+#footer-sec {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: $footer-sec-height;
+	border-radius: 0px;
+	padding-top: 4px;
+
+	background-color: $col-crust;
+
+	text-align: center;
+	/* padding: 4px 0px 4px 0px; */
+}
+
+#sidebar-sec {
+  float: left;
+  width: $sidebar-sec-width;
+  height: calc(100vh - #{$header-sec-height});
+  margin-left: -10px;
+  background: $col-crust;
+
+	ol {
+		list-style: none;
+		padding: 00px 00px;
+		position: fixed;
+	}
+}
+
+#sidebar-sec ol li,
+#sidebar-sec ol li button {
+  background: $col-crust;
+}
+
+#launcher-sec ol {
+  text-align: center;
+  margin-right: $sidebar-sec-width;
+
+	li button {
+		margin-left: 16px;
+	}	
+}
+
+#rest-sec {
+	position: absolute;
+	width: calc(100% - #{$sidebarrightmargin-width});
+	height: calc(100% - #{$headerfooter-height});
+	left: $sidebar-sec-width;
+	top: $header-sec-height;
+}
