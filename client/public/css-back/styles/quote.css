@@ -1,0 +1,16 @@
+@import "../style.css";
+button {
+  position: absolute;
+  /* left: calc(50% - 104px); */
+  justify-self: center;
+  bottom: var(--footer-sec-height);
+  font-size: 40px;
+}
+
+img {
+  position: absolute;
+  top: 5%;
+  left: calc(50% - var(--sidebar-sec-width) - 190px);
+}
+
+/*# sourceMappingURL=quote.css.map */

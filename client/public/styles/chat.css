@@ -18,7 +18,7 @@ button {
   padding: 8px 8px;
   border: none; }
   button:hover {
-    background: #6e738d; }
+    background: #6e738d !important; }
 
 input {
   font-size: 16px;

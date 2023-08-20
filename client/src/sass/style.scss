@@ -43,7 +43,7 @@ button {
   border: none;
 
 	&:hover {
-		background: $col-overlay;
+		background: $col-overlay !important;
 	}
 }
 

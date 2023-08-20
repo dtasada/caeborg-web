@@ -1,0 +1,59 @@
+@import "../style.css";
+* {
+  background-color: var(--col-crust);
+}
+
+#header-sec {
+  height: var(--header-sec-height);
+  background-color: var(--col-crust);
+}
+
+#footer-sec {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  height: var(--footer-sec-height);
+  border-radius: 0px;
+  padding-top: 4px;
+  background-color: var(--col-crust);
+  text-align: center;
+  /* padding: 4px 0px 4px 0px; */
+}
+
+#sidebar-sec {
+  float: left;
+  width: var(--sidebar-sec-width);
+  height: calc(100vh - var(--header-sec-height));
+  margin-left: -10px;
+  background: var(--col-crust);
+}
+
+#sidebar-sec ol {
+  list-style: none;
+  padding: 0px 0px;
+  position: fixed;
+}
+
+#sidebar-sec ol li,
+#sidebar-sec ol li button {
+  background: var(--col-crust);
+}
+
+#sidebar-sec ol li button {
+  margin-left: 16px;
+}
+
+#launcher-sec ol {
+  text-align: center;
+  margin-right: var(--sidebar-sec-width);
+}
+
+#rest-sec {
+  position: absolute;
+  width: calc(100% - var(--sidebarrightmargin-width));
+  height: calc(100% - var(--headerfooter-height));
+  left: var(--sidebar-sec-width);
+  top: var(--header-sec-height);
+}
+
+/*# sourceMappingURL=index.css.map */

@@ -34,12 +34,11 @@
 		list-style: none;
 		padding: 00px 00px;
 		position: fixed;
-	}
-}
 
-#sidebar-sec ol li,
-#sidebar-sec ol li button {
-  background: $col-crust;
+		li button {
+			background: $col-crust;
+		}
+	}
 }
 
 #launcher-sec ol {

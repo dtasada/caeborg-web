@@ -1,8 +1,7 @@
 @import "../style.css";
-
 :root {
-	--input-sec-height: 28px;
-	--output-padding-left: 12px;
+  --input-sec-height: 28px;
+  --output-padding-left: 12px;
 }
 
 #input-sec {
@@ -14,25 +13,28 @@
 
 #input-sec input {
   background: var(--col-surface);
-	margin-left: var(--output-padding-left);
-	margin-top: 16px;
+  margin-left: var(--output-padding-left);
+  margin-top: 16px;
   width: calc(100% - 128px);
 }
 
 #output-sec {
-	position: absolute;
-	/* padding-left: var(--output-padding-left); */
-	padding-left: 0px;
-	padding-bottom: var(--output-padding-left);
-	bottom: var(--input-sec-height);
+  position: absolute;
+  /* padding-left: var(--output-padding-left); */
+  padding-left: 0px;
+  padding-bottom: var(--output-padding-left);
+  bottom: var(--input-sec-height);
 }
 
-#output-sec ol { list-style: none; }
+#output-sec ol {
+  list-style: none;
+}
 
 /* #output-sec li { margin-top: 12px; } */
-
 #compound-img {
   width: 300px;
   /* image-rendering: pixelated;
   image-rendering: optiize-contrast; */
 }
+
+/*# sourceMappingURL=chat.css.map */

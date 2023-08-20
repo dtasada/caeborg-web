@@ -18,7 +18,7 @@ button {
   padding: 8px 8px;
   border: none; }
   button:hover {
-    background: #6e738d; }
+    background: #6e738d !important; }
 
 input {
   font-size: 16px;
@@ -71,10 +71,8 @@ ol.horizontal li {
     list-style: none;
     padding: 00px 00px;
     position: fixed; }
-
-#sidebar-sec ol li,
-#sidebar-sec ol li button {
-  background: #181926; }
+    #sidebar-sec ol li button {
+      background: #181926; }
 
 #launcher-sec ol {
   text-align: center;
