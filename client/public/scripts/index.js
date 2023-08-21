@@ -5,7 +5,7 @@ function switchFrame(page) {
 
 	Object.assign(new_frame, {
 		id: "rest-iframe",
-		src: `pages/${page}.html`,
+		src: `../pages/${page}.html`,
 		frameBorder: "0",
 		allow: "clipboard-read; clipboard-write"
 	});
