@@ -36,6 +36,7 @@
 		position: fixed;
 
 		li button {
+			font-size: $subtitle-fontsize;
 			background: $col-crust;
 		}
 	}
@@ -47,6 +48,7 @@
 
 	li button {
 		margin-left: 16px;
+		font-size: $subtitle-fontsize;
 	}	
 }
 

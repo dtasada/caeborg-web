@@ -8,13 +8,15 @@ const chemUrl = "https://opsin.ch.cam.ac.uk/opsin/";
 // H T M L  T A G S  A S  V A R I A B L E S
 var submit = document.getElementById("submit-button");
 submit.addEventListener("click", () => {
-  parseInput(input.value)
-})
+  parseInput(input.value);
+	sumbit.value = "";
+});
 
 var input = document.getElementById("input-box");
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     parseInput(input.value);
+		input.value = "";
   }
 });
 
@@ -27,7 +29,7 @@ function addMessage(message) {
 }
 
 // const output_list = document.getElementById("output-list");
-// const output_list = document.querySelector('input[name="input-box"]');
+// const output_list = document.querySelector('input[name="input-box"]'); // ! i deleted the "name=" attribute in html -daniel
 const ordered_list = document.getElementById("output-text");
 
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
@@ -37,6 +39,7 @@ var output = [];
 function parseInput(text) {
   // init variables
   output.push(text);
+	sendtxt("user", text);
   // addMessage(text);
   let args = text.split(" ");
   let command = args.shift();
@@ -46,6 +49,7 @@ function parseInput(text) {
     console.log(`Command ${command} is found`);
   } else {
     console.log(`Command ${command} not found`);
+    sendtxt("caeborg", `Command ${command} not found`);
   }
 }
 
@@ -55,7 +59,7 @@ const commands = {
     brief: "The help function",
     command: (args) => {
         console.log(args);
-		    send(commands);
+		    sendtxt("caeborg", commands);
     }
   },
 
@@ -78,8 +82,8 @@ const commands = {
       img.src = url
       img.id = "compound-img"
       // sending
-      send(`<b>${compound}</b>`);
-      sendImg(img);
+      sendtxt("caeborg", `<b>${compound}</b>`);
+      sendImg("caeborg", img);
     }
   }
 
@@ -98,14 +102,19 @@ const commands = {
 }
 
 // I M P O R T A N T  F U N C T I O N S
-function send(txt) {
+function sendtxt(sender="caeborg", txt) {
+	const div = document.createElement("div");
 	const li = document.createElement("li");
 	li.innerHTML = txt;
-  ordered_list.appendChild(li);
+	div.appendChild(li);
+  ordered_list.appendChild(div);
 }
 
-function sendImg(img) {
-  const li = document.createElement("li");
-  li.appendChild(img);
-  ordered_list.appendChild(li);
+function sendImg(sender="caeborg", img) {
+  const div = document.createElement("div");
+	const li = document.createElement("li");
+	li.appendChild(img);
+  div.appendChild(li);
+  ordered_list.appendChild(div);
 }
+

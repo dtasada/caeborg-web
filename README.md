@@ -5,5 +5,5 @@
 
 ## Notes
 * To compile SCSS to CSS, run `sass --watch src/sass:public` in `caeborg-web/client`
-* To run Node Server, run `node server/server.js` in `caeborg-web`
-* When running `node server/server.js`, it behaves like `server.js` is located in `caeborg-web`, not in `server/`.
+* To run Node Server, run `npm start` in `caeborg-web/`
+* When running `npm start` from `caeborg-web/`, it behaves like `server.js` is located in `caeborg-web/`, not in `caeborg-web/server/`.

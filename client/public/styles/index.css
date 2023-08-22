@@ -3,52 +3,72 @@
   font-family: "JetBrains Mono", sans-serif;
   color: #cad3f5;
   background-color: #24273a;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+*:not(img) {
   border-radius: 32px;
-  box-sizing: border-box; }
+}
 
-body {
-  background-color: #181926; }
+.subtitle {
+  size: 20px;
+}
 
-iframe {
-  width: 100%;
-  height: 100%; }
+iframe:not(.custom-size) {
+  width: calc(100vw - calc(256px + 28px));
+  height: calc(100vh - calc(56px + 28px));
+}
 
 button {
-  font-size: 20px;
   padding: 8px 8px;
-  border: none; }
-  button:hover {
-    background: #6e738d !important; }
+  border: none;
+}
+button:hover {
+  background: #6e738d !important;
+}
 
 input {
-  font-size: 16px;
-  padding: 8px 8px;
-  border: none; }
+  padding: 8px 16px;
+  border: none;
+}
+input, input button {
+  outline: none;
+}
 
+ol {
+  margin-block-start: 0px !important;
+  margin-block-end: 0px !important;
+}
 ol.horizontal li {
-  display: inline-block; }
+  display: inline-block;
+}
+ol:not(.ordered-list) {
+  list-style: none;
+}
 
 .button-list button {
-  /* width: calc($sidebar-sec-width - 32px); */
-  /* Rounded corners, centered buttons & text */
-  /* padding-left: 20%; text-align: left; */
-  /* Align center */
+  /* width: calc($sidebar-sec-width - 32px); */ /* Rounded corners, centered buttons & text */
+  /* padding-left: 20%; text-align: left; */ /* Align center */
   width: 256px;
   margin-left: 0px !important;
-  border-radius: 0px; }
+  border-radius: 0px;
+}
 
 .flexbox-container {
-  display: flex; }
-
+  display: flex;
+}
 .flexbox-container ol li {
-  min-width: 56px; }
+  min-width: 56px;
+}
 
 * {
-  background-color: #181926; }
+  background-color: #181926;
+}
 
 #header-sec {
   height: 56px;
-  background-color: #181926; }
+  background-color: #181926;
+}
 
 #footer-sec {
   position: fixed;
@@ -59,32 +79,41 @@ ol.horizontal li {
   padding-top: 4px;
   background-color: #181926;
   text-align: center;
-  /* padding: 4px 0px 4px 0px; */ }
+  /* padding: 4px 0px 4px 0px; */
+}
 
 #sidebar-sec {
   float: left;
   width: 256px;
   height: calc(100vh - 56px);
   margin-left: -10px;
-  background: #181926; }
-  #sidebar-sec ol {
-    list-style: none;
-    padding: 00px 00px;
-    position: fixed; }
-    #sidebar-sec ol li button {
-      background: #181926; }
+  background: #181926;
+}
+#sidebar-sec ol {
+  list-style: none;
+  padding: 0px 0px;
+  position: fixed;
+}
+#sidebar-sec ol li button {
+  font-size: 20px;
+  background: #181926;
+}
 
 #launcher-sec ol {
   text-align: center;
-  margin-right: 256px; }
-  #launcher-sec ol li button {
-    margin-left: 16px; }
+  margin-right: 256px;
+}
+#launcher-sec ol li button {
+  margin-left: 16px;
+  font-size: 20px;
+}
 
 #rest-sec {
   position: absolute;
   width: calc(100% - calc(256px + 28px));
   height: calc(100% - calc(56px + 28px));
   left: 256px;
-  top: 56px; }
+  top: 56px;
+}
 
 /*# sourceMappingURL=index.css.map */
