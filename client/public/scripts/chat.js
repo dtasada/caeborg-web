@@ -14,6 +14,7 @@ submit.addEventListener("click", () => {
 
 var input = document.getElementById("input-box");
 input.addEventListener("keydown", (e) => {
+	autocomplete(input);
   if (e.key === "Enter") {
     parseInput(input.value);
 		input.value = "";
@@ -49,6 +50,23 @@ function send(sender, msgs) {
 		ordered_list.appendChild(li);
 	}
 }
+
+function autocomplete(input) {
+	for (command in commands) {
+		if (command.includes(input)) {
+			let i = command.indexOf(input);
+			console.log(i);
+			console.log("it does");
+
+			if (i !== -1) {
+  			const validlenofinput = input.length;
+				console.log(validlenofinput)
+			} else {
+				console.log(`${string2} is not found in ${string1}`);
+			}
+		}
+	}
+} /// NOT WOKRING YET
 
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
 
