@@ -62,16 +62,17 @@ ol:not(.ordered-list) {
 }
 
 button {
-  position: fixed;
-  left: calc(50% - 104px - 256px);
+  position: absolute;
+  left: calc(50% - 208px);
   bottom: 28px;
   font-size: 40px;
 }
 
 img {
-  position: fixed;
+  position: absolute;
+  height: 80%;
+  left: 24%;
   top: 5%;
-  left: calc(50% - 325px - 256px);
 }
 
 /*# sourceMappingURL=quote.css.map */

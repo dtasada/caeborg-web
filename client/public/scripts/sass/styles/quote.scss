@@ -1,16 +1,17 @@
 @import "../style";
 
 button {
-	position: fixed;
-	left: calc(50% - 104px - #{$sidebar-sec-width});
+	position: absolute;
+	left: calc(50% - 208px);
 	// justify-self: center;
 	bottom: $footer-sec-height;
 	font-size: 40px;
 }
 
 img {
-	position: fixed;
+	position: absolute;
+	height: 80%;
+	left: calc(50% - 0.65 * 40%);
 	top: 5%;
-	left: calc(50% - 325px - #{$sidebar-sec-width});
 	// left: 50%;
 }

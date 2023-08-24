@@ -97,12 +97,16 @@ ol:not(.ordered-list) {
 #output-sec ol {
   padding-inline-start: 0px !important;
 }
-#output-sec ol li.sender-is-user {
-  position: absolute;
-  margin-left: 12px;
+#output-sec ol li {
+  margin-top: 28px;
+  margin-left: 48px;
 }
-#output-sec ol li.pfp {
-  height: 48px;
+#output-sec ol li img.pfp {
+  position: absolute;
+  float: left;
+  left: 0px;
+  margin-top: -10px;
+  height: 40px;
   border-radius: 50px;
 }
 

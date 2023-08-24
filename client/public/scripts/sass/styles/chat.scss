@@ -40,21 +40,23 @@ $input-element-height: 48px;
 	margin-left: $input-margin;
 	bottom: calc(#{$input-element-height} + 24px);
 
-	div {}
-
 	ol {
 		padding-inline-start: 0px !important;
 		// margin-bottom: 32px;
 
 		li {
-			// margin-top: 12px;
-			&.sender-is-user {
-				position: absolute;
-				margin-left: $input-margin;
-			}
+			// margin: 28px 0px;
+			margin-top: 28px;
+			margin-left: 48px;
+			// margin-block-end: 20px;
+			// margin-block-start: 20px;
 
-			&.pfp {
-				height: 48px;
+			img.pfp {
+				position: absolute;
+				float: left;
+				left: 0px;
+				margin-top: -10px;
+				height: 40px;
 				border-radius: 50px;
 			}
 		}

@@ -24,25 +24,30 @@ const ordered_list = document.getElementById("output-text");
 
 // I M P O R T A N T  F U N C T I O N S
 function send(sender, msgs) {
-	const li = document.createElement('li');
+	if (sender != null) {
+		const li = document.createElement('li');
 
-	// pfp = document.createElement("img").classList.add(`sender-is-${sender}`);
-	pfp = document.createElement("img");
-	pfp.classList.add(`sender-is-${sender}`, 'pfp');
-	pfp.src = `${ourURL}/assets/${sender}.png`;
-	li.appendChild(pfp);
+		pfp = document.createElement("img");
+		pfp.classList.add(`sender-is-${sender}`, 'pfp');
+		pfp.src = `${ourURL}/assets/${sender}.png`;
+		li.appendChild(pfp);
 
-	for (msg of msgs) {
-		let msg_type = msg[0];
-		let msg_content = msg[1];
-		console.log(`Type: '${msg_type}', Content: '${msg_content}'`);
+		for (msg of msgs) {
+			let msg_type = msg[0];
+			let msg_content = msg[1];
+			// console.log(`Type: '${msg_type}', Content: '${msg_content}'`);
 
-		const p = document.createElement('p');
-		if      (msg_type == "text" ) { p.innerHTML = msg_content;  }
-		else if (msg_type == "image") { p.appendChild(msg_content); };
-		li.appendChild(p);
+			if (msg_type == "text" ) {
+				const p = document.createElement('p');
+				p.innerHTML = msg_content;
+				li.appendChild(p);
+			}
+			else if (msg_type == "image") {
+				li.appendChild(msg_content);
+			};
+		}
+		ordered_list.appendChild(li);
 	}
-	ordered_list.appendChild(li);
 }
 
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
@@ -58,13 +63,14 @@ function parseInput(text) {
   // execute command
   if (command in commands) {
 		let results = commands[command].function(args);
-		send("caeborg", results)
+		if (results != null) { send("caeborg", results); }
     output.push(results);
-    console.log(`Command ${command} is found`);
+    // console.log(`Command ${command} is found`);
+		// console.log(results);
 
   } else {
     console.log(`Command ${command} not found`);
-    send("caeborg", [["text", `Command ${command} not found`]]);
+    send("caeborg", [["text", `<i>Command '${command}' not found</i>`]]);
   }
 }
 
@@ -83,9 +89,17 @@ const commands = {
       while(ordered_list.firstChild) {
         ordered_list.removeChild(ordered_list.firstChild);
       };
-			return [ null ];
+			return null;
     }
   },
+
+	ping: {
+		brief: "Ping user back",
+		function: (args = 1) => {
+			return Array(args[0]).fill(["text", "pong!"])
+			// return [["text", "pong!"], ["text", "pong!"]]
+		}
+	},
 
   chem: {
     brief: "Gives the structure of given IUPAC organic compound name",
@@ -97,7 +111,7 @@ const commands = {
       img.src = url;
       img.id = "compound-img"; // this should prolly be a class rather than an id pls
       // sending
-			return [["text", `<b>${compound}</b>`], ["image", img]];
+			return [["text", `IUPAC nomenclature for '<b><i>${compound}</i></b>':`], ["image", img]];
     }
   }
 
@@ -112,7 +126,7 @@ const commands = {
 	    console.log(content)
 	    return(`_${content.data(`In de Nederlandse taal gebruiken wij (.*?) ${args[0]}`, content).group(1)}_ ${noun}`)
 	  }
-   }
+  }
 */
 
 }
