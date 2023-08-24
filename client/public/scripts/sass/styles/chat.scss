@@ -48,6 +48,15 @@ $input-element-height: 48px;
 
 		li {
 			// margin-top: 12px;
+			&.sender-is-user {
+				position: absolute;
+				margin-left: $input-margin;
+			}
+
+			&.pfp {
+				height: 48px;
+				border-radius: 50px;
+			}
 		}
 	}
 }

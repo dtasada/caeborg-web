@@ -2,7 +2,8 @@
 
 // C O N S T A N T S
 const lidwoordUrl = "https://welklidwoord.nl/banaan";
-const chemUrl = "https://opsin.ch.cam.ac.uk/opsin/";
+const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
+const ourURL = "http://localhost:8000"
 
 // H T M L  T A G S  A S  V A R I A B L E S
 var submit = document.getElementById("submit-button");
@@ -23,18 +24,25 @@ const ordered_list = document.getElementById("output-text");
 
 // I M P O R T A N T  F U N C T I O N S
 function send(sender, msgs) {
-	const div = document.createElement('div');
-	for (array in msgs) {
-		const type = array[0];
-		const message = array[1];
-		console.log(type, message);
+	const li = document.createElement('li');
 
-		const li = document.createElement('li');
-		if      (type == "text" ) { li.innerHTML = message;  }
-		else if (type == "image") { li.appendChild(message); };
-		div.appendChild(li);
+	// pfp = document.createElement("img").classList.add(`sender-is-${sender}`);
+	pfp = document.createElement("img");
+	pfp.classList.add(`sender-is-${sender}`, 'pfp');
+	pfp.src = `${ourURL}/assets/${sender}.png`;
+	li.appendChild(pfp);
+
+	for (msg of msgs) {
+		let msg_type = msg[0];
+		let msg_content = msg[1];
+		console.log(`Type: '${msg_type}', Content: '${msg_content}'`);
+
+		const p = document.createElement('p');
+		if      (msg_type == "text" ) { p.innerHTML = msg_content;  }
+		else if (msg_type == "image") { p.appendChild(msg_content); };
+		li.appendChild(p);
 	}
-	ordered_list.appendChild(div);
+	ordered_list.appendChild(li);
 }
 
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
@@ -84,10 +92,10 @@ const commands = {
     function: (args) => {
       // init
       let compound = args.join(" ");
-      let url = `${chemUrl}${compound}.png`;
+      let url = `${chemUrl}/${compound}.png`;
       img = document.createElement("img");
       img.src = url;
-      img.id = "compound-img";
+      img.id = "compound-img"; // this should prolly be a class rather than an id pls
       // sending
 			return [["text", `<b>${compound}</b>`], ["image", img]];
     }

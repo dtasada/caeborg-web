@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/server.js",
-    "dev": "nodemon server/server.js && sass --watch client/public/scripts/sass:client/public"
+    "dev": "nodemon server/server.js & sass --watch client/public/scripts/sass:client/public"
   },
   "keywords": [],
   "author": "",
