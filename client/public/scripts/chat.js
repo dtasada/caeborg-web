@@ -62,7 +62,7 @@ function parseInput(text) {
   let command = args.shift();
   // execute command
   if (command in commands) {
-		let results = commands[command].function(args);
+		let results = commands[command].command(args);
 		if (results != null) { send("caeborg", results); }
     output.push(results);
     // console.log(`Command ${command} is found`);
@@ -78,14 +78,14 @@ function parseInput(text) {
 const commands = {
   help: {
     brief: "The help function",
-    function: (args) => {
+    command: (args) => {
 				return [ "caeborg", ["text", `${commands}`] ];
     }
   },
 
   clear: {
     brief: "Clears the screen",
-    function: () => {
+    command: () => {
       while(ordered_list.firstChild) {
         ordered_list.removeChild(ordered_list.firstChild);
       };
@@ -95,7 +95,7 @@ const commands = {
 
 	ping: {
 		brief: "Ping user back",
-		function: (args) => {
+		command: (args) => {
 			return Array(args[0]).fill(["text", "pong!"]);
 			// return [["text", "pong!"], ["text", "pong!"]]
 		}
@@ -103,7 +103,7 @@ const commands = {
 
   chem: {
     brief: "Gives the structure of given IUPAC organic compound name",
-    function: (args) => {
+    command: (args) => {
       // init
       let compound = args.join(" ");
       let url = `${chemUrl}/${compound}.png`;
