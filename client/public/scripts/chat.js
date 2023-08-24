@@ -95,8 +95,8 @@ const commands = {
 
 	ping: {
 		brief: "Ping user back",
-		function: (args = 1) => {
-			return Array(args[0]).fill(["text", "pong!"])
+		function: (args) => {
+			return Array(args[0]).fill(["text", "pong!"]);
 			// return [["text", "pong!"], ["text", "pong!"]]
 		}
 	},
