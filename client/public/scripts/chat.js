@@ -50,6 +50,13 @@ function send(sender, msgs) {
 	}
 }
 
+function httpGet(theUrl) {
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false );
+    xmlHttp.send( null );
+    return xmlHttp;
+}
+
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
 
 var output = [];
@@ -96,8 +103,7 @@ const commands = {
 	ping: {
 		brief: "Ping user back",
 		command: (args) => {
-			return Array(args[0]).fill(["text", "pong!"]);
-			// return [["text", "pong!"], ["text", "pong!"]]
+			return [["text", "pong!"]]
 		}
 	},
 
@@ -108,10 +114,16 @@ const commands = {
       let compound = args.join(" ");
       let url = `${chemUrl}/${compound}.png`;
       img = document.createElement("img");
-      img.src = url;
-      img.id = "compound-img"; // this should prolly be a class rather than an id pls
-      // sending
-			return [["text", `IUPAC nomenclature for '<b><i>${compound}</i></b>':`], ["image", img]];
+	  let response = httpGet(url);
+	  let text = response.responseText;
+	  if (response.status === 404) {
+		let importantMessage = text.split("as follows:")[1];
+		return [["text", importantMessage]];
+	  } else {
+		img.src = url;
+		img.classList.add("compound-img");
+		return [["text", `IUPAC nomenclature for '<b><i>${compound}</i></b>':`], ["image", img]];
+	  }
     }
   }
 

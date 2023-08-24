@@ -6,9 +6,9 @@ var img = document.createElement("img");
 document.body.appendChild(img);
 
 function generateQuote() {
-    fetch(quoteUrl)
-      .then(async res => {
-        let img_url = await res.text();
-        img.src = img_url;
-    })
+  fetch(quoteUrl)
+    .then(async res => {
+      let img_url = await res.text();
+      img.src = img_url;
+  })
 }
