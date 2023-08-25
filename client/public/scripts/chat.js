@@ -14,12 +14,14 @@ submit.addEventListener("click", () => {
 
 var input = document.getElementById("input-box");
 input.addEventListener("keydown", (e) => {
-	autocomplete(input);
   if (e.key === "Enter") {
     parseInput(input.value);
 		input.value = "";
   }
 });
+input.oninput = () => {
+	autocomplete();
+}
 
 const ordered_list = document.getElementById("output-text");
 
@@ -51,7 +53,7 @@ function send(sender, msgs) {
 	}
 }
 
-function autocomplete(input) {
+function autocomplete() {
 	for (command in commands) {
 		if (command.includes(input.value)) {
 			let i = command.indexOf(input);
