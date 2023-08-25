@@ -53,16 +53,15 @@ function send(sender, msgs) {
 
 function autocomplete(input) {
 	for (command in commands) {
-		if (command.includes(input)) {
+		if (command.includes(input.value)) {
 			let i = command.indexOf(input);
-			console.log(i);
-			console.log("it does");
 
-			if (i !== -1) {
+			if (i === -1) {
   			const validlenofinput = input.length;
 				console.log(validlenofinput);
+				console.log(`${input.value} is found in ${command}`);
 			} else {
-				console.log(`${string2} is not found in ${string1}`);
+				console.log(`${input.value} is not found in ${command}`);
 			}
 		}
 	}
