@@ -60,7 +60,7 @@ function autocomplete(input) {
 
 			if (i !== -1) {
   			const validlenofinput = input.length;
-				console.log(validlenofinput)
+				console.log(validlenofinput);
 			} else {
 				console.log(`${string2} is not found in ${string1}`);
 			}
