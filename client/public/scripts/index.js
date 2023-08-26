@@ -11,4 +11,8 @@ function switchFrame(page) {
 	});
 
 	rest_section.appendChild(new_frame);
+
+	localStorage.setItem('saved_frame', new_frame);
 }
+
+switchFrame(localStorage.getItem('saved_frame'));
