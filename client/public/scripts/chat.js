@@ -94,8 +94,6 @@ function httpGet(theUrl) {
 
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
 
-var output = [];
-
 function parseInput(text) {
   // init variables
 	send("user", [["text", text]]);
@@ -124,8 +122,9 @@ const commands = {
     brief: "Clears the screen",
     command: () => {
       while(output_list.firstChild) {
-        output_list.removeChild(ordered_list.firstChild);
+        output_list.removeChild(output_list.firstChild);
       };
+			localStorage.setItem('saved_chat_output_list', output_list.outerHTML);
 			return null;
     }
   },

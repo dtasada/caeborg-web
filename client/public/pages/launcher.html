@@ -13,22 +13,24 @@
   <script type="text/javascript" src="../scripts/index.js"></script>
 
 </head>
-
 	<body>
 
 		<section id="launcher-sec" class="flexbox-container">
-			<ol id="launcher-li" class="horizontal">
-				<li><button onclick="window.open('http://hageveld.magister.net','_blank')"><img
-					src="https://play-lh.googleusercontent.com/Kx_AuRPEK6VR9Lzsn4p2l3QEkV_BHjofKX8UoacTaBpl1_kUmO6VAUyASU51FervXw"
-					width="128" height="128" /><br>Magister</button>
-				</li>
-				<li><button onclick="window.open('https://youtube.com/', '_blank')"><img
-					src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png" width="128"
-					height="128" /><br>YouTube</button>
-				</li>
+			<ol id="launcher-ol" class="horizontal">
+				<li><button onclick="window.open('https://hageveld.magister.net','_blank')">
+					<img class="hageveld.magister.net" width="128" height="128"/><br>Magister</button></li>
+				<li><button onclick="window.open('https://youtube.com/', '_blank')">
+					<img class="youtube.com" width="128" height="128"/><br>YouTube</button></li>
 			</ol>
+			<script>
+			const li = document.querySelectorAll('#launcher-ol li');
+			li.forEach(liElement => {
+				const img = liElement.querySelector('img');
+				console.log(img.getAttribute('class'));
+				img.setAttribute('src', `http://localhost:8080/icon?url=${img.getAttribute('class')}&size=64..128..256`)
+			});
+			</script>
 		</section>
 
 	</body>
-
 </html>

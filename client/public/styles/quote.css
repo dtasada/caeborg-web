@@ -61,17 +61,25 @@ ol:not(.ordered-list) {
   min-width: 56px;
 }
 
+.flexbox-container {
+  justify-content: center;
+  align-items: stretch;
+}
+
 button {
   position: absolute;
-  left: calc(50% - 208px);
-  bottom: 28px;
-  font-size: 40px;
+  bottom: 3%;
+  height: 6%;
+  font-size: 32px;
 }
 
 img {
   position: absolute;
+  border-style: hidden !important;
   height: 80%;
-  left: 24%;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
   top: 5%;
 }
 

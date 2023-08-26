@@ -1,17 +1,28 @@
 @import "../style";
 
+.flexbox-container {
+	justify-content: center;
+	align-items: stretch;
+}
+
+.flexbox-item {
+	// align-items: center;
+}
+
 button {
 	position: absolute;
-	left: calc(50% - 208px);
-	// justify-self: center;
-	bottom: $footer-sec-height;
-	font-size: 40px;
+	bottom: 3%;
+	height: 6%;
+	font-size: 32px; 
 }
 
 img {
 	position: absolute;
+	// aspect-ratio: 1/1;
+	border-style: hidden !important;
 	height: 80%;
-	left: calc(50% - 0.65 * 40%);
+	width: auto;
+	max-width: 100%;
+	max-height: 100%;
 	top: 5%;
-	// left: 50%;
 }
