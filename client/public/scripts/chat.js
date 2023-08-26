@@ -20,20 +20,23 @@ var submit = document.getElementById("submit-button");
 submit.addEventListener("click", () => {
   parseInput(input.value);
 	sumbit.value = "";
+	localStorage.setItem('saved_chat_input_value', input.value);
 });
 
 var input = document.getElementById("input-box");
-input.oninput = () => {
-	localStorage.setItem('saved_chat_input_value', input.value);
-	autocomplete();
-}
-
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     parseInput(input.value);
 		input.value = "";
+		localStorage.setItem('saved_chat_input_value', input.value);
   }
 });
+
+input.oninput = () => {
+	autocomplete();
+	localStorage.setItem('saved_chat_input_value', input.value);
+}
+
 
 const output_list = document.getElementById("output-ol");
 
