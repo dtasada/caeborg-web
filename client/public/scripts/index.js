@@ -14,7 +14,3 @@ function switchFrame(page) {
 	document.getElementById("rest-sec").appendChild(new_frame);
 
 }
-
-if (localStorage.getItem('saved_frame') == null) {
-	localStorage.setItem('saved_frame', 'launcher');
-};
