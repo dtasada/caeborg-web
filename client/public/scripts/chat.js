@@ -11,7 +11,9 @@ if (localStorage.getItem('saved_chat_output_list') === null) {
 	ol.id = 'output-ol'
 	document.getElementById('output-sec').appendChild(ol);
 } else {
-	let ol = (new DOMParser()).parseFromString(localStorage.getItem('saved_chat_output_list'), 'text/html')
+	let output_list = localStorage.getItem('saved_chat_output_list');
+	let parser = new DOMParser()
+	let ol = parser.parseFromString(output_list, 'text/html');
 	document.getElementById('output-sec').appendChild(ol.documentElement);
 }
 
