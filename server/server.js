@@ -9,11 +9,10 @@ const node_port = 3000;
 const express_port = 8000;
 const app = express();
 
-console.log(typeof process.env.rootdir);
 if (process.env.rootdir !== undefined) {
 	console.log(`Project root directory: ${process.env.rootdir}`);
 } else {
-	console.log('%c`rootdir` is undefined.\nPlease make sure to define it in your %c`server/.env` file.', 'font-weight: bold; font-style: italic');
+	console.log("'%crootdir%c' is undefined.\nPlease make sure to define it in your '%cserver/.env%c' file.", 'font-weight: bold; font-style: italic');
 }
 console.log(`Express Static FTP hosted at port ${express_port}`);
 
