@@ -57,7 +57,6 @@ function autocomplete() {
 	for (command in commands) {
 		if (command.includes(input.value)) {
 			let i = command.indexOf(input);
-
 			if (i === -1) {
   			const validlenofinput = input.length;
 				console.log(validlenofinput);
