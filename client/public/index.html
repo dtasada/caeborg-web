@@ -15,7 +15,7 @@
 <body style="min-height: 100vh;">
 
   <section id="header-sec">
-    <a href="http://localhost:8000/"><img src="assets/caeborg.png" height="48"></a>
+    <a href="javascript:switchFrame('launcher')"><img src="assets/caeborg.png" height="48"></a>
   </section>
 
 
@@ -33,6 +33,7 @@
 
 	<section id="rest-sec">
 		<iframe id="rest-iframe" src="pages/launcher.html" frameBorder="0" allow="clipboard-read; clipboard-write"></iframe>
+		<script>switchFrame(localStorage.getItem('saved_frame'))</script>
 	</section>
 
 	<section id="footer-sec">caeborg-web build v0.1.a-1</section>

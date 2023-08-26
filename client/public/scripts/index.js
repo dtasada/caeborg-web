@@ -1,5 +1,6 @@
 function switchFrame(page) {
-	rest_section = document.getElementById("rest-sec");
+	localStorage.setItem('saved_frame', page);
+
 	document.getElementById("rest-iframe").remove();
 	new_frame = document.createElement("iframe");
 
@@ -10,5 +11,10 @@ function switchFrame(page) {
 		allow: "clipboard-read; clipboard-write"
 	});
 
-	rest_section.appendChild(new_frame);
+	document.getElementById("rest-sec").appendChild(new_frame);
+
 }
+
+if (localStorage.getItem('saved_frame') == null) {
+	localStorage.setItem('saved_frame', 'launcher');
+};
