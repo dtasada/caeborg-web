@@ -19,6 +19,7 @@ input.addEventListener("keydown", (e) => {
 		input.value = "";
   }
 });
+
 input.oninput = () => {
 	autocomplete();
 }
@@ -66,7 +67,7 @@ function autocomplete() {
 			}
 		}
 	}
-} /// NOT WOKRING YET
+} // https://codepen.io/dwidomski/pen/OWOBdr
 
 function httpGet(theUrl) {
     const xmlHttp = new XMLHttpRequest();
@@ -132,18 +133,32 @@ const commands = {
       let compound = args.join(" ");
       let url = `${chemUrl}/${compound}.png`;
       img = document.createElement("img");
-	  let response = httpGet(url);
-	  let text = response.responseText;
-	  if (response.status === 404) {
-		let importantMessage = text.split("as follows:")[1];
-		return [["text", importantMessage]];
-	  } else {
-		img.src = url;
-		img.classList.add("compound-img");
-		return [["text", `IUPAC nomenclature for '<b><i>${compound}</i></b>':`], ["image", img]];
-	  }
+	    let response = httpGet(url);
+	    let text = response.responseText;
+	    if (response.status === 404) {
+				let importantMessage = text.split("as follows:")[1];
+				return [["text", importantMessage]];
+	    } else {
+				img.src = url;
+				img.classList.add("compound-img");
+				return [["text", `IUPAC nomenclature for '<b><i>${compound}</i></b>':`], ["image", img]];
+	    }
     }
-  }
+  },
+
+	nk: {
+		brief: "Returns physics formulas. `list` for list of available arguments",
+		command: (args) => {
+			import nk_json from '../assets/physics.json';
+			formulas(Object.keys(nk_json));
+			
+			if (args[0] == "list") {
+				return [["text", formulas]];
+			} else {
+				let value = nk[arg];
+			}
+		}
+	},
 
 /*
   deofhet: {
