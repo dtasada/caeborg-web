@@ -149,7 +149,6 @@ const commands = {
 	nk: {
 		brief: "Returns physics formulas. `list` for list of available arguments",
 		command: (args) => {
-			import nk_json from '../assets/physics.json';
 			formulas(Object.keys(nk_json));
 			
 			if (args[0] == "list") {
