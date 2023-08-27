@@ -4,9 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/server.js",
-    "dev": "nodemon server/server.js & sass --watch client/public/scripts/sass:client/public"
+    "start": "./server/server.sh start",
+    "dev": "./server/server.sh dev"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +14,6 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "nodemon": "^3.0.1",
-    "request": "^2.88.2",
-    "tough-cookie": "^4.1.3"
+    "request": "^2.88.2"
   }
 }

@@ -14,11 +14,12 @@
 <body style="overflow: visible;">
 
 	<section id="output-sec">
-		<ol id="output-text"></ol>
+		<!-- <ol id="output-ol"></ol> -->
 	</section>
 
 	<section id="input-sec">
-		<input type="text" placeholder="Enter function here..." id="input-box" autocomplete="off">
+		<input type="text" id="input-box" placeholder="Enter function here..."  autocomplete="off">
+		<script>document.getElementById('input-box').value = localStorage.getItem('saved_chat_input_value')</script>
 		<button id="submit-button">Submit</button>
 	</section>
 

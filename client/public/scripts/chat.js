@@ -5,11 +5,24 @@ const lidwoordUrl = "https://welklidwoord.nl/banaan";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
 const ourURL = "http://localhost:8000"
 
+// Starting localStorage values
+if (localStorage.getItem('saved_chat_output_list') === null) {
+	let ol = document.createElement('ol')
+	ol.id = 'output-ol'
+	document.getElementById('output-sec').appendChild(ol);
+} else {
+	let output_list = localStorage.getItem('saved_chat_output_list');
+	let parser = new DOMParser()
+	let ol = parser.parseFromString(output_list, 'text/html');
+	document.getElementById('output-sec').appendChild(ol.documentElement);
+}
+
 // H T M L  T A G S  A S  V A R I A B L E S
 var submit = document.getElementById("submit-button");
 submit.addEventListener("click", () => {
   parseInput(input.value);
 	sumbit.value = "";
+	localStorage.setItem('saved_chat_input_value', input.value);
 });
 
 var input = document.getElementById("input-box");
@@ -17,14 +30,17 @@ input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     parseInput(input.value);
 		input.value = "";
+		localStorage.setItem('saved_chat_input_value', input.value);
   }
 });
 
 input.oninput = () => {
 	autocomplete();
+	localStorage.setItem('saved_chat_input_value', input.value);
 }
 
-const ordered_list = document.getElementById("output-text");
+
+const output_list = document.getElementById("output-ol");
 
 // I M P O R T A N T  F U N C T I O N S
 function send(sender, msgs) {
@@ -39,7 +55,6 @@ function send(sender, msgs) {
 		for (msg of msgs) {
 			let msg_type = msg[0];
 			let msg_content = msg[1];
-			// console.log(`Type: '${msg_type}', Content: '${msg_content}'`);
 
 			if (msg_type == "text" ) {
 				const p = document.createElement('p');
@@ -50,7 +65,9 @@ function send(sender, msgs) {
 				li.appendChild(msg_content);
 			};
 		}
-		ordered_list.appendChild(li);
+		output_list.appendChild(li);
+		localStorage.setItem('saved_chat_output_list', output_list.outerHTML);
+		console.log(output_list);
 	}
 }
 
@@ -60,7 +77,6 @@ function autocomplete() {
 			let i = command.indexOf(input);
 			if (i === -1) {
   			const validlenofinput = input.length;
-				console.log(validlenofinput);
 				console.log(`${input.value} is found in ${command}`);
 			} else {
 				console.log(`${input.value} is not found in ${command}`);
@@ -78,11 +94,8 @@ function httpGet(theUrl) {
 
 // M A I N  T E X T  P A R S E R  A N D  L E X E R
 
-var output = [];
-
 function parseInput(text) {
   // init variables
-  output.push(text);
 	send("user", [["text", text]]);
   let args = text.split(" ");
   let command = args.shift();
@@ -90,10 +103,6 @@ function parseInput(text) {
   if (command in commands) {
 		let results = commands[command].command(args);
 		if (results != null) { send("caeborg", results); }
-    output.push(results);
-    // console.log(`Command ${command} is found`);
-		// console.log(results);
-
   } else {
     console.log(`Command ${command} not found`);
     send("caeborg", [["text", `<i>Command '${command}' not found</i>`]]);
@@ -112,9 +121,10 @@ const commands = {
   clear: {
     brief: "Clears the screen",
     command: () => {
-      while(ordered_list.firstChild) {
-        ordered_list.removeChild(ordered_list.firstChild);
+      while(output_list.firstChild) {
+        output_list.removeChild(output_list.firstChild);
       };
+			localStorage.setItem('saved_chat_output_list', output_list.outerHTML);
 			return null;
     }
   },
@@ -146,6 +156,7 @@ const commands = {
     }
   },
 
+<<<<<<< HEAD
 	nk: {
 		brief: "Returns physics formulas. `list` for list of available arguments",
 		command: (args) => {
@@ -158,6 +169,21 @@ const commands = {
 			}
 		}
 	},
+=======
+	// nk: {
+	// 	brief: "Returns physics formulas. `list` for list of available arguments",
+	// 	command: (args) => {
+	// 		import nk_json from '../assets/physics.json';
+	// 		formulas(Object.keys(nk_json));
+	// 		
+	// 		if (args[0] == "list") {
+	// 			return [["text", formulas]];
+	// 		} else {
+	// 			let value = nk[arg];
+	// 		}
+	// 	}
+	// },
+>>>>>>> 5d5a7842aba404ad71418efe8f585ad965229afb
 
 /*
   deofhet: {
