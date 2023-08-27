@@ -23,7 +23,7 @@ elif [[ "$1" == 'dev' ]]; then
 	sass --watch client/public/scripts/sass:client/public &
 fi
 
-setsid eval "PORT=$PORT ./server/besticon/iconserver_$(echo $OSTYPE | tr -d '.0123456789')" > /dev/null &
+setsid eval "PORT=$PORT ./server/besticon/besticon_$(uname -s)_$(uname -m)" > /dev/null &
 echo "Running Besticon server on port $PORT"
 
 wait
