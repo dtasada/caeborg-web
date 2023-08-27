@@ -29,7 +29,7 @@ elif [[ "$1" == 'dev' ]]; then
 fi
 
 # eval "PORT=$PORT ./server/besticon/besticon_$(uname -s)_$(uname -m) > /dev/null" &
-eval "DOCKER_PLATFORM=linux/arm64 dmeocker run matthiasluedtke/iconserver" &
+eval "DOCKER_PLATFORM=linux/arm64 docker run matthiasluedtke/iconserver" &
 
 echo "Running Besticon server"
 
