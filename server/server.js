@@ -6,7 +6,7 @@ const path = require('path');
 require('dotenv').config({ path: 'server/.env' })
 
 const node_port = 3000;
-const express_port = 443;
+const express_port = 8000;
 const app = express();
 
 if (process.env.rootdir !== undefined) {
