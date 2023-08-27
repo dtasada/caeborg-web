@@ -3,7 +3,7 @@
 trap 'kill 0' EXIT
 source ./server/.env
 
-PORT=8080
+# PORT=8080
 DISABLE_BROWSE_PAGES=true
 while [ "$2" != "" ]; do
     case $2 in
@@ -28,8 +28,9 @@ elif [[ "$1" == 'dev' ]]; then
 	sass --watch client/public/scripts/sass:client/public &
 fi
 
-eval "PORT=$PORT ./server/besticon/besticon_$(uname -s)_$(uname -m) > /dev/null" &
+# eval "PORT=$PORT ./server/besticon/besticon_$(uname -s)_$(uname -m) > /dev/null" &
+eval "docker run matthiasluedtke/iconserver" &
 
-echo "Running Besticon server on port $PORT"
+echo "Running Besticon server"
 
 wait
