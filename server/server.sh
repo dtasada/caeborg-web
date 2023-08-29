@@ -1,5 +1,3 @@
-#!/bin/bash
-
 trap 'kill 0' EXIT
 source ./server/.env
 
@@ -28,8 +26,7 @@ elif [[ "$1" == 'dev' ]]; then
 	sass --watch client/public/scripts/sass:client/public &
 fi
 
-# eval "PORT=$PORT ./server/besticon/besticon_$(uname -s)_$(uname -m) > /dev/null" &
-eval "docker run matthiasluedtke/iconserver" &
+eval "PORT=$PORT ./server/besticon/besticon_$(uname -s)_$(uname -m) > /dev/null" &
 
 echo "Running Besticon server"
 
