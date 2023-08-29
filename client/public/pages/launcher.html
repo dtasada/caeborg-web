@@ -26,7 +26,6 @@
 			const li = document.querySelectorAll('#launcher-ol li');
 			li.forEach(liElement => {
 				const img = liElement.querySelector('img');
-				console.log(img.getAttribute('class'));
 				img.setAttribute('src', `http://localhost:8080/icon?url=${img.getAttribute('class')}&size=64..128..256`)
 			});
 			</script>
