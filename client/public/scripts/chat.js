@@ -3,7 +3,7 @@
 // C O N S T A N T S
 const lidwoordUrl = "https://welklidwoord.nl/banaan";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
-const ourURL = "http://localhost:8000"
+const ourURL = "http://localhost:8000";
 
 // Starting localStorage values
 if (localStorage.getItem('saved_chat_output_list') === null) {
@@ -161,13 +161,15 @@ const commands = {
             fetch(`${ourURL}/assets/physics.json`)
                 .then(response => response.json())
                 .then(nk_json => {
-                    let array = nk_json['example'];
+                    let array = nk_json[args[0]];
                     let base_formula = array[0];
                     let definitions = array[1].join('<br>');
 
                     if (args[0] == "list") {
                         return [["text", Object.keys(nk_json).join('<br>')]];
                     } else {
+                        console.log(`Contextual definitions: ${definitions}`);
+                        console.log(`Base formula for <b><i>${args}</i></b>: ${base_formula}`);
                         return [
                             ["text", `Base formula for <b><i>${args}</i></b>: ${base_formula}`],
                             ["text", `Contextual definitions: ${definitions}`]

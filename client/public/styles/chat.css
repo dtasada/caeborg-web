@@ -96,6 +96,9 @@ ol:not(.ordered-list) {
 }
 #output-sec ol {
   padding-inline-start: 0px !important;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 #output-sec ol li {
   margin-top: 28px;

@@ -65,9 +65,30 @@ ol:not(.ordered-list) {
   background-color: #181926;
 }
 
+html {
+  overflow: hidden;
+}
+
 #header-sec {
   height: 56px;
   background-color: #181926;
+}
+#header-sec * {
+  float: left;
+}
+#header-sec button {
+  height: 48px;
+  width: 48px;
+  margin-right: 12px;
+  padding: 12px;
+  border-radius: 4px;
+  text-align: center;
+}
+#header-sec button i {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  background-color: inherit;
 }
 
 #footer-sec {
