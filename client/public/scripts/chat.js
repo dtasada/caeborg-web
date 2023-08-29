@@ -156,7 +156,6 @@ const commands = {
     }
   },
 
-<<<<<<< HEAD
 	nk: {
 		brief: "Returns physics formulas. `list` for list of available arguments",
 		command: (args) => {
@@ -169,21 +168,6 @@ const commands = {
 			}
 		}
 	},
-=======
-	// nk: {
-	// 	brief: "Returns physics formulas. `list` for list of available arguments",
-	// 	command: (args) => {
-	// 		import nk_json from '../assets/physics.json';
-	// 		formulas(Object.keys(nk_json));
-	// 		
-	// 		if (args[0] == "list") {
-	// 			return [["text", formulas]];
-	// 		} else {
-	// 			let value = nk[arg];
-	// 		}
-	// 	}
-	// },
->>>>>>> 5d5a7842aba404ad71418efe8f585ad965229afb
 
 /*
   deofhet: {
