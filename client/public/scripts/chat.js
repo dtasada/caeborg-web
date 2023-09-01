@@ -7,25 +7,25 @@ const ourURL = "http://localhost:8000";
 
 // Starting localStorage values
 if (localStorage.getItem('saved_chat_output_list') === null) {
-    let ol = document.createElement('ol')
+    const ol = document.createElement('ol')
     ol.id = 'output-ol'
     document.getElementById('output-sec').appendChild(ol);
 } else {
-    let output_list = localStorage.getItem('saved_chat_output_list');
-    let parser = new DOMParser()
-    let ol = parser.parseFromString(output_list, 'text/html');
+    const output_list = localStorage.getItem('saved_chat_output_list');
+    const parser = new DOMParser()
+    const ol = parser.parseFromString(output_list, 'text/html');
     document.getElementById('output-sec').appendChild(ol.documentElement);
 }
 
 // H T M L  T A G S  A S  V A R I A B L E S
-var submit = document.getElementById("submit-button");
+const submit = document.getElementById("submit-button");
 submit.addEventListener("click", () => {
     parseInput(input.value);
     sumbit.value = "";
     localStorage.setItem('saved_chat_input_value', input.value);
 });
 
-var input = document.getElementById("input-box");
+const input = document.getElementById("input-box");
 input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         parseInput(input.value);
@@ -53,17 +53,17 @@ function send(sender, msgs) {
         li.appendChild(pfp);
 
         for (msg of msgs) {
-            let msg_type = msg[0];
-            let msg_content = msg[1];
+            const msg_type = msg[0];
+            const msg_content = msg[1];
 
-            if (msg_type == "text" ) {
+            if (msg_type === "text" ) {
                 const p = document.createElement('p');
                 p.innerHTML = msg_content;
                 li.appendChild(p);
             }
-            else if (msg_type == "image") {
+            else if (msg_type === "image") {
                 li.appendChild(msg_content);
-            };
+            }
         }
         output_list.appendChild(li);
         localStorage.setItem('saved_chat_output_list', output_list.outerHTML);
@@ -73,7 +73,7 @@ function send(sender, msgs) {
 function autocomplete() {
     for (command in commands) {
         if (command.includes(input.value)) {
-            let i = command.indexOf(input);
+            const i = command.indexOf(input);
             if (i === -1) {
                 const validlenofinput = input.length;
                 console.log(`${input.value} is found in ${command}`);
@@ -96,11 +96,11 @@ function httpGet(theUrl) {
 function parseInput(text) {
     // init variables
     send("user", [["text", text]]);
-    let args = text.split(" ");
-    let command = args.shift();
+    const args = text.split(" ");
+    const command = args.shift();
     // execute command
     if (command in commands) {
-        let results = commands[command].command(args);
+        const results = commands[command].command(args);
         if (results != null) { send("caeborg", results); }
     } else {
         console.log(`Command ${command} not found`);
@@ -122,7 +122,7 @@ const commands = {
         command: () => {
             while(output_list.firstChild) {
                 output_list.removeChild(output_list.firstChild);
-            };
+            }
             localStorage.setItem('saved_chat_output_list', output_list.outerHTML);
             return null;
         }
@@ -139,13 +139,13 @@ const commands = {
         brief: "Gives the structure of given IUPAC organic compound name",
         command: (args) => {
             // init
-            let compound = args.join(" ");
-            let url = `${chemUrl}/${compound}.png`;
+            const compound = args.join(" ");
+            const url = `${chemUrl}/${compound}.png`;
             img = document.createElement("img");
-            let response = httpGet(url);
-            let text = response.responseText;
+            const response = httpGet(url);
+            const text = response.responseText;
             if (response.status === 404) {
-                let importantMessage = text.split("as follows:")[1];
+                const importantMessage = text.split("as follows:")[1];
                 return [["text", importantMessage]];
             } else {
                 img.src = url;
@@ -161,11 +161,11 @@ const commands = {
             fetch(`${ourURL}/assets/physics.json`)
                 .then(response => response.json())
                 .then(nk_json => {
-                    let array = nk_json[args[0]];
-                    let base_formula = array[0];
-                    let definitions = array[1].join('<br>');
+                    const array = nk_json[args[0]];
+                    const base_formula = array[0];
+                    const definitions = array[1].join('<br>');
 
-                    if (args[0] == "list") {
+                    if (args[0] === "list") {
                         return [["text", Object.keys(nk_json).join('<br>')]];
                     } else {
                         console.log(`Contextual definitions: ${definitions}`);
@@ -195,4 +195,3 @@ const commands = {
 */
 
 }
-

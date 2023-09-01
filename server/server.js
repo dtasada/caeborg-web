@@ -18,10 +18,10 @@ app.use(express.static(`${process.env.rootdir}/client/public`));
 
 app.listen(express_port, () => console.log(`Express server is listening on port ${express_port}`));
 
-// app.get("/", (request, response) => {
-//     response.sendFile(`${public_path}/index.html`)
-// });
-//
+app.get("/", (request, response) => {
+    response.sendFile(`${public_path}/index.html`)
+});
+
 // const options = {
 //   // key: fs.readFileSync("server.key"),
 //   // cert: fs.readFileSync("server.cert"),
