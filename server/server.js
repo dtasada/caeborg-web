@@ -15,7 +15,7 @@ if (process.env.rootdir !== undefined) {
 	console.log("'rootdir' is undefined.\nPlease make sure to define it in your 'server/.env' file.");
 }
 
-fs.readFile(`${process.env.rootdir}/client/public/.env.js`, 'utf-8', (error, contents) => {
+fs.readFile(`${process.env.rootdir}/client/public/env.js`, 'utf-8', (error, contents) => {
     if (error) {
         console.log(error);
         return;
@@ -30,7 +30,7 @@ fs.readFile(`${process.env.rootdir}/client/public/.env.js`, 'utf-8', (error, con
         }
         const replace = data.replace(/'.*.'/g, `'${customUrl}'`);
 
-        fs.writeFile(`${process.env.rootdir}/client/public/.env.js`, replace ,'utf-8', (error) => {
+        fs.writeFile(`${process.env.rootdir}/client/public/env.js`, replace ,'utf-8', (error) => {
             if (error) console.log(error)
         });
     }

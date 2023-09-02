@@ -4,9 +4,9 @@ let footer_sec_left_default
 
 // document.addEventListener("DOMContentLoaded", () => {
 console.log(1235678);
-var rest_sec = document.getElementById('rest-sec');
-var footer_sec = document.getElementById('footer-sec');
-var sidebar_sec = document.getElementById('sidebar-sec');
+const rest_sec = document.getElementById('rest-sec');
+const footer_sec = document.getElementById('footer-sec');
+const sidebar_sec = document.getElementById('sidebar-sec');
 console.log(sidebar_sec);
 
 function setValues() {

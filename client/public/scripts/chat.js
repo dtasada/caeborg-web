@@ -1,5 +1,5 @@
 // P R E R E Q U I S I T E S
-import { ourUrl } from '../.env.js'
+import { ourUrl } from '../env.js'
 
 // C O N S T A N T S
 const lidwoordUrl = "https://welklidwoord.nl/banaan";
