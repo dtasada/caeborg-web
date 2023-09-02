@@ -21,15 +21,14 @@ fs.readFile(`${process.env.rootdir}/client/public/.env.js`, 'utf-8', (error, con
         return;
     }
 
-    var customUrl;
+    let customUrl;
     function changeUrl(arg, data) {
         if (arg.includes('--url')) {
             customUrl = arg.split('=')[1];
         } else {
             customUrl = arg;
         }
-        let replace = data.replace(/'.*.'/g, `'${customUrl}'`);
-        console.log(replace);
+        const replace = data.replace(/'.*.'/g, `'${customUrl}'`);
 
         fs.writeFile(`${process.env.rootdir}/client/public/.env.js`, replace ,'utf-8', (error) => {
             if (error) console.log(error)
