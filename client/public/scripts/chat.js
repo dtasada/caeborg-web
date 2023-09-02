@@ -1,9 +1,9 @@
 // P R E R E Q U I S I T E S
+import { ourUrl } from '../.env.js'
 
 // C O N S T A N T S
 const lidwoordUrl = "https://welklidwoord.nl/banaan";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
-const ourURL = "http://localhost:8000";
 
 // Starting localStorage values
 if (localStorage.getItem('saved_chat_output_list') === null) {
@@ -49,7 +49,7 @@ function send(sender, msgs) {
 
         pfp = document.createElement("img");
         pfp.classList.add(`sender-is-${sender}`, 'pfp');
-        pfp.src = `${ourURL}/assets/${sender}.png`;
+        pfp.src = `${ourUrl}/assets/${sender}.png`;
         li.appendChild(pfp);
 
         for (msg of msgs) {
@@ -158,7 +158,7 @@ const commands = {
     nk: {
         brief: "Returns physics formulas. `list` for list of available arguments",
         command: (args) => {
-            fetch(`${ourURL}/assets/physics.json`)
+            fetch(`${ourUrl}/assets/physics.json`)
                 .then(response => response.json())
                 .then(nk_json => {
                     const array = nk_json[args[0]];

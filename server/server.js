@@ -1,3 +1,4 @@
+const process = require('process');
 const express = require('express');
 const https = require('https');
 const fs = require('fs');
@@ -13,6 +14,38 @@ if (process.env.rootdir !== undefined) {
 } else {
 	console.log("'rootdir' is undefined.\nPlease make sure to define it in your 'server/.env' file.");
 }
+
+fs.readFile(`${process.env.rootdir}/client/public/.env.js`, 'utf-8', (error, contents) => {
+    if (error) {
+        console.log(error);
+        return;
+    }
+
+    var customUrl;
+    function changeUrl(arg, data) {
+        if (arg.includes('--url')) {
+            customUrl = arg.split('=')[1];
+        } else {
+            customUrl = arg;
+        }
+        let replace = data.replace(/'.*.'/g, `'${customUrl}'`);
+        console.log(replace);
+
+        fs.writeFile(`${process.env.rootdir}/client/public/.env.js`, replace ,'utf-8', (error) => {
+            if (error) console.log(error)
+        });
+    }
+
+    changeUrl('http://77.161.161.206', contents);
+
+    for (arg of process.argv) {
+        if (arg.includes('--url')) {
+            changeUrl(arg, contents);
+        }
+    }
+    console.log(`At '${customUrl}':`);
+});
+
 
 app.use(express.static(`${process.env.rootdir}/client/public`));
 
