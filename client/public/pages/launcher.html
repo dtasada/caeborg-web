@@ -6,12 +6,9 @@
   <meta charset="utf-8">
   <title>Caeborg - Launcher</title>
   <link rel="stylesheet" href="../style.css">
-	<style>
-		img { border-radius: 32px; }
-	</style>
+  <style> img { border-radius: 32px; } </style>
   <link rel="icon" type="image/x-icon" href="../assets/caeborg.png">
   <script type="text/javascript" src="../scripts/index.js"></script>
-  <script> import { ourUrl } from '../.env.js' </script>
 
 </head>
 	<body>
@@ -24,6 +21,7 @@
 					<img class="youtube.com" width="128" height="128"/><br>YouTube</button></li>
 			</ol>
 			<script>
+            import { ourUrl } from '../.env.js'
 			const li = document.querySelectorAll('#launcher-ol li');
 			li.forEach(liElement => {
 				const img = liElement.querySelector('img');
