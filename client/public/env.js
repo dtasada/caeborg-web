@@ -1,7 +1,1 @@
-export const ourUrl = 'http:localhost';
-ev';
-ev';
-ev';
-ev';
-ev';
-ev';
+export const ourUrl = 'http://localhost'

@@ -12,7 +12,7 @@ const public_path = `${process.env.rootdir}/client/public`
 if (process.env.rootdir !== undefined) {
 	console.log(`Project root directory: ${process.env.rootdir}`);
 } else {
-	console.log("'rootdir' is undefined.\nPlease make sure to define it in your 'server/.env' file.");
+	console.log("'rootdir' is undefined. Please make sure to define it in your 'server/.env' file.");
 }
 
 fs.readFile(`${process.env.rootdir}/client/public/env.js`, 'utf-8', (error, contents) => {
@@ -28,7 +28,8 @@ fs.readFile(`${process.env.rootdir}/client/public/env.js`, 'utf-8', (error, cont
         } else {
             customUrl = arg;
         }
-        const replace = data.replace(/'.*.'/g, `'${customUrl}'`);
+        const replace = data.replace(/\'.*.\'/g, `'${customUrl}'`);
+        console.log(replace);
 
         fs.writeFile(`${process.env.rootdir}/client/public/env.js`, replace ,'utf-8', (error) => {
             if (error) console.log(error)
