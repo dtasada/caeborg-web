@@ -36,7 +36,7 @@ fs.readFile(`${process.env.rootdir}/client/public/.env.js`, 'utf-8', (error, con
         });
     }
 
-    changeUrl('http://77.161.161.206', contents);
+    changeUrl('https://caeborg.dev', contents);
 
     for (arg of process.argv) {
         if (arg.includes('--url')) {
