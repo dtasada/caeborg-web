@@ -111,31 +111,6 @@ function parseInput(text) {
 
 // S T R U C T  O F  F U N C T I O N S
 const commands = {
-    help: {
-        brief: "The help function",
-        command: (args) => {
-            return [ "caeborg", ["text", `${commands}`] ];
-        }
-    },
-
-    clear: {
-        brief: "Clears the screen",
-        command: () => {
-            while(output_list.firstChild) {
-                output_list.removeChild(output_list.firstChild);
-            }
-            localStorage.setItem('saved_chat_output_list', output_list.outerHTML);
-            return null;
-        }
-    },
-
-    ping: {
-        brief: "Ping user back",
-        command: (args) => {
-            return [["text", "pong!"]]
-        }
-    },
-
     chem: {
         brief: "Gives the structure of given IUPAC organic compound name",
         command: (args) => {
@@ -153,6 +128,29 @@ const commands = {
                 img.classList.add("compound-img");
                 return [["text", `IUPAC nomenclature for '<b><i>${compound}</i></b>':`], ["image", img]];
             }
+        }
+    },
+
+    clear: {
+        brief: "Clears the screen",
+        command: () => {
+            while(output_list.firstChild) {
+                output_list.removeChild(output_list.firstChild);
+            }
+            localStorage.setItem('saved_chat_output_list', output_list.outerHTML);
+            return null;
+        }
+    },
+
+    help: {
+        brief: "The help function",
+        command: (args) => {
+            let ret = ""
+            for (const [k, v] of Object.entries(commands)) {
+                ret += `${bi(k)}: ${v.brief}<br>`;
+                console.log(ret)
+            }
+            return [["text", ret]]
         }
     },
 
@@ -179,20 +177,17 @@ const commands = {
                 });
 
         }
-    }
+    },
 
-    /*
-  deofhet: {
-      brief: "Prints pronoun of word",
-      function: (args) => {
-        let content = axios.get("https://jsonplacelolder.typicode.com/posts/1")
-        let data = content.tlen((response) => response.data)
-        // let content = axios.get(`${lidwoordUrl}${args[0]}`)
-        console.log(data)
-        console.log(content)
-        return(`_${content.data(`In de Nederlandse taal gebruiken wij (.*?) ${args[0]}`, content).group(1)}_ ${noun}`)
-      }
-  }
-*/
+    ping: {
+        brief: "Ping user back",
+        command: (args) => {
+            return [["text", "pong!"]]
+        }
+    },
 
+}
+
+function bi(str) {
+    return `<b><i>${str}</i></b>`
 }
