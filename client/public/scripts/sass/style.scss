@@ -23,6 +23,10 @@ $sidebarrightmargin-width: calc(#{$sidebar-sec-width} + #{$right-margin-width});
 $subtitle-fontsize: 20px;
 $body-fontsize: 16px;
 
+:export {
+    sidebarSecWidth: $sidebar-sec-width;
+}
+
 * {
   font-family: "JetBrains Mono", sans-serif;
   color: $col-text;

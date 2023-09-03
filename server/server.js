@@ -1,3 +1,4 @@
+const process = require('process');
 const express = require('express');
 const https = require('https');
 const fs = require('fs');
@@ -11,17 +12,49 @@ const public_path = `${process.env.rootdir}/client/public`
 if (process.env.rootdir !== undefined) {
 	console.log(`Project root directory: ${process.env.rootdir}`);
 } else {
-	console.log("'rootdir' is undefined.\nPlease make sure to define it in your 'server/.env' file.");
+	console.log("'rootdir' is undefined. Please make sure to define it in your 'server/.env' file.");
 }
+
+// fs.readFile(`${process.env.rootdir}/client/public/env.js`, 'utf-8', (error, contents) => {
+//     if (error) {
+//         console.log(error);
+//         return;
+//     }
+//
+//     let customUrl;
+//     function changeUrl(arg, data) {
+//         if (arg.includes('--url')) {
+//             customUrl = arg.split('=')[1];
+//         } else {
+//             customUrl = arg;
+//         }
+//         const replace = data.replace(/\'.*.\'/g, `'${customUrl}'`);
+//         console.log(replace);
+//
+//         fs.writeFile(`${process.env.rootdir}/client/public/env.js`, replace ,'utf-8', (error) => {
+//             if (error) console.log(error)
+//         });
+//     }
+//
+//     changeUrl('https://caeborg.dev', contents);
+//
+//     for (arg of process.argv) {
+//         if (arg.includes('--url')) {
+//             changeUrl(arg, contents);
+//         }
+//     }
+//     console.log(`At '${customUrl}':`);
+// });
+
 
 app.use(express.static(`${process.env.rootdir}/client/public`));
 
 app.listen(express_port, () => console.log(`Express server is listening on port ${express_port}`));
 
-// app.get("/", (request, response) => {
-//     response.sendFile(`${public_path}/index.html`)
-// });
-//
+app.get("/", (request, response) => {
+    response.sendFile(`${public_path}/index.html`)
+});
+
 // const options = {
 //   // key: fs.readFileSync("server.key"),
 //   // cert: fs.readFileSync("server.cert"),

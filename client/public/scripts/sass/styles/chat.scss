@@ -4,68 +4,77 @@ $input-sec-height: 44px;
 $input-margin: 12px;
 $input-element-height: 48px;
 
+
+
 #input-sec {
-  position: fixed;
-	bottom: 0px;
-	margin-left: -8px !important;
-	// height: $input-sec-height;
-  width: 100%;
-  background: $col-base;
+    position: fixed;
+    bottom: 0px;
+    margin-left: -8px !important;
+    // height: $input-sec-height;
+    width: 100%;
+    background: $col-base;
 
-	input {
-		position: fixed;
-		bottom: 0px;
-		right: 0px;
-		width: calc(100% - #{$right-margin-width});
-		margin-left: $input-margin;
-		margin-right: $input-margin;
-		margin-bottom: $input-margin;
-		height: $input-element-height;
-		background: $col-surface;
-	}
+    input {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        width: calc(100% - #{$right-margin-width});
+        margin-left: $input-margin;
+        margin-right: $input-margin;
+        margin-bottom: $input-margin;
+        height: $input-element-height;
+        background: $col-surface;
+    }
 
-	button {
-		position: fixed;
-		bottom: 0px;
-		right: 0px;
-		margin-right: calc(#{$input-margin} * 1.5);
-		margin-bottom: calc(#{$input-margin} + 5px);
-		height: calc(#{$input-element-height} * 0.8);
-	}
+    button {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        margin-right: calc(#{$input-margin} * 1.5);
+        margin-bottom: calc(#{$input-margin} + 5px);
+        height: calc(#{$input-element-height} * 0.8);
+    }
 }
 
 #output-sec {
-	position: absolute;
-	width: calc(100% - #{$right-margin-width});
-	margin-left: $input-margin;
-	bottom: calc(#{$input-element-height} + 24px);
+    position: absolute;
+    width: calc(100% - #{$right-margin-width});
+    margin-left: $input-margin;
+    bottom: calc(#{$input-element-height} + 24px);
 
-	ol {
-		padding-inline-start: 0px !important;
-		// margin-bottom: 32px;
+    ol {
+        // position: static;
+        padding-inline-start: 0px !important;
+        height: 100%;
+        // margin-bottom: 32px;
+        // overflow-x: hidden;
+        // overflow-y: scroll;
 
-		li {
-			// margin: 28px 0px;
-			margin-top: 28px;
-			margin-left: 48px;
-			// margin-block-end: 20px;
-			// margin-block-start: 20px;
+        // &::-webkit-scrollbar{ display: none; }
+        // scrollbar-width: none;
 
-			img.pfp {
-				position: absolute;
-				float: left;
-				left: 0px;
-				margin-top: -10px;
-				height: 40px;
-				border-radius: 50px;
-			}
-		}
-	}
+        li {
+            // margin: 28px 0px;
+            margin-top: 28px;
+            margin-left: 48px;
+            // margin-block-end: 20px;
+            // margin-block-start: 20px;
+
+            img.pfp {
+                position: absolute;
+                float: left;
+                left: 0px;
+                margin-top: -10px;
+                height: 40px;
+                border-radius: 50px;
+            }
+        }
+    }
 }
 
 
 .compound-img {
-  width: 300px;
-  /* image-rendering: pixelated;
-  image-rendering: optiize-contrast; */
+    width: 300px;
+    /* image-rendering: pixelated;
+image-rendering: optiize-contrast; */
 }

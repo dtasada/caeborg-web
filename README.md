@@ -1,5 +1,6 @@
 ## Todo
 * [Flexbox](https://www.youtube.com/watch?v=fYq5PXgSsbE) setup (first on `launcher.html`)
+* Finish scrolling in chat.scss
 * ~~Figure out how to do caching~~
 * ~~Remove ExpressJS from equation and replace file hosting with Node, or stop using FTP hosting. // Nevermind~~
 * ~~Fix Node Server CSS'ing (file paths?)~~

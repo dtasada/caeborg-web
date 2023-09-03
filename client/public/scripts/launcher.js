@@ -1,16 +1,9 @@
-const url = 'https://realfavicongenerator.p.rapidapi.com/favicon/icon?site=https%3A%2F%2Fwww.google.com';
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
-		'X-RapidAPI-Host': 'realfavicongenerator.p.rapidapi.com'
-	}
-};
+import { ourUrl } from '../env.js';
 
-try {
-	const response = await fetch(url, options);
-	const result = await response.text();
-	console.log(result);
-} catch (error) {
-	console.error(error);
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const li = document.querySelectorAll('#launcher-ol li');
+    li.forEach(liElement => {
+        const img = liElement.querySelector('img');
+        img.setAttribute('src', `${ourUrl}:8080/icon?url=${img.getAttribute('class')}&size=64..128..256`)
+    });
+})
