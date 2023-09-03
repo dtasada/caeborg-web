@@ -73,7 +73,6 @@ ol:not(.ordered-list) {
 button {
   position: absolute;
   bottom: 3%;
-  height: 6%;
   font-size: 32px;
 }
 
