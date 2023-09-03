@@ -40,7 +40,6 @@ input.oninput = () => {
     localStorage.setItem('saved_chat_input_value', input.value);
 }
 
-
 const output_list = document.getElementById("output-ol");
 
 // I M P O R T A N T  F U N C T I O N S
