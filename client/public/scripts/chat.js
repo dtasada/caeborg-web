@@ -1,5 +1,6 @@
 // P R E R E Q U I S I T E S
 // import { ourUrl } from '../env.js'
+const ourUrl = 'http://localhost:8000'
 
 // C O N S T A N T S
 const lidwoordUrl = "https://welklidwoord.nl/banaan";
