@@ -22,7 +22,7 @@ if (localStorage.getItem('saved_chat_output_list') === null) {
 const submit = document.getElementById("submit-button");
 submit.addEventListener("click", () => {
     parseInput(input.value);
-    sumbit.value = "";
+    submit.value = "";
     localStorage.setItem('saved_chat_input_value', input.value);
 });
 
