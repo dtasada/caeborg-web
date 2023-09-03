@@ -39,12 +39,12 @@ function toggleSidebarSec(mode=null) {
 }
 
 if (window.innerWidth <= 700) toggleSidebarSec('hidden')
-*/
 
 window.addEventListener("resize", () => {
     if (window.innerWidth <= 700) toggleSidebarSec('hidden')
     else toggleSidebarSec('shown');
 });
+*/
 
 function switchFrame(page) {
     localStorage.setItem('saved_frame', page);
@@ -61,3 +61,12 @@ function switchFrame(page) {
 
     document.getElementById("rest-sec").appendChild(new_frame);
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem('saved_frame') === null) {
+        localStorage.setItem('saved_frame', 'launcher');
+    } else {
+        switchFrame(localStorage.getItem('saved_frame'))
+    }
+})
