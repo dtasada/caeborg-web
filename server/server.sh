@@ -21,9 +21,9 @@ PORT=8080
 # done
 
 if [[ "$1" == 'start' ]]; then
-    node server/server.js "$@" &
+    bun run server/server.ts "$@" &
 elif [[ "$1" == 'dev' ]]; then
-    nodemon server/server.js "$@" &
+    bun run --hot server/server.ts "$@" &
     sass --watch client/public/scripts/sass:client/public &
 fi
 
