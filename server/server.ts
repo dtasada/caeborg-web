@@ -48,7 +48,7 @@ app.get("/", (request, response) => {
 
 const server = Bun.serve({
     port: 3000,
-    hostname: customUrl,
+    hostname: customUrl.split('://')[1],
     fetch(request) {
         return new Response(Bun.file(`${public_path}/index.html`));
     },
