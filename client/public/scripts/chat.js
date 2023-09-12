@@ -53,16 +53,12 @@ function send(sender, msgs) {
         li.appendChild(pfp);
 
         for (msg of msgs) {
-            const msg_type = msg[0];
-            const msg_content = msg[1];
-
-            if (msg_type === "text" ) {
+            if (typeof msg === "string" ) {
                 const p = document.createElement('p');
-                p.innerHTML = msg_content;
+                p.innerHTML = msg;
                 li.appendChild(p);
-            }
-            else if (msg_type === "image") {
-                li.appendChild(msg_content);
+            } else {
+                li.appendChild(msg);
             }
         }
         output_list.appendChild(li);
@@ -76,9 +72,9 @@ function autocomplete() {
             const i = command.indexOf(input);
             if (i === -1) {
                 const validlenofinput = input.length;
-                console.log(`${input.value} is found in ${command}`);
+                // console.log(`${input.value} is found in ${command}`);
             } else {
-                console.log(`${input.value} is not found in ${command}`);
+                // console.log(`${input.value} is not found in ${command}`);
             }
         }
     }
@@ -95,16 +91,17 @@ function httpGet(theUrl) {
 
 function parseInput(text) {
     // init variables
-    send("user", [["text", text]]);
+    send("user", [ text ]);
     const args = text.split(" ");
     const command = args.shift();
     // execute command
     if (command in commands) {
         const results = commands[command].command(args);
-        if (results != null) { send("caeborg", results); }
+        if (results != null) { send("caeborg", results) }
+        else { console.log('Function return is null!' )}
     } else {
         console.log(`Command ${command} not found`);
-        send("caeborg", [["text", `<i>Command '${command}' not found</i>`]]);
+        send("caeborg", [ `<i>Command '${command}' not found</i>`] );
     }
 }
 
@@ -121,11 +118,11 @@ const commands = {
             const text = response.responseText;
             if (response.status === 404) {
                 const importantMessage = text.split("as follows:")[1];
-                return [["text", importantMessage]];
+                return [ importantMessage ];
             } else {
                 img.src = url;
                 img.classList.add("compound-img");
-                return [["text", `IUPAC nomenclature for '<b><i>${compound}</i></b>':`], ["image", img]];
+                return [ `IUPAC nomenclature for '${bi(compound)}':`, img ];
             }
         }
     },
@@ -149,7 +146,7 @@ const commands = {
                 ret += `${bi(k)}: ${v.brief}<br>`;
                 console.log(ret)
             }
-            return [["text", ret]]
+            return [ ret ]
         }
     },
 
@@ -160,17 +157,20 @@ const commands = {
                 .then(response => response.json())
                 .then(nk_json => {
                     const array = nk_json[args[0]];
+                    console.log('array: ', array);
                     const base_formula = array[0];
+                    console.log('base_formula: ', base_formula);
                     const definitions = array[1].join('<br>');
+                    console.log('defintions variable: ', definitions);
 
-                    if (args[0] === "list") {
-                        return [["text", Object.keys(nk_json).join('<br>')]];
+                    if (args[0] === 'list') {
+                        return [ Object.keys(nk_json).join('<br>') ];
                     } else {
+                        console.log(`Base formula for ${bi(args[0])}: ${base_formula}`);
                         console.log(`Contextual definitions: ${definitions}`);
-                        console.log(`Base formula for <b><i>${args}</i></b>: ${base_formula}`);
                         return [
-                            ["text", `Base formula for <b><i>${args}</i></b>: ${base_formula}`],
-                            ["text", `Contextual definitions: ${definitions}`]
+                            `Base formula for ${bi(args[0])}: ${base_formula}`,
+                            `Contextual definitions: ${definitions}`
                         ];
                     }
                 });
@@ -181,7 +181,7 @@ const commands = {
     ping: {
         brief: "Ping user back",
         command: (args) => {
-            return [["text", "pong!"]]
+            return ["pong!"];
         }
     },
 
