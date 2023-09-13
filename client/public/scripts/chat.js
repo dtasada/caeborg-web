@@ -52,6 +52,8 @@ function send(sender, msgs) {
         pfp.src = `${ourUrl}/assets/${sender}.png`;
         li.appendChild(pfp);
 
+        console.log('msgs: ', msgs);
+        console.log('typeof msgs: ', typeof msgs);
         for (msg of msgs) {
             if (typeof msg === "string" ) {
                 const p = document.createElement('p');
@@ -97,7 +99,7 @@ function parseInput(text) {
     // execute command
     if (command in commands) {
         const results = commands[command].command(args);
-        if (results != null) { send("caeborg", results) }
+        if (results != null) send("caeborg", results);
         else { console.log('Function return is null!' )}
     } else {
         console.log(`Command ${command} not found`);
@@ -153,28 +155,31 @@ const commands = {
     nk: {
         brief: "Returns physics formulas. `list` for list of available arguments",
         command: (args) => {
-            fetch(`${ourUrl}/assets/physics.json`)
+            console.log(fetch(`${ourUrl}/assets/physics.json`)
                 .then(response => response.json())
                 .then(nk_json => {
                     const array = nk_json[args[0]];
-                    console.log('array: ', array);
                     const base_formula = array[0];
-                    console.log('base_formula: ', base_formula);
                     const definitions = array[1].join('<br>');
-                    console.log('defintions variable: ', definitions);
+                    // console.log('nk_json: ', nk_json);
+                    // console.log('typeof nk_json: ', typeof nk_json);
+                    // console.log('array: ', array);
+                    // console.log('args: ', args);
+                    // console.log('base_formula: ', base_formula);
+                    // console.log('defintions variable: ', definitions);
 
                     if (args[0] === 'list') {
-                        return [ Object.keys(nk_json).join('<br>') ];
+                        return [ object.keys(nk_json).join('<br>') ];
                     } else {
-                        console.log(`Base formula for ${bi(args[0])}: ${base_formula}`);
-                        console.log(`Contextual definitions: ${definitions}`);
+                        // console.log(`base formula for ${bi(args[0])}: ${base_formula}`);
+                        // console.log(`contextual definitions: ${definitions}`);
                         return [
-                            `Base formula for ${bi(args[0])}: ${base_formula}`,
-                            `Contextual definitions: ${definitions}`
+                            `base formula for ${bi(args[0])}: ${base_formula}`,
+                            `contextual definitions: ${definitions}`
                         ];
                     }
-                });
-
+                })
+            )
         }
     },
 
