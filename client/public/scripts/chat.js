@@ -155,31 +155,30 @@ const commands = {
     nk: {
         brief: "Returns physics formulas. `list` for list of available arguments",
         command: (args) => {
-            console.log(fetch(`${ourUrl}/assets/physics.json`)
-                .then(response => response.json())
-                .then(nk_json => {
-                    const array = nk_json[args[0]];
+            return fetch(`${ourUrl}/assets/physics.json`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                })
+                .then(data => {
+                    const array = data[args[0]];
                     const base_formula = array[0];
                     const definitions = array[1].join('<br>');
-                    // console.log('nk_json: ', nk_json);
-                    // console.log('typeof nk_json: ', typeof nk_json);
-                    // console.log('array: ', array);
-                    // console.log('args: ', args);
-                    // console.log('base_formula: ', base_formula);
-                    // console.log('defintions variable: ', definitions);
 
                     if (args[0] === 'list') {
-                        return [ object.keys(nk_json).join('<br>') ];
+                        return [ object.keys(data).join('<br>') ];
                     } else {
-                        // console.log(`base formula for ${bi(args[0])}: ${base_formula}`);
-                        // console.log(`contextual definitions: ${definitions}`);
+                        console.log('were here!');
                         return [
                             `base formula for ${bi(args[0])}: ${base_formula}`,
                             `contextual definitions: ${definitions}`
                         ];
                     }
                 })
-            )
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
         }
     },
 
