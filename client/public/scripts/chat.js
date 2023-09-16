@@ -155,13 +155,14 @@ const commands = {
     nk: {
         brief: "Returns physics formulas. `list` for list of available arguments",
         command: (args) => {
-            return fetch(`${ourUrl}/assets/physics.json`)
+                /* fetch(`${ourUrl}/assets/physics.json`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
                 })
                 .then(data => {
+                    console.log('data:', data);
                     const array = data[args[0]];
                     const base_formula = array[0];
                     const definitions = array[1].join('<br>');
@@ -178,7 +179,29 @@ const commands = {
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
-                });
+                }) */
+            const data = httpGet(`${ourUrl}/assets/physics.json`)
+            console.log('data:', data)
+
+            console.log('args:', args)
+
+            const array = data[args[0]];
+            console.log('array:', array)
+            const base_formula = array[0];
+            console.log('base_formula:', base_formula)
+            const definitions = array[1].join('<br>');
+            console.log('definitions:', definitions)
+
+            if (args[0] === 'list') {
+                return [ object.keys(data).join('<br>') ];
+            } else {
+                console.log('were here!');
+                return [
+                    `base formula for ${bi(args[0])}: ${base_formula}`,
+                    `contextual definitions: ${definitions}`
+                ];
+            }
+
         }
     },
 
