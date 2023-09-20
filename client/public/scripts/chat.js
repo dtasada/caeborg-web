@@ -9,7 +9,6 @@ const chemUrl = 'https://opsin.ch.cam.ac.uk/opsin';
 let input_array = localStorage.getItem('input_array');
 if (input_array === null || typeof input_array === 'string') input_array = [];
 let arrowup_index = -1
-const output_list = document.getElementById('output-ol');
 
 
 // Starting localStorage values
@@ -24,6 +23,7 @@ if (localStorage.getItem('saved_chat_output_list') === null) {
     document.getElementById('output-sec').appendChild(ol.documentElement);
 }
 
+const output_list = document.getElementById('output-ol');
 // html tags as variables
 const submit = document.getElementById('submit-button');
 submit.addEventListener('click', () => {

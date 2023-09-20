@@ -23,7 +23,7 @@ PORT=8080
 if [[ "$1" == 'start' ]]; then
     bun run server/server.ts "$@" &
 elif [[ "$1" == 'dev' ]]; then
-    bun run --hot server/server.ts "$@" &
+    bun run --hot server/server.ts --url=http://localhost "$@" &
     sass --watch client/public/scripts/sass:client/public &
 fi
 
