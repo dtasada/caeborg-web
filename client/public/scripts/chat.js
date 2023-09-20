@@ -7,12 +7,10 @@ const lidwoordUrl = 'https://welklidwoord.nl/banaan';
 const chemUrl = 'https://opsin.ch.cam.ac.uk/opsin';
 
 let input_array = localStorage.getItem('input_array');
-if (input_array === null || typeof input_array === 'string') {
-    input_array = [];
-}
-console.log('input_array', input_array);
-console.log('typeof input_array', typeof input_array);
+if (input_array === null || typeof input_array === 'string') input_array = [];
 let arrowup_index = -1
+const output_list = document.getElementById('output-ol');
+
 
 // Starting localStorage values
 if (localStorage.getItem('saved_chat_output_list') === null) {
@@ -26,7 +24,7 @@ if (localStorage.getItem('saved_chat_output_list') === null) {
     document.getElementById('output-sec').appendChild(ol.documentElement);
 }
 
-// H T M L  T A G S  A S  V A R I A B L E S
+// html tags as variables
 const submit = document.getElementById('submit-button');
 submit.addEventListener('click', () => {
     parseInput(input.value);
@@ -48,14 +46,12 @@ input.addEventListener('keydown', (event) => {
             if (input_array[arrowup_index + 1] !== undefined) {
                 arrowup_index += 1;
                 input.value = input_array[arrowup_index];
-                console.log(arrowup_index);
             }
             localStorage.setItem('input_array', input_array)
             break;
         case 'ArrowDown':
             if (input_array[arrowup_index - 1] !== undefined) {
                 arrowup_index -= 1;
-                console.log(arrowup_index);
                 input.value = input_array[arrowup_index];
             }
             localStorage.setItem('input_array', input_array)
@@ -68,9 +64,7 @@ input.oninput = () => {
     localStorage.setItem('saved_chat_input_value', input.value);
 }
 
-const output_list = document.getElementById('output-ol');
-
-// I M P O R T A N T  F U N C T I O N S
+// important functions
 function send(sender, msgs) {
     if (sender != null) {
         const li = document.createElement('li');
@@ -117,12 +111,13 @@ function httpGet(theUrl) {
     return xmlHttp;
 }
 
-// M A I N  T E X T  P A R S E R  A N D  L E X E R
+// main text parser and lexer
 
 function parseInput(text) {
     // init variables
     send('user', [ text ]);
     input_array.unshift(text);
+    localStorage.setItem('input_array', input_array);
     const args = text.split(' ');
     const command = args.shift();
     // execute command
@@ -136,7 +131,7 @@ function parseInput(text) {
     }
 }
 
-// S T R U C T  O F  F U N C T I O N S
+// dict of functions
 const commands = {
     chem: {
         brief: 'Gives the structure of given IUPAC organic compound name',
@@ -212,7 +207,8 @@ const commands = {
                 })
             */
 
-            return fetch(`${ourUrl}/assets/physics.json`)
+            // console.log('print',
+            fetch(`${ourUrl}/assets/physics.json`)
                     .then(result => result.json())
                     .then(nk_json => {
                         console.log('nk_json:', nk_json);
@@ -230,6 +226,7 @@ const commands = {
                             ];
                         }
                     })
+            // )
         }
     },
 
@@ -242,6 +239,7 @@ const commands = {
 
 }
 
+// Other functions
 function bi(str) {
     return `<b><i>${str}</i></b>`
 }
