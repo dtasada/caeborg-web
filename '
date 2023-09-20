@@ -6,9 +6,10 @@ const ourUrl = 'http://localhost:8000'
 const lidwoordUrl = 'https://welklidwoord.nl/banaan';
 const chemUrl = 'https://opsin.ch.cam.ac.uk/opsin';
 
-let input_array = localStorage.getItem('input_array');
-if (input_array === null || typeof input_array === 'string') {
+if (localStorage.getItem('input_array') === null) {
     input_array = [];
+} else {
+    let input_array = localStorage.getItem('input_array');
 }
 console.log('input_array', input_array);
 console.log('typeof input_array', typeof input_array);
@@ -35,14 +36,13 @@ submit.addEventListener('click', () => {
 });
 
 const input = document.getElementById('input-box');
-input.focus();
 input.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'Enter':
             parseInput(input.value);
             input.value = "";
             localStorage.setItem('saved_chat_input_value', input.value);
-            arrowup_index = -1
+            arrowup_index = 0
             break;
         case 'ArrowUp':
             if (input_array[arrowup_index + 1] !== undefined) {
@@ -80,8 +80,8 @@ function send(sender, msgs) {
         pfp.src = `${ourUrl}/assets/${sender}.png`;
         li.appendChild(pfp);
 
-        // console.log('msgs: ', msgs);
-        // console.log('typeof msgs: ', typeof msgs);
+        console.log('msgs: ', msgs);
+        console.log('typeof msgs: ', typeof msgs);
         for (msg of msgs) {
             if (typeof msg === 'string' ) {
                 const p = document.createElement('p');
@@ -131,7 +131,7 @@ function parseInput(text) {
         if (results != null) send('caeborg', results);
         else { console.log('Function return is null!' )}
     } else {
-        // console.log(`Command ${command} not found`);
+        console.log(`Command ${command} not found`);
         send('caeborg', [ `<i>Command '${command}' not found</i>`] );
     }
 }
