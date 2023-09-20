@@ -5,6 +5,7 @@ const sidebar_sec = document.getElementById('sidebar-sec');
 let rest_sec_left_default
 let rest_sec_width_default
 let footer_sec_left_default
+let is_hidden_user_choice = null
 function setValues() {
     rest_sec_left_default = window.getComputedStyle(rest_sec).left;
     rest_sec_width_default = window.getComputedStyle(rest_sec).width;
@@ -12,16 +13,19 @@ function setValues() {
 }
 setValues();
 
-function toggleSidebarSec(mode=null) {
-    if (sidebar_sec.hidden === false || mode === 'hidden') {
-        console.log('switching to hidden')
+document.getElementById('menu-button').addEventListener('click', () => {
+    if (is_hidden_user_choice === null) is_hidden_user_choice = true;
+    if (is_hidden_user_choice === true) is_hidden_user_choice = false;
+    if (is_hidden_user_choice === false) is_hidden_user_choice = true;
+})
+
+function toggleSidebarSec(mode=null, print=null) {
+    if ((mode === null && sidebar_sec.hidden === false) || mode === 'hidden') {
         sidebar_sec.hidden = true;
 
         rest_sec.style.left = `calc(100% - ${rest_sec_width_default} - ${rest_sec_left_default} / 2)`;
         footer_sec.style.left = `calc(100% - ${rest_sec_width_default} - ${rest_sec_left_default} / 2)`;
-    } else if (sidebar_sec.hidden === true || mode === 'shown') {
-        console.log('switching to shown')
-        sidebar_sec.hidden = true;
+    } else if ((mode === null && sidebar_sec.hidden === true) || mode === 'shown') {
         sidebar_sec.hidden = false;
 
         rest_sec.style.width = rest_sec_width_default;
@@ -38,7 +42,8 @@ window.addEventListener("resize", () => {
     rest_sec.removeAttribute('style');
     footer_sec.removeAttribute('style');
     setValues()
-    if (window.innerWidth <= 700) toggleSidebarSec('hidden')
+    if (window.innerWidth <= 700 && is_hidden_user_choice !== false) toggleSidebarSec('hidden')
+    if (window.innerWidth > 700 && is_hidden_user_choice !== true) toggleSidebarSec('shown')
 });
 
 // Switching frames
