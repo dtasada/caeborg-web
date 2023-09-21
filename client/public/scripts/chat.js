@@ -113,7 +113,7 @@ function httpGet(theUrl) {
 
 // main text parser and lexer
 
-function parseInput(text) {
+async function parseInput(text) {
     // init variables
     send('user', [ text ]);
     input_array.unshift(text);
@@ -122,7 +122,7 @@ function parseInput(text) {
     const command = args.shift();
     // execute command
     if (command in commands) {
-        const results = commands[command].command(args);
+        const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
         if (results != null) send('caeborg', results);
         else { console.log('Function return is null!' )}
     } else {
@@ -179,55 +179,30 @@ const commands = {
     nk: {
         brief: 'Returns physics formulas. `list` for list of available arguments',
         command: (args) => {
-            /*
-                fetch(`${ourUrl}/assets/physics.json`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                })
-                .then(data => {
-                    console.log('data:', data);
-                    const array = data[args[0]];
+            return fetch(`${ourUrl}/assets/physics.json`)
+                .then(result => result.json())
+                .then(nk_json => {
+                    console.log('nk_json:', nk_json);
+                    const array = nk_json[args[0]];
                     const base_formula = array[0];
                     const definitions = array[1].join('<br>');
 
                     if (args[0] === 'list') {
-                        return [ object.keys(data).join('<br>') ];
+                        return [ object.keys(nk_json).join('<br>') ];
                     } else {
                         console.log('were here!');
                         return [
-                            `base formula for ${bi(args[0])}: ${base_formula}`,
-                            `contextual definitions: ${definitions}`
+                            `base formula for ${bi(args[0])}:<br> ${bi(base_formula)}`,
+                            `contextual definitions:<br> ${bi(definitions)}`
                         ];
                     }
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
+                    return [ error ];
                 })
-            */
 
-            // console.log('print',
-            fetch(`${ourUrl}/assets/physics.json`)
-                    .then(result => result.json())
-                    .then(nk_json => {
-                        console.log('nk_json:', nk_json);
-                        const array = nk_json[args[0]];
-                        const base_formula = array[0];
-                        const definitions = array[1].join('<br>');
-
-                        if (args[0] === 'list') {
-                            return [ object.keys(nk_json).join('<br>') ];
-                        } else {
-                            console.log('were here!');
-                            return [
-                                `base formula for ${bi(args[0])}: ${base_formula}`,
-                                `contextual definitions: ${definitions}`
-                            ];
-                        }
-                    })
-            // )
-        }
+            }
     },
 
     ping: {
