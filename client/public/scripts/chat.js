@@ -182,24 +182,33 @@ const commands = {
             return fetch(`${ourUrl}/assets/physics.json`)
                 .then(result => result.json())
                 .then(nk_json => {
-                    console.log('nk_json:', nk_json);
-                    const array = nk_json[args[0]];
-                    const base_formula = array[0];
-                    const definitions = array[1].join('<br>');
+                    if (args[0] !== 'list') {
+                        const array = nk_json[args[0]];
+                        const base_formula = array[0];
+                        const definitions = array[1].join('<br>');
 
-                    if (args[0] === 'list') {
-                        return [ object.keys(nk_json).join('<br>') ];
+                        console.log('nk_json:', nk_json);
+                        if (args[0] === 'list') {
+                            return [ object.keys(nk_json).join('<br>') ];
+                        } else {
+                            console.log('were here!');
+                            return [
+                                `base formula for ${bi(args[0])}:<br> ${bi(base_formula)}`,
+                                `contextual definitions:<br> ${bi(definitions)}`
+                            ];
+                        }
                     } else {
-                        console.log('were here!');
-                        return [
-                            `base formula for ${bi(args[0])}:<br> ${bi(base_formula)}`,
-                            `contextual definitions:<br> ${bi(definitions)}`
-                        ];
+                        const all = Object.keys(nk_json);
+                        let brief = []
+                        for ([key, value] of Object.entries(nk_json)) {
+                            brief.push(`${key}: ${bi(value[0])}`);
+                        }
+                        return [ `${brief.join('<br>')}` ];
                     }
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
-                    return [ error ];
+                    return [ `${error}` ];
                 })
 
             }
