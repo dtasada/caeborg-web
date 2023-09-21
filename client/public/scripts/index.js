@@ -61,6 +61,26 @@ function switchFrame(page) {
     });
 
     document.getElementById("rest-sec").appendChild(new_frame);
+    switch (page) {
+    case 'calc':
+        document.title = 'Caeborg - Calculator'; break;
+    case 'chat':
+        document.title = 'Caeborg - Chat'; break;
+    case 'chemtools':
+        document.title = 'Caeborg - ChemTools'; break;
+    case 'games':
+        document.title = 'Caeborg - Games'; break;
+    case 'graph':
+        document.title = 'Caeborg - Graph'; break;
+    case 'launcher':
+        document.title = 'Caeborg - Launcher'; break;
+    case 'maps':
+        document.title = 'Caeborg - Map'; break;
+    case 'quote':
+        document.title = 'Caeborg - Quote'; break;
+    case 'translate':
+        document.title = 'Caeborg - Translator'; break;
+    }
 }
 
 

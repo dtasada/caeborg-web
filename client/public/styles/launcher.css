@@ -88,7 +88,25 @@ ol:not(.ordered-list) {
 
 #new-shortcut-sec {
   position: absolute;
+  flex-direction: column;
   background: #181926;
+  width: 320px;
+  height: auto;
+  right: 48px;
+  bottom: 48px;
+  justify-items: center;
+  padding: 12px 0;
+}
+#new-shortcut-sec input {
+  position: static;
+  width: 90%;
+  height: 48px;
+  margin: 8px auto;
+}
+#new-shortcut-sec img {
+  width: 128px;
+  height: 128px;
+  margin: 8px 16px;
 }
 
 /*# sourceMappingURL=launcher.css.map */

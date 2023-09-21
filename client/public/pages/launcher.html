@@ -27,8 +27,9 @@
         </section>
 
         <section id="new-shortcut-sec" hidden>
-            <input id="url-input" type="text" placeholder="Enter shortcut URL here..."  autocomplete="off">
-            <input id="name-input" type="text" placeholder="Enter shortcut name here..."  autocomplete="off">
+            <input id="url-input" type="text" placeholder="Enter shortcut URL here..." oninput="renderFavicon()" autocomplete="off">
+            <input id="name-input" type="text" placeholder="Enter shortcut name here..." autocomplete="off">
+            <img id="favicon-img"/>
         </section>
 
     </body>
