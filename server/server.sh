@@ -1,7 +1,7 @@
 #!/bin/bash
 
 trap 'kill 0' EXIT
-. ./server/.env
+. ./.env
 
 DISABLE_BROWSE_PAGES=true
 PORT=8080
@@ -21,9 +21,9 @@ PORT=8080
 # done
 
 if [[ "$1" == 'start' ]]; then
-    bun run server/server.ts "$@" &
+    bun run server/server.js "$@" &
 elif [[ "$1" == 'dev' ]]; then
-    bun run --hot server/server.ts --url=http://localhost "$@" &
+    bun run --hot server/server.js --url=http://localhost "$@" &
     sass --watch client/public/scripts/sass:client/public &
 fi
 

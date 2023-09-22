@@ -15,8 +15,8 @@
 * To run Bun Server, run `bun start` in `caeborg-web/`
 * To run Bun in dev environment, run `bun run dev` in `caeborg-web/`. `dev` includes SCSS compilation.
 * When running `bun start` from `caeborg-web/`, it behaves like `server.js` is located in `caeborg-web/`, not in `caeborg-web/server/`.
-* `.env` file has been moved to `caeborg-web/` (it was previously in `caeborg-web/server`). `Bun.env` reads `.env` files in the directory `bun run` is run in, rather than the directory `server.ts` is in.
-* `bun run` args include `--url`. This is required during development to specify url as `--url=http://localhost`.
+* `.env` file has been moved to `caeborg-web/` (it was previously in `caeborg-web/server`). `Bun.env` reads `.env` files in the directory `bun run` is run in, rather than the directory `server.js` is in.
+* `bun run` args include `--url`. When running `bun run dev`, it automatically specifies `--url=http://localhost`
 
 ## Development dependencies
 * `bun-js` (v1.0)

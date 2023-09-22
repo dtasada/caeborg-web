@@ -4,6 +4,7 @@ const process = require('process');
 const fs = require('fs');
 
 const express_port = 8000;
+const bun_port = 3000;
 const app = express();
 
 const public_path = `${Bun.env.rootdir}/client/public`
@@ -14,7 +15,6 @@ if (process.env.rootdir !== undefined) {
     console.log("'rootdir' is undefined. Please make sure to define it in your 'caeborg-web/.env' file.");
 }
 
-// fs.readFile(`${process.env.rootdir}/client/public/env.js`, 'utf-8', (error, contents) => {
 const env_js = Bun.file(`${public_path}/env.js`);
 let customUrl;
 function changeUrl(arg) {
@@ -45,17 +45,18 @@ app.get("/", (request, response) => {
     response.sendFile(`${public_path}/index.html`)
 });
 
-// const server = Bun.serve({
-//     port: 3000,
-//     hostname: customUrl.split('://')[1],
-//     async fetch(request) {
-//         // const file = Bun.file(public_path)
-//         // return new Response(file);
-//         return new Response(Bun.file(`${public_path}/index.html`));
-//     },
-//     error() {
-//         return new Response(null, { status: 404 });
-//     }
-// });
+const server = Bun.serve({
+    port: bun_port,
+    hostname: customUrl.split('://')[1],
+    async fetch(request) {
+        const req_file = request['url'].split(`${customUrl}:${bun_port}/`)[1];
+        console.log(req_file);
+        // Bun.spawn('bun', 'run', `${Bun.env.rootdir}/${req_file}`);
+        return new Response(`${request} Welcome to bun!`);
+    },
+    error() {
+        return new Response(null, { status: 404 });
+    }
+});
 
-// console.log(`Listening on localhost: ${server.port}`);
+console.log(`Listening on localhost: ${server.port}`);
