@@ -1,7 +1,7 @@
 ## Todo
 * [Flexbox](https://www.youtube.com/watch?v=fYq5PXgSsbE) setup (first on `launcher.html`)
-* Finish scrolling in chat.scss
 * New shortcut button in `launcher.html`
+* ~~Finish scrolling in chat.scss~~
 * ~~Check for dependency alternatives in bun-js~~
 * ~~FIX NK~~
 * ~~Migrate to bun-js~~

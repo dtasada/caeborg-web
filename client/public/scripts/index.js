@@ -1,16 +1,13 @@
 const rest_sec = document.getElementById('rest-sec');
 const footer_sec = document.getElementById('footer-sec');
 const sidebar_sec = document.getElementById('sidebar-sec');
-
-let rest_sec_left_default
-let rest_sec_width_default
-let footer_sec_left_default
-let is_hidden_user_choice = null
+let is_hidden_user_choice = null;
 function setValues() {
     rest_sec_left_default = window.getComputedStyle(rest_sec).left;
     rest_sec_width_default = window.getComputedStyle(rest_sec).width;
     footer_sec_left_default = window.getComputedStyle(footer_sec).left;
 }
+
 setValues();
 
 document.getElementById('menu-button').addEventListener('click', () => {
@@ -62,32 +59,29 @@ function switchFrame(page) {
 
     document.getElementById("rest-sec").appendChild(new_frame);
     switch (page) {
-    case 'calc':
-        document.title = 'Caeborg - Calculator'; break;
-    case 'chat':
-        document.title = 'Caeborg - Chat'; break;
-    case 'chemtools':
-        document.title = 'Caeborg - ChemTools'; break;
-    case 'games':
-        document.title = 'Caeborg - Games'; break;
-    case 'graph':
-        document.title = 'Caeborg - Graph'; break;
-    case 'launcher':
-        document.title = 'Caeborg - Launcher'; break;
-    case 'maps':
-        document.title = 'Caeborg - Map'; break;
-    case 'quote':
-        document.title = 'Caeborg - Quote'; break;
-    case 'translate':
-        document.title = 'Caeborg - Translator'; break;
+        case 'calc':
+            document.title = 'Caeborg - Calculator'; break;
+        case 'chat':
+            document.title = 'Caeborg - Chat'; break;
+        case 'chemtools':
+            document.title = 'Caeborg - ChemTools'; break;
+        case 'games':
+            document.title = 'Caeborg - Games'; break;
+        case 'graph':
+            document.title = 'Caeborg - Graph'; break;
+        case 'launcher':
+            document.title = 'Caeborg - Launcher'; break;
+        case 'maps':
+            document.title = 'Caeborg - Map'; break;
+        case 'quote':
+            document.title = 'Caeborg - Quote'; break;
+        case 'translate':
+            document.title = 'Caeborg - Translator'; break;
     }
 }
 
-
-document.addEventListener("DOMContentLoaded", () => {
-    if (localStorage.getItem('saved_frame') === null) {
-        localStorage.setItem('saved_frame', 'launcher');
-    } else {
-        switchFrame(localStorage.getItem('saved_frame'))
-    }
-})
+if (localStorage.getItem('saved_frame') === null) {
+    localStorage.setItem('saved_frame', 'launcher');
+} else {
+    switchFrame(localStorage.getItem('saved_frame'))
+}

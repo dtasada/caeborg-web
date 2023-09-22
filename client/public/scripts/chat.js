@@ -65,6 +65,7 @@ input.oninput = () => {
 }
 
 // important functions
+
 function send(sender, msgs) {
     if (sender != null) {
         const li = document.createElement('li');
@@ -129,6 +130,7 @@ async function parseInput(text) {
         // console.log(`Command ${command} not found`);
         send('caeborg', [ `<i>Command '${command}' not found</i>`] );
     }
+    document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight
 }
 
 // dict of functions

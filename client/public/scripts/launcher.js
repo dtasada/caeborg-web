@@ -23,14 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
     favicon_img = document.getElementById('favicon-img');
 });
 
-renderFavicon = () => {
+function renderFavicon() {
     if (url_input !== null || url_input !== undefined) {
         const url = url_input.value.split('://')[1]
         favicon_img.src = `${ourUrl}:8080/icon?url=${url}&size=64..128..256`
     }
 }
 
-addShortcut = () => {
+function addShortcut() {
     if (new_shortcut_sec.style.display === 'flex') {
         new_shortcut_sec.style.display = 'none'
     } else {
