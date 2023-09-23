@@ -72,6 +72,11 @@ ol:not(.ordered-list) {
 #launcher-sec ol {
   padding-inline-start: 0px !important;
 }
+#launcher-sec ol p {
+  margin: 0px;
+  width: auto;
+  background: inherit;
+}
 
 #launcher-sec img, #new-shortcut-sec img {
   border-radius: 32px;
@@ -112,6 +117,9 @@ ol:not(.ordered-list) {
   flex-direction: column;
 }
 #new-shortcut-sec section#buttons {
+  flex-direction: column;
+}
+#new-shortcut-sec section#squares {
   flex-direction: row;
 }
 #new-shortcut-sec section input {
@@ -135,8 +143,16 @@ ol:not(.ordered-list) {
   text-align: center;
 }
 #new-shortcut-sec section i:hover {
-  background: #a6da95;
   color: #6e738d;
+}
+#new-shortcut-sec section i#confirm-button:hover {
+  background: #a6da95;
+}
+#new-shortcut-sec section i#delete-button {
+  display: none;
+}
+#new-shortcut-sec section i#delete-button:hover {
+  background: #ed8796;
 }
 
 /*# sourceMappingURL=launcher.css.map */

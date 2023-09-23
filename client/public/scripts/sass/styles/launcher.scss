@@ -5,6 +5,11 @@
     height: 100%;
     ol {
         padding-inline-start: 0px !important;
+        p {
+            margin: 0px;
+            width: auto;
+            background: inherit;
+        }
     }
 }
 
@@ -45,7 +50,8 @@
         background: $col-crust;
         display: flex;
         &#input { flex-direction: column; }
-        &#buttons { flex-direction: row; }
+        &#buttons { flex-direction: column; }
+        &#squares { flex-direction: row; }
         input {
             position: static;
             width: 90%;
@@ -65,9 +71,13 @@
             font-size: 96px;
             padding: 16px 0px;
             text-align: center;
-            &:hover {
-                background: $col-green;
-                color: $col-overlay;
+            
+            &:hover { color: $col-overlay; }
+            &#confirm-button:hover { background: $col-green; }
+            
+            &#delete-button {
+                display: none;
+                &:hover { background: $col-red; }
             }
         }
     }
