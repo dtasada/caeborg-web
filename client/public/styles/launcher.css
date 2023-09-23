@@ -100,6 +100,7 @@ ol:not(.ordered-list) {
 
 #new-shortcut-sec {
   position: absolute;
+  display: none;
   flex-direction: column;
   background: #181926;
   width: 320px;
@@ -112,6 +113,7 @@ ol:not(.ordered-list) {
 #new-shortcut-sec section {
   background: #181926;
   display: flex;
+  justify-items: center;
 }
 #new-shortcut-sec section#input {
   flex-direction: column;
@@ -131,7 +133,7 @@ ol:not(.ordered-list) {
 #new-shortcut-sec section img, #new-shortcut-sec section i {
   width: 128px;
   height: 128px;
-  margin: 8px 16px;
+  margin: 10px 16px;
 }
 #new-shortcut-sec section img {
   background: #6e738d;
@@ -145,14 +147,21 @@ ol:not(.ordered-list) {
 #new-shortcut-sec section i:hover {
   color: #6e738d;
 }
-#new-shortcut-sec section i#confirm-button:hover {
-  background: #a6da95;
-}
 #new-shortcut-sec section i#delete-button {
   display: none;
+  margin-top: 0px !important;
+  border-top: 1px solid #181926;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
 }
 #new-shortcut-sec section i#delete-button:hover {
   background: #ed8796;
+}
+#new-shortcut-sec section i#confirm-button {
+  margin-bottom: 0px !important;
+}
+#new-shortcut-sec section i#confirm-button:hover {
+  background: #a6da95;
 }
 
 /*# sourceMappingURL=launcher.css.map */

@@ -30,6 +30,9 @@ const name_input = document.getElementById('name-input');
 const add_button = document.getElementById('add-button');
 const favicon_img = document.getElementById('favicon-img');
 
+const confirm_button = document.getElementById('confirm-button');
+const delete_button = document.getElementById('delete-button');
+
 let new_favicon_url;
 let url;
 
@@ -38,12 +41,15 @@ function cleanup() {
     name_input.value = '';
     favicon_img.style.opacity = '0';
     new_shortcut_sec.style.display = 'none';
-    document.getElementById('delete-button').style.display = 'none';
+    delete_button.style.display = 'none';
     [...document.querySelectorAll('#buttons i')].forEach(element => {
         element.style.removeProperty('height');
         element.style.removeProperty('font-size');
         element.style.removeProperty('padding');
     });
+    confirm_button.style.removeProperty('border-bottom-right-radius');
+    confirm_button.style.removeProperty('border-bottom-left-radius');
+    confirm_button.style.removeProperty('border-bottom');
     localStorage.setItem('saved_launcher_ol', document.getElementById('launcher-ol').innerHTML);
 }
 
@@ -72,9 +78,9 @@ function addShortcut() {
         cleanup();
     } else {
         new_shortcut_sec.style.display = 'flex';
-        url_input.focus();
-        url_input.addEventListener('keydown', event => { if (event.key === 'Enter') name_input.focus() });
-        name_input.addEventListener('keydown', event => { if (event.key === 'Enter') confirm() });
+        name_input.focus();
+        name_input.addEventListener('keydown', event => { if (event.key === 'Enter') url_input.focus() });
+        url_input.addEventListener('keydown', event => { if (event.key === 'Enter') confirm() });
         window.addEventListener('keydown', event => { if (event.key === 'Escape') cleanup(); })
     }
 }
@@ -109,24 +115,29 @@ function confirm(element=null) {
             cleanup();
         } else {
             new_shortcut_sec.style.display = 'flex';
-            url_input.focus();
+            url_input.value = element.getAttribute('onclick').split("'")[1];
+            name_input.value = element.querySelector('p').innerHTML;
+            favicon_img.src = element.querySelector('img').src;
+
+            placeholderFavicon();
+            name_input.focus();
             is_new = false;
-            document.getElementById('delete-button').style.display = 'flex';
+
+            delete_button.style.display = 'block';
+            confirm_button.style.borderBottomRightRadius = '0px';
+            confirm_button.style.borderBottomLeftRadius = '0px';
+            confirm_button.style.borderBottom = '1px solid $col-crust';
             [...document.querySelectorAll('#buttons i')].forEach(element => {
                 element.style.height = '64px';
-                element.style.fontSize = '48px';
+                element.style.fontSize = '44px';
                 element.style.setProperty('padding', '8px 0px');
-                element.style.textAlign = 'center';
             });
-            url_input.addEventListener('keydown', event => { if (event.key === 'Enter') name_input.focus() });
-            name_input.addEventListener('keydown', event => { if (event.key === 'Enter') confirm(element) });
-            document.getElementById('confirm-button').addEventListener('click', () => { confirm(element) });
-            document.getElementById('delete-button').addEventListener('click', () => { element.parentElement.remove(); cleanup() });
 
+            name_input.addEventListener('keydown', event => { if (event.key === 'Enter') url_input.focus() });
+            url_input.addEventListener('keydown', event => { if (event.key === 'Enter') confirm(element) });
+            confirm_button.addEventListener('click', () => { confirm(element) });
             window.addEventListener('keydown', event => { if (event.key === 'Escape') cleanup() });
+            delete_button.addEventListener('click', () => { element.parentElement.remove(); cleanup() });
         }
-        return false;
-
-    })
-})
-
+    });
+});

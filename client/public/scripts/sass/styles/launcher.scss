@@ -36,7 +36,7 @@
 
 #new-shortcut-sec {
     position: absolute;
-    // display: flex;
+    display: none;
     flex-direction: column;
     background: $col-crust;
     width: 320px;
@@ -49,6 +49,7 @@
     section {
         background: $col-crust;
         display: flex;
+        justify-items: center;
         &#input { flex-direction: column; }
         &#buttons { flex-direction: column; }
         &#squares { flex-direction: row; }
@@ -61,7 +62,7 @@
         img, i {
             width: 128px;
             height: 128px;
-            margin: 8px 16px;
+            margin: 10px 16px
         }
         img {
             background: $col-overlay;
@@ -73,13 +74,21 @@
             text-align: center;
             
             &:hover { color: $col-overlay; }
-            &#confirm-button:hover { background: $col-green; }
             
             &#delete-button {
                 display: none;
+                margin-top: 0px !important;
+                border-top: 1px solid $col-crust;
+                border-top-right-radius: 0px;
+                border-top-left-radius: 0px;
                 &:hover { background: $col-red; }
+            }
+            &#confirm-button {
+                margin-bottom: 0px !important;
+                &:hover { background: $col-green; }
             }
         }
     }
-
 }
+
+
