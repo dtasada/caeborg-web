@@ -3,13 +3,13 @@
 const ourUrl = 'http://localhost:8000'
 
 // C O N S T A N T S
-const lidwoordUrl = 'https://welklidwoord.nl/banaan';
-const chemUrl = 'https://opsin.ch.cam.ac.uk/opsin';
+const lidwoordUrl = "https://welklidwoord.nl/";
+const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
+const urbandictUrl = "https://api.urbandictionary.com/v0/define?term=";
 
 let input_array = localStorage.getItem('input_array');
 if (input_array === null || typeof input_array === 'string') input_array = [];
 let arrowup_index = -1
-
 
 // Starting localStorage values
 function startLocalStorage() {
@@ -120,11 +120,14 @@ function httpGet(theUrl) {
 
 async function parseInput(text) {
     // init variables
-    send('user', [ text ]);
+    send('user', [text]);
     input_array.unshift(text);
     localStorage.setItem('input_array', input_array);
     const args = text.split(' ');
     const command = args.shift();
+    if (command === "") {
+        return;
+    }
     // execute command
     if (command in commands) {
         const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
@@ -170,15 +173,40 @@ const commands = {
         }
     },
 
+    define: {
+        brief: "Gives you the correct definition of the word",
+        command: async function(args) {
+            let term = args[0];
+            let url = urbandictUrl + term;
+            let response = await fetch(url);
+            let js = await response.json();
+            alert(js);
+        }
+    },
+
+    deofhet: {
+        brief: "Gives you the article of given Dutch word - <i>de</i> or <i>het</i>",
+        command: async function(args) {
+            let word = args[0];
+            url = lidwoordUrl + word;
+
+            return fetch(url, {
+                mode: 'no-cors',
+                credentials: 'include',
+                method: 'POST',
+            })
+            .then(response => response.text())
+        },
+    },
+
     help: {
-        brief: 'The help function',
+        brief: "Lists all commands available in the <i>Chat</i> scope",
         command: (args) => {
             let ret = ''
             for (const [k, v] of Object.entries(commands)) {
                 ret += `${bi(k)}: ${v.brief}<br>`;
-                console.log(ret)
             }
-            return [ ret ]
+            return [ret]
         }
     },
 
@@ -195,7 +223,7 @@ const commands = {
 
                         console.log('nk_json:', nk_json);
                         if (args[0] === 'list') {
-                            return [ object.keys(nk_json).join('<br>') ];
+                            return [object.keys(nk_json).join('<br>')];
                         } else {
                             console.log('were here!');
                             return [
@@ -214,7 +242,7 @@ const commands = {
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
-                    return [ `${error}` ];
+                    return [`${error}`];
                 })
 
             }
@@ -232,4 +260,9 @@ const commands = {
 // Other functions
 function bi(str) {
     return `<b><i>${str}</i></b>`
+}
+
+function log(args) {
+    console.log(args);
+    // lololol kys
 }
