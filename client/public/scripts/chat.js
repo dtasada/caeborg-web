@@ -5,6 +5,7 @@ const ourUrl = 'http://localhost:8000'
 // C O N S T A N T S
 const lidwoordUrl = "https://welklidwoord.nl/banaan";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
+const urbandictUrl = "https://api.urbandictionary.com/v0/define?term=";
 
 // Starting localStorage values
 if (localStorage.getItem('saved_chat_output_list') === null) {
@@ -87,8 +88,8 @@ function autocomplete() {
 
 function httpGet(theUrl) {
     const xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false );
-    xmlHttp.send( null );
+    xmlHttp.open("GET", theUrl, false);
+    xmlHttp.send(null);
     return xmlHttp;
 }
 
@@ -142,13 +143,23 @@ const commands = {
         }
     },
 
+    define: {
+        brief: "Gives you the correct definition of the word",
+        command: async function(args) {
+            let term = args[0];
+            let url = urbandictUrl + term;
+            let response = await fetch(url);
+            let js = await response.json();
+            alert(js);
+        }
+    },
+
     help: {
-        brief: "The help function",
+        brief: "Lists all commands available in the <i>Chat</i> scope",
         command: (args) => {
             let ret = ""
             for (const [k, v] of Object.entries(commands)) {
                 ret += `${bi(k)}: ${v.brief}<br>`;
-                console.log(ret)
             }
             return [["text", ret]]
         }
