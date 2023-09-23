@@ -3,7 +3,7 @@
 const ourUrl = 'http://localhost:8000'
 
 // C O N S T A N T S
-const lidwoordUrl = "https://welklidwoord.nl/banaan";
+const lidwoordUrl = "https://welklidwoord.nl/";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
 const urbandictUrl = "https://api.urbandictionary.com/v0/define?term=";
 
@@ -120,11 +120,14 @@ function httpGet(theUrl) {
 
 async function parseInput(text) {
     // init variables
-    send('user', [ text ]);
+    send('user', [text]);
     input_array.unshift(text);
     localStorage.setItem('input_array', input_array);
     const args = text.split(' ');
     const command = args.shift();
+    if (command === "") {
+        return;
+    }
     // execute command
     if (command in commands) {
         const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
@@ -181,6 +184,21 @@ const commands = {
         }
     },
 
+    deofhet: {
+        brief: "Gives you the article of given Dutch word - <i>de</i> or <i>het</i>",
+        command: async function(args) {
+            let word = args[0];
+            url = lidwoordUrl + word;
+
+            return fetch(url, {
+                mode: 'no-cors',
+                credentials: 'include',
+                method: 'POST',
+            })
+            .then(response => response.text())
+        },
+    },
+
     help: {
         brief: "Lists all commands available in the <i>Chat</i> scope",
         command: (args) => {
@@ -188,7 +206,7 @@ const commands = {
             for (const [k, v] of Object.entries(commands)) {
                 ret += `${bi(k)}: ${v.brief}<br>`;
             }
-            return [ ret ]
+            return [ret]
         }
     },
 
@@ -205,7 +223,7 @@ const commands = {
 
                         console.log('nk_json:', nk_json);
                         if (args[0] === 'list') {
-                            return [ object.keys(nk_json).join('<br>') ];
+                            return [object.keys(nk_json).join('<br>')];
                         } else {
                             console.log('were here!');
                             return [
@@ -224,7 +242,7 @@ const commands = {
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
-                    return [ `${error}` ];
+                    return [`${error}`];
                 })
 
             }
@@ -242,4 +260,9 @@ const commands = {
 // Other functions
 function bi(str) {
     return `<b><i>${str}</i></b>`
+}
+
+function log(args) {
+    console.log(args);
+    // lololol kys
 }
