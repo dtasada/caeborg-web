@@ -4,8 +4,11 @@ const sidebar_sec = document.getElementById('sidebar-sec');
 let is_hidden_user_choice = null;
 function setValues() {
     rest_sec_left_default = window.getComputedStyle(rest_sec).left;
+    rest_sec_right_default = window.getComputedStyle(rest_sec).right;
     rest_sec_width_default = window.getComputedStyle(rest_sec).width;
     footer_sec_left_default = window.getComputedStyle(footer_sec).left;
+    footer_sec_right_default = window.getComputedStyle(footer_sec).right;
+    footer_sec_width_default = window.getComputedStyle(footer_sec).width;
 }
 
 setValues();
@@ -20,14 +23,26 @@ function toggleSidebarSec(mode=null, print=null) {
     if ((mode === null && sidebar_sec.hidden === false) || mode === 'hidden') {
         sidebar_sec.hidden = true;
 
-        rest_sec.style.left = `calc(100% - ${rest_sec_width_default} - ${rest_sec_left_default} / 2)`;
-        footer_sec.style.left = `calc(100% - ${rest_sec_width_default} - ${rest_sec_left_default} / 2)`;
+        if (window.innerWidth >= 700) {
+            rest_sec.style.left = `calc(100% - ${rest_sec_width_default} - ${rest_sec_left_default} / 2)`;
+            footer_sec.style.left = `calc(100% - ${rest_sec_width_default} - ${rest_sec_left_default} / 2)`;
+        } else {
+            rest_sec.style.left = '4px';
+            rest_sec.style.right = '4px';
+            footer_sec.style.left = '4px';
+            footer_sec.style.right = '4px';
+            rest_sec.style.width = 'calc(100% - 4px)';
+            footer_sec.style.width = 'calc(100% - 4px)';
+        }
     } else if ((mode === null && sidebar_sec.hidden === true) || mode === 'shown') {
         sidebar_sec.hidden = false;
 
-        rest_sec.style.width = rest_sec_width_default;
         rest_sec.style.left = rest_sec_left_default;
+        rest_sec.style.right = rest_sec_right_default;
+        rest_sec.style.width = rest_sec_width_default;
         footer_sec.style.left = footer_sec_left_default;
+        footer_sec.style.right = footer_sec_right_default;
+        footer_sec.style.width = footer_sec_width_default;
         setValues();
     }
 }

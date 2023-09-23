@@ -3,20 +3,20 @@ const ourUrl = window.location.href.split(/:[0-9]{4}/g)[0];
 // Starting localStorage values
 function startLocalStorage() {
     const launcher_sec = document.getElementById('launcher-sec');
-    const launcher_list = document.createElement('ol');
-    if (localStorage.getItem('saved_launcher_list') === null) {
-        launcher_list.innerHTML = 
+    const launcher_ol = document.createElement('ol');
+    if (localStorage.getItem('saved_launcher_ol') === null) {
+        launcher_ol.innerHTML = 
             `<ol id="launcher-ol" class="horizontal">
                 <li><button onclick="window.open('https://hageveld.magister.net','_blank')">
                     <img class="hageveld.magister.net" width="128" height="128"/><br>Magister</button></li>
                 <li><button onclick="window.open('https://youtube.com/', '_blank')">
                     <img class="youtube.com" width="128" height="128"/><br>YouTube</button></li>
             </ol>`
-        localStorage.setItem('saved_launcher_list', launcher_list.innerHTML);
+        localStorage.setItem('saved_launcher_ol', launcher_ol.innerHTML);
     } else {
-        launcher_list.innerHTML = localStorage.getItem('saved_launcher_list');
+        launcher_ol.innerHTML = localStorage.getItem('saved_launcher_ol');
     }
-    launcher_sec.appendChild(launcher_list);
+    launcher_sec.appendChild(launcher_ol);
 
 }
 

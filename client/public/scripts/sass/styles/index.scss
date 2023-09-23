@@ -28,6 +28,11 @@ html {
             background-color: inherit;
         }
     }
+
+    button, a {
+        position: relative;
+        bottom: 4px;
+    }
 }
 
 #footer-sec {
@@ -86,4 +91,10 @@ html {
     height: calc(100% - #{$headerfooter-height});
     left: $sidebar-sec-width;
     top: $header-sec-height;
+
+    iframe {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
 }
