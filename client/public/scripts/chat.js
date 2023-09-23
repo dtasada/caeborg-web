@@ -3,19 +3,14 @@
 const ourUrl = 'http://localhost:8000'
 
 // C O N S T A N T S
-<<<<<<< HEAD
 const lidwoordUrl = "https://welklidwoord.nl/banaan";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
 const urbandictUrl = "https://api.urbandictionary.com/v0/define?term=";
-=======
-const lidwoordUrl = 'https://welklidwoord.nl/banaan';
 const chemUrl = 'https://opsin.ch.cam.ac.uk/opsin';
 
 let input_array = localStorage.getItem('input_array');
 if (input_array === null || typeof input_array === 'string') input_array = [];
 let arrowup_index = -1
-
->>>>>>> 4076a642bbc77d2c731e631a3612e9722cad3625
 
 // Starting localStorage values
 function startLocalStorage() {
@@ -188,11 +183,7 @@ const commands = {
     },
 
     help: {
-<<<<<<< HEAD
         brief: "Lists all commands available in the <i>Chat</i> scope",
-=======
-        brief: 'The help function',
->>>>>>> 4076a642bbc77d2c731e631a3612e9722cad3625
         command: (args) => {
             let ret = ''
             for (const [k, v] of Object.entries(commands)) {
