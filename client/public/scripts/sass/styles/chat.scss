@@ -1,27 +1,23 @@
 @import "../style";
 
-$input-sec-height: 44px;
-$input-margin: 12px;
+$input-sec-height: 88px;
+$input-margin: 24px;
 $input-element-height: 48px;
-
-
 
 #input-sec {
     position: fixed;
     bottom: 0px;
-    margin-left: -8px !important;
-    // height: $input-sec-height;
+    left: 0px !important;
+    height: $input-sec-height;
     width: 100%;
     background: $col-base;
 
     input {
-        position: fixed;
+        position: absolute;
+        left: 0px;
         bottom: 0px;
-        right: 0px;
-        width: calc(100% - #{$right-margin-width});
-        margin-left: $input-margin;
-        margin-right: $input-margin;
-        margin-bottom: $input-margin;
+        margin: auto $input-margin $input-margin;
+        width: calc(100% - 2 * #{$right-margin-width});
         height: $input-element-height;
         background: $col-surface;
     }
@@ -30,7 +26,7 @@ $input-element-height: 48px;
         position: fixed;
         bottom: 0px;
         right: 0px;
-        margin-right: calc(#{$input-margin} * 1.5);
+        margin-right: calc(#{$input-margin} * 1.6);
         margin-bottom: calc(#{$input-margin} + 5px);
         height: calc(#{$input-element-height} * 0.8);
     }
@@ -38,27 +34,28 @@ $input-element-height: 48px;
 
 #output-sec {
     position: absolute;
+    border-radius: 0px;
     width: calc(100% - #{$right-margin-width});
-    margin-left: $input-margin;
-    bottom: calc(#{$input-element-height} + 24px);
+    bottom: $input-sec-height;
+    height: calc(100% - (#{$input-sec-height}));
+    left: $input-margin;
+
+    &::-webkit-scrollbar { display: none; }
+    scrollbar-width: none;
+    overflow-y: scroll;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y mandatory;
+    scroll-snap-align: end;
 
     ol {
-        // position: static;
+        position: absolute; // important for looks
+        bottom: 0px;
         padding-inline-start: 0px !important;
         height: 100%;
-        // margin-bottom: 32px;
-        // overflow-x: hidden;
-        // overflow-y: scroll;
-
-        // &::-webkit-scrollbar{ display: none; }
-        // scrollbar-width: none;
 
         li {
-            // margin: 28px 0px;
             margin-top: 28px;
             margin-left: 48px;
-            // margin-block-end: 20px;
-            // margin-block-start: 20px;
 
             img.pfp {
                 position: absolute;
@@ -72,9 +69,8 @@ $input-element-height: 48px;
     }
 }
 
-
 .compound-img {
     width: 300px;
     /* image-rendering: pixelated;
-image-rendering: optiize-contrast; */
+image-rendering: optimize-contrast; */
 }

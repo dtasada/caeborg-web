@@ -65,71 +65,78 @@ ol:not(.ordered-list) {
   min-width: 56px;
 }
 
-#input-sec {
-  position: fixed;
-  bottom: 0px;
-  left: 0px !important;
-  height: 88px;
+#launcher-sec {
   width: 100%;
-  background: #24273a;
-}
-#input-sec input {
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-  margin: auto 24px 24px;
-  width: calc(100% - 2 * 28px);
-  height: 48px;
-  background: #363a4f;
-}
-#input-sec button {
-  position: fixed;
-  bottom: 0px;
-  right: 0px;
-  margin-right: calc(24px * 1.6);
-  margin-bottom: calc(24px + 5px);
-  height: calc(48px * 0.8);
-}
-
-#output-sec {
-  position: absolute;
-  border-radius: 0px;
-  width: calc(100% - 28px);
-  bottom: 88px;
-  height: calc(100% - (88px));
-  left: 24px;
-  scrollbar-width: none;
-  overflow-y: scroll;
-  overscroll-behavior-y: contain;
-  scroll-snap-type: y mandatory;
-  scroll-snap-align: end;
-}
-#output-sec::-webkit-scrollbar {
-  display: none;
-}
-#output-sec ol {
-  position: absolute;
-  bottom: 0px;
-  padding-inline-start: 0px !important;
   height: 100%;
 }
-#output-sec ol li {
-  margin-top: 28px;
-  margin-left: 48px;
+#launcher-sec ol {
+  padding-inline-start: 0px !important;
 }
-#output-sec ol li img.pfp {
+
+#launcher-sec img, #new-shortcut-sec img {
+  border-radius: 32px;
+}
+
+#add-button {
   position: absolute;
-  float: left;
-  left: 0px;
-  margin-top: -10px;
+  right: 18px;
+  bottom: 18px;
   height: 40px;
+  width: 40px;
   border-radius: 50px;
 }
-
-.compound-img {
-  width: 300px;
-  /* image-rendering: pixelated;
-  image-rendering: optimize-contrast; */
+#add-button i {
+  text-align: center;
+  background-color: inherit;
+  height: 100%;
+  width: 100%;
+  padding: 4px;
 }
 
-/*# sourceMappingURL=chat.css.map */
+#new-shortcut-sec {
+  position: absolute;
+  flex-direction: column;
+  background: #181926;
+  width: 320px;
+  height: auto;
+  right: 48px;
+  bottom: 48px;
+  justify-items: center;
+  padding: 12px 0;
+}
+#new-shortcut-sec section {
+  background: #181926;
+  display: flex;
+}
+#new-shortcut-sec section#input {
+  flex-direction: column;
+}
+#new-shortcut-sec section#buttons {
+  flex-direction: row;
+}
+#new-shortcut-sec section input {
+  position: static;
+  width: 90%;
+  height: 48px;
+  margin: 8px auto;
+}
+#new-shortcut-sec section img, #new-shortcut-sec section i {
+  width: 128px;
+  height: 128px;
+  margin: 8px 16px;
+}
+#new-shortcut-sec section img {
+  background: #6e738d;
+  color: #6e738d;
+}
+#new-shortcut-sec section i {
+  font-size: 96px;
+  padding: 16px 0px;
+  text-align: center;
+}
+#new-shortcut-sec section i:hover {
+  background: #a6da95;
+  color: #6e738d;
+}
+
+/*# sourceMappingURL=launcher.css.map */

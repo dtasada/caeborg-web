@@ -18,9 +18,14 @@
 	</section>
 
 	<section id="input-sec">
-		<input type="text" id="input-box" placeholder="Enter function here..."  autocomplete="off">
-		<script>document.getElementById('input-box').value = localStorage.getItem('saved_chat_input_value')</script>
-		<button id="submit-button">Submit</button>
+        <div class="js-sayt sayt">
+            <input type="text" class="sayt__input">
+            <span class="js-sayt-suggestion sayt__suggestion"></span>
+            <span class="js-sayt-text-dump  sayt__text-dump"></span>
+        </div>
+        <input type="text" id="input-box" placeholder="Enter function here..."  autocomplete="off">
+        <script>document.getElementById('input-box').value = localStorage.getItem('saved_chat_input_value')</script>
+        <button id="submit-button">Submit</button>
 	</section>
 
 	<script type="text/javascript" src="../scripts/chat.js"></script>

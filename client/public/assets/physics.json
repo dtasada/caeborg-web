@@ -570,7 +570,7 @@
     ],
 
     "inhoud_blok": [
-        "V =l·b·h",
+        "V = l·b·h",
         ["V = volume (m^3)", "l = lengte (m)", "b = breedte (m)", "h = hoogte (m)"]
     ],
 

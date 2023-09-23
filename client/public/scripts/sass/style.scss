@@ -9,6 +9,7 @@ $col-yellow: #eed49f;
 $col-orange: #f5a97f;
 $col-red: #ed8796;
 $col-blue: #8aadf4;
+$col-green: #a6da95;
 $col-crust: #181926;
 
 $border-radius: 32px;
@@ -28,66 +29,66 @@ $body-fontsize: 16px;
 }
 
 * {
-  font-family: "JetBrains Mono", sans-serif;
-  color: $col-text;
-  background-color: $col-base;
-	box-sizing: border-box;
+    font-family: "JetBrains Mono", sans-serif;
+    color: $col-text;
+    background-color: $col-base;
+    box-sizing: border-box;
 
-	font-size: $body-fontsize;
-	&:not(img) { 	border-radius: $border-radius; }
+    font-size: $body-fontsize;
+    &:not(img) { 	border-radius: $border-radius; }
 }
 
 .subtitle { size: $subtitle-fontsize; }
 
 body {
-	// background-color: $col-crust;
+    // background-color: $col-crust;
 }
 
 iframe:not(.custom-size) {
-	width: calc(100vw - #{$sidebarrightmargin-width});
-	height: calc(100vh - #{$headerfooter-height});
+    width: calc(100vw - #{$sidebarrightmargin-width});
+    height: calc(100vh - #{$headerfooter-height});
 }
 
 button {
-  padding: 8px 8px;
-  border: none;
+    padding: 8px 8px;
+    border: none;
 
-	&:hover {
-		background: $col-overlay !important;
-	}
+    &:hover {
+        background: $col-overlay !important;
+    }
 }
 
 input {
-  padding: 8px 16px;
-  border: none;
+    padding: 8px 16px;
+    border: none;
 
-	&, button { outline: none; }
+    &, button { outline: none; }
 }
 
 ol {
-	&.horizontal li { display: inline-block; }
+    &.horizontal li { display: inline-block; }
 
-	&:not(.ordered-list) { list-style: none; }
+    &:not(.ordered-list) { list-style: none; }
 
-	margin-block-start: 0px !important;
-	margin-block-end: 0px !important;
+    margin-block-start: 0px !important;
+    margin-block-end: 0px !important;
 
 }
 
 .button-list button {
-	/* width: calc($sidebar-sec-width - 32px); */ /* Rounded corners, centered buttons & text */
-	/* padding-left: 20%; text-align: left; */					/* Align center */ 
+    /* width: calc($sidebar-sec-width - 32px); */ /* Rounded corners, centered buttons & text */
+    /* padding-left: 20%; text-align: left; */					/* Align center */ 
 
-	width: $sidebar-sec-width;
-	margin-left: 0px !important;
+    width: $sidebar-sec-width;
+    margin-left: 0px !important;
 
-	border-radius: 0px;
+    border-radius: 0px;
 }
 
 .flexbox-container {
-	display: flex;
+    display: flex;
 
-	ol li {
-		min-width: 56px;
-	}
+    ol li {
+        min-width: 56px;
+    }
 }

@@ -10,7 +10,6 @@
         <link rel="stylesheet" type="text/css" href="styles/index.css">
         <link rel="icon" type="image/x-icon" href="assets/caeborg.png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script type="text/javascript" src="scripts/index.js" defer></script>
     </head>
 
     <body style="min-height: 100vh;">
@@ -27,21 +26,20 @@
                 <li><button onclick="switchFrame('chat')">Chat</button></li>
                 <li><button onclick="switchFrame('chemtools')">ChemTools</button></li>
                 <li><button onclick="switchFrame('games')">Games</button></li>
-                <li><button onclick="switchFrame('graph')">Graph</button></li>
+                <li><button onclick="switchFrame('graph')">Graphing Tool</button></li>
                 <li><button onclick="switchFrame('map')">Map</button></li>
-                <li><button onclick="switchFrame('quote')">Quote</button></li>
-                <li><button onclick="switchFrame('translate')">Translate</button></li>
+                <li><button onclick="switchFrame('quote')">Inpirational Quote</button></li>
+                <li><button onclick="switchFrame('translate')">Translator</button></li>
             </ol>
         </section>
 
         <section id="rest-sec">
-            <iframe id="rest-iframe" src="pages/launcher.html" frameBorder="0" allow="clipboard-read; clipboard-write"></iframe>
-            <script>
-            </script>
+            <iframe id="rest-iframe" src="pages/launcher.html" frameBorder="0"></iframe>
         </section>
 
         <section id="footer-sec">caeborg-web build v0.1.a-1</section>
 
+        <script type="text/javascript" src="scripts/index.js" defer></script>
     </body>
 
 </html>
