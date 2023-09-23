@@ -54,7 +54,6 @@ function switchFrame(page) {
         id: "rest-iframe",
         src: `../pages/${page}.html`,
         frameBorder: "0",
-        allow: "clipboard-read; clipboard-write"
     });
 
     document.getElementById("rest-sec").appendChild(new_frame);

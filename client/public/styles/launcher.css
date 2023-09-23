@@ -69,6 +69,13 @@ ol:not(.ordered-list) {
   width: 100%;
   height: 100%;
 }
+#launcher-sec ol {
+  padding-inline-start: 0px !important;
+}
+
+#launcher-sec img, #new-shortcut-sec img {
+  border-radius: 32px;
+}
 
 #add-button {
   position: absolute;
@@ -97,16 +104,39 @@ ol:not(.ordered-list) {
   justify-items: center;
   padding: 12px 0;
 }
-#new-shortcut-sec input {
+#new-shortcut-sec section {
+  background: #181926;
+  display: flex;
+}
+#new-shortcut-sec section#input {
+  flex-direction: column;
+}
+#new-shortcut-sec section#buttons {
+  flex-direction: row;
+}
+#new-shortcut-sec section input {
   position: static;
   width: 90%;
   height: 48px;
   margin: 8px auto;
 }
-#new-shortcut-sec img {
+#new-shortcut-sec section img, #new-shortcut-sec section i {
   width: 128px;
   height: 128px;
   margin: 8px 16px;
+}
+#new-shortcut-sec section img {
+  background: #6e738d;
+  color: #6e738d;
+}
+#new-shortcut-sec section i {
+  font-size: 96px;
+  padding: 16px 0px;
+  text-align: center;
+}
+#new-shortcut-sec section i:hover {
+  background: #a6da95;
+  color: #6e738d;
 }
 
 /*# sourceMappingURL=launcher.css.map */

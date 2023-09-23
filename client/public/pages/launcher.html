@@ -7,32 +7,36 @@
         <title>Caeborg - Launcher</title>
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../styles/launcher.css">
-        <style> img { border-radius: 32px; } </style>
         <link rel="icon" type="image/x-icon" href="../assets/caeborg.png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script type="module" src="../scripts/launcher.js"></script>
     </head>
 
     <body>
 
         <section id="launcher-sec" class="flexbox-container">
+            <!--
             <ol id="launcher-ol" class="horizontal">
-                <li><button onclick="window.open('https://hageveld.magister.net','_blank')">
-                    <img class="hageveld.magister.net" width="128" height="128"/><br>Magister</button></li>
-                <li><button onclick="window.open('https://youtube.com/', '_blank')">
-                    <img class="youtube.com" width="128" height="128"/><br>YouTube</button></li>
+            <li><button onclick="window.open('https://hageveld.magister.net','_blank')">
+                <img class="hageveld.magister.net" width="128" height="128"/><br>Magister</button></li>
+            <li><button onclick="window.open('https://youtube.com/', '_blank')">
+                <img class="youtube.com" width="128" height="128"/><br>YouTube</button></li>
             </ol>
+            --> <!-- do not uncomment if launcher.js is working -->
             
             <button id="add-button" onclick="addShortcut()"><i class="fa-solid fa-plus"></i></button> 
         </section>
 
-        <!--
         <section id="new-shortcut-sec" hidden>
-            <input id="url-input" type="text" placeholder="Enter shortcut URL here..." oninput="renderFavicon()" autocomplete="off">
-            <input id="name-input" type="text" placeholder="Enter shortcut name here..." autocomplete="off">
-            <img id="favicon-img"/>
+            <section id="input">
+                <input id="url-input" type="text" placeholder="Enter shortcut URL here..." oninput="placeholderFavicon()" autocomplete="off">
+                <input id="name-input" type="text" placeholder="Enter shortcut name here..." autocomplete="off">
+            </section>
+            <section id="buttons">
+                <img id="favicon-img"/>
+                <i class="fa-solid fa-check"></i>
+            </section>
         </section>
-        -->
 
+        <script type="text/javascript" src="../scripts/launcher.js"></script>
     </body>
 </html>

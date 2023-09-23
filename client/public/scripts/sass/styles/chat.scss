@@ -45,6 +45,8 @@ $input-element-height: 48px;
     scrollbar-width: none;
     overflow-y: scroll;
     overscroll-behavior-y: contain;
+    scroll-snap-type: y mandatory;
+    scroll-snap-align: end;
 
     ol {
         position: absolute; // important for looks

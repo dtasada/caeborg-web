@@ -102,6 +102,8 @@ ol:not(.ordered-list) {
   scrollbar-width: none;
   overflow-y: scroll;
   overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+  scroll-snap-align: end;
 }
 #output-sec::-webkit-scrollbar {
   display: none;

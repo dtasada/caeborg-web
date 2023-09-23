@@ -12,19 +12,21 @@ let arrowup_index = -1
 
 
 // Starting localStorage values
+const output_sec = document.getElementById('output-sec');
 if (localStorage.getItem('saved_chat_output_list') === null) {
-    const ol = document.createElement('ol')
-    ol.id = 'output-ol'
-    document.getElementById('output-sec').appendChild(ol);
+    const ol = document.createElement('ol');
+    ol.id = 'output-ol';
+    output_sec.appendChild(ol);
 } else {
     const output_list = localStorage.getItem('saved_chat_output_list');
     const parser = new DOMParser()
     const ol = parser.parseFromString(output_list, 'text/html');
-    document.getElementById('output-sec').appendChild(ol.documentElement);
+    output_sec.appendChild(ol.documentElement);
+    output_sec.scrollTop = output_sec.scrollHeight;
 }
 
-const output_list = document.getElementById('output-ol');
 // html tags as variables
+const output_list = document.getElementById('output-ol');
 const submit = document.getElementById('submit-button');
 submit.addEventListener('click', () => {
     parseInput(input.value);
@@ -130,7 +132,7 @@ async function parseInput(text) {
         // console.log(`Command ${command} not found`);
         send('caeborg', [ `<i>Command '${command}' not found</i>`] );
     }
-    document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight
+    document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 }
 
 // dict of functions
