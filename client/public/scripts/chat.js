@@ -6,7 +6,6 @@ const ourUrl = 'http://localhost:8000'
 const lidwoordUrl = "https://welklidwoord.nl/banaan";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
 const urbandictUrl = "https://api.urbandictionary.com/v0/define?term=";
-const chemUrl = 'https://opsin.ch.cam.ac.uk/opsin';
 
 let input_array = localStorage.getItem('input_array');
 if (input_array === null || typeof input_array === 'string') input_array = [];
