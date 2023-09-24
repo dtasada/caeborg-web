@@ -1,12 +1,9 @@
 @import "../style";
 
-.flexbox-container {
+body {
+    display: flex;
 	justify-content: center;
 	align-items: stretch;
-}
-
-.flexbox-item {
-	// align-items: center;
 }
 
 button {

@@ -89,7 +89,7 @@ function switchFrame(page) {
             document.title = 'Caeborg - Map'; break;
         case 'quote':
             document.title = 'Caeborg - Quote'; break;
-        case 'translate':
+        case 'translator':
             document.title = 'Caeborg - Translator'; break;
     }
 }

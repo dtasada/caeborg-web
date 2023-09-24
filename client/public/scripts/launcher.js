@@ -11,7 +11,7 @@ const delete_button = document.getElementById('delete-button');
 
 let new_favicon_url;
 let url;
-let is_new = false;
+let is_new;
 
 // Starting localStorage values
 function startLocalStorage() {
@@ -52,6 +52,7 @@ function cleanup() {
     confirm_button.style.removeProperty('border-bottom-left-radius');
     confirm_button.style.removeProperty('border-bottom');
     localStorage.setItem('saved_launcher_ol', document.getElementById('launcher-ol').innerHTML);
+    location.reload();
     is_new = true;
 }
 
@@ -63,41 +64,20 @@ function getUrlFromInput() {
 }
 
 function eventHandler(element) {
-    console.log('event handler run.');
-    console.log('event handler passed element:', element)
-
     name_input.focus();
     name_input.addEventListener('keydown', event => { if (event.key === 'Enter') url_input.focus() });
     
     window.addEventListener('keydown', event => { if (event.key === 'Escape') cleanup(); })
 
     if (element) {
-        console.log('event handler if state 1 run.');
         is_new = false;
         delete_button.addEventListener('click', () => { element.parentElement.remove(); cleanup() });
-        url_input.addEventListener('keydown', event => {
-			if (event.key === 'Enter') {
-			console.log('confirm() at eventHandler():78');
-                confirm(element, false)
-            }
-        });
-        confirm_button.addEventListener('click', () => {
-			console.log('confirm() at eventHandler():79');
-            confirm(element, false)
-        });
+        url_input.addEventListener('keydown', event => { if (event.key === 'Enter') confirm(element) });
+        confirm_button.addEventListener('click', () => { confirm(element) });
     } else {
         is_new = true;
-        console.log('event handler if state 2 run.');
-        url_input.addEventListener('keydown', event => {
-            if (event.key === 'Enter') {
-                console.log('confirm() at eventHandler():83');
-                confirm(undefined, true)
-            }
-        });
-        confirm_button.addEventListener('click', () => {
-            console.log('confirm() at eventHandler():84');
-            confirm(undefined, true)
-        });
+        url_input.addEventListener('keydown', event => { if (event.key === 'Enter') confirm() });
+        confirm_button.addEventListener('click', () => { confirm() });
     }
 }
 
@@ -119,17 +99,13 @@ function addShortcut() {
         cleanup();
     } else {
         new_shortcut_sec.style.display = 'flex';
-        console.log('eventHandler() at "addShortcut()"')
         eventHandler();
     }
 }
 
 // Real functional functions
-function confirm(element, is_new_bool) {
-    console.log('running confirm()');
-    console.log('is_new at confirm():', is_new);
-    if (is_new_bool === true && !element) {
-        console.log('confirm if state 1');
+function confirm(element) {
+    if (is_new === true) {
         const launcher_ol = document.getElementById('launcher-ol');
         const new_shortcut = document.createElement('li');
         new_shortcut.innerHTML = 
@@ -140,12 +116,8 @@ function confirm(element, is_new_bool) {
             `;
         launcher_ol.appendChild(new_shortcut);
     } else if (element) {
-        console.log('confirm if state 2');
         const img = element.querySelector('img');
         const p = element.querySelector('p');
-        console.log('confirm if state 2, passed element:', element);
-        console.log('confirm if state 2, passed img:', img);
-        console.log('confirm if state 2, passed p:', p);
         p.innerHTML = name_input.value;
         img.src = `${ourUrl}:8080/icon?url=${getUrlFromInput()}&size=64..128..256`;
         element.setAttribute('onclick', `window.open('${getUrlFromInput()}')`);
@@ -176,7 +148,6 @@ function confirm(element, is_new_bool) {
                 element.style.fontSize = '44px';
                 element.style.setProperty('padding', '8px 0px');
             });
-            console.log('eventHandler() at forEach');
             eventHandler(element);
         }
     });

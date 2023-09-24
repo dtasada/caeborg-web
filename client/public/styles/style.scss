@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,500;0,700;0,800;1,100;1,500;1,700;1,800&display=swap');
 
-$col-base: #24273a;
-$col-text: #cad3f5;
-$col-subtext: #a5adcb;
-$col-surface: #363a4f;
-$col-overlay: #6e738d;
-$col-yellow: #eed49f;
-$col-orange: #f5a97f;
-$col-red: #ed8796;
-$col-blue: #8aadf4;
-$col-green: #a6da95;
 $col-crust: #181926;
+$col-subbase: #1e2030;
+$col-base: #24273a;
+$col-surface: #363a4f;
+$col-suboverlay: #5b6078;
+$col-overlay: #6e738d;
+$col-subtext: #a5adcb;
+$col-text: #cad3f5;
+$col-red: #ed8796;
+$col-orange: #f5a97f;
+$col-yellow: #eed49f;
+$col-green: #a6da95;
+$col-blue: #8aadf4;
 
 $border-radius: 32px;
 
@@ -35,14 +37,11 @@ $body-fontsize: 16px;
     box-sizing: border-box;
 
     font-size: $body-fontsize;
-    &:not(img) { 	border-radius: $border-radius; }
+    &:not(img) { border-radius: $border-radius; }
+    &:focus-visible { outline: none; }
 }
 
 .subtitle { size: $subtitle-fontsize; }
-
-body {
-    // background-color: $col-crust;
-}
 
 iframe:not(.custom-size) {
     width: calc(100vw - #{$sidebarrightmargin-width});
@@ -85,7 +84,7 @@ ol {
     border-radius: 0px;
 }
 
-.flexbox-container {
+#launcher-sec {
     display: flex;
 
     ol li {

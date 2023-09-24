@@ -1,14 +1,14 @@
-quoteUrl = "https://inspirobot.me/api?generate=true";
+const quoteUrl = "https://inspirobot.me/api?generate=true";
 
-var quoteButton = document.getElementById("quote-button");
+const quoteButton = document.getElementById("quote-button");
 quoteButton.addEventListener("click", generateQuote);
-var img = document.createElement("img");
+const img = document.createElement("img");
 document.body.appendChild(img);
 
 function generateQuote() {
   fetch(quoteUrl)
-    .then(async res => {
-      let img_url = await res.text();
+    .then(async response => {
+      const img_url = await response.text();
       img.src = img_url;
   })
 }

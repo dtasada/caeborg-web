@@ -176,10 +176,10 @@ const commands = {
     define: {
         brief: "Gives you the correct definition of the word",
         command: async function(args) {
-            let term = args[0];
-            let url = urbandictUrl + term;
-            let response = await fetch(url);
-            let js = await response.json();
+            const term = args[0];
+            const url = urbandictUrl + term;
+            const response = await fetch(url);
+            const js = await response.json();
             alert(js);
         }
     },
@@ -187,7 +187,7 @@ const commands = {
     deofhet: {
         brief: "Gives you the article of given Dutch word - <i>de</i> or <i>het</i>",
         command: async function(args) {
-            let word = args[0];
+            const word = args[0];
             url = lidwoordUrl + word;
 
             return fetch(url, {

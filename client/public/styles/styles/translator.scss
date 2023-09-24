@@ -1,0 +1,78 @@
+@import "../style";
+
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body {
+    margin: 32px;
+    flex-grow: 1;
+}
+
+#buttons {
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    height: 64px;
+    padding-left: 32px;
+
+    background: $col-subbase;
+    button {
+        background: $col-subbase;
+        height: 100%;
+        border-radius: 0px;
+        align-self: center;
+        overflow: hidden;
+
+        &:hover { filter: brightness(90%); }
+        &.source {
+            background: $col-red !important;
+        }
+        &.target {
+            background: $col-blue !important;
+        }
+    }
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+    i {
+        font-size: 32px; 
+        size: 64px;
+    }
+}
+
+#text-areas {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    height: calc(100% - 64px);
+
+    textarea {
+        flex-grow: 1;
+        border-radius: 0px;
+        padding: 16px;
+        padding-bottom: 32px;
+
+        background: $col-surface;
+
+        resize: none;
+        overflow: hidden;
+        border-bottom: none;
+    }
+
+    #input-box {
+        border-bottom-left-radius: 32px;
+        border-top: 2px solid $col-red;
+        border-left: none;
+    }
+    #output-box {
+        border-bottom-right-radius: 32px;
+        border-top: 2px solid $col-blue;
+        border-right: none;
+    }
+}

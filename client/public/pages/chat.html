@@ -2,35 +2,35 @@
 
 <html lang="en" dir="ltr">
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
-  <title>Caeborg - Dashboard</title>
-  <link rel="stylesheet" href="../.css/styles/chat.css">
-  <link rel="icon" type="image/x-icon" href="../assets/caeborg.png">
-  <script type="text/javascript" src="../scripts/index.js"></script>
-</head>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <title>Caeborg - Dashboard</title>
+        <link rel="stylesheet" href="../.css/styles/chat.css">
+        <link rel="icon" type="image/x-icon" href="../assets/caeborg.png">
+        <script>window.addEventListener('contextmenu', (event) => { event.preventDefault(); })</script>
+    </head>
 
-<body>
+    <body>
 
-	<section id="output-sec">
-        <!-- <ol id="output-ol"></ol> --> <!-- do not uncomment if chat.js is working -->
-	</section>
+        <section id="output-sec">
+            <!-- <ol id="output-ol"></ol> --> <!-- do not uncomment if chat.js is working -->
+        </section>
 
-	<section id="input-sec">
-        <div class="js-sayt sayt">
-            <input type="text" class="sayt__input">
-            <span class="js-sayt-suggestion sayt__suggestion"></span>
-            <span class="js-sayt-text-dump  sayt__text-dump"></span>
-        </div>
-        <input type="text" id="input-box" placeholder="Enter function here..."  autocomplete="off">
-        <script>document.getElementById('input-box').value = localStorage.getItem('saved_chat_input_value')</script>
-        <button id="submit-button">Submit</button>
-	</section>
+        <section id="input-sec">
+            <div class="js-sayt sayt">
+                <input type="text" class="sayt__input">
+                <span class="js-sayt-suggestion sayt__suggestion"></span>
+                <span class="js-sayt-text-dump  sayt__text-dump"></span>
+            </div>
+            <input type="text" id="input-box" placeholder="Enter function here..."  autocomplete="off">
+            <script>document.getElementById('input-box').value = localStorage.getItem('saved_chat_input_value')</script>
+            <button id="submit-button">Submit</button>
+        </section>
 
-	<script type="text/javascript" src="../scripts/chat.js"></script>
+        <script type="text/javascript" src="../scripts/chat.js"></script>
 
-</body>
+    </body>
 
 </html>
 
