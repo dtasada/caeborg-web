@@ -2,7 +2,7 @@
 * [Flexbox](https://www.youtube.com/watch?v=fYq5PXgSsbE) setup (first on `launcher.html`)
 * New shortcut button in `launcher.html`
 * Improve Inspirobot CSS'ing
-* Change sidebar hiding mechanic to `win-width < 700; then fullscreen rest-sec`.
+* ~~Change sidebar hiding mechanic to `win-width < 700; then fullscreen rest-sec`~~
 * ~~Finish scrolling in chat.scss~~
 * ~~Check for dependency alternatives in bun-js~~
 * ~~FIX NK~~
