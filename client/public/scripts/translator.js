@@ -9,10 +9,10 @@ languages = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-    input_box = document.getElementById('input-box');
-    output_box = document.getElementById('output-box');
-    flip_button = document.getElementById('flip-button');
-    copy_button = document.getElementById('copy-button');
+    const input_box = document.getElementById('input-box');
+    const output_box = document.getElementById('output-box');
+    const flip_button = document.getElementById('flip-button');
+    const copy_button = document.getElementById('copy-button');
     input_box.focus();
 
     copy_button.addEventListener('click', () => {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (key[1] === sourceLanguage) sourceLanguageFull = key[0];
             if (key[1] === targetLanguage) targetLanguageFull = key[0];
         }
-        [...document.querySelectorAll('#buttons button')].forEach(async element => {
+        [...document.querySelectorAll('#buttons button')].forEach(element => {
             if (element.innerHTML === sourceLanguageFull) {
                 element.classList.remove('source');
                 element.classList.add('target');
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.classList.remove('target');
                 element.classList.add('source');
             }
-            await translate();
+            translate();
             input_box.focus();
         });
     });
@@ -49,20 +49,24 @@ document.addEventListener('DOMContentLoaded', () => {
         translate();
     }
     
-    input_box.addEventListener('keyup', translate);
+    input_box.addEventListener('keyup', async () => { await translate() });
 
     [...document.querySelectorAll('#buttons > button')].forEach(element => {
         element.addEventListener('click', async () => {
             document.querySelector('.source').classList.remove('source');
             element.classList.add('source');
-            sourceLanguage = languages[element.innerHTML];
+            for (key of languages) {
+                if (key[0] === element.innerHTML) sourceLanguage = key[1];
+            }
             await translate();
         });
         element.addEventListener('contextmenu', async () => {
             event.preventDefault();
             document.querySelector('.target').classList.remove('target');
             element.classList.add('target');
-            targetLanguage = languages[element.innerHTML];
+            for (key of languages) {
+                if (key[0] === element.innerHTML) targetLanguage = key[1];
+            }
             await translate();
         });
     });
@@ -71,9 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(input_box.value)}`;
         fetch(url)
         .then(response => response.json())
-        .then(data_json => {
-            output_box.value = data_json[0][0][0];
-        });
+            .then(data_json => {
+                output_box.value = data_json[0][0][0];
+            });
         localStorage.setItem('translate-input-box', input_box.value);
     }
 });
