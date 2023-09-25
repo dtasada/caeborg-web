@@ -2,7 +2,6 @@ const https = require('https');
 const express = require('express');
 const process = require('process');
 const fs = require('fs');
-const sass = require('node-sass')
 
 const express_port = 8000;
 const bun_port = 3000;
