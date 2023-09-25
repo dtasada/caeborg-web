@@ -1,5 +1,3 @@
-let input_box;
-let output_box;
 let sourceLanguage = 'en';
 let targetLanguage = 'nl';
 
@@ -14,7 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
     input_box = document.getElementById('input-box');
     output_box = document.getElementById('output-box');
     flip_button = document.getElementById('flip-button');
+    copy_button = document.getElementById('copy-button');
     input_box.focus();
+
+    copy_button.addEventListener('click', () => {
+        output_box.select(); 
+        output_box.setSelectionRange(0, 99999); 
+        navigator.clipboard.writeText(output_box.value);
+    });
 
     flip_button.addEventListener('click', async (event) => {
         [sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
