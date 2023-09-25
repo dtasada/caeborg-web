@@ -44,6 +44,7 @@ $body-fontsize: 16px;
 .subtitle { size: $subtitle-fontsize; }
 
 iframe:not(.custom-size) {
+    padding: 0px !important;
     width: calc(100vw - #{$sidebarrightmargin-width});
     height: calc(100vh - #{$headerfooter-height});
 }
