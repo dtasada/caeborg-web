@@ -19,7 +19,6 @@ body {
     align-self: center;
     flex-direction: row;
     height: 64px;
-    padding-left: 32px;
 
     background: $col-subbase;
     button {
@@ -42,8 +41,11 @@ body {
     border-bottom-right-radius: 0px;
 
     i {
-        font-size: 32px; 
-        size: 64px;
+        font-size: 24px; 
+        padding: 12px;
+        align-self: center;
+        margin: 0px 12px;
+        &:hover { background: $col-overlay; }
     }
 }
 

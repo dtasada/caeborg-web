@@ -13,10 +13,15 @@ languages = {
 document.addEventListener('DOMContentLoaded', () => {
     input_box = document.getElementById('input-box');
     output_box = document.getElementById('output-box');
+    flip_button = document.getElementById('flip-button');
     input_box.focus();
 
+    flip_button.addEventListener('click', async (event) => {
+        [sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
+    })
+
     translate = (event) => {
-        let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(input_box.value)}`;
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(input_box.value)}`;
         fetch(url)
         .then(response => response.json())
         .then(data_json => {
