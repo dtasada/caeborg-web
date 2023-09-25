@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     input_box.focus();
 
     copy_button.addEventListener('click', () => {
-        output_box.select(); 
-        output_box.setSelectionRange(0, 99999); 
         navigator.clipboard.writeText(output_box.value);
     });
 
