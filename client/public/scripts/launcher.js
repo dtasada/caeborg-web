@@ -42,15 +42,10 @@ function cleanup() {
     name_input.value = '';
     favicon_img.style.opacity = '0';
     new_shortcut_sec.style.display = 'none';
-    delete_button.style.display = 'none';
-    [...document.querySelectorAll('#buttons i')].forEach(element => {
-        element.style.removeProperty('height');
-        element.style.removeProperty('font-size');
-        element.style.removeProperty('padding');
-    });
-    confirm_button.style.removeProperty('border-bottom-right-radius');
-    confirm_button.style.removeProperty('border-bottom-left-radius');
-    confirm_button.style.removeProperty('border-bottom');
+
+    confirm_button.classList.remove('half');
+    delete_button.classList.remove('half');
+
     localStorage.setItem('saved_launcher_ol', document.getElementById('launcher-ol').innerHTML);
     location.reload();
     is_new = true;
@@ -139,15 +134,8 @@ function confirm(element) {
             placeholderFavicon();
             name_input.focus();
 
-            delete_button.style.display = 'block';
-            confirm_button.style.borderBottomRightRadius = '0px';
-            confirm_button.style.borderBottomLeftRadius = '0px';
-            confirm_button.style.borderBottom = '1px solid $col-crust';
-            [...document.querySelectorAll('#buttons i')].forEach(element => {
-                element.style.height = '64px';
-                element.style.fontSize = '44px';
-                element.style.setProperty('padding', '8px 0px');
-            });
+            confirm_button.classList.add('half');
+            delete_button.classList.add('half');
             eventHandler(element);
         }
     });

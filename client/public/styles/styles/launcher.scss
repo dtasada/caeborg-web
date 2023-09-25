@@ -82,13 +82,30 @@
                 border-top-right-radius: 0px;
                 border-top-left-radius: 0px;
                 &:hover { background: $col-red; }
+                &.half {
+                    border-top-right-radius: 0px !important;
+                    border-top-left-radius: 0px !important;
+                    border-top: 1px solid $col-crust !important;
+                }
             }
+
             &#confirm-button {
                 margin-bottom: 0px !important;
+                height: 128px;
                 &:hover { background: $col-green; }
+                &.half {
+                    border-bottom: 1px solid $col-crust !important;
+                    border-bottom-right-radius: 0px !important;
+                    border-bottom-left-radius: 0px !important;
+                }
+            }
+
+            &.half {
+                display: block !important;
+                padding: 8px 0px !important;
+                height: 64px !important;
+                font-size: 44px !important;
             }
         }
     }
 }
-
-

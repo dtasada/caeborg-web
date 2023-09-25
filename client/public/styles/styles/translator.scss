@@ -28,6 +28,7 @@ body {
         border-radius: 0px;
         align-self: center;
         overflow: hidden;
+        width: 80px;
 
         &:hover { filter: brightness(90%); }
         &.source {
