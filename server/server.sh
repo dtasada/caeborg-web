@@ -12,7 +12,7 @@ elif [[ "$1" == 'dev' ]]; then
     sass --watch client/public/styles:client/public/.css &
 fi
 
-eval "PORT=$PORT DISABLE_BROWSE_PAGES=$DISABLE_BROWSE_PAGES ./server/besticon/besticon_$(uname -s)_$(uname -m) > /dev/null" &
+eval "PORT=$PORT DISABLE_BROWSE_PAGES=true ./server/besticon/besticon_$(uname -s)_$(uname -m) > /dev/null" &
 echo "Running Besticon server"
 
 wait
