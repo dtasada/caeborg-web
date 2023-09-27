@@ -44,10 +44,11 @@ $input-element-height: 48px;
 #output-sec {
     position: absolute;
     border-radius: 0px;
-    width: calc(100% - #{$right-margin-width});
+    width: 100%;
     bottom: $input-sec-height;
     height: calc(100% - (#{$input-sec-height}));
-    left: $input-margin;
+    left: 0px;
+    right: 0px;
 
     &::-webkit-scrollbar { display: none; }
     scrollbar-width: none;
@@ -59,20 +60,35 @@ $input-element-height: 48px;
     ol {
         position: absolute; // important for looks
         bottom: 0px;
-        padding-inline-start: 0px !important;
         height: 100%;
+        width: 100%;
+        border-radius: 0px;
+        padding-left: 0px !important;
+        left: 0px !important;
+        * { border-radius: 0px; }
 
         li {
-            margin-top: 28px;
-            margin-left: 48px;
+            width: 100%;
+            margin-top: 0px !important;
+            margin-left: 0px !important;
+            padding-top: 28px;
+            padding-bottom: 28px;
+            padding-left: 76px !important;
+            background: $col-base;
+            &:hover { background: $col-subbase; }
+            * { background: inherit; }
 
             img.pfp {
                 position: absolute;
-                float: left;
-                left: 0px;
+                left: 28px;
                 margin-top: -10px;
                 height: 40px;
                 border-radius: 50px;
+            }
+
+            p {
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
             }
         }
     }

@@ -11,6 +11,31 @@ let input_array = localStorage.getItem('input_array');
 if (input_array === null || typeof input_array === 'string') input_array = [];
 let arrowup_index = -1
 
+// Starting localStorage values
+function startLocalStorage() {
+    const output_sec = document.getElementById('output-sec');
+    const output_ol = document.createElement('ol');
+    if (localStorage.getItem('saved_chat_output_ol') === null) {
+        output_ol.id = 'output-ol';
+        output_sec.appendChild(output_ol);
+    } else {
+        output_sec.appendChild(output_ol);
+        output_ol.outerHTML = localStorage.getItem('saved_chat_output_ol');
+
+        output_sec.scrollTop = output_sec.scrollHeight;
+    }
+}
+startLocalStorage();
+
+// html tags as variables
+const output_list = document.getElementById('output-ol');
+const submit = document.getElementById('submit-button');
+submit.addEventListener('click', () => {
+    parseInput(input.value);
+    input.value = '';
+    localStorage.setItem('saved_chat_input_value', input.value);
+});
+
 const addButton = document.getElementById('add-button');
 addButton.addEventListener('click', () => {
     const inputFile = document.createElement('input');
@@ -36,37 +61,6 @@ addButton.addEventListener('click', () => {
 
     inputFile.click();
 })
-
-
-
-function ascii(img) {
-    alert("asd");
-}
-
-// Starting localStorage values
-function startLocalStorage() {
-    const output_sec = document.getElementById('output-sec');
-    const output_ol = document.createElement('ol');
-    if (localStorage.getItem('saved_chat_output_ol') === null) {
-        output_ol.id = 'output-ol';
-        output_sec.appendChild(output_ol);
-    } else {
-        output_sec.appendChild(output_ol);
-        output_ol.outerHTML = localStorage.getItem('saved_chat_output_ol');
-
-        output_sec.scrollTop = output_sec.scrollHeight;
-    }
-}
-startLocalStorage();
-
-// html tags as variables
-const output_list = document.getElementById('output-ol');
-const submit = document.getElementById('submit-button');
-submit.addEventListener('click', () => {
-    parseInput(input.value);
-    input.value = '';
-    localStorage.setItem('saved_chat_input_value', input.value);
-});
 
 const input = document.getElementById('input-box');
 input.focus();
@@ -300,4 +294,8 @@ function bi(str) {
 function log(args) {
     console.log(args);
     // lololol kys
+}
+
+function ascii(img) {
+    alert("asd");
 }
