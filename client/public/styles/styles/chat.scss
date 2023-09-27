@@ -47,7 +47,13 @@ $input-element-height: 48px;
             left: 0px;
             margin-left: calc(#{$input-margin} * 1.2);
             width: calc(#{$input-element-height} * 0.8);
-            i { background: inherit; }
+            padding: auto;
+            i {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: inherit;
+            }
         }
     }
 }

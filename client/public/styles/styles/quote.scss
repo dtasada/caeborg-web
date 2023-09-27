@@ -21,10 +21,10 @@ button {
     margin: 12px auto;
     padding: 0px;
     svg {
-        &:hover { background: inherit; }
+        background: inherit;
+        padding: auto;
         text {
             text-anchor: middle;
-            text-align: right;
             dominant-baseline: middle; // it does work
             font-size: 2em;
         }
