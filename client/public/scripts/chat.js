@@ -52,7 +52,7 @@ addButton.addEventListener('click', () => {
                 img.src = e.target.result;
                 img.alt = file.name;
                 img.width = "300";
-                send("caeborg", [img])
+                send("user", [img])
                 inputFile.value = null;
                 ascii(img)
             };
