@@ -19,7 +19,7 @@
 * When running `bun start` from `caeborg-web/`, it behaves like `server.js` is located in `caeborg-web/`, not in `caeborg-web/server/`.
 * `.env` file has been moved to `caeborg-web/` (it was previously in `caeborg-web/server`). `Bun.env` reads `.env` files in the directory `bun run` is run in, rather than the directory `server.js` is in.
 * `bun run` args include `--url`. When running `bun run dev`, it automatically specifies `--url=http://localhost`
-* To compile SCSS to CSS, run `sass --watch client/public/styles:client/public/.scss` in `caeborg-web/client`.
+* To compile SCSS to CSS, run `sass --watch client/public/styles:client/public/.scss` in `caeborg-web/`.
 
 ## Development dependencies
 * `bun-js` (v1.0)
