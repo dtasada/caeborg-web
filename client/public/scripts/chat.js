@@ -51,6 +51,7 @@ addButton.addEventListener('click', () => {
                 img = document.createElement("img");
                 img.src = e.target.result;
                 img.alt = file.name;
+                img.width = "300";
                 send("caeborg", [img])
                 inputFile.value = null;
                 ascii(img)
@@ -213,8 +214,8 @@ const commands = {
     deofhet: {
         brief: "Gives you the article of given Dutch word - <i>de</i> or <i>het</i>",
         command: async (event) => {
-            const url = lidwoordUrl + "/appel";
-            let response = await fetch(url)
+            const url = `${lidwoordUrl}/appel`;
+            const response = await fetch(url)
             .then(response => response.json())
             .then(data_json => {
                 return data_json[0][0][0];
@@ -297,5 +298,17 @@ function log(args) {
 }
 
 function ascii(img) {
-    alert("asd");
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.drawImage(img, 0, 0);
+    const arr = context.getImageData(0, 0, img.width, img.height).data;
+
+    for (let i=0; i<arr.length; i+=4) {
+        const red = arr[i];
+        const green = arr[i + 1];
+        const blue = arr[i + 2];
+        const alpha = arr[i + 3];
+        console.log(red, green, blue, alpha);
+    }
 }
+
