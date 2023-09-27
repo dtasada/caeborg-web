@@ -26,6 +26,7 @@ addButton.addEventListener('click', () => {
                 img = document.createElement("img");
                 img.src = e.target.result;
                 img.alt = file.name;
+                img.width = "300";
                 send("caeborg", [img])
                 inputFile.value = null;
                 ascii(img)
@@ -40,7 +41,18 @@ addButton.addEventListener('click', () => {
 
 
 function ascii(img) {
-    alert("asd");
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+    context.drawImage(img, 0, 0);
+    const arr = context.getImageData(0, 0, img.width, img.height).data;
+
+    for (let i=0; i<arr.length; i+=4) {
+        const red = arr[i];
+        const green = arr[i + 1];
+        const blue = arr[i + 2];
+        const alpha = arr[i + 3];
+        console.log(red, green, blue, alpha);
+    }
 }
 
 // Starting localStorage values
