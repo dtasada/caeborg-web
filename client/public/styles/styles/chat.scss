@@ -20,13 +20,22 @@ $input-element-height: 48px;
         width: calc(100% - 2 * #{$right-margin-width});
         height: $input-element-height;
         background: $col-surface;
+        padding-left: 52px;
     }
 
     button {
         position: fixed;
         bottom: 0px;
-        right: 0px;
-        margin-right: calc(#{$input-margin} * 1.6);
+        &#submit-button {
+            right: 0px;
+            margin-right: calc(#{$input-margin} * 1.6);
+        }
+        &#add-button {
+            left: 0px;
+            margin-left: calc(#{$input-margin} * 1.2);
+            width: calc(#{$input-element-height} * 0.8);
+            i { background: inherit; }
+        }
         margin-bottom: calc(#{$input-margin} + 5px);
         height: calc(#{$input-element-height} * 0.8);
     }

@@ -8,6 +8,7 @@
         <title>Caeborg - Dashboard</title>
         <link rel="stylesheet" href="../.css/styles/chat.css">
         <link rel="icon" type="image/x-icon" href="../assets/caeborg.png">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script>window.addEventListener('contextmenu', (event) => { event.preventDefault(); })</script>
     </head>
 
@@ -23,9 +24,12 @@
                 <span class="js-sayt-suggestion sayt__suggestion"></span>
                 <span class="js-sayt-text-dump  sayt__text-dump"></span>
             </div>
+
             <input type="text" id="input-box" placeholder="Enter function here..."  autocomplete="off">
             <script>document.getElementById('input-box').value = localStorage.getItem('saved_chat_input_value')</script>
             <button id="submit-button">Submit</button>
+            <button id="add-button"><i class="fa-solid fa-plus"></i></button>
+
         </section>
 
         <script type="text/javascript" src="../scripts/chat.js"></script>

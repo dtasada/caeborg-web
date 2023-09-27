@@ -11,6 +11,38 @@ let input_array = localStorage.getItem('input_array');
 if (input_array === null || typeof input_array === 'string') input_array = [];
 let arrowup_index = -1
 
+const addButton = document.getElementById('add-button');
+addButton.addEventListener('click', () => {
+    const inputFile = document.createElement('input');
+    inputFile.type = 'file';
+    inputFile.hidden = true;
+
+    inputFile.addEventListener("change", (event) => {
+        console.log("asd");
+        const file = event.target.files[0];
+        if (file) {
+            reader = new FileReader();
+            reader.onload = (e) => {
+                img = document.createElement("img");
+                img.src = e.target.result;
+                img.alt = file.name;
+                send("caeborg", [img])
+                inputFile.value = null;
+                ascii(img)
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    inputFile.click();
+})
+
+
+
+function ascii(img) {
+    alert("asd");
+}
+
 // Starting localStorage values
 function startLocalStorage() {
     const output_sec = document.getElementById('output-sec');
@@ -254,6 +286,10 @@ const commands = {
         }
     },
 
+}
+
+function attachImage() {
+    
 }
 
 // Other functions
