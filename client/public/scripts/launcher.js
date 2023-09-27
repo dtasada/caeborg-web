@@ -1,4 +1,5 @@
-const ourUrl = window.location.href.split(/:[0-9]{4}/g)[0];
+const fullUrl = window.location.href.split(/\//g)
+const ourUrl = `${fullUrl[0]}//${fullUrl[1]}`;
 
 const new_shortcut_sec = document.getElementById('new-shortcut-sec');
 const url_input = document.getElementById('url-input');

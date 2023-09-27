@@ -15,6 +15,7 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "node-sass": "^9.0.0",
     "serve-static-bun": "^0.5.3"
   }
 }

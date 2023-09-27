@@ -1,24 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 trap 'kill 0' EXIT
 . ./.env
 
-DISABLE_BROWSE_PAGES=true
 PORT=8080
-
-# while [ "$2" != "" ]; do
-#     case $2 in
-#         --besticon-port)
-#             shift
-#             PORT=$2
-#             ;;
-#         --besticon-enable-html)
-#             DISABLE_BROWSE_PAGES=false
-#             shift # remove `-t` or `--tag` from `$1`
-#             ;;
-#     esac
-#     shift # remove the current value for `$1` and use the next
-# done
 
 if [[ "$1" == 'start' ]]; then
     bun run server/server.js "$@" &
