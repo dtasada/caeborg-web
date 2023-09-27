@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 element.classList.remove("target");
                 element.classList.add("source");
             }
-            await translate();
+            translate();
             input_box.focus();
         });
     });

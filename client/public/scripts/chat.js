@@ -3,7 +3,7 @@
 const ourUrl = 'http://localhost:8000'
 
 // C O N S T A N T S
-const lidwoordUrl = "https://welklidwoord.nl/";
+const lidwoordUrl = "https://welklidwoord.nl";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
 const urbandictUrl = "https://api.urbandictionary.com/v0/define?term=";
 
@@ -82,7 +82,7 @@ function send(sender, msgs) {
         // console.log('msgs: ', msgs);
         // console.log('typeof msgs: ', typeof msgs);
         for (msg of msgs) {
-            if (typeof msg === 'string' ) {
+            if (typeof msg === 'string') {
                 const p = document.createElement('p');
                 p.innerHTML = msg;
                 li.appendChild(p);
@@ -132,7 +132,7 @@ async function parseInput(text) {
     if (command in commands) {
         const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
         if (results != null) send('caeborg', results);
-        else { console.log('Function return is null!' )}
+        else console.log('Function return is null!')
     } else {
         // console.log(`Command ${command} not found`);
         send('caeborg', [ `<i>Command '${command}' not found</i>`] );
@@ -186,17 +186,16 @@ const commands = {
 
     deofhet: {
         brief: "Gives you the article of given Dutch word - <i>de</i> or <i>het</i>",
-        command: async function(args) {
-            const word = args[0];
-            url = lidwoordUrl + word;
-
-            return fetch(url, {
-                mode: 'no-cors',
-                credentials: 'include',
-                method: 'POST',
+        command: async (event) => {
+            const url = lidwoordUrl + "/appel";
+            let response = await fetch(url)
+            .then(response => response.json())
+            .then(data_json => {
+                return data_json[0][0][0];
             })
-            .then(response => response.text())
-        },
+            console.log(response);
+            return [response];
+        }
     },
 
     help: {
