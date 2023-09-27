@@ -6,49 +6,63 @@ $input-element-height: 48px;
 
 #input-sec {
     position: fixed;
-    bottom: 0px;
-    left: 0px !important;
+
     height: $input-sec-height;
     width: 100%;
+
+    bottom: 0px;
+    left: 0px !important;
+
     background: $col-base;
 
     input {
         position: absolute;
         left: 0px;
         bottom: 0px;
+
         margin: auto $input-margin $input-margin;
+        padding-left: 52px;
+
         width: calc(100% - 2 * #{$right-margin-width});
         height: $input-element-height;
+
         background: $col-surface;
-        padding-left: 52px;
+
     }
 
     button {
         position: fixed;
         bottom: 0px;
+
+        height: calc(#{$input-element-height} * 0.8);
+
+        margin-bottom: calc(#{$input-margin} + 5px);
+
         &#submit-button {
             right: 0px;
             margin-right: calc(#{$input-margin} * 1.6);
         }
+
         &#add-button {
             left: 0px;
             margin-left: calc(#{$input-margin} * 1.2);
             width: calc(#{$input-element-height} * 0.8);
             i { background: inherit; }
         }
-        margin-bottom: calc(#{$input-margin} + 5px);
-        height: calc(#{$input-element-height} * 0.8);
     }
 }
 
 #output-sec {
     position: absolute;
-    border-radius: 0px;
-    width: 100%;
-    bottom: $input-sec-height;
-    height: calc(100% - (#{$input-sec-height}));
-    left: 0px;
+
     right: 0px;
+    bottom: $input-sec-height;
+    left: 0px;
+
+    width: 100%;
+    height: calc(100% - (#{$input-sec-height}));
+
+    border-radius: 0px;
 
     &::-webkit-scrollbar { display: none; }
     scrollbar-width: none;
@@ -57,23 +71,23 @@ $input-element-height: 48px;
     scroll-snap-type: y mandatory;
     scroll-snap-align: end;
 
+    * { border-radius: 0px; }
+
     ol {
         position: absolute; // important for looks
+
         bottom: 0px;
+        left: 0px !important;
+
         height: 100%;
         width: 100%;
-        border-radius: 0px;
+
         padding-left: 0px !important;
-        left: 0px !important;
-        * { border-radius: 0px; }
 
         li {
             width: 100%;
-            margin-top: 0px !important;
-            margin-left: 0px !important;
-            padding-top: 28px;
-            padding-bottom: 28px;
-            padding-left: 76px !important;
+            margin: 0px auto 0px;
+            padding: 28px 0px 28px 76px;
             background: $col-base;
             &:hover { background: $col-subbase; }
             * { background: inherit; }
@@ -81,14 +95,13 @@ $input-element-height: 48px;
             img.pfp {
                 position: absolute;
                 left: 28px;
-                margin-top: -10px;
                 height: 40px;
+                margin-top: -10px;
                 border-radius: 50px;
             }
 
             p {
-                margin-top: 0px !important;
-                margin-bottom: 0px !important;
+                margin: 0px auto;
             }
         }
     }
@@ -96,6 +109,4 @@ $input-element-height: 48px;
 
 .compound-img {
     width: 300px;
-    /* image-rendering: pixelated;
-image-rendering: optimize-contrast; */
 }
