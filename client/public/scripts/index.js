@@ -76,7 +76,7 @@ function switchFrame(page) {
         case 'calc':
             document.title = 'Caeborg - Calculator'; break;
         case 'chat':
-            document.title = 'Caeborg - Chat'; break;
+            document.title = 'Caeborg - Chatting'; break;
         case 'chemtools':
             document.title = 'Caeborg - ChemTools'; break;
         case 'games':
@@ -89,6 +89,8 @@ function switchFrame(page) {
             document.title = 'Caeborg - Map'; break;
         case 'quote':
             document.title = 'Caeborg - Quote'; break;
+        case 'shell':
+            document.title = 'Caeborg - Shell'; break;
         case 'translator':
             document.title = 'Caeborg - Translator'; break;
     }
