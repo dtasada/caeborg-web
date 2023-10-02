@@ -1,43 +1,43 @@
 @import "../style";
 
 html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 button {
-    flex: 1 1 0;
-    
-    max-width: 200px;
-    max-height: 64px;
-    width: 10%;
-    margin: 12px auto;
-    padding: 0px;
-    svg {
-        background: inherit;
-        padding: auto;
-        text {
-            text-anchor: middle;
-            dominant-baseline: middle; // it does work
-            font-size: 2em;
-        }
-    }
+	flex: 1 1 0;
+	
+	max-width: 200px;
+	max-height: 64px;
+	width: 10%;
+	margin: 12px auto;
+	padding: 0px;
+	svg {
+		background: inherit;
+		padding: auto;
+		text {
+			text-anchor: middle;
+			dominant-baseline: middle; // it does work
+			font-size: 2em;
+		}
+	}
 }
 
 #images {
-    display: flex;
-    justify-content: center;
-    flex: 4 1 0;
-    height: calc(100% - 64px);
-    img {
-        display: flex;
-        margin-top: 12px;
-    }
+	display: flex;
+	justify-content: center;
+	flex: 4 1 0;
+	height: calc(100% - 64px);
+	img {
+		display: flex;
+		margin-top: 12px;
+	}
 }

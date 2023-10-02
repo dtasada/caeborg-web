@@ -2,33 +2,33 @@
 
 <html lang="en" dir="ltr">
 
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="utf-8">
-        <title>Caeborg - Chatting</title>
-        <link rel="stylesheet" href="../.css/styles/shell.css">
-        <link rel="icon" type="image/x-icon" href="../assets/caeborg.png">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script>window.addEventListener('contextmenu', (event) => { event.preventDefault(); })</script>
-    </head>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8">
+		<title>Caeborg - Chatting</title>
+		<link rel="stylesheet" href="../.css/styles/shell.css">
+		<link rel="icon" type="image/x-icon" href="../assets/caeborg.png">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<script>window.addEventListener('contextmenu', (event) => { event.preventDefault(); })</script>
+	</head>
 
-    <body>
+	<body>
 
-        <section id="output-sec">
-            <!-- <ol id="output-ol"></ol> --> <!-- do not uncomment if chat.js is working -->
-        </section>
+		<section id="output-sec">
+			<!-- <ol id="output-ol"></ol> --> <!-- do not uncomment if chat.js is working -->
+		</section>
 
-        <section id="input-sec">
-            <input type="text" id="input-box" placeholder="Enter function here..."  autocomplete="off">
-            <script>document.getElementById('input-box').value = localStorage.getItem('saved_chat_input_value')</script>
-            <button id="submit-button">Submit</button>
-            <button id="add-button"><i class="fa-solid fa-plus"></i></button>
+		<section id="input-sec">
+			<input type="text" id="input-box" placeholder="Enter function here..."  autocomplete="off">
+			<script>document.getElementById('input-box').value = localStorage.getItem('saved_chat_input_value')</script>
+			<button id="submit-button">Submit</button>
+			<button id="add-button"><i class="fa-solid fa-plus"></i></button>
 
-        </section>
+		</section>
 
-        <script type="text/javascript" src="../scripts/chat.js"></script>
+		<script type="text/javascript" src="../scripts/chat.js"></script>
 
-    </body>
+	</body>
 
 </html>
 
