@@ -13,6 +13,7 @@ $col-orange: #f5a97f;
 $col-yellow: #eed49f;
 $col-green: #a6da95;
 $col-blue: #8aadf4;
+$col-lightrose: #f4dbd6;
 
 $border-radius: 32px;
 
@@ -53,7 +54,11 @@ button {
 	padding: 8px 8px;
 	border: none;
 
-	&:hover {
+	&:disabled {
+		opacity: 60%;
+		// filter: brightness(110%);
+	}
+	&:not(:disabled):hover {
 		background: $col-overlay !important;
 	}
 }
@@ -75,9 +80,10 @@ ol {
 
 }
 
+
 .button-list button {
-	/* width: calc($sidebar-sec-width - 32px); */ /* Rounded corners, centered buttons & text */
-	/* padding-left: 20%; text-align: left; */					/* Align center */ 
+	// width: calc($sidebar-sec-width - 32px); // Rounded corners, centered buttons & text 
+	// padding-left: 20%; text-align: left; // Align center  
 
 	width: $sidebar-sec-width;
 	margin-left: 0px !important;

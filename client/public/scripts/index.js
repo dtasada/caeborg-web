@@ -80,6 +80,7 @@ function switchFrame(page) {
 		case 'graph': document.title = 'Caeborg - Graph'; break;
 		case 'launcher': document.title = 'Caeborg - Launcher'; break;
 		case 'maps': document.title = 'Caeborg - Map'; break;
+		case 'meme': document.title = 'Caeborg - Meme Maker'; break;
 		case 'paint': document.title = 'Caeborg - Paint'; break;
 		case 'quote': document.title = 'Caeborg - Quote'; break;
 		case 'shell': document.title = 'Caeborg - Shell'; break;

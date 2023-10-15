@@ -57,6 +57,8 @@ html {
 	margin-left: -10px;
 	background: $col-crust;
 
+	* { border-radius: 0px; }
+	ol > li + li { border-top: 1px solid $col-surface; }
 	ol {
 		list-style: none;
 		padding: 00px 00px;
