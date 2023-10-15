@@ -1,5 +1,7 @@
 ## Todo
 * Improve Inspirobot CSS'ing
+* [ ] Make Paint tool
+* [ ] Make a chatting app?
 * [x] Make Translator page~~
 * [x] New shortcut button in `launcher.html`~~
 * [x] Change sidebar hiding mechanic to `win-width < 700; then fullscreen rest-sec`~~
