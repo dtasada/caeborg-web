@@ -1,7 +1,6 @@
 const https = require('https');
 const express = require('express');
 const process = require('process');
-const fs = require('fs');
 
 const express_port = 8000;
 const bun_port = 3000;
@@ -32,24 +31,21 @@ console.log(`At '${customUrl}':`);
 
 app.use(express.static(public_path));
 
-app.listen(express_port, () => console.log(`Express server is listening on port ${express_port}`));
-
-app.get("/", (request, response) => {
-	response.sendFile(`${public_path}/index.html`)
+app.get("/", (_, response) => {
+	response.sendFile(`${public_path}/index.html`);
 });
 
-const server = Bun.serve({
-	port: bun_port,
-	hostname: customUrl.split('://')[1],
-	async fetch(request) {
-		const req_file = request['url'].split(`${customUrl}:${bun_port}/`)[1];
-		console.log(req_file);
-		// Bun.spawn('bun', 'run', `${Bun.env.rootdir}/${req_file}`);
-		return new Response(`${request} Welcome to bun!`);
-	},
-	error() {
-		return new Response(null, { status: 404 });
-	}
+app.get("/read_chat", async (request, response) => {
+	response.end(await Bun.file(`${process.env.rootdir}/server/assets/chat.json`).text());
 });
 
-console.log(`Listening on localhost: ${server.port}`);
+app.get("/add_chat", async (request, response) => {
+	data = await Bun.file(`${process.env.rootdir}/server/assets/chat.json`).text();
+	data = JSON.parse(data);
+	data[`${Object.keys(data).length}`] = request;
+	response.end(JSON.stringify(data));
+})
+
+const server = app.listen(express_port, () => console.log(`Express server is listening on port ${express_port}`));
+
+console.log(`Listening on localhost: ${express_port}`);

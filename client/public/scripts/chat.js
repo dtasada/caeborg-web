@@ -1,3 +1,4 @@
+time = new Date();
 // P R E R E Q U I S I T E S
 const fullUrl = window.location.href.split(/:/g)
 const ourUrl = `${fullUrl[0]}:${fullUrl[1]}`;
@@ -89,7 +90,7 @@ input.oninput = () => { localStorage.setItem('saved_chat_input_value', input.val
 
 // important functions
 
-function send(sender, msgs) {
+async function send(sender, msgs) {
 	if (sender != null) {
 		// render html message
 		const li = document.createElement('li');
@@ -112,11 +113,26 @@ function send(sender, msgs) {
 		localStorage.setItem('saved_chat_output_ol', output_list.outerHTML);
 		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 
-		// send to server
-		
+		console.log(
+			await addMessage({
+				"content": msg,
+				"sender": sender,
+				"date": `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
+				"time": `${time.toLocaleDateString()}`
+			})
+		)
 	}
 }
 
+function addMessage(msg) {
+	fetch(`${ourUrl}:8000/add_chat`, {
+		method: "PUT",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(msg)
+	})
+	.then(response => response.json())
+	.then(data => console.log(data));
+}
 
 // main text parser and lexer
 
