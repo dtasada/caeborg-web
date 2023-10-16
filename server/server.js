@@ -15,19 +15,13 @@ if (process.env.rootdir !== undefined) {
 	console.log("'rootdir' is undefined. Please make sure to define it in your 'caeborg-web/.env' file.");
 }
 
-const env_js = Bun.file(`${public_path}/env.js`);
 let customUrl;
 function changeUrl(arg) {
-	if (arg.includes('--url')) {
-		customUrl = arg.split('=')[1];
-	} else {
-		customUrl = arg;
-	}
-	const replace = `export const ourUrl = '${customUrl}';`
-	Bun.write(env_js, replace);
+	if (arg.includes('--url')) customUrl = arg.split('=')[1];
+	else customUrl = arg;
 }
 
-changeUrl('https://caeborg.dev', env_js.text());
+changeUrl('https://caeborg.dev');
 
 for (arg of process.argv) {
 	if (arg.includes('--url')) {
@@ -35,7 +29,6 @@ for (arg of process.argv) {
 	}
 }
 console.log(`At '${customUrl}':`);
-
 
 app.use(express.static(public_path));
 
