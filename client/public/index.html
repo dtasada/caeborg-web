@@ -18,6 +18,7 @@
 		<section id="header-sec">
 			<button id="menu-button" onclick="toggleSidebarSec()"><i class="fa-solid fa-bars"></i></button> 
 			<a href="javascript:switchFrame('launcher')"><img src="assets/caeborg.png" height="48"></a>
+			<button id="colors-button" onclick="toggleColors()"><i class="fa-solid fa-sun"></i></button> 
 		</section>
 
 
@@ -25,8 +26,8 @@
 			<ol id="sidebar-ol" class="button-list">
 				<li><button onclick="switchFrame('calc')">Calculator</button></li>
 				<li><button onclick="switchFrame('chat')">Chatting</button></li>
-				<li><button onclick="switchFrame('chemtools')">ChemTools</button></li>
-				<li><button onclick="switchFrame('games')">Games</button></li>
+				<li><button onclick="switchFrame('chemtools')" disabled>ChemTools</button></li>
+				<li><button onclick="switchFrame('games')" disabled>Games</button></li>
 				<li><button onclick="switchFrame('graph')">Graphing Tool</button></li>
 				<li><button onclick="switchFrame('map')">Map</button></li>
 				<li><button onclick="switchFrame('paint')"disabled>Paint</button></li>

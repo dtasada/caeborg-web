@@ -1,35 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,500;0,700;0,800;1,100;1,500;1,700;1,800&display=swap');
-
-$col-crust: #181926;
-$col-subbase: #1e2030;
-$col-base: #24273a;
-$col-surface: #363a4f;
-$col-suboverlay: #5b6078;
-$col-overlay: #6e738d;
-$col-subtext: #a5adcb;
-$col-text: #cad3f5;
-$col-red: #ed8796;
-$col-orange: #f5a97f;
-$col-yellow: #eed49f;
-$col-green: #a6da95;
-$col-blue: #8aadf4;
-$col-lightrose: #f4dbd6;
-
-// Please keep: light mode
-// $col-crust: #dce0e8;
-// $col-subbase: #e6e9ef;
-// $col-base: #eff1f5;
-// $col-surface: #ccd0da;
-// $col-suboverlay: #acb0be;
-// $col-overlay: #9ca0b0;
-// $col-subtext: #6c6f85;
-// $col-text: #4c4f69;
-// $col-red: #d20f39;
-// $col-orange: #fe640b;
-// $col-yellow: #df8e1d;
-// $col-green: #40a02b;
-// $col-blue: #1e66f5;
-// $col-lightrose: #dc8a78;
+@import "../.css/colors";
 
 $border-radius: 32px;
 
@@ -49,8 +19,8 @@ $body-fontsize: 16px;
 
 * {
 	font-family: "JetBrains Mono", sans-serif;
-	color: $col-text;
-	background-color: $col-base;
+	color: var(--col-text);
+	background-color: var(--col-base);
 	box-sizing: border-box;
 
 	font-size: $body-fontsize;
@@ -75,7 +45,7 @@ button {
 	border: none;
 
 	&:disabled { opacity: 60%; }
-	&:not(:disabled):hover { background: $col-overlay !important; }
+	&:not(:disabled):hover { background: var(--col-overlay) !important; }
 }
 
 input, button { outline: none; }

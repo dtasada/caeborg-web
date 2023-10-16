@@ -20,11 +20,11 @@ body {
 	flex-direction: row;
 	height: 64px;
 
-	background: $col-subbase;
+	background: var(--col-subbase);
 	button { width: 80px; }
 	select { width: 140px; }
 	button, select {
-		background: $col-subbase;
+		background: var(--col-subbase);
 		height: 100%;
 		border-radius: 0px;
 		border: none;
@@ -33,8 +33,8 @@ body {
 		text-align: center;
 
 		&:hover { filter: brightness(90%); }
-		&.source { background: $col-red !important; }
-		&.target { background: $col-blue !important; }
+		&.source { background: var(--col-red) !important; }
+		&.target { background: var(--col-blue) !important; }
 	}
 
 	i {
@@ -42,7 +42,7 @@ body {
 		padding: 12px;
 		align-self: center;
 		margin: 0px 12px;
-		&:hover { background: $col-overlay; }
+		&:hover { background: var(--col-overlay); }
 		&#copy-button { margin-left: auto; }
 	}
 
@@ -63,7 +63,7 @@ body {
 		padding: 16px;
 		padding-bottom: 32px;
 
-		background: $col-surface;
+		background: var(--col-surface);
 
 		resize: none;
 		overflow: hidden;
@@ -72,12 +72,12 @@ body {
 
 	#input-box {
 		border-bottom-left-radius: 32px;
-		border-top: 2px solid $col-red;
+		border-top: 2px solid var(--col-red);
 		border-left: none;
 	}
 	#output-box {
 		border-bottom-right-radius: 32px;
-		border-top: 2px solid $col-blue;
+		border-top: 2px solid var(--col-blue);
 		border-right: none;
 	}
 }

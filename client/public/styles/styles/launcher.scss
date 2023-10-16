@@ -38,7 +38,7 @@
 	position: absolute;
 	display: none;
 	flex-direction: column;
-	background: $col-crust;
+	background: var(--col-crust);
 	width: 320px;
 	height: auto;
 	right: 48px;
@@ -47,7 +47,7 @@
 	padding: 12px 0;
 
 	section {
-		background: $col-crust;
+		background: var(--col-crust);
 		display: flex;
 		justify-items: center;
 		&#input { flex-direction: column; }
@@ -65,36 +65,36 @@
 			margin: 10px 16px
 		}
 		img {
-			background: $col-overlay;
-			color: $col-overlay;
+			background: var(--col-overlay);
+			color: var(--col-overlay);
 		}
 		i {
 			font-size: 96px;
 			padding: 16px 0px;
 			text-align: center;
 			
-			&:hover { color: $col-overlay; }
+			&:hover { color: var(--col-overlay); }
 			
 			&#delete-button {
 				display: none;
 				margin-top: 0px !important;
-				border-top: 1px solid $col-crust;
+				border-top: 1px solid var(--col-crust);
 				border-top-right-radius: 0px;
 				border-top-left-radius: 0px;
-				&:hover { background: $col-red; }
+				&:hover { background: var(--col-red); }
 				&.half {
 					border-top-right-radius: 0px !important;
 					border-top-left-radius: 0px !important;
-					border-top: 1px solid $col-crust !important;
+					border-top: 1px solid var(--col-crust) !important;
 				}
 			}
 
 			&#confirm-button {
 				margin-bottom: 0px !important;
 				height: 128px;
-				&:hover { background: $col-green; }
+				&:hover { background: var(--col-green); }
 				&.half {
-					border-bottom: 1px solid $col-crust !important;
+					border-bottom: 1px solid var(--col-crust) !important;
 					border-bottom-right-radius: 0px !important;
 					border-bottom-left-radius: 0px !important;
 				}

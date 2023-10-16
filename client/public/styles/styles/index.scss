@@ -1,7 +1,7 @@
 @import "../style";
 
 * {
-	background-color: $col-crust;
+	background-color: var(--col-crust);
 }
 
 html {
@@ -10,9 +10,13 @@ html {
 
 #header-sec {
 	height: $header-sec-height;
-	background-color: $col-crust;
+	background-color: var(--col-crust);
 
 	* { float: left; }
+	#colors-button {
+		float: right;
+		margin-right: 0px;
+	}
 	button {
 		height: 48px;
 		width: 48px;
@@ -55,10 +59,10 @@ html {
 	width: $sidebar-sec-width;
 	height: calc(100vh - #{$header-sec-height});
 	margin-left: -10px;
-	background: $col-crust;
+	background: var(--col-crust);
 
 	ol > li + li {
-		border-top: 1px solid $col-surface;
+		border-top: 1px solid var(--col-surface);
 	}
 
 	ol {
@@ -68,7 +72,7 @@ html {
 
 		li button {
 			font-size: $subtitle-fontsize;
-			background: $col-crust;
+			background: var(--col-crust);
 		}
 	}
 }
@@ -95,10 +99,10 @@ html {
 	height: calc(100% - #{$headerfooter-height});
 	left: $sidebar-sec-width;
 	top: $header-sec-height;
-	background: $col-base;
+	background: var(--col-base);
 
 	iframe {
-		background: $col-base;
+		background: var(--col-base);
 		position: absolute;
 		width: 100%;
 		height: 100%;

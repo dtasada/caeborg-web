@@ -13,7 +13,7 @@ $input-element-height: 48px;
 	bottom: 0px;
 	left: 0px;
 
-	background: $col-base;
+	background: var(--col-base);
 
 	input {
 		position: absolute;
@@ -26,7 +26,7 @@ $input-element-height: 48px;
 		width: calc(100% - 2 * #{$right-margin-width});
 		height: $input-element-height;
 
-		background: $col-surface;
+		background: var(--col-surface);
 
 	}
 
@@ -94,8 +94,8 @@ $input-element-height: 48px;
 			width: 100%;
 			margin: 0px auto 0px;
 			padding: 20px 0px 20px 76px;
-			background: $col-base;
-			&:hover { background: $col-subbase; }
+			background: var(--col-base);
+			&:hover { background: var(--col-subbase); }
 			* { background: inherit; }
 
 			img.pfp {
