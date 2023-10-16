@@ -19,8 +19,8 @@ const languages = {
 	"Bulgarian": "bg",
 	"Catalan": "ca",
 	"Cebuano": "ceb",
-	"Chinese (Simplified)": "zh-CN",
-	"Chinese (Traditional)": "zh-TW",
+	"Chinese (S)": "zh-CN",
+	"Chinese (T)": "zh-TW",
 	"Corsican": "co",
 	"Croatian": "hr",
 	"Czech": "cs",
@@ -32,7 +32,7 @@ const languages = {
 	"Esperanto": "eo",
 	"Estonian": "et",
 	"Ewe": "ee",
-	"Filipino (Tagalog)": "fil",
+	"Filipino": "fil",
 	"Finnish": "fi",
 	"French": "fr",
 	"Frisian": "fy",
@@ -64,7 +64,7 @@ const languages = {
 	"Konkani": "gom",
 	"Korean": "ko",
 	"Krio": "kri",
-	"Kurdish (Sorani)": "ckb",
+	"Kurdish": "ckb",
 	"Kurdish": "ku",
 	"Kyrgyz": "ky",
 	"Lao": "lo",
@@ -82,14 +82,14 @@ const languages = {
 	"Maltese": "mt",
 	"Maori": "mi",
 	"Marathi": "mr",
-	"Meiteilon (Manipuri)": "mni-Mtei",
+	"Meiteilon": "mni-Mtei",
 	"Mizo": "lus",
 	"Mongolian": "mn",
-	"Myanmar (Burmese)": "my",
+	"Myanmar": "my",
 	"Nepali": "ne",
 	"Norwegian": "no",
-	"Nyanja (Chichewa)": "ny",
-	"Odia (Oriya)": "or",
+	"Nyanja": "ny",
+	"Odia": "or",
 	"Oromo": "om",
 	"Pashto": "ps",
 	"Persian": "fa",
@@ -115,7 +115,7 @@ const languages = {
 	"Sundanese": "su",
 	"Swahili": "sw",
 	"Swedish": "sv",
-	"Tagalog (Filipino)": "tl",
+	"Tagalog": "tl",
 	"Tajik": "tg",
 	"Tamil": "ta",
 	"Tatar": "tt",
@@ -125,7 +125,7 @@ const languages = {
 	"Tsonga": "ts",
 	"Turkish": "tr",
 	"Turkmen": "tk",
-	"Twi (Akan)": "ak",
+	"Twi": "ak",
 	"Ukrainian": "uk",
 	"Urdu": "ur",
 	"Uyghur": "ug",
@@ -147,16 +147,17 @@ document.addEventListener("DOMContentLoaded", () => {
 	inputBox.focus();
 
 	// make newlang_sec
-	const newlangSec = document.createElement("sec");
-	newlangSec.id = "newlang-sec";
-	newlangSec.hidden = true;
+	const newlangSel = document.createElement("select");
+	newlangSel.id = "newlang-sel";
+	newlangSel.hidden = true;
 	for (key of Object.keys(languages)) {
-		let lang = document.createElement("button");
+		let lang = document.createElement("option");
 		lang.innerHTML = key;
-		newlangSec.appendChild(lang);
+		lang.value = key;
+		newlangSel.appendChild(lang);
 	}
-	document.getElementById("buttons").insertBefore(newlangSec, copyButton);
-	// /* */
+	document.getElementById("buttons").insertBefore(newlangSel, copyButton);
+	//
 
 	if (localStorage.getItem("translate-input-box")) {
 		inputBox.value = localStorage.getItem("translate-input-box");
@@ -166,8 +167,17 @@ document.addEventListener("DOMContentLoaded", () => {
 	copyButton.addEventListener("click", () => navigator.clipboard.writeText(outputBox.value));
 
 	addButton.addEventListener("click", () => {
-		if (newlangSec.hidden === true) newlangSec.hidden = false;
-		else if (newlangSec.hidden === false) newlangSec.hidden = true;
+		if (newlangSel.hidden === true) {
+			newlangSel.hidden = false;
+			addButton.classList.remove("fa-plus");
+			addButton.classList.add("fa-check");
+			// make it the new language
+		}
+		else if (newlangSel.hidden === false) {
+			newlangSel.hidden = true;
+			addButton.classList.remove("fa-check");
+			addButton.classList.add("fa-plus");
+		}
 	});
 
 	flipButton.addEventListener("click", () => {

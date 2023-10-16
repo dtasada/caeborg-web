@@ -21,26 +21,22 @@ body {
 	height: 64px;
 
 	background: $col-subbase;
-	button {
+	button { width: 80px; }
+	select { width: 140px; }
+	button, select {
 		background: $col-subbase;
 		height: 100%;
 		border-radius: 0px;
+		border: none;
 		align-self: center;
 		overflow: hidden;
-		width: 80px;
+		text-align: center;
 
 		&:hover { filter: brightness(90%); }
-		&.source {
-			background: $col-red !important;
-		}
-		&.target {
-			background: $col-blue !important;
-		}
+		&.source { background: $col-red !important; }
+		&.target { background: $col-blue !important; }
 	}
 
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
-	
 	i {
 		font-size: 24px; 
 		padding: 12px;
@@ -49,6 +45,9 @@ body {
 		&:hover { background: $col-overlay; }
 		&#copy-button { margin-left: auto; }
 	}
+
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 }
 
 
