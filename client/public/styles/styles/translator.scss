@@ -37,9 +37,10 @@ body {
 			background: $col-blue !important;
 		}
 	}
+
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
-
+	
 	i {
 		font-size: 24px; 
 		padding: 12px;
@@ -49,6 +50,7 @@ body {
 		&#copy-button { margin-left: auto; }
 	}
 }
+
 
 #text-areas {
 	display: flex;

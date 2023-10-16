@@ -44,8 +44,12 @@ $body-fontsize: 16px;
 
 .subtitle { size: $subtitle-fontsize; }
 
-iframe:not(.custom-size) {
+iframe {
 	padding: 0px !important;
+	padding-inline-start: 0px !important;
+	margin: 0px !important;
+	left: 0px !important;
+	border: 0;
 	width: calc(100vw - #{$sidebarrightmargin-width});
 	height: calc(100vh - #{$headerfooter-height});
 }
@@ -54,20 +58,15 @@ button {
 	padding: 8px 8px;
 	border: none;
 
-	&:disabled {
-		opacity: 60%;
-		// filter: brightness(110%);
-	}
-	&:not(:disabled):hover {
-		background: $col-overlay !important;
-	}
+	&:disabled { opacity: 60%; }
+	&:not(:disabled):hover { background: $col-overlay !important; }
 }
 
+input, button { outline: none; }
 input {
 	padding: 8px 16px;
 	border: none;
 
-	&, button { outline: none; }
 }
 
 ol {

@@ -2,40 +2,185 @@ var sourceLanguage = "en";
 var targetLanguage = "nl";
 
 const languages = {
-	"Spanish": "es",
-	"English": "en",
+	"Afrikaans": "af",
+	"Albanian": "sq",
+	"Amharic": "am",
+	"Arabic": "ar",
+	"Armenian": "hy",
+	"Assamese": "as",
+	"Aymara": "ay",
+	"Azerbaijani": "az",
+	"Bambara": "bm",
+	"Basque": "eu",
+	"Belarusian": "be",
+	"Bengali": "bn",
+	"Bhojpuri": "bho",
+	"Bosnian": "bs",
+	"Bulgarian": "bg",
+	"Catalan": "ca",
+	"Cebuano": "ceb",
+	"Chinese (Simplified)": "zh-CN",
+	"Chinese (Traditional)": "zh-TW",
+	"Corsican": "co",
+	"Croatian": "hr",
+	"Czech": "cs",
+	"Danish": "da",
+	"Dhivehi": "dv",
+	"Dogri": "doi",
 	"Dutch": "nl",
-	"German": "de"
+	"English": "en",
+	"Esperanto": "eo",
+	"Estonian": "et",
+	"Ewe": "ee",
+	"Filipino (Tagalog)": "fil",
+	"Finnish": "fi",
+	"French": "fr",
+	"Frisian": "fy",
+	"Galician": "gl",
+	"Georgian": "ka",
+	"German": "de",
+	"Greek": "el",
+	"Guarani": "gn",
+	"Gujarati": "gu",
+	"Haitian Creole": "ht",
+	"Hausa": "ha",
+	"Hawaiian": "haw",
+	"Hebrew": "he",
+	"Hindi": "hi",
+	"Hmong": "hmn",
+	"Hungarian": "hu",
+	"Icelandic": "is",
+	"Igbo": "ig",
+	"Ilocano": "ilo",
+	"Indonesian": "id",
+	"Irish": "ga",
+	"Italian": "it",
+	"Japanese": "ja",
+	"Javanese": "jv",
+	"Kannada": "kn",
+	"Kazakh": "kk",
+	"Khmer": "km",
+	"Kinyarwanda": "rw",
+	"Konkani": "gom",
+	"Korean": "ko",
+	"Krio": "kri",
+	"Kurdish (Sorani)": "ckb",
+	"Kurdish": "ku",
+	"Kyrgyz": "ky",
+	"Lao": "lo",
+	"Latin": "la",
+	"Latvian": "lv",
+	"Lingala": "ln",
+	"Lithuanian": "lt",
+	"Luganda": "lg",
+	"Luxembourgish": "lb",
+	"Macedonian": "mk",
+	"Maithili": "mai",
+	"Malagasy": "mg",
+	"Malay": "ms",
+	"Malayalam": "ml",
+	"Maltese": "mt",
+	"Maori": "mi",
+	"Marathi": "mr",
+	"Meiteilon (Manipuri)": "mni-Mtei",
+	"Mizo": "lus",
+	"Mongolian": "mn",
+	"Myanmar (Burmese)": "my",
+	"Nepali": "ne",
+	"Norwegian": "no",
+	"Nyanja (Chichewa)": "ny",
+	"Odia (Oriya)": "or",
+	"Oromo": "om",
+	"Pashto": "ps",
+	"Persian": "fa",
+	"Polish": "pl",
+	"Portuguese": "pt",
+	"Punjabi": "pa",
+	"Quechua": "qu",
+	"Romanian": "ro",
+	"Russian": "ru",
+	"Samoan": "sm",
+	"Sanskrit": "sa",
+	"Scots Gaelic": "gd",
+	"Sepedi": "nso",
+	"Serbian": "sr",
+	"Sesotho": "st",
+	"Shona": "sn",
+	"Sindhi": "sd",
+	"Sinhala": "si",
+	"Slovak": "sk",
+	"Slovenian": "sl",
+	"Somali": "so",
+	"Spanish": "es",
+	"Sundanese": "su",
+	"Swahili": "sw",
+	"Swedish": "sv",
+	"Tagalog (Filipino)": "tl",
+	"Tajik": "tg",
+	"Tamil": "ta",
+	"Tatar": "tt",
+	"Telugu": "te",
+	"Thai": "th",
+	"Tigrinya": "ti",
+	"Tsonga": "ts",
+	"Turkish": "tr",
+	"Turkmen": "tk",
+	"Twi (Akan)": "ak",
+	"Ukrainian": "uk",
+	"Urdu": "ur",
+	"Uyghur": "ug",
+	"Uzbek": "uz",
+	"Vietnamese": "vi",
+	"Welsh": "cy",
+	"Xhosa": "xh",
+	"Yiddish": "yi",
+	"Yoruba": "yo",
+	"Zulu": "zu",
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-	input_box = document.getElementById("input-box");
-	output_box = document.getElementById("output-box");
-	flip_button = document.getElementById("flip-button");
-	copy_button = document.getElementById("copy-button");
-	input_box.focus();
+	const inputBox = document.getElementById("input-box");
+	const outputBox = document.getElementById("output-box");
+	const flipButton = document.getElementById("flip-button");
+	const copyButton = document.getElementById("copy-button");
+	const addButton = document.getElementById("add-button");
+	inputBox.focus();
 
-	copy_button.addEventListener("click", () => {
-		// output_box.select(); 
-		// output_box.setSelectionRange(0, 99999); 
-		navigator.clipboard.writeText(output_box.value);
+	// make newlang_sec
+	const newlangSec = document.createElement("sec");
+	newlangSec.id = "newlang-sec";
+	newlangSec.hidden = true;
+	for (key of Object.keys(languages)) {
+		let lang = document.createElement("button");
+		lang.innerHTML = key;
+		newlangSec.appendChild(lang);
+	}
+	document.getElementById("buttons").insertBefore(newlangSec, copyButton);
+	// /* */
+
+	if (localStorage.getItem("translate-input-box")) {
+		inputBox.value = localStorage.getItem("translate-input-box");
+		translate();
+	}
+
+	copyButton.addEventListener("click", () => navigator.clipboard.writeText(outputBox.value));
+
+	addButton.addEventListener("click", () => {
+		if (newlangSec.hidden === true) newlangSec.hidden = false;
+		else if (newlangSec.hidden === false) newlangSec.hidden = true;
 	});
 
-	flip_button.addEventListener("click", async () => {
+	flipButton.addEventListener("click", () => {
 		let temp = sourceLanguage;
 		sourceLanguage = targetLanguage;
 		targetLanguage = temp;
 		// [sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
-		[input_box.value, output_box.value] = [output_box.value, input_box.value];
+		[inputBox.value, outputBox.value] = [outputBox.value, inputBox.value];
 		let sourceLanguageFull;
 		let targetLanguageFull;
-		for (key of languages) {
-			if (key[1] === sourceLanguage) {
-				sourceLanguageFull = key[0][0];
-			}
-			if (key[1] === targetLanguage) {
-				targetLanguageFull = key[0][0];
-			}
+		for (key of Object.keys(languages)) {
+			if (languages[key] === sourceLanguage) sourceLanguageFull = key;
+			if (languages[key] === targetLanguage) targetLanguageFull = key;
 		}
 		[...document.querySelectorAll("#buttons button")].forEach(async element => {
 			if (element.innerHTML === sourceLanguageFull) {
@@ -46,16 +191,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				element.classList.add("source");
 			}
 			translate();
-			input_box.focus();
+			inputBox.focus();
 		});
 	});
 
-	if (localStorage.getItem("translate-input-box")) {
-		input_box.value = localStorage.getItem("translate-input-box");
-		translate();
-	}
-	
-	input_box.addEventListener("keyup", translate);
+	inputBox.addEventListener("keyup", translate);
 
 	[...document.querySelectorAll("#buttons > button")].forEach(element => {
 		element.addEventListener("click", () => {
@@ -74,12 +214,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	function translate() {
-		const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(input_box.value)}`;
+		const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(inputBox.value)}`;
 		fetch(url)
 		.then(response => response.json())
 			.then(data_json => {
-				if (data_json[0]) output_box.value = data_json[0][0][0];
+				if (data_json[0]) outputBox.value = data_json[0][0][0];
 		});
-		localStorage.setItem("translate-input-box", input_box.value);
+		if (inputBox.value !== '') localStorage.setItem("translate-input-box", inputBox.value);
+		else outputBox.value = '';
 	}
 });

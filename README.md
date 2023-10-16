@@ -2,18 +2,18 @@
 * Improve Inspirobot CSS'ing
 * [ ] Make Paint tool
 * [ ] Make a chatting app?
-* [x] Make Translator page~~
-* [x] New shortcut button in `launcher.html`~~
-* [x] Change sidebar hiding mechanic to `win-width < 700; then fullscreen rest-sec`~~
-* [x] Finish scrolling in chat.scss~~
-* [x] Check for dependency alternatives in bun-js~~
-* [x] FIX NK~~
-* [x] Migrate to bun-js~~
-* [x] [Flexbox](https://www.youtube.com/watch?v=fYq5PXgSsbE) setup (first on `launcher.html`)~~
-* [x] Figure out how to do caching~~
-* [x] Remove ExpressJS from equation and replace file hosting with Node, or stop using FTP hosting. // Nevermind~~
-* [x] Fix Node Server CSS'ing (file paths?)~~
-* [x] Migrate to SCSS~~
+* [x] Make Translator page
+* [x] New shortcut button in `launcher.html`
+* [x] Change sidebar hiding mechanic to `win-width < 700; then fullscreen rest-sec`
+* [x] Finish scrolling in chat.scss
+* [x] Check for dependency alternatives in bun-js
+* [x] FIX NK
+* [x] Migrate to bun-js
+* [x] [Flexbox](https://www.youtube.com/watch?v=fYq5PXgSsbE) setup (first on `launcher.html`)
+* [x] Figure out how to do caching
+* [x] Remove ExpressJS from equation and replace file hosting with Node, or stop using FTP hosting. // Nevermind
+* [x] Fix Node Server CSS'ing (file paths?)
+* [x] Migrate to SCSS
 
 ## Notes
 * To run Bun Server, run `bun start` in `caeborg-web/`
