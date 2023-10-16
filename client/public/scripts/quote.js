@@ -13,10 +13,4 @@ function newQuote() {
 	document.getElementById('images').appendChild(img);
 }
 
-const text = document.getElementById('text');
-window.addEventListener('resize', () => {
-	text.setAttribute('x', text.width/2)
-	text.style.fontSize = text.height;
-})
-
 newQuote();

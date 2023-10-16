@@ -1,12 +1,12 @@
 var sourceLanguage = "en";
 var targetLanguage = "nl";
 
-languages = [
-	["Spanish", "es"],
-	["English", "en"],
-	["Dutch", "nl"],
-	["German", "de"]
-];
+const languages = {
+	"Spanish": "es",
+	"English": "en",
+	"Dutch": "nl",
+	"German": "de"
+};
 
 document.addEventListener("DOMContentLoaded", () => {
 	input_box = document.getElementById("input-box");
@@ -21,11 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		navigator.clipboard.writeText(output_box.value);
 	});
 
-	flip_button.addEventListener("click", async (event) => {
+	flip_button.addEventListener("click", async () => {
 		let temp = sourceLanguage;
 		sourceLanguage = targetLanguage;
 		targetLanguage = temp;
-		console.log(sourceLanguage, targetLanguage);
 		// [sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
 		[input_box.value, output_box.value] = [output_box.value, input_box.value];
 		let sourceLanguageFull;
@@ -52,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	if (localStorage.getItem("translate-input-box")) {
-		console.log(input_box.value);
 		input_box.value = localStorage.getItem("translate-input-box");
 		translate();
 	}
@@ -60,27 +58,27 @@ document.addEventListener("DOMContentLoaded", () => {
 	input_box.addEventListener("keyup", translate);
 
 	[...document.querySelectorAll("#buttons > button")].forEach(element => {
-		element.addEventListener("click", async () => {
+		element.addEventListener("click", () => {
 			document.querySelector(".source").classList.remove("source");
 			element.classList.add("source");
 			sourceLanguage = languages[element.innerHTML];
-			await translate();
+			translate();
 		});
-		element.addEventListener("contextmenu", async () => {
+		element.addEventListener("contextmenu", () => {
 			event.preventDefault();
 			document.querySelector(".target").classList.remove("target");
 			element.classList.add("target");
 			targetLanguage = languages[element.innerHTML];
-			await translate();
+			translate();
 		});
 	});
 
-	function translate(event) {
+	function translate() {
 		const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(input_box.value)}`;
 		fetch(url)
 		.then(response => response.json())
-		.then(data_json => {
-			output_box.value = data_json[0][0][0];
+			.then(data_json => {
+				if (data_json[0]) output_box.value = data_json[0][0][0];
 		});
 		localStorage.setItem("translate-input-box", input_box.value);
 	}
