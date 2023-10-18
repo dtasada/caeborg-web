@@ -19,13 +19,19 @@ document.getElementById('menu-button').addEventListener('click', () => {
 	if (isHiddenUserChoice === false) isHiddenUserChoice = true;
 });
 
-let colorIsDark = true;
-console.log(colorIsDark);
-function toggleColors() {
-	if (colorIsDark === true) {
-		colorIsDark = false;
-		console.log(colorIsDark);
-		[...document.querySelectorAll(":root")].forEach(element => {
+let shouldBeDark = true;
+console.log(shouldBeDark);
+function setColorScheme(should_toggle=true) {
+	iframe = document.querySelector("iframe").contentWindow.document.querySelector("body");
+	if (should_toggle === true) {
+		if (shouldBeDark === true) shouldBeDark = false;
+		else if (shouldBeDark === false) shouldBeDark = true;
+	}
+
+	if (shouldBeDark === true) {
+		console.log(1);
+		[...document.querySelectorAll(":root"), iframe].forEach(element => {
+			console.log(2, element);
 			element.style.setProperty('--col-crust', '#181926');
 			element.style.setProperty('--col-subbase', '#1e2030');
 			element.style.setProperty('--col-base', '#24273a');
@@ -42,10 +48,10 @@ function toggleColors() {
 			element.style.setProperty('--col-lightrose', '#f4dbd6');
 		})
 	}
-	else if (colorIsDark === false) {
-		colorIsDark = true;
-		console.log(colorIsDark);
-		[...document.querySelectorAll(":root")].forEach(element => {
+	else if (shouldBeDark === false) {
+		console.log(3);
+		[...document.querySelectorAll(":root"), iframe].forEach(element => {
+			console.log(3, element);
 			element.style.setProperty('--col-crust', '#dce0e8');
 			element.style.setProperty('--col-subbase', '#e6e9ef');
 			element.style.setProperty('--col-base', '#eff1f5');
@@ -131,6 +137,9 @@ function switchFrame(page) {
 		case 'shell': document.title = 'Caeborg - Shell'; break;
 		case 'translator': document.title = 'Caeborg - Translator'; break;
 	}
+
+	console.log(69)
+	setColorScheme(false);
 }
 
 if (localStorage.getItem('saved_frame') === null) {
