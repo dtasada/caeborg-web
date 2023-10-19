@@ -39,7 +39,6 @@ addButton.addEventListener('click', () => {
 	inputFile.hidden = true;
 
 	inputFile.addEventListener("change", (event) => {
-		console.log("asd");
 		const file = event.target.files[0];
 		if (file) {
 			reader = new FileReader();
@@ -113,25 +112,23 @@ async function send(sender, msgs) {
 		localStorage.setItem('saved_chat_output_ol', output_list.outerHTML);
 		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 
-		console.log(
-			await addMessage({
-				"content": msg,
-				"sender": sender,
-				"date": `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
-				"time": `${time.toLocaleDateString()}`
-			})
-		)
+		addMessage({
+			content: msg,
+			sender: sender,
+			date: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
+			time: `${time.toLocaleDateString()}`
+		});
 	}
 }
 
-function addMessage(msg) {
-	fetch(`${ourUrl}:8000/add_chat`, {
-		method: "PUT",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(msg)
-	})
-	.then(response => response.json())
-	.then(data => console.log(data));
+async function addMessage(body) {
+	return await fetch(`${ourUrl}:8000/add_chat`, {
+		"method": "PUT",
+		"headers": { "Content-Type": "application/json" },
+		"body": JSON.stringify(body)
+		})
+		.then(response => response.json())
+		.then(data => { return data });
 }
 
 // main text parser and lexer

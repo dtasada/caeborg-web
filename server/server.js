@@ -1,15 +1,17 @@
 const https = require('https');
 const express = require('express');
 const process = require('process');
+const bodyParser = require('body-parser');
 
 const express_port = 8000;
 const bun_port = 3000;
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const public_path = `${Bun.env.rootdir}/client/public`
 
-if (process.env.rootdir !== undefined) {
-	console.log(`Project root directory: ${process.env.rootdir}`);
+if (Bun.env.rootdir !== undefined) {
+	console.log(`Project root directory: ${Bun.env.rootdir}`);
 } else {
 	console.log("'rootdir' is undefined. Please make sure to define it in your 'caeborg-web/.env' file.");
 }
@@ -36,15 +38,17 @@ app.get("/", (_, response) => {
 });
 
 app.get("/read_chat", async (request, response) => {
-	response.end(await Bun.file(`${process.env.rootdir}/server/assets/chat.json`).text());
+	response.end(await Bun.file(`${Bun.env.rootdir}/server/assets/chat.json`).text());
 });
 
-app.get("/add_chat", async (request, response) => {
-	data = await Bun.file(`${process.env.rootdir}/server/assets/chat.json`).text();
-	data = JSON.parse(data);
-	data[`${Object.keys(data).length}`] = request;
+app.put("/add_chat", async (request, response) => {
+	data = await Bun.file(`${Bun.env.rootdir}/server/assets/chat.json`).text(); // await here is important
+	console.log("data:", data);
+	console.log("request.body:", request.body);
+	data[`${Object.keys(data).length + 1}`] = request.body;
+	console.log("new data:", data)
 	response.end(JSON.stringify(data));
-})
+});
 
 const server = app.listen(express_port, () => console.log(`Express server is listening on port ${express_port}`));
 
