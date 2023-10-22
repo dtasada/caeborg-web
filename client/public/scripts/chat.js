@@ -123,12 +123,12 @@ async function send(sender, msgs) {
 
 async function addMessage(body) {
 	return await fetch(`${ourUrl}:8000/add_chat`, {
-		"method": "PUT",
-		"headers": { "Content-Type": "application/json" },
-		"body": JSON.stringify(body)
+		method: "PUT",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(body)
 		})
 		.then(response => response.json())
-		.then(data => { return data });
+		.then(data => { console.log(data); return data });
 }
 
 // main text parser and lexer

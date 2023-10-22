@@ -43,10 +43,7 @@ app.get("/read_chat", async (request, response) => {
 
 app.put("/add_chat", async (request, response) => {
 	data = await Bun.file(`${Bun.env.rootdir}/server/assets/chat.json`).text(); // await here is important
-	console.log("data:", data);
-	console.log("request.body:", request.body);
 	data[`${Object.keys(data).length + 1}`] = request.body;
-	console.log("new data:", data)
 	response.end(JSON.stringify(data));
 });
 
