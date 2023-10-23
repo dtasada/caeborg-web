@@ -4,9 +4,10 @@ const process = require('process');
 const bodyParser = require('body-parser');
 
 const express_port = 8000;
-const bun_port = 3000;
+// const bun_port = 3000;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 
 const public_path = `${Bun.env.rootdir}/client/public`
 
@@ -37,13 +38,15 @@ app.get("/", (_, response) => {
 	response.sendFile(`${public_path}/index.html`);
 });
 
-app.get("/read_chat", async (request, response) => {
+app.get("/read_chat", async (_, response) => {
 	response.end(await Bun.file(`${Bun.env.rootdir}/server/assets/chat.json`).text());
 });
 
 app.put("/add_chat", async (request, response) => {
-	data = await Bun.file(`${Bun.env.rootdir}/server/assets/chat.json`).text(); // await here is important
+	path = `${Bun.env.rootdir}/server/assets/chat.json`;
+	data = await Bun.file(path).json(); // await here is important
 	data[`${Object.keys(data).length + 1}`] = request.body;
+	await Bun.write(path, JSON.stringify(data));
 	response.end(JSON.stringify(data));
 });
 

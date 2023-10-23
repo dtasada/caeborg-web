@@ -1,0 +1,31 @@
+@import "shell";
+
+#output-sec {
+	ol {
+		li {
+			width: 100%;
+			margin: 0px auto 0px;
+			padding: 20px 0px 20px 76px;
+			background: var(--col-base);
+			&:hover { background: var(--col-subbase); }
+			* { background: inherit; }
+
+			img.pfp {
+				position: absolute;
+				left: 28px;
+				height: 40px;
+				margin-top: auto; // important
+				border-radius: 50px;
+			}
+
+			p {
+				&.usernameTag {
+					// margin-top: -10px;
+					font-weight: 800;
+					color: var(--col-white);
+					&:hover { text-decoration: underline; }
+				}
+			}
+		}
+	}
+}

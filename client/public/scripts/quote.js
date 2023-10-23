@@ -9,7 +9,7 @@ function newQuote() {
 		.then(async response => {
 			const img_url = await response.text();
 			img.src = img_url;
-		});
+	});
 	document.getElementById('images').appendChild(img);
 }
 

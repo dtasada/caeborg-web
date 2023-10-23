@@ -33,3 +33,11 @@ The application itself requires these packages to run:
 * ~~`dotenv`~~ // (`dotenv` is not required when using bun-js)
 
 Run `bun install` to install all dependencies automatically.
+
+## CaeborgDiscordBot functions to implement:
+* [ ] deofhet
+* [ ] weather
+* [ ] ascii
+* [ ] define word
+* [ ] spanish
+* [ ] meme

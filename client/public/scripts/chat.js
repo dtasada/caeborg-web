@@ -1,30 +1,22 @@
 time = new Date();
 // P R E R E Q U I S I T E S
-const fullUrl = window.location.href.split(/:/g)
-const ourUrl = `${fullUrl[0]}:${fullUrl[1]}`;
-
-let chat_input_array = localStorage.getItem('chat_input_array');
-if (chat_input_array === null || typeof chat_input_array === 'string') chat_input_array = [];
-let arrowup_index = -1
+const fullUrl = window.location.href.split("/");
+const ourUrl = `${fullUrl[0]}//${fullUrl[2]}`;
 
 // Starting localStorage values
-function startLocalStorage() {
-	const output_sec = document.getElementById('output-sec');
-	const output_ol = document.createElement('ol');
-	if (localStorage.getItem('saved_chat_output_ol') === null) {
-		output_ol.id = 'output-ol';
-		output_sec.appendChild(output_ol);
-	} else {
-		output_sec.appendChild(output_ol);
-		output_ol.outerHTML = localStorage.getItem('saved_chat_output_ol');
-
-		output_sec.scrollTop = output_sec.scrollHeight;
+async function serveChat() {
+	json = await fetch(`${ourUrl}/read_chat`);
+	json = await json.json()
+	for (value of Object.values(json)) {
+		send(value.sender, [value.content], true);
 	}
 }
-startLocalStorage();
+serveChat();
 
 // html tags as variables
-const output_list = document.getElementById('output-ol');
+const output_sec = document.getElementById('output-sec');
+output_sec.scrollTop = output_sec.scrollHeight;
+const output_ol = document.getElementById('output-ol');
 const submit = document.getElementById('submit-button');
 submit.addEventListener('click', () => {
 	parseInput(input.value);
@@ -66,21 +58,6 @@ input.addEventListener('keydown', (event) => {
 			parseInput(input.value);
 			input.value = "";
 			localStorage.setItem('saved_chat_input_value', input.value);
-			arrowup_index = -1
-			break;
-		case 'ArrowUp':
-			if (chat_input_array[arrowup_index + 1] !== undefined) {
-				arrowup_index += 1;
-				input.value = chat_input_array[arrowup_index];
-			}
-			localStorage.setItem('chat_input_array', chat_input_array)
-			break;
-		case 'ArrowDown':
-			if (chat_input_array[arrowup_index - 1] !== undefined) {
-				arrowup_index -= 1;
-				input.value = chat_input_array[arrowup_index];
-			}
-			localStorage.setItem('chat_input_array', chat_input_array)
 			break;
 	}
 });
@@ -89,15 +66,21 @@ input.oninput = () => { localStorage.setItem('saved_chat_input_value', input.val
 
 // important functions
 
-async function send(sender, msgs) {
+async function send(sender, msgs, startup=false) {
 	if (sender != null) {
 		// render html message
 		const li = document.createElement('li');
 
 		pfp = document.createElement('img');
 		pfp.classList.add(`sender-is-${sender}`, 'pfp');
-		pfp.src = `${ourUrl}:8000/assets/${sender}.png`;
+		try { pfp.src = `${ourUrl}/assets/users/${sender}.png`; }
+		catch (e) { console.log("pfp URL not found."); }
 		li.appendChild(pfp);
+
+		senderP = document.createElement('p');
+		senderP.innerHTML = sender;
+		senderP.classList.add('usernameTag');
+		li.appendChild(senderP);
 
 		for (msg of msgs) {
 			if (typeof msg === 'string') {
@@ -108,27 +91,29 @@ async function send(sender, msgs) {
 				li.appendChild(msg);
 			}
 		}
-		output_list.appendChild(li);
-		localStorage.setItem('saved_chat_output_ol', output_list.outerHTML);
+		output_ol.appendChild(li);
+		localStorage.setItem('saved_chat_output_ol', output_ol.outerHTML);
 		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 
-		addMessage({
-			content: msg,
-			sender: sender,
-			date: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
-			time: `${time.toLocaleDateString()}`
-		});
+		if (startup === true) {
+			addMessage({
+				content: msg,
+				sender: sender,
+				date: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
+				time: `${time.toLocaleDateString()}`
+			});
+		}
 	}
 }
 
 async function addMessage(body) {
-	return await fetch(`${ourUrl}:8000/add_chat`, {
+	json = await fetch(`${ourUrl}/add_chat`, {
 		method: "PUT",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(body)
-		})
-		.then(response => response.json())
-		.then(data => { console.log(data); return data });
+	})
+	json = await json.json();
+	return json;
 }
 
 // main text parser and lexer
@@ -136,8 +121,6 @@ async function addMessage(body) {
 async function parseInput(text) {
 	// init variables
 	send('user', [ text ]);
-	chat_input_array.unshift(text);
-	localStorage.setItem('chat_input_array', chat_input_array);
 	if (text === "") { return; }
 	// execute command
 	// if (command in commands) {

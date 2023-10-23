@@ -40,6 +40,7 @@ function setColorScheme(should_toggle=true) {
 			element.style.setProperty('--col-overlay', '#6e738d');
 			element.style.setProperty('--col-subtext', '#a5abcd');
 			element.style.setProperty('--col-text', '#cad3f5');
+			element.style.setProperty('--col-white', '#eff1f5');
 			element.style.setProperty('--col-red', '#ed8796');
 			element.style.setProperty('--col-orange', '#f5a97f');
 			element.style.setProperty('--col-yellow', '#eed49f');

@@ -1,6 +1,5 @@
 // P R E R E Q U I S I T E S
-const fullUrl = window.location.href.split(/:/g)
-const ourUrl = `${fullUrl[0]}:${fullUrl[1]}`;
+const ourUrl = window.location.href.split(/:/g)
 
 // C O N S T A N T S
 const lidwoordUrl = "https://welklidwoord.nl";
@@ -27,7 +26,7 @@ function startLocalStorage() {
 startLocalStorage();
 
 // html tags as variables
-const output_list = document.getElementById('output-ol');
+const output_ol = document.getElementById('output-ol');
 const submit = document.getElementById('submit-button');
 submit.addEventListener('click', () => {
 	parseInput(input.value);
@@ -50,8 +49,6 @@ addButton.addEventListener('click', () => {
 				img = document.createElement("img");
 				img.src = e.target.result;
 				img.alt = file.name;
-				img.width = "300";
-				send("user", [img])
 				inputFile.value = null;
 				ascii(img)
 			};
@@ -73,6 +70,7 @@ input.addEventListener('keydown', (event) => {
 			arrowup_index = -1
 			break;
 		case 'ArrowUp':
+			event.preventDefault();
 			if (shell_input_array[arrowup_index + 1] !== undefined) {
 				arrowup_index += 1;
 				input.value = shell_input_array[arrowup_index];
@@ -80,6 +78,7 @@ input.addEventListener('keydown', (event) => {
 			localStorage.setItem('shell_input_array', shell_input_array)
 			break;
 		case 'ArrowDown':
+			event.preventDefault();
 			if (shell_input_array[arrowup_index - 1] !== undefined) {
 				arrowup_index -= 1;
 				input.value = shell_input_array[arrowup_index];
@@ -101,7 +100,7 @@ function send(sender, msgs) {
 
 		pfp = document.createElement('img');
 		pfp.classList.add(`sender-is-${sender}`, 'pfp');
-		pfp.src = `${ourUrl}:8000/assets/${sender}.png`;
+		pfp.src = `${ourUrl}/assets/users/${sender}.png`;
 		li.appendChild(pfp);
 
 		// console.log('msgs: ', msgs);
@@ -115,8 +114,8 @@ function send(sender, msgs) {
 				li.appendChild(msg);
 			}
 		}
-		output_list.appendChild(li);
-		localStorage.setItem('saved_shell_output_ol', output_list.outerHTML);
+		output_ol.appendChild(li);
+		localStorage.setItem('saved_shell_output_ol', output_ol.outerHTML);
 		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 	}
 }
@@ -140,6 +139,7 @@ async function parseInput(text) {
 		send('caeborg', [ `<i>Command '${command}' not found</i>`] );
 	}
 }
+
 function autocomplete() {
 	for (command in commands) {
 		if (command.includes(input.value)) {
@@ -186,10 +186,10 @@ const commands = {
 	clear: {
 		brief: 'Clears the screen',
 		command: () => {
-			while(output_list.firstChild) {
-				output_list.removeChild(output_list.firstChild);
+			while(output_ol.firstChild) {
+				output_ol.removeChild(output_ol.firstChild);
 			}
-			localStorage.setItem('saved_shell_output_ol', output_list.outerHTML);
+			localStorage.setItem('saved_shell_output_ol', output_ol.outerHTML);
 			return null;
 		}
 	},
@@ -233,7 +233,7 @@ const commands = {
 	nk: {
 		brief: 'Returns physics formulas. `list` for list of available arguments',
 		command: (args) => {
-			return fetch(`${ourUrl}:8000/assets/physics.json`)
+			return fetch(`${ourUrl}/assets/physics.json`)
 				.then(result => result.json())
 				.then(nk_json => {
 					if (args[0] !== 'list') {
