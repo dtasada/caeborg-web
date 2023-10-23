@@ -20,7 +20,6 @@ document.getElementById('menu-button').addEventListener('click', () => {
 });
 
 let shouldBeDark = true;
-console.log(shouldBeDark);
 function setColorScheme(should_toggle=true) {
 	iframe = document.querySelector("iframe").contentWindow.document.querySelector("body");
 	if (should_toggle === true) {
@@ -28,10 +27,8 @@ function setColorScheme(should_toggle=true) {
 		else if (shouldBeDark === false) shouldBeDark = true;
 	}
 
-	if (shouldBeDark === true) {
-		console.log(1);
-		[...document.querySelectorAll(":root"), iframe].forEach(element => {
-			console.log(2, element);
+	for (element of [document.querySelector(":root"), iframe]) {
+		if (shouldBeDark === true) {
 			element.style.setProperty('--col-crust', '#181926');
 			element.style.setProperty('--col-subbase', '#1e2030');
 			element.style.setProperty('--col-base', '#24273a');
@@ -47,12 +44,7 @@ function setColorScheme(should_toggle=true) {
 			element.style.setProperty('--col-green', '#a6da95');
 			element.style.setProperty('--col-blue', '#8aadf4');
 			element.style.setProperty('--col-lightrose', '#f4dbd6');
-		})
-	}
-	else if (shouldBeDark === false) {
-		console.log(3);
-		[...document.querySelectorAll(":root"), iframe].forEach(element => {
-			console.log(3, element);
+		} else if (shouldBeDark === false) {
 			element.style.setProperty('--col-crust', '#dce0e8');
 			element.style.setProperty('--col-subbase', '#e6e9ef');
 			element.style.setProperty('--col-base', '#eff1f5');
@@ -67,7 +59,7 @@ function setColorScheme(should_toggle=true) {
 			element.style.setProperty('--col-green', '#40a02b');
 			element.style.setProperty('--col-blue', '#1e66f5');
 			element.style.setProperty('--col-lightrose', '#dc8a78');
-		});
+		}
 	}
 }
 
@@ -139,7 +131,6 @@ function switchFrame(page) {
 		case 'translator': document.title = 'Caeborg - Translator'; break;
 	}
 
-	console.log(69)
 	setColorScheme(false);
 }
 

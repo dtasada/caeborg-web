@@ -8,7 +8,7 @@ async function serveChat() {
 	json = await fetch(`${ourUrl}/read_chat`);
 	json = await json.json()
 	for (value of Object.values(json)) {
-		send(value.sender, [value.content], true);
+		await send(value.sender, [value.content], true);
 	}
 }
 serveChat();
@@ -73,8 +73,11 @@ async function send(sender, msgs, startup=false) {
 
 		pfp = document.createElement('img');
 		pfp.classList.add(`sender-is-${sender}`, 'pfp');
-		try { pfp.src = `${ourUrl}/assets/users/${sender}.png`; }
-		catch (e) { console.log("pfp URL not found."); }
+		pfp.src = await fetch(`${ourUrl}/assets/users/${sender}.png`)
+			.then(response => {
+				if (response.status === 200) return `${ourUrl}/assets/users/${sender}.png`
+				else if (response.status === 404) return `${ourUrl}/icons/url=https://${sender}&size=32..40..64`;
+		});
 		li.appendChild(pfp);
 
 		senderP = document.createElement('p');
@@ -95,7 +98,7 @@ async function send(sender, msgs, startup=false) {
 		localStorage.setItem('saved_chat_output_ol', output_ol.outerHTML);
 		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 
-		if (startup === true) {
+		if (!startup) {
 			addMessage({
 				content: msg,
 				sender: sender,
@@ -120,7 +123,7 @@ async function addMessage(body) {
 
 async function parseInput(text) {
 	// init variables
-	send('user', [ text ]);
+	await send('user', [ text ]);
 	if (text === "") { return; }
 	// execute command
 	// if (command in commands) {

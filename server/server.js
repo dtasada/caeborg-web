@@ -42,6 +42,11 @@ app.get("/read_chat", async (_, response) => {
 	response.end(await Bun.file(`${Bun.env.rootdir}/server/assets/chat.json`).text());
 });
 
+app.get("/icons*", async (request, response) => {
+	url = request.url.split('/icons/')
+	response.redirect(`${customUrl}:8080/icon?${url[1]}`)
+})
+
 app.put("/add_chat", async (request, response) => {
 	path = `${Bun.env.rootdir}/server/assets/chat.json`;
 	data = await Bun.file(path).json(); // await here is important
@@ -51,5 +56,3 @@ app.put("/add_chat", async (request, response) => {
 });
 
 const server = app.listen(express_port, () => console.log(`Express server is listening on port ${express_port}`));
-
-console.log(`Listening on localhost: ${express_port}`);
