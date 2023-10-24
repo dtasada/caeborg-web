@@ -1,5 +1,6 @@
 // P R E R E Q U I S I T E S
-const ourUrl = window.location.href.split(/:/g)
+const fullUrl = window.location.href.split("/");
+const ourUrl = `${fullUrl[0]}//${fullUrl[2]}`;
 
 // C O N S T A N T S
 const lidwoordUrl = "https://welklidwoord.nl";
@@ -194,28 +195,55 @@ const commands = {
 		}
 	},
 
-	define: {
-		brief: "Gives you the correct definition of the word",
-		command: async function(args) {
-			const term = args[0];
-			const url = urbandictUrl + term;
-			const response = await fetch(url);
-			const js = await response.json();
-			alert(js);
-		}
+	// define: {
+	// 	brief: "Gives you the correct definition of the word",
+	// 	command: async function(args) {
+	// 		const term = args[0];
+	// 		const url = urbandictUrl + term;
+	// 		const response = await fetch(url);
+	// 		const js = await response.json();
+	// 		alert(js);
+	// 	}
+	// },
+	
+	dict: {
+		brief: "Gives word definitions from <i>dictionaryapi.dev</i>",
+		command: async (args) => {
+			let command = null;
+			for (i in args) {
+				if (["--synonyms", "--antonyms", "--full"].includes(args[i])) {
+					command = args[i];
+					args.splice(i, 1);
+				}
+			}
+			word = args[args.length - 1];
+			dataJson = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+			dataJson = await dataJson.json();
+			// console.log(JSON.stringify(dataJson, "<br>", "\t"))
+			// if (command === "--full") return [ JSON.stringify(dataJson) ]
+			// else {
+			// 	let returnArray = [ bi(word + ':') ]
+			// 	for (index of Object.values(dataJson)) {
+			// 		for (key of Object.keys(index)) {
+			// 			value = index[property];
+			// 			if (key === "meanings") {
+			// 				for (meaning in key) {
+			//
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// 	// return
+			// }
+		},
 	},
 
 	deofhet: {
 		brief: "Gives you the article of given Dutch word - <i>de</i> or <i>het</i>",
 		command: async (event) => {
-			const url = `${lidwoordUrl}/appel`;
-			const response = await fetch(url)
-			.then(response => response.json())
-			.then(data_json => {
-				return data_json[0][0][0];
-			})
-			console.log(response);
-			return [response];
+			dataJson = await fetch(`${lidwoordUrl}/appel`)
+			dataJson = await response.json()
+			return [ dataJson[0][0][0] ];
 		}
 	},
 
@@ -232,45 +260,38 @@ const commands = {
 
 	nk: {
 		brief: 'Returns physics formulas. `list` for list of available arguments',
-		command: (args) => {
-			return fetch(`${ourUrl}/assets/physics.json`)
-				.then(result => result.json())
-				.then(nk_json => {
-					if (args[0] !== 'list') {
-						const array = nk_json[args[0]];
-						const base_formula = array[0];
-						const definitions = array[1].join('<br>');
+		command: async (args) => {
+			nk_json = await fetch(`${ourUrl}/assets/physics.json`);
+			nk_json = await nk_json.json();
+			if (args[0] !== 'list') {
+				const array = nk_json[args[0]];
+				const base_formula = array[0];
+				const definitions = array[1].join('<br>');
 
-						console.log('nk_json:', nk_json);
-						if (args[0] === 'list') {
-							return [object.keys(nk_json).join('<br>')];
-						} else {
-							console.log('were here!');
-							return [
-								`base formula for ${bi(args[0])}:<br> ${bi(base_formula)}`,
-								`contextual definitions:<br> ${bi(definitions)}`
-							];
-						}
-					} else {
-						const all = Object.keys(nk_json);
-						let brief = []
-						for ([key, value] of Object.entries(nk_json)) {
-							brief.push(`${key}: ${bi(value[0])}`);
-						}
-						return [ `${brief.join('<br>')}` ];
-					}
-				})
-				.catch(error => {
-					console.error('Fetch error:', error);
-					return [`${error}`];
-				})
-
+				console.log('nk_json:', nk_json);
+				if (args[0] === 'list') {
+					return [object.keys(nk_json).join('<br>')];
+				} else {
+					console.log('were here!');
+					return [
+						`base formula for ${bi(args[0])}:<br> ${bi(base_formula)}`,
+						`contextual definitions:<br> ${bi(definitions)}`
+					];
+				}
+			} else {
+				const all = Object.keys(nk_json);
+				let brief = []
+				for ([key, value] of Object.entries(nk_json)) {
+					brief.push(`${key}: ${bi(value[0])}`);
+				}
+				return [ `${brief.join('<br>')}` ];
 			}
+		}
 	},
 
 	ping: {
 		brief: 'Ping user back',
-		command: (args) => {
+		command: (_) => {
 			return ["pong!"];
 		}
 	},
@@ -279,17 +300,12 @@ const commands = {
 
 
 // Other functions
-function attachImage() {
-
-}
+// function attachImage() {
+//
+// }
 
 function bi(str) {
-	return `<b><i>${str}</i></b>`
-}
-
-function log(args) {
-	console.log(args);
-	// lololol kys
+	return `<b><i>${str}</i></b>`;
 }
 
 function ascii(img) {
