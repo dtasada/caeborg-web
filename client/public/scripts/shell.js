@@ -291,7 +291,7 @@ const commands = {
 
 	ping: {
 		brief: 'Ping user back',
-		command: (_) => {
+		command: () => {
 			return ["pong!"];
 		}
 	},

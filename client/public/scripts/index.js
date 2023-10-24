@@ -21,13 +21,12 @@ document.getElementById('menu-button').addEventListener('click', () => {
 
 let shouldBeDark = true;
 function setColorScheme(should_toggle=true) {
-	iframe = document.querySelector("iframe").contentWindow.document.querySelector("body");
 	if (should_toggle === true) {
 		if (shouldBeDark === true) shouldBeDark = false;
 		else if (shouldBeDark === false) shouldBeDark = true;
 	}
 
-	for (element of [document.querySelector(":root"), iframe]) {
+	for (element of [document.querySelector(":root"), ...document.querySelector("iframe").contentWindow.document.querySelectorAll(":root")]) {
 		if (shouldBeDark === true) {
 			element.style.setProperty('--col-crust', '#181926');
 			element.style.setProperty('--col-subbase', '#1e2030');
