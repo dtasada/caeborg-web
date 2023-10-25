@@ -20,44 +20,54 @@ document.getElementById('menu-button').addEventListener('click', () => {
 });
 
 let shouldBeDark = true;
-function setColorScheme(should_toggle=true) {
-	if (should_toggle === true) {
+function setColorScheme(shouldToggle=true) {
+	if (shouldToggle === true) {
 		if (shouldBeDark === true) shouldBeDark = false;
 		else if (shouldBeDark === false) shouldBeDark = true;
 	}
 
-	for (element of [document.querySelector(":root"), ...document.querySelector("iframe").contentWindow.document.querySelectorAll(":root")]) {
+	things = [
+		document.querySelector(":root").style,
+		document.querySelector("iframe").contentWindow.document.querySelector(":root").style,
+		document.querySelector("iframe").contentWindow.document.querySelector("html").style,
+		document.querySelector("iframe").contentWindow.document.querySelector("body").style,
+	];
+
+	console.log(things);
+
+	for (element of things) {
 		if (shouldBeDark === true) {
-			element.style.setProperty('--col-crust', '#181926');
-			element.style.setProperty('--col-subbase', '#1e2030');
-			element.style.setProperty('--col-base', '#24273a');
-			element.style.setProperty('--col-surface', '#363a4f');
-			element.style.setProperty('--col-suboverlay', '#5b6078');
-			element.style.setProperty('--col-overlay', '#6e738d');
-			element.style.setProperty('--col-subtext', '#a5abcd');
-			element.style.setProperty('--col-text', '#cad3f5');
-			element.style.setProperty('--col-white', '#eff1f5');
-			element.style.setProperty('--col-red', '#ed8796');
-			element.style.setProperty('--col-orange', '#f5a97f');
-			element.style.setProperty('--col-yellow', '#eed49f');
-			element.style.setProperty('--col-green', '#a6da95');
-			element.style.setProperty('--col-blue', '#8aadf4');
-			element.style.setProperty('--col-lightrose', '#f4dbd6');
+			element.setProperty('--col-crust', '#181926');
+			element.setProperty('--col-subbase', '#1e2030');
+			element.setProperty('--col-base', '#24273a');
+			element.setProperty('--col-surfac0e', '#363a4f');
+			element.setProperty('--col-suboverlay', '#5b6078');
+			element.setProperty('--col-overlay', '#6e738d');
+			element.setProperty('--col-subtext', '#a5abcd');
+			element.setProperty('--col-text', '#cad3f5');
+			element.setProperty('--col-white', '#eff1f5');
+			element.setProperty('--col-red', '#ed8796');
+			element.setProperty('--col-orange', '#f5a97f');
+			element.setProperty('--col-yellow', '#eed49f');
+			element.setProperty('--col-green', '#a6da95');
+			element.setProperty('--col-blue', '#8aadf4');
+			element.setProperty('--col-lightrose', '#f4dbd6');
 		} else if (shouldBeDark === false) {
-			element.style.setProperty('--col-crust', '#dce0e8');
-			element.style.setProperty('--col-subbase', '#e6e9ef');
-			element.style.setProperty('--col-base', '#eff1f5');
-			element.style.setProperty('--col-surface', '#ccd0da');
-			element.style.setProperty('--col-suboverlay', '#acb0be');
-			element.style.setProperty('--col-overlay', '#9ca0b0');
-			element.style.setProperty('--col-subtext', '#6c6f85');
-			element.style.setProperty('--col-text', '#4c4f69');
-			element.style.setProperty('--col-red', '#d20f39');
-			element.style.setProperty('--col-orange', '#fe640b');
-			element.style.setProperty('--col-yellow', '#df8e1d');
-			element.style.setProperty('--col-green', '#40a02b');
-			element.style.setProperty('--col-blue', '#1e66f5');
-			element.style.setProperty('--col-lightrose', '#dc8a78');
+			element.setProperty('--col-crust', '#dce0e8');
+			element.setProperty('--col-subbase', '#e6e9ef');
+			element.setProperty('--col-base', '#eff1f5');
+			element.setProperty('--col-surface', '#ccd0da');
+			element.setProperty('--col-suboverlay', '#acb0be');
+			element.setProperty('--col-overlay', '#9ca0b0');
+			element.setProperty('--col-subtext', '#6c6f85');
+			element.setProperty('--col-text', '#4c4f69');
+			element.setProperty('--col-white', '#24273a');
+			element.setProperty('--col-red', '#d20f39');
+			element.setProperty('--col-orange', '#fe640b');
+			element.setProperty('--col-yellow', '#df8e1d');
+			element.setProperty('--col-green', '#40a02b');
+			element.setProperty('--col-blue', '#1e66f5');
+			element.setProperty('--col-lightrose', '#dc8a78');
 		}
 	}
 }
@@ -115,6 +125,7 @@ function switchFrame(page) {
 	});
 
 	document.getElementById("rest-sec").appendChild(new_frame);
+	setColorScheme(false);
 	switch (page) {
 		case 'calc': document.title = 'Caeborg - Calculator'; break;
 		case 'chat': document.title = 'Caeborg - Chatting'; break;
@@ -130,7 +141,6 @@ function switchFrame(page) {
 		case 'translator': document.title = 'Caeborg - Translator'; break;
 	}
 
-	setColorScheme(false);
 }
 
 if (localStorage.getItem('saved_frame') === null) {
