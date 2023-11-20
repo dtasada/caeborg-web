@@ -3,13 +3,36 @@ time = new Date();
 const fullUrl = window.location.href.split("/");
 const ourUrl = `${fullUrl[0]}//${fullUrl[2]}`;
 
+const ws = new WebSocket(`ws://localhost:8001`);
+ws.addEventListener("open", () => {
+	console.log("We are connected!");
+	ws.send(JSON.stringify({ type: "chatRead" }));
+})
+
+ws.addEventListener("message", ({ data }) => {
+	const json = JSON.parse(data);
+	if (json.type !== "chatJson") {
+		console.log(json);
+	};
+});
+
+
 // Starting localStorage values
 async function serveChat() {
-	json = await fetch(`${ourUrl}/read_chat`);
-	json = await json.json()
-	for (value of Object.values(json)) {
-		await send(value.sender, [value.content], true);
-	}
+	// json = await fetch(`${ourUrl}/read_chat`);
+	// json = await json.json()
+	// for (value of Object.values(json)) {
+	// 	await send(value.sender, [value.content], true);
+	// }
+
+	ws.addEventListener("message", async ({ data }) => {
+		const json = JSON.parse(data);
+		if (json.type === "chatJson") {
+			for (value of Object.values(json)) {
+				await send(value.sender, [value.content], true);
+			}
+		}
+	});
 }
 serveChat();
 
@@ -48,7 +71,7 @@ addButton.addEventListener('click', () => {
 	});
 
 	inputFile.click();
-})
+});
 
 const input = document.getElementById('input-box');
 input.focus();
@@ -80,51 +103,61 @@ async function send(sender, msgs, startup=false) {
 		});
 		li.appendChild(pfp);
 
-		senderP = document.createElement('p');
+		const senderP = document.createElement('p');
 		senderP.innerHTML = sender;
 		senderP.classList.add('usernameTag');
 		li.appendChild(senderP);
 
-		for (msg of msgs) {
+		for (const msg of msgs) {
 			if (typeof msg === 'string') {
 				const p = document.createElement('p');
 				p.innerHTML = msg;
 				li.appendChild(p);
+				if (startup === false) {
+					ws.send(JSON.stringify({
+						content: msg,
+						date: `${time.toLocaleDateString()}`,
+						sender: sender,
+						time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
+						type: "chatAddMessage"
+					}));
+				}
 			} else {
 				li.appendChild(msg);
+				console.log(msg);
+				// if (startup === false) {
+				// addMessage({
+				// 		content: msg.src,
+				// 		date: `${time.toLocaleDateString()}`,
+				// 		sender: sender,
+				// 		time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
+				// 		type: "chatAddImage"
+				// 	});
+				// } // upload images to server!
 			}
 		}
+
 		output_ol.appendChild(li);
 		localStorage.setItem('saved_chat_output_ol', output_ol.outerHTML);
 		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 
-		if (!startup) {
-			addMessage({
-				content: msg,
-				sender: sender,
-				date: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
-				time: `${time.toLocaleDateString()}`
-			});
-		}
 	}
 }
 
-async function addMessage(body) {
-	json = await fetch(`${ourUrl}/add_chat`, {
-		method: "PUT",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(body)
-	})
-	json = await json.json();
-	return json;
-}
+// function addMessage(body) {
+// 	await fetch(`${ourUrl}/add_chat`, {
+// 		method: "PUT",
+// 		headers: { "Content-Type": "application/json" },
+// 		body: JSON.stringify(body)
+// 	});
+// }
 
 // main text parser and lexer
 
 async function parseInput(text) {
 	// init variables
 	await send('user', [ text ]);
-	if (text === "") { return; }
+	if (text === "") return;
 	// execute command
 	// if (command in commands) {
 	//	 const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))

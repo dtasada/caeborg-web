@@ -2,6 +2,7 @@ const https = require('https');
 const express = require('express');
 const process = require('process');
 const bodyParser = require('body-parser');
+const WebSocket = require("ws");
 
 const express_port = 8000;
 // const bun_port = 3000;
@@ -38,28 +39,41 @@ app.get("/", (_, response) => {
 	response.sendFile(`${public_path}/index.html`);
 });
 
-app.get("/read_chat", async (_, response) => {
-	response.end(await Bun.file(`${Bun.env.rootdir}/server/assets/chat.json`).text());
-});
-
 app.get("/icons*", async (request, response) => {
 	url = request.url.split('/icons/')
 	response.redirect(`${customUrl}:8080/icon?${url[1]}`)
 });
 
-app.put("/add_chat", async (request, response) => {
-	path = `${Bun.env.rootdir}/server/assets/chat.json`;
-	data = await Bun.file(path).json(); // await here is important
-	data[`${Object.keys(data).length + 1}`] = request.body;
-	await Bun.write(path, JSON.stringify(data));
-	response.end(JSON.stringify(data));
-});
+// app.get("/read_chat", async (_, response) => {
+// 	response.end(await Bun.file(`${Bun.env.rootdir}/server/assets/chat.json`).text());
+// });
+//
+// app.put("/add_chat", async (request, response) => {
+// 	path = `${Bun.env.rootdir}/server/assets/chat.json`;
+// 	data = await Bun.file(path).json(); // await here is important
+// 	data[`${Object.keys(data).length + 1}`] = request.body;
+// 	await Bun.write(path, JSON.stringify(data));
+// 	response.end(JSON.stringify(data));
+// });
 
-let socket = new WebSocket("ws://localhost:8001/");
-socket.onopen = () => {
-	alert("[open] Connection established");
-	alert("Sending to server");
-	socket.send("My name is John");
-};
+const wss = new WebSocket.Server({ port: 8001 });
+wss.on("connection", (ws) => {
+	ws.on("message", async (request) => {
+		console.log(`Client has sent ${request}`);
+		request = JSON.parse(request);
+
+		if (request.type === "chatAddMessage") {
+			console.log('chataddmessage');
+			path = `${Bun.env.rootdir}/server/assets/chat.json`;
+			data = await Bun.file(path).json(); // await here is important
+			data[`${Object.keys(data).length + 1}`] = request.body;
+			await Bun.write(path, JSON.stringify(data));
+
+			ws.send(JSON.stringify(data));
+		} else if (request.type === "chatRead") {
+			ws.send(await Bun.file(`${Bun.env.rootdir}/server/assets/chat.json`).text())
+		}
+	});
+});
 
 const server = app.listen(express_port, () => console.log(`Express server is listening on port ${express_port}`));

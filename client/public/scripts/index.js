@@ -143,7 +143,6 @@ function switchFrame(page) {
 		case 'shell': document.title = 'Caeborg - Shell'; break;
 		case 'translator': document.title = 'Caeborg - Translator'; break;
 	}
-
 }
 
 if (localStorage.getItem('saved_frame') === null) {
