@@ -1,22 +1,24 @@
 const restSec = document.getElementById('rest-sec');
 const footerSec = document.getElementById('footer-sec');
 const sidebarSec = document.getElementById('sidebar-sec');
+
 let isHiddenUserChoice = null;
+
 function setValues() {
-	rest_sec_left_default = window.getComputedStyle(restSec).left;
-	rest_sec_right_default = window.getComputedStyle(restSec).right;
-	rest_sec_width_default = window.getComputedStyle(restSec).width;
-	footer_sec_left_default = window.getComputedStyle(footerSec).left;
-	footer_sec_right_default = window.getComputedStyle(footerSec).right;
-	footer_sec_width_default = window.getComputedStyle(footerSec).width;
+	restSecLeftDefault = window.getComputedStyle(restSec).left;
+	restSecRightDefault = window.getComputedStyle(restSec).right;
+	restSecWidthDefault = window.getComputedStyle(restSec).width;
+	footerSecLeftDefault = window.getComputedStyle(footerSec).left;
+	footerSecRightDefault = window.getComputedStyle(footerSec).right;
+	footerSecWidthDefault = window.getComputedStyle(footerSec).width;
 }
 
 setValues();
 
 document.getElementById('menu-button').addEventListener('click', () => {
 	if (isHiddenUserChoice === null) isHiddenUserChoice = true;
-	if (isHiddenUserChoice === true) isHiddenUserChoice = false;
-	if (isHiddenUserChoice === false) isHiddenUserChoice = true;
+	else if (isHiddenUserChoice === true) isHiddenUserChoice = false;
+	else if (isHiddenUserChoice === false) isHiddenUserChoice = true;
 });
 
 let shouldBeDark = true;
@@ -77,8 +79,8 @@ function toggleSidebarSec(mode=null) {
 		sidebarSec.hidden = true;
 
 		if (window.innerWidth >= 700) {
-			restSec.style.left = `calc(100% - ${rest_sec_width_default} - ${rest_sec_left_default} / 2)`;
-			footerSec.style.left = `calc(100% - ${rest_sec_width_default} - ${rest_sec_left_default} / 2)`;
+			restSec.style.left = `calc(100% - ${restSecWidthDefault} - ${restSecLeftDefault} / 2)`;
+			footerSec.style.left = `calc(100% - ${restSecWidthDefault} - ${restSecLeftDefault} / 2)`;
 		} else {
 			restSec.style.left = '4px';
 			restSec.style.right = '4px';
@@ -87,20 +89,21 @@ function toggleSidebarSec(mode=null) {
 			restSec.style.width = 'calc(100% - 4px)';
 			footerSec.style.width = 'calc(100% - 4px)';
 		}
+
 	} else if ((mode === null && sidebarSec.hidden === true) || mode === 'shown') {
 		sidebarSec.hidden = false;
 
-		restSec.style.left = rest_sec_left_default;
-		restSec.style.right = rest_sec_right_default;
-		restSec.style.width = rest_sec_width_default;
-		footerSec.style.left = footer_sec_left_default;
-		footerSec.style.right = footer_sec_right_default;
-		footerSec.style.width = footer_sec_width_default;
+		restSec.style.left = restSecLeftDefault;
+		restSec.style.right = restSecRightDefault;
+		restSec.style.width = restSecWidthDefault;
+		footerSec.style.left = footerSecLeftDefault;
+		footerSec.style.right = footerSecRightDefault;
+		footerSec.style.width = footerSecWidthDefault;
 		setValues();
 	}
 }
 
-if (window.innerWidth <= 700) toggleSidebarSec('hidden')
+if (window.innerWidth <= 700 && isHiddenUserChoice !== false) toggleSidebarSec('hidden');
 
 window.addEventListener("resize", () => {
 	restSec.removeAttribute('style');
@@ -108,7 +111,7 @@ window.addEventListener("resize", () => {
 	footerSec.removeAttribute('style');
 	setValues()
 	if (window.innerWidth <= 700 && isHiddenUserChoice !== false) toggleSidebarSec('hidden')
-	if (window.innerWidth > 700 && isHiddenUserChoice !== true) toggleSidebarSec('shown')
+	else if (window.innerWidth > 700 && isHiddenUserChoice !== true) toggleSidebarSec('shown')
 });
 
 // Switching frames

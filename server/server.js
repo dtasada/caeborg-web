@@ -45,7 +45,7 @@ app.get("/read_chat", async (_, response) => {
 app.get("/icons*", async (request, response) => {
 	url = request.url.split('/icons/')
 	response.redirect(`${customUrl}:8080/icon?${url[1]}`)
-})
+});
 
 app.put("/add_chat", async (request, response) => {
 	path = `${Bun.env.rootdir}/server/assets/chat.json`;
@@ -54,5 +54,12 @@ app.put("/add_chat", async (request, response) => {
 	await Bun.write(path, JSON.stringify(data));
 	response.end(JSON.stringify(data));
 });
+
+let socket = new WebSocket("ws://localhost:8001/");
+socket.onopen = () => {
+	alert("[open] Connection established");
+	alert("Sending to server");
+	socket.send("My name is John");
+};
 
 const server = app.listen(express_port, () => console.log(`Express server is listening on port ${express_port}`));
