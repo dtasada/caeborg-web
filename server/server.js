@@ -65,10 +65,11 @@ wss.on("connection", (ws) => {
 			path = `${Bun.env.rootdir}/server/assets/chat.json`;
 			data = await Bun.file(path).json(); // await here is important
 			request.type = "chatFetchMessage";
-			data[`${Object.keys(data).length}`] = request;
 
-			console.log(request);
 			ws.send(JSON.stringify(request));
+
+			delete request.type;
+			data[`${Object.keys(data).length}`] = request;
 
 			await Bun.write(path, JSON.stringify(data));
 		} else if (request.type === "chatFetchAll") {
