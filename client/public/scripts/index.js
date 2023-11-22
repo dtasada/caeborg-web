@@ -129,20 +129,20 @@ function switchFrame(page) {
 
 	document.getElementById("rest-sec").appendChild(new_frame);
 	setColorScheme(false);
-	switch (page) {
-		case 'calc': document.title = 'Caeborg - Calculator'; break;
-		case 'chat': document.title = 'Caeborg - Chatting'; break;
-		case 'chemtools': document.title = 'Caeborg - ChemTools'; break;
-		case 'games': document.title = 'Caeborg - Games'; break;
-		case 'graph': document.title = 'Caeborg - Graph'; break;
-		case 'launcher': document.title = 'Caeborg - Launcher'; break;
-		case 'maps': document.title = 'Caeborg - Map'; break;
-		case 'meme': document.title = 'Caeborg - Meme Maker'; break;
-		case 'paint': document.title = 'Caeborg - Paint'; break;
-		case 'quote': document.title = 'Caeborg - Quote'; break;
-		case 'shell': document.title = 'Caeborg - Shell'; break;
-		case 'translator': document.title = 'Caeborg - Translator'; break;
-	}
+	document.title = {
+		calc: "Caeborg - Calculator",
+		chat: "Caeborg - Chatting",
+		chemtools: "Caeborg - ChemTools",
+		games: "Caeborg - Games",
+		graph: "Caeborg - Graph",
+		launcher: "Caeborg - Launcher",
+		maps: "Caeborg - Map",
+		meme: "Caeborg - Meme Maker",
+		paint: "Caeborg - Paint",
+		quote: "Caeborg - Quote",
+		shell: "Caeborg - Shell",
+		translator: "Caeborg - Translator"
+	}[page];
 }
 
 if (localStorage.getItem('saved_frame') === null) {

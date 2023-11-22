@@ -5,37 +5,20 @@ const ourUrl = `${fullUrl[0]}//${fullUrl[2]}`;
 
 const ws = new WebSocket(`ws://localhost:8001`);
 ws.addEventListener("open", () => {
-	ws.send(JSON.stringify({ type: "chatFetchAll" }));
+	ws.send('{"type":"chatFetchAll"}');
 
 	ws.addEventListener("message", async ({ data }) => {
 		const json = JSON.parse(data);
-		if (json.type === "chatFetchMessage") {
-			await send(json.sender, [ json.content ], true);
-		};
-	});
-});
-
-
-
-// Starting localStorage values
-function serveChat() {
-	// json = await fetch(`${ourUrl}/read_chat`);
-	// json = await json.json()
-	// for (value of Object.values(json)) {
-	// 	await send(value.sender, [value.content], true);
-	// }
-
-	ws.addEventListener("message", async ({ data }) => {
-		const json = JSON.parse(data);
+		console.log(json);
 		if (json.type === "chatJson") {
 			for (value of Object.values(json)) {
-				await send(value.sender, [value.content], true);
+				await send(value.sender, [ value.content ], false);
 			}
+		} else if (json.type === "chatFetchMessage") {
+			await send(json.sender, [ json.content ], false);
 		}
 	});
-}
-
-serveChat();
+});
 
 // html tags as variables
 const output_sec = document.getElementById('output-sec');
@@ -43,7 +26,7 @@ output_sec.scrollTop = output_sec.scrollHeight;
 const output_ol = document.getElementById('output-ol');
 const submit = document.getElementById('submit-button');
 submit.addEventListener('click', async () => {
-	await send('user', [ input.value ]);
+	await send('user', [ input.value ], true);
 	input.value = '';
 	localStorage.setItem('saved_chat_input_value', input.value);
 });
@@ -79,7 +62,7 @@ input.focus();
 input.addEventListener('keydown', (event) => {
 	switch (event.key) {
 		case 'Enter':
-			send("user", [ input.value ])
+			send("user", [ input.value ], true)
 			input.value = "";
 			localStorage.setItem('saved_chat_input_value', input.value);
 			break;
@@ -91,14 +74,13 @@ input.oninput = () => { localStorage.setItem('saved_chat_input_value', input.val
 // important functions
 
 async function send(sender, msgs, shouldPost=false) {
-	if (sender != null) {
+	if (sender) {
 		// render html message
 		const li = document.createElement('li');
 
 		pfp = document.createElement('img');
 		pfp.classList.add(`sender-is-${sender}`, 'pfp');
-		pfp.src = await fetch(`${ourUrl}/assets/users/${sender}.png`)
-			.then(response => {
+		pfp.src = await fetch(`${ourUrl}/assets/users/${sender}.png`).then(response => {
 				if (response.status === 200) return `${ourUrl}/assets/users/${sender}.png`
 				else if (response.status === 404) return `${ourUrl}/icons/url=https://${sender}&size=32..40..64`;
 		});
@@ -114,7 +96,7 @@ async function send(sender, msgs, shouldPost=false) {
 				const p = document.createElement('p');
 				p.innerHTML = msg;
 				li.appendChild(p);
-				if (shouldPost === false) {
+				if (shouldPost === true) {
 					ws.send(JSON.stringify({
 						content: msg,
 						date: `${time.toLocaleDateString()}`,
@@ -126,7 +108,7 @@ async function send(sender, msgs, shouldPost=false) {
 			} else {
 				li.appendChild(msg);
 				console.log(msg);
-				// if (startup === false) {
+				// if (startup === true) {
 				// addMessage({
 				// 		content: msg.src,
 				// 		date: `${time.toLocaleDateString()}`,
@@ -138,7 +120,7 @@ async function send(sender, msgs, shouldPost=false) {
 			}
 		}
 
-		if (shouldPost === true) output_ol.appendChild(li);
+		if (shouldPost === false) output_ol.appendChild(li);
 		localStorage.setItem('saved_chat_output_ol', output_ol.outerHTML);
 		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 

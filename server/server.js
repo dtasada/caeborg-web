@@ -67,6 +67,7 @@ wss.on("connection", (ws) => {
 			request.type = "chatFetchMessage";
 			data[`${Object.keys(data).length}`] = request;
 
+			console.log(request);
 			ws.send(JSON.stringify(request));
 
 			await Bun.write(path, JSON.stringify(data));

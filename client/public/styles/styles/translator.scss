@@ -74,10 +74,12 @@ body {
 		border-bottom-left-radius: 32px;
 		border-top: 2px solid var(--col-red);
 		border-left: none;
+		border-right: 1px solid gray;
 	}
 	#output-box {
 		border-bottom-right-radius: 32px;
 		border-top: 2px solid var(--col-blue);
 		border-right: none;
+		border-left: 1px solid gray;
 	}
 }
