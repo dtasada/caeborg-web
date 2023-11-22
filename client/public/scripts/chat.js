@@ -5,20 +5,20 @@ const ourUrl = `${fullUrl[0]}//${fullUrl[2]}`;
 
 const ws = new WebSocket(`ws://localhost:8001`);
 ws.addEventListener("open", () => {
-	console.log("We are connected!");
-	ws.send(JSON.stringify({ type: "chatRead" }));
-})
+	ws.send(JSON.stringify({ type: "chatFetchAll" }));
 
-ws.addEventListener("message", ({ data }) => {
-	const json = JSON.parse(data);
-	if (json.type !== "chatJson") {
-		console.log(json);
-	};
+	ws.addEventListener("message", async ({ data }) => {
+		const json = JSON.parse(data);
+		if (json.type === "chatFetchMessage") {
+			await send(json.sender, [ json.content ], true);
+		};
+	});
 });
 
 
+
 // Starting localStorage values
-async function serveChat() {
+function serveChat() {
 	// json = await fetch(`${ourUrl}/read_chat`);
 	// json = await json.json()
 	// for (value of Object.values(json)) {
@@ -34,6 +34,7 @@ async function serveChat() {
 		}
 	});
 }
+
 serveChat();
 
 // html tags as variables
@@ -41,8 +42,8 @@ const output_sec = document.getElementById('output-sec');
 output_sec.scrollTop = output_sec.scrollHeight;
 const output_ol = document.getElementById('output-ol');
 const submit = document.getElementById('submit-button');
-submit.addEventListener('click', () => {
-	parseInput(input.value);
+submit.addEventListener('click', async () => {
+	await send('user', [ input.value ]);
 	input.value = '';
 	localStorage.setItem('saved_chat_input_value', input.value);
 });
@@ -78,7 +79,7 @@ input.focus();
 input.addEventListener('keydown', (event) => {
 	switch (event.key) {
 		case 'Enter':
-			parseInput(input.value);
+			send("user", [ input.value ])
 			input.value = "";
 			localStorage.setItem('saved_chat_input_value', input.value);
 			break;
@@ -89,7 +90,7 @@ input.oninput = () => { localStorage.setItem('saved_chat_input_value', input.val
 
 // important functions
 
-async function send(sender, msgs, startup=false) {
+async function send(sender, msgs, shouldPost=false) {
 	if (sender != null) {
 		// render html message
 		const li = document.createElement('li');
@@ -113,13 +114,13 @@ async function send(sender, msgs, startup=false) {
 				const p = document.createElement('p');
 				p.innerHTML = msg;
 				li.appendChild(p);
-				if (startup === false) {
+				if (shouldPost === false) {
 					ws.send(JSON.stringify({
 						content: msg,
 						date: `${time.toLocaleDateString()}`,
 						sender: sender,
 						time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
-						type: "chatAddMessage"
+						type: "chatPostMessage"
 					}));
 				}
 			} else {
@@ -137,7 +138,7 @@ async function send(sender, msgs, startup=false) {
 			}
 		}
 
-		output_ol.appendChild(li);
+		if (shouldPost === true) output_ol.appendChild(li);
 		localStorage.setItem('saved_chat_output_ol', output_ol.outerHTML);
 		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 
@@ -153,22 +154,6 @@ async function send(sender, msgs, startup=false) {
 // }
 
 // main text parser and lexer
-
-async function parseInput(text) {
-	// init variables
-	await send('user', [ text ]);
-	if (text === "") return;
-	// execute command
-	// if (command in commands) {
-	//	 const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
-	//	 if (results != null) send('caeborg', results);
-	//	 else console.log('Function return is null!')
-	// } else {
-	//	 // console.log(`Command ${command} not found`);
-	//	 send('caeborg', [ `<i>Command '${command}' not found</i>`] );
-	// }
-}
-
 function httpGet(theUrl) {
 	const xmlHttp = new XMLHttpRequest();
 	xmlHttp.open("GET", theUrl, false);
