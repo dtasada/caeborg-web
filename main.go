@@ -8,24 +8,7 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
-	"github.com/bep/godartsass"
 )
-
-func iterate(folder []os.DirEntry, transpiler godartsass.Transpiler) {
-	PATH, _ := os.Getwd()
-
-	for _, file := range folder {
-		filePath := fmt.Sprintf("%s/client/public/styles/%s", PATH, file.Name())
-		strFile, _ := os.ReadFile(filePath)
-		res, _ := transpiler.Execute(godartsass.Args {
-			Source: string(strFile),
-			OutputStyle: godartsass.OutputStyleCompressed,
-			SourceSyntax: godartsass.SourceSyntaxCSS,
-			URL: fmt.Sprintf("file://%s/client/public/styles", PATH),
-		})
-		fmt.Println(res)
-	}
-}
 
 func main() {
 
@@ -38,23 +21,10 @@ func main() {
 
 	machineType := runtime.GOOS + "_" + runtime.GOARCH
 
-	transpiler, _ := godartsass.Start(godartsass.Options {
-		DartSassEmbeddedFilename: fmt.Sprintf("./server/dart-sass-embedded/sass_embedded_%s/dart-sass-embedded", machineType),
-	})
-
-	sassRoot, _ := os.ReadDir(fmt.Sprintf("%s/client/public/styles", PATH))
-	for _, item := range sassRoot {
-		if item.IsDir() {
-			folder, _ := os.ReadDir(fmt.Sprintf("%s/client/public/styles/%s", PATH, item.Name()))
-		} else {
-			iterate(item, transpiler)
-		}
-	}
-
 	if len(os.Args[1:]) != 0 { switch args[0] {
 		case "dev":
-			sass := exec.Command("sass --watch ./client/public/styles:./client/public/.css")
-			sass.Env = os.Environ()
+			sass := exec.Command("sass", "--watch", "./client/public/styles:./client/public/.css")
+			sass.Env = append(sass.Env, os.Environ()...)
 			go sass.Run()
 			fmt.Println("Started sass compiler")
 		}
