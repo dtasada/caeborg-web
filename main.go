@@ -3,8 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/gorilla/websocket"
-	"log"
+	"golang.org/x/net/websocket"
 	"net/http"
 	"os"
 	"os/exec"
@@ -32,49 +31,35 @@ func sassFunc() {
 func bestIcon() {
 	machineType := runtime.GOOS + "_" + runtime.GOARCH
 
-	besticon := exec.Command(fmt.Sprintf("./server/besticon/besticon_%s", machineType), ">", "/dev/null")
+	besticon := exec.Command("./server/besticon/besticon_%s" + machineType, ">", "/dev/null")
 	besticon.Env = append(os.Environ(), "PORT=8080", "DISABLE_BROWSE_PAGES=true")
 	besticon.Start()
 }
 
-var upgrader = websocket.Upgrader {
-	ReadBufferSize: 1024,
-	WriteBufferSize: 1024,
-	CheckOrigin: func(r *http.Request) bool { return true } ,
-}
-
-func wsEndpoint(w http.ResponseWriter, r *http.Request) {
-	ws, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println(err)
-	}
-
-	log.Println("Client Connected")
-
-	err = ws.WriteMessage(1, []byte("Hi Client!"))
-	if err != nil {
-		log.Println(err)
-	}
-
+func Sock(ws *websocket.Conn) {
 	for {
-		messageType, p, err := ws.ReadMessage()
-		if err != nil {
-			log.Println(err)
-			return
+		var reply string
+
+		if err := websocket.Message.Receive(ws, &reply); err != nil {
+			fmt.Println("Can't receive")
+			break
 		}
 
-		log.Println(string(p))
+		fmt.Println("Received back from client: " + reply)
 
-		if err := ws.WriteMessage(messageType, p); err != nil {
-			log.Println(err)
-			return
+		msg := "Received: " + reply
+		fmt.Println("Sending to client: " + msg)
+
+		if err := websocket.Message.Send(ws, msg); err != nil {
+			fmt.Println("Can't send")
+			break
 		}
 	}
 }
 
 func main() {
 	PATH, _ := os.Getwd()
-	PUBLIC := fmt.Sprintf("%s/client/public", PATH)
+	PUBLIC := PATH + "/client/public"
 
 	args := os.Args[1:]
 	const PORT = 8000
@@ -101,9 +86,11 @@ func main() {
 		http.Redirect(w, r, fmt.Sprintf("%s:8080/icon?%s", customUrl, url), http.StatusSeeOther)
 	})
 
-	http.HandleFunc("/chatThings", wsEndpoint)
+	// http.HandleFunc("/chatThings", wsEndpoint)
+
+	http.Handle("/chat", websocket.Handler(Sock))
 
 	bestIcon()
 
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	http.ListenAndServe(fmt.Sprintf(":%d", PORT), nil)
 }
