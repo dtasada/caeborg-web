@@ -28,10 +28,11 @@ func sassFunc() {
 	}
 }
 
+
 func bestIcon() {
 	machineType := runtime.GOOS + "_" + runtime.GOARCH
 
-	besticon := exec.Command("./server/besticon/besticon_%s" + machineType, ">", "/dev/null")
+	besticon := exec.Command("./server/besticon/besticon_" + machineType, ">", "/dev/null")
 	besticon.Env = append(os.Environ(), "PORT=8080", "DISABLE_BROWSE_PAGES=true")
 	besticon.Start()
 }
