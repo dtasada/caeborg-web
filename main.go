@@ -7,6 +7,7 @@ import (
 	"golang.org/x/net/websocket"
 	"log"
 	"net/http"
+	"net"
 	"os"
 	"os/exec"
 	"runtime"
@@ -33,7 +34,7 @@ func sassFunc() {
 func bestIcon() {
 	machineType := runtime.GOOS + "_" + runtime.GOARCH
 
-	besticon := exec.Command("./server/besticon/besticon_%s" + machineType, ">", "/dev/null")
+	besticon := exec.Command("./server/besticon/besticon_" + machineType, ">", "/dev/null")
 	besticon.Env = append(os.Environ(), "PORT=8080", "DISABLE_BROWSE_PAGES=true")
 	besticon.Start()
 }
@@ -70,19 +71,22 @@ func setTLS() {
 	tlsConfig.Certificates[0] = cert
 }
 
-var customUrl = "https://caeborg.dev"
+var domain = "caeborg.dev"
 var PATH, PUBLIC string
+var devMode = false
+var ipAddr string
 func startServer() {
-
 	const PORT = 8000
 	mux := http.NewServeMux()
 
 	mux.Handle("/", http.FileServer(http.Dir(PUBLIC)))
-	mux.Handle("/.well-known/acme-challenge/", http.FileServer(http.Dir("/letsencrypt")))
+	// mux.Handle("/.well-known/acme-challenge/", http.FileServer(http.Dir("/letsencrypt")))
 
-	mux.HandleFunc("/icons*", func (w http.ResponseWriter, r *http.Request) {
-		url := strings.Split(r.URL.Path, "/icons/")[1]
-		http.Redirect(w, r, fmt.Sprintf("%s:8080/icon?%s", customUrl, url), http.StatusSeeOther)
+	mux.HandleFunc("/icon*", func (w http.ResponseWriter, r *http.Request) {
+		url := strings.Split(r.URL.Path, "/icon?")[1]
+		fmt.Printf("http://%s:8080/%s", ipAddr, url)
+
+		http.Redirect(w, r, fmt.Sprintf("http://%s:8080/%s", ipAddr, url), http.StatusSeeOther)
 	})
 
 	// mux.Handle("/chat", websocket.Handler(Sock))
@@ -107,22 +111,23 @@ func main() {
 	PUBLIC = PATH + "/client/public"
 	args := os.Args[1:]
 
-	if len(os.Args[1:]) != 0 {
+	if len(args) != 0 {
 		if args[0] == "dev" {
+			devMode = true
 			go sassFunc()
 		}
 	}
 
-	for _, arg := range args {
-		if strings.Contains(arg, "--url") {
-			customUrl = strings.Split(arg, "=")[1]
+	fmt.Printf("At '%s':\n", domain)
+
+	ips, _ := net.LookupIP(domain)
+	for _, ip := range ips {
+		if ipv4 := ip.To4(); ipv4 != nil {
+			ipAddr = fmt.Sprintf("%s", ipv4)
 		}
 	}
-
-	fmt.Printf("At '%s':\n", customUrl)
 
 	setTLS()
 	bestIcon()
 	startServer()
-
 }
