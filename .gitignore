@@ -1,7 +1,9 @@
-.env
-*/.env
 *.css.map
-client/public/.css/
 *.sass-cache
+*/.env
 .DS_Store/
+.env
+cert.pem
+client/public/.css/
+key.pem
 node_modules/

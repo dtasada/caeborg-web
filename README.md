@@ -1,39 +1,22 @@
 ## Todo
+* [ ] Set up web sockets for chat
+* [ ] Set up single sign on
 * [ ] Make Paint tool
-* [ ] Make a chatting app?
 * [ ] Fix color scheme switching
-* [x] Improve Inspirobot CSS'ing
-* [x] Make Translator page
-* [x] New shortcut button in `launcher.html`
-* [x] Change sidebar hiding mechanic to `win-width < 700; then fullscreen rest-sec`
-* [x] Finish scrolling in chat.scss
-* [x] Check for dependency alternatives in bun-js
-* [x] FIX NK
-* [x] Migrate to bun-js
-* [x] [Flexbox](https://www.youtube.com/watch?v=fYq5PXgSsbE) setup (first on `launcher.html`)
-* [x] Figure out how to do caching
-* [x] Remove ExpressJS from equation and replace file hosting with Node, or stop using FTP hosting. // Nevermind
-* [x] Fix Node Server CSS'ing (file paths?)
-* [x] Migrate to SCSS
 
 ## Notes
-* To run Bun Server, run `bun start` in `caeborg-web/`
-* To run Bun in dev environment, run `bun run dev` in `caeborg-web/`. `dev` includes SCSS compilation.
-* When running `bun start` from `caeborg-web/`, it behaves like `server.js` is located in `caeborg-web/`, not in `caeborg-web/server/`.
-* `.env` file has been moved to `caeborg-web/` (it was previously in `caeborg-web/server`). `Bun.env` reads `.env` files in the directory `bun run` is run in, rather than the directory `server.js` is in.
-* `bun run` args include `--url`. When running `bun run dev`, it automatically specifies `--url=http://localhost`
-* To compile SCSS to CSS, run `sass --watch client/public/styles:client/public/.scss` in `caeborg-web/`.
+* To run the web server, run `go run main.go` in `caeborg-web/`
+* To run the server in its dev mode, run `go run main.go dev` in `caeborg-web/`. `dev` includes SCSS compilation.
+* To compile SCSS to CSS loosely, run `sass --watch ./client/public/styles:./client/public/.css`
+in `caeborg-web/`.
+### HTTPS Development
+For your development environment to work correctly, you need to set up HTTPS keys. These are self-signed keys intended only for development use.
+* To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365`
+* Then remove the passcode `openssl rsa -in key.pem -out key.pem -passin pass:1234`
 
 ## Development dependencies
-* `bun-js` (v1.0)
+* `go` (v1.18)
 * `dart-sass` or `node-sass` is required for SCSS transpilation.
-
-The application itself requires these packages to run:
-* `express`
-* ~~`nodemon` is recommended for development.~~ // (`nodemon` is not required when using bun-js)
-* ~~`dotenv`~~ // (`dotenv` is not required when using bun-js)
-
-Run `bun install` to install all dependencies automatically.
 
 ## CaeborgDiscordBot functions to implement:
 * [ ] deofhet

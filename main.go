@@ -64,7 +64,13 @@ func Sock(ws *websocket.Conn) {
 var tlsConfig = &tls.Config{}
 func setTLS() {
 	tlsConfig.Certificates = make([]tls.Certificate, 1)
-	cert, err := tls.LoadX509KeyPair("/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem")
+	var path [2]string
+	if devMode {
+		path = [2]string{"./cert.pem", "./key.pem"}
+	} else {
+		path = [2]string{"/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem"}
+	}
+	cert, err := tls.LoadX509KeyPair(path[0], path[1])
 	if err != nil {
 		log.Fatal(err)
 	}
