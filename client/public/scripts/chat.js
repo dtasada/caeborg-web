@@ -1,7 +1,6 @@
 time = new Date();
 // P R E R E Q U I S I T E S
-const fullUrl = window.location.href.split("/");
-const ourUrl = `${fullUrl[0]}//${fullUrl[2]}`;
+const fullUrl = window.location.origin;
 
 const ws = new WebSocket(`ws://localhost:8001`);
 ws.addEventListener("open", () => {
@@ -19,7 +18,7 @@ ws.addEventListener("message", ({ data }) => {
 
 // Starting localStorage values
 async function serveChat() {
-	// json = await fetch(`${ourUrl}/read_chat`);
+	// json = await fetch(`${fullUrl}/read_chat`);
 	// json = await json.json()
 	// for (value of Object.values(json)) {
 	// 	await send(value.sender, [value.content], true);
@@ -96,10 +95,10 @@ async function send(sender, msgs, startup=false) {
 
 		pfp = document.createElement('img');
 		pfp.classList.add(`sender-is-${sender}`, 'pfp');
-		pfp.src = await fetch(`${ourUrl}/assets/users/${sender}.png`)
+		pfp.src = await fetch(`${fullUrl}/assets/users/${sender}.png`)
 			.then(response => {
-				if (response.status === 200) return `${ourUrl}/assets/users/${sender}.png`
-				else if (response.status === 404) return `${ourUrl}/icons/url=https://${sender}&size=32..40..64`;
+				if (response.status === 200) return `${fullUrl}/assets/users/${sender}.png`
+				else if (response.status === 404) return `${fullUrl}/icons/url=https://${sender}&size=32..40..64`;
 		});
 		li.appendChild(pfp);
 
@@ -145,7 +144,7 @@ async function send(sender, msgs, startup=false) {
 }
 
 // function addMessage(body) {
-// 	await fetch(`${ourUrl}/add_chat`, {
+// 	await fetch(`${fullUrl}/add_chat`, {
 // 		method: "PUT",
 // 		headers: { "Content-Type": "application/json" },
 // 		body: JSON.stringify(body)

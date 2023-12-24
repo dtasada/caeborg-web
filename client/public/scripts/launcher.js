@@ -1,5 +1,4 @@
-const fullUrl = window.location.href.split(/:/g)
-const ourUrl = `${fullUrl[0]}:${fullUrl[1]}`;
+const fullUrl = window.location.origin
 
 const new_shortcut_sec = document.getElementById('new-shortcut-sec');
 const url_input = document.getElementById('url-input');
@@ -23,9 +22,9 @@ function startLocalStorage() {
 	if (localStorage.getItem('saved_launcher_ol') === null) {
 		launcher_ol.innerHTML = `
 			<li><button onclick="window.open('https://hageveld.magister.net')">
-				<img src="${ourUrl}:8080/icon?url=https://hageveld.magister.net&size=64..128..256" width="128" height="128"/><br><p>Magister</p></button></li>
+				<img src="${fullUrl}:8080/icon?url=https://hageveld.magister.net&size=64..128..256" width="128" height="128"/><br><p>Magister</p></button></li>
 			<li><button onclick="window.open('https://youtube.com/')">
-				<img src="${ourUrl}:8080/icon?url=https://youtube.com&size=64..128..256" width="128" height="128"/><br><p>YouTube</p></button></li>
+				<img src="${fullUrl}:8080/icon?url=https://youtube.com&size=64..128..256" width="128" height="128"/><br><p>YouTube</p></button></li>
 		`;
 			localStorage.setItem('saved_launcher_ol', launcher_ol.innerHTML);
 	} else {
@@ -84,7 +83,7 @@ function placeholderFavicon() {
 			return;
 		}
 		url = getUrlFromInput();
-		new_favicon_url = `${ourUrl}:8080/icon?url=${url}&size=64..128..256`
+		new_favicon_url = `${fullUrl}:8080/icon?url=${url}&size=64..128..256`
 		favicon_img.src = new_favicon_url;
 	}
 }
@@ -114,7 +113,7 @@ function confirm(element) {
 		const img = element.querySelector('img');
 		const p = element.querySelector('p');
 		p.innerHTML = name_input.value;
-		img.src = `${ourUrl}:8080/icon?url=${getUrlFromInput()}&size=64..128..256`;
+		img.src = `${fullUrl}:8080/icon?url=${getUrlFromInput()}&size=64..128..256`;
 		element.setAttribute('onclick', `window.open('${getUrlFromInput()}')`);
 	}
 	cleanup();
