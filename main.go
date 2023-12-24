@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"golang.org/x/net/websocket"
 	"log"
-	"net/http"
 	"net"
+	"net/http"
 	"os"
 	"os/exec"
 	"runtime"
-	"strings"
+	// "strings"
 )
 
 func sassFunc() {
@@ -82,11 +82,8 @@ func startServer() {
 	mux.Handle("/", http.FileServer(http.Dir(PUBLIC)))
 	// mux.Handle("/.well-known/acme-challenge/", http.FileServer(http.Dir("/letsencrypt")))
 
-	mux.HandleFunc("/icon*", func (w http.ResponseWriter, r *http.Request) {
-		url := strings.Split(r.URL.Path, "/icon?")[1]
-		fmt.Printf("http://%s:8080/%s", ipAddr, url)
-
-		http.Redirect(w, r, fmt.Sprintf("http://%s:8080/%s", ipAddr, url), http.StatusSeeOther)
+	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, fmt.Sprintf("http://%s:8080%s", ipAddr, r.URL), http.StatusSeeOther)
 	})
 
 	// mux.Handle("/chat", websocket.Handler(Sock))
