@@ -16,7 +16,6 @@ ws.addEventListener("message", async ({ data }) => {
 			await send(value.sender, [ value.content ]);
 		}
 	}
-	if (json.type === "chatPostMessage") console.log("chatpostmessage", json);
 	if (json.type === "chatPostMessage") await send(json.sender, [ json.content ]);
 });
 
@@ -47,7 +46,7 @@ addButton.addEventListener('click', () => {
 				img.src = e.target.result;
 				img.alt = file.name;
 				img.width = "300";
-				send("user", [img])
+				send("user", [ img ])
 				inputFile.value = null;
 				ascii(img)
 			};
@@ -80,11 +79,7 @@ async function send(sender, msgs) {
 
 		pfp = document.createElement('img');
 		pfp.classList.add(`sender-is-${sender}`, 'pfp');
-		pfp.src = await fetch(`${fullUrl}/assets/users/${sender}.png`)
-			.then(response => {
-				if (response.status === 200) return `${fullUrl}/assets/users/${sender}.png`
-				else if (response.status === 404) return `${fullUrl}/icons/url=https://${sender}&size=32..40..64`;
-		});
+		pfp.src = `${fullUrl}/icon?url=https://${sender}.com&size=64..128..256`
 		li.appendChild(pfp);
 
 		const senderP = document.createElement('p');

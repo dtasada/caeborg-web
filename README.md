@@ -1,11 +1,11 @@
 ## Todo
-* [ ] Set up web sockets for chat
+* [ ] Fix icons
 * [ ] Set up single sign on
 * [ ] Make Paint tool
 * [ ] Fix color scheme switching
 
 ## Notes
-* To run the web server, run `go run main.go` in `caeborg-web/`.
+* To run the web server, run `go run *.go` in `caeborg-web/`.
 * To run the server in its dev mode, run `go run main.go dev` in `caeborg-web/`. `dev` includes SCSS compilation.
 * To compile SCSS to CSS loosely, run `sass --watch ./client/public/styles:./client/public/.css` in `caeborg-web/`.
 

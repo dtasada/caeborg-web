@@ -66,7 +66,6 @@ func startServer() {
 	const PORT = 8000
 	mux := http.NewServeMux()
 	mux.Handle("/", http.FileServer(http.Dir(PUBLIC)))
-	// mux.Handle("/.well-known/acme-challenge/", http.FileServer(http.Dir("/letsencrypt")))
 
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, fmt.Sprintf("http://%s:8080%s", ipAddr, r.URL), http.StatusSeeOther)
@@ -77,9 +76,6 @@ func startServer() {
 	}
 
 	mux.HandleFunc("/chat", manager.serveChat)
-	// mux.HandleFunc("/chat", func(w http.ResponseWriter, r *http.Request) {
-	// 	fmt.Println(r)
-	// })
 
 	server := &http.Server{
 		Addr:	fmt.Sprintf(":%d", PORT),
