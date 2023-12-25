@@ -1,4 +1,4 @@
-const fullUrl = window.location.origin
+const fullUrl = document.location.origin
 
 const new_shortcut_sec = document.getElementById('new-shortcut-sec');
 const url_input = document.getElementById('url-input');

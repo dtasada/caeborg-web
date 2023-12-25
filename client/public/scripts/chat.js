@@ -2,38 +2,24 @@ time = new Date();
 // P R E R E Q U I S I T E S
 const fullUrl = window.location.origin;
 
-const ws = new WebSocket(`ws://localhost:8001`);
+const ws = new WebSocket(`wss://${document.location.host}/chat`);
 ws.addEventListener("open", () => {
-	console.log("We are connected!");
-	ws.send(JSON.stringify({ type: "chatRead" }));
+	console.log("Websocket connected");
+	ws.send(JSON.stringify({ type: "chatFetchAll" }));
 })
 
-ws.addEventListener("message", ({ data }) => {
+ws.addEventListener("message", async ({ data }) => {
 	const json = JSON.parse(data);
-	if (json.type !== "chatJson") {
-		console.log(json);
-	};
+
+	if (json.type === "chatJson") {
+		for (value of Object.values(json)) {
+			await send(value.sender, [ value.content ]);
+		}
+	}
+	if (json.type === "chatPostMessage") console.log("chatpostmessage", json);
+	if (json.type === "chatPostMessage") await send(json.sender, [ json.content ]);
 });
 
-
-// Starting localStorage values
-async function serveChat() {
-	// json = await fetch(`${fullUrl}/read_chat`);
-	// json = await json.json()
-	// for (value of Object.values(json)) {
-	// 	await send(value.sender, [value.content], true);
-	// }
-
-	ws.addEventListener("message", async ({ data }) => {
-		const json = JSON.parse(data);
-		if (json.type === "chatJson") {
-			for (value of Object.values(json)) {
-				await send(value.sender, [value.content], true);
-			}
-		}
-	});
-}
-serveChat();
 
 // html tags as variables
 const output_sec = document.getElementById('output-sec');
@@ -80,15 +66,14 @@ input.addEventListener('keydown', (event) => {
 			parseInput(input.value);
 			input.value = "";
 			localStorage.setItem('saved_chat_input_value', input.value);
-			break;
+		break;
 	}
 });
 
 input.oninput = () => { localStorage.setItem('saved_chat_input_value', input.value); }
 
 // important functions
-
-async function send(sender, msgs, startup=false) {
+async function send(sender, msgs) {
 	if (sender != null) {
 		// render html message
 		const li = document.createElement('li');
@@ -112,65 +97,32 @@ async function send(sender, msgs, startup=false) {
 				const p = document.createElement('p');
 				p.innerHTML = msg;
 				li.appendChild(p);
-				if (startup === false) {
-					ws.send(JSON.stringify({
-						content: msg,
-						date: `${time.toLocaleDateString()}`,
-						sender: sender,
-						time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
-						type: "chatAddMessage"
-					}));
-				}
 			} else {
 				li.appendChild(msg);
 				console.log(msg);
-				// if (startup === false) {
-				// addMessage({
-				// 		content: msg.src,
-				// 		date: `${time.toLocaleDateString()}`,
-				// 		sender: sender,
-				// 		time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
-				// 		type: "chatAddImage"
-				// 	});
-				// } // upload images to server!
+				// upload images to server!
 			}
 		}
 
 		output_ol.appendChild(li);
 		localStorage.setItem('saved_chat_output_ol', output_ol.outerHTML);
 		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
-
 	}
 }
 
-// function addMessage(body) {
-// 	await fetch(`${fullUrl}/add_chat`, {
-// 		method: "PUT",
-// 		headers: { "Content-Type": "application/json" },
-// 		body: JSON.stringify(body)
-// 	});
-// }
-
-// main text parser and lexer
-
 async function parseInput(text) {
-	// init variables
-	await send('user', [ text ]);
+	// await send('user', [ text ]);
 	if (text === "") return;
-	// execute command
-	// if (command in commands) {
-	//	 const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
-	//	 if (results != null) send('caeborg', results);
-	//	 else console.log('Function return is null!')
-	// } else {
-	//	 // console.log(`Command ${command} not found`);
-	//	 send('caeborg', [ `<i>Command '${command}' not found</i>`] );
-	// }
-}
 
-function httpGet(theUrl) {
-	const xmlHttp = new XMLHttpRequest();
-	xmlHttp.open("GET", theUrl, false);
-	xmlHttp.send(null);
-	return xmlHttp;
+	if (typeof text === "string") {
+		const sender = "user"
+
+		ws.send(JSON.stringify({
+			content: text,
+			date: `${time.toLocaleDateString()}`,
+			sender: sender,
+			time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
+			type: "chatPostMessage"
+		}));
+	}
 }

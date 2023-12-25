@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"crypto/tls"
 	"fmt"
-	"golang.org/x/net/websocket"
 	"log"
 	"net"
 	"net/http"
@@ -39,29 +38,15 @@ func bestIcon() {
 	besticon.Start()
 }
 
-func Sock(ws *websocket.Conn) {
-	for {
-		var reply string
+// Init variables
+var (
+	tlsConfig = &tls.Config{}
+	domain = "caeborg.dev"
+	PATH, PUBLIC string
+	devMode = false
+	ipAddr string
+)
 
-		if err := websocket.Message.Receive(ws, &reply); err != nil {
-			fmt.Println("Can't receive")
-			break
-		}
-
-		fmt.Println("Received back from client: " + reply)
-
-		msg := "Received: " + reply
-		fmt.Println("Sending to client: " + msg)
-
-		if err := websocket.Message.Send(ws, msg); err != nil {
-			fmt.Println("Can't send")
-			break
-		}
-	}
-}
-
-
-var tlsConfig = &tls.Config{}
 func setTLS() {
 	tlsConfig.Certificates = make([]tls.Certificate, 1)
 	var path [2]string
@@ -77,14 +62,9 @@ func setTLS() {
 	tlsConfig.Certificates[0] = cert
 }
 
-var domain = "caeborg.dev"
-var PATH, PUBLIC string
-var devMode = false
-var ipAddr string
 func startServer() {
 	const PORT = 8000
 	mux := http.NewServeMux()
-
 	mux.Handle("/", http.FileServer(http.Dir(PUBLIC)))
 	// mux.Handle("/.well-known/acme-challenge/", http.FileServer(http.Dir("/letsencrypt")))
 
@@ -92,7 +72,14 @@ func startServer() {
 		http.Redirect(w, r, fmt.Sprintf("http://%s:8080%s", ipAddr, r.URL), http.StatusSeeOther)
 	})
 
-	// mux.Handle("/chat", websocket.Handler(Sock))
+	manager := Manager{
+		clients: make(ClientList),
+	}
+
+	mux.HandleFunc("/chat", manager.serveChat)
+	// mux.HandleFunc("/chat", func(w http.ResponseWriter, r *http.Request) {
+	// 	fmt.Println(r)
+	// })
 
 	server := &http.Server{
 		Addr:	fmt.Sprintf(":%d", PORT),
@@ -100,9 +87,6 @@ func startServer() {
 		TLSConfig: tlsConfig,
 	}
 
-	// http.HandleFunc("/chatThings", wsEndpoint)
-
-	// mux.ListenAndServe(fmt.Sprintf(":%d", PORT), nil)
 	err := server.ListenAndServeTLS("", "")
 	if err != nil {
 		log.Fatal(err)
@@ -117,20 +101,22 @@ func main() {
 	if len(args) != 0 {
 		if args[0] == "dev" {
 			devMode = true
+			ipAddr = "localhost"
+			domain = "localhost"
 			go sassFunc()
+		}
+	} else {
+		ips, _ := net.LookupIP(domain)
+		for _, ip := range ips {
+			if ipv4 := ip.To4(); ipv4 != nil {
+				ipAddr = fmt.Sprintf("%s", ipv4)
+			}
 		}
 	}
 
 	fmt.Printf("At '%s':\n", domain)
 
-	ips, _ := net.LookupIP(domain)
-	for _, ip := range ips {
-		if ipv4 := ip.To4(); ipv4 != nil {
-			ipAddr = fmt.Sprintf("%s", ipv4)
-		}
-	}
-
 	setTLS()
-	bestIcon()
 	startServer()
+	bestIcon()
 }
