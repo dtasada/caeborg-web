@@ -6,8 +6,8 @@ After=network.target systemd-ask-password-console.service multi-user.target
 [Service]
 User=root
 WorkingDirectory=/var/www/caeborg.dev
-ExecStart=/usr/bin/sudo /usr/bin/go run /var/www/caeborg.dev/main.go
-ExecReload=/usr/bin/sudo /usr/bin/go run /var/www/caeborg.dev/main.go
+ExecStart=/usr/bin/sudo /usr/bin/go run /var/www/caeborg.dev/*.go
+ExecReload=/usr/bin/sudo /usr/bin/go run /var/www/caeborg.dev/*.go
 Type=simple
 Restart=always
 TimeoutSec=360
