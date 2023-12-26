@@ -11,8 +11,9 @@
 
 ## Setup
 ### Server setup
-* Copy the systemd service file to the systemd folder by running `cp ./server/caeborg.service /usr/lib/systemd/system/` as root.
+* Copy the example systemd service file to the systemd folder by running `cp ./server/caeborg.service /usr/lib/systemd/system/` as root.
 * Enable the service with `systemctl enable --now caeborg`.
+* Don't forget to `chmod +rwx ./releases/*` to avoid an error.
 ### HTTPS Development
 For your development environment to work correctly, you need to set up HTTPS keys. These are self-signed keys intended only for development use.
 * To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365`.

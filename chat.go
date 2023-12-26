@@ -95,7 +95,6 @@ func (c *Client) chatHandler() {
 			log.Println("Error parsing JSON: ", err)
 			break
 		}
-		fmt.Println("message:", message)
 
 		switch message["type"] {
 		case "chatPostMessage":

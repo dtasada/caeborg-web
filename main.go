@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"crypto/tls"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -35,7 +36,11 @@ func bestIcon() {
 
 	besticon := exec.Command("./server/besticon/besticon_" + machineType, ">", "/dev/null")
 	besticon.Env = append(os.Environ(), "PORT=8080", "DISABLE_BROWSE_PAGES=true")
-	besticon.Start()
+
+	err := besticon.Start()
+	if err != nil {
+		log.Println("Error running bestIcon:", err)
+	}
 }
 
 // Init variables
@@ -68,7 +73,16 @@ func startServer() {
 	mux.Handle("/", http.FileServer(http.Dir(PUBLIC)))
 
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, fmt.Sprintf("http://%s:8080%s", ipAddr, r.URL), http.StatusSeeOther)
+		url := fmt.Sprintf("http://%s:8080%s", ipAddr, r.URL)
+		fmt.Println("url:", url)
+		// http.Redirect(w, r, url, http.StatusSeeOther)
+		res, err := http.Get(url);					if err != nil { log.Println("Error serving image:", err) }
+		imgBytes, err := ioutil.ReadAll(res.Body);	if err != nil { log.Println("Error serving image:", err) }
+		res.Body.Close()
+
+		// w.WriteHeader(http.StatusOK)
+		// w.Header().Set("Content-Type", "application/octet-stream")
+		w.Write(imgBytes)
 	})
 
 	manager := Manager{
@@ -112,7 +126,7 @@ func main() {
 
 	fmt.Printf("At '%s':\n", domain)
 
+	bestIcon()
 	setTLS()
 	startServer()
-	bestIcon()
 }

@@ -1,6 +1,6 @@
-time = new Date();
 // P R E R E Q U I S I T E S
 const fullUrl = window.location.origin;
+time = new Date();
 
 const ws = new WebSocket(`wss://${document.location.host}/chat`);
 ws.addEventListener("open", () => {
@@ -79,7 +79,8 @@ async function send(sender, msgs) {
 
 		pfp = document.createElement('img');
 		pfp.classList.add(`sender-is-${sender}`, 'pfp');
-		pfp.src = `${fullUrl}/icon?url=https://${sender}.com&size=64..128..256`
+		pfp.src = `${fullUrl}/icon?url=${sender}&size=64..128..256`
+		pfp.alt = `${sender}'s profile picture`
 		li.appendChild(pfp);
 
 		const senderP = document.createElement('p');
