@@ -11,8 +11,35 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
-	// "strings"
+	"strings"
 )
+
+func compileSelf() {
+	steps := []string {
+		"windows_amd64",
+		"darwin_amd64",
+		"darwin_arm64",
+		"linux_amd64",
+		"linux_arm64",
+	}
+
+	for _, pair := range steps {
+		goos := strings.Split(pair, "_")[0]
+		goarch := strings.Split(pair, "_")[1]
+
+		comp := exec.Command("env", "GOOS=" + goos, "GOARCH=" + goarch, "go", "build", "-o", "./releases/caeborg_" + pair)
+		// comp.Env = append(comp.Env, fmt.Sprintf("GOOS=%s GOARCH=%s", goos, goarch))
+		// comp.Env = append(comp.Env, os.Environ()...)
+
+		_, err := comp.Output();
+		if err != nil {
+			log.Println("Error compiling new packages:", err)
+			return
+		}
+	}
+
+	log.Println("New packages compiled")
+}
 
 func sassFunc() {
 	sass := exec.Command("sass", "--watch", "./client/public/styles:./client/public/.css")
@@ -21,13 +48,13 @@ func sassFunc() {
 	stdout, _ := sass.StdoutPipe()
 
 	sass.Start()
-	fmt.Println("Started sass compiler")
+	log.Println("Started sass compiler")
 
 	reader := bufio.NewReader(stdout)
 
 	for {
 		output, _ := reader.ReadString('\n')
-		fmt.Print(output)
+		log.Print(output)
 	}
 }
 
@@ -45,10 +72,10 @@ func bestIcon() {
 
 // Init variables
 var (
-	tlsConfig = &tls.Config{}
 	domain = "caeborg.dev"
-	PATH, PUBLIC string
+	tlsConfig = &tls.Config {}
 	devMode = false
+	PATH, PUBLIC string
 	ipAddr string
 )
 
@@ -56,9 +83,9 @@ func setTLS() {
 	tlsConfig.Certificates = make([]tls.Certificate, 1)
 	var path [2]string
 	if devMode {
-		path = [2]string{"./cert.pem", "./key.pem"}
+		path = [2]string {"./cert.pem", "./key.pem"}
 	} else {
-		path = [2]string{"/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem"}
+		path = [2]string {"/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem"}
 	}
 	cert, err := tls.LoadX509KeyPair(path[0], path[1])
 	if err != nil {
@@ -74,27 +101,25 @@ func startServer() {
 
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {
 		url := fmt.Sprintf("http://%s:8080%s", ipAddr, r.URL)
-		fmt.Println("url:", url)
-		// http.Redirect(w, r, url, http.StatusSeeOther)
+		log.Println("url:", url)
+
 		res, err := http.Get(url);					if err != nil { log.Println("Error serving image:", err) }
 		imgBytes, err := ioutil.ReadAll(res.Body);	if err != nil { log.Println("Error serving image:", err) }
 		res.Body.Close()
 
-		// w.WriteHeader(http.StatusOK)
-		// w.Header().Set("Content-Type", "application/octet-stream")
 		w.Write(imgBytes)
 	})
 
-	manager := Manager{
+	manager := Manager {
 		clients: make(ClientList),
 	}
 
 	mux.HandleFunc("/chat", manager.serveChat)
 
-	server := &http.Server{
-		Addr:	fmt.Sprintf(":%d", PORT),
+	server := &http.Server {
+		Addr:		fmt.Sprintf(":%d", PORT),
 		Handler:	mux,
-		TLSConfig: tlsConfig,
+		TLSConfig:	tlsConfig,
 	}
 
 	err := server.ListenAndServeTLS("", "")
@@ -113,6 +138,7 @@ func main() {
 			devMode = true
 			ipAddr = "localhost"
 			domain = "localhost"
+			go compileSelf()
 			go sassFunc()
 		}
 	} else {
@@ -124,7 +150,7 @@ func main() {
 		}
 	}
 
-	fmt.Printf("At '%s':\n", domain)
+	log.Printf("At '%s':\n", domain)
 
 	bestIcon()
 	setTLS()

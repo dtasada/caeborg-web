@@ -141,6 +141,7 @@ function switchFrame(page) {
 		case 'paint': document.title = 'Caeborg - Paint'; break;
 		case 'quote': document.title = 'Caeborg - Quote'; break;
 		case 'shell': document.title = 'Caeborg - Shell'; break;
+		case 'soundboard': document.title = 'Caeborg - Soundboard'; break;
 		case 'translator': document.title = 'Caeborg - Translator'; break;
 	}
 }

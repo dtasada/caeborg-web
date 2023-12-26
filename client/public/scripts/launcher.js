@@ -1,5 +1,3 @@
-const fullUrl = document.location.origin
-
 const new_shortcut_sec = document.getElementById('new-shortcut-sec');
 const url_input = document.getElementById('url-input');
 const name_input = document.getElementById('name-input');
@@ -22,9 +20,9 @@ function startLocalStorage() {
 	if (localStorage.getItem('saved_launcher_ol') === null) {
 		launcher_ol.innerHTML = `
 			<li><button onclick="window.open('https://hageveld.magister.net')">
-				<img src="${fullUrl}/icon?url=https://hageveld.magister.net&size=64..128..256" width="128" height="128"/><br><p>Magister</p></button></li>
+				<img src="/icon?url=https://hageveld.magister.net&size=64..128..256" width="128" height="128"/><br><p>Magister</p></button></li>
 			<li><button onclick="window.open('https://youtube.com/')">
-				<img src="${fullUrl}/icon?url=https://youtube.com&size=64..128..256" width="128" height="128"/><br><p>YouTube</p></button></li>
+				<img src="/icon?url=https://youtube.com&size=64..128..256" width="128" height="128"/><br><p>YouTube</p></button></li>
 		`;
 			localStorage.setItem('saved_launcher_ol', launcher_ol.innerHTML);
 	} else {
@@ -83,7 +81,7 @@ function placeholderFavicon() {
 			return;
 		}
 		url = getUrlFromInput();
-		new_favicon_url = `${fullUrl}/icon?url=${url}&size=64..128..256`
+		new_favicon_url = `/icon?url=${url}&size=64..128..256`
 		favicon_img.src = new_favicon_url;
 	}
 }

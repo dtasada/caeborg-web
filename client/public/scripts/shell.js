@@ -1,6 +1,3 @@
-// P R E R E Q U I S I T E S
-const fullUrl = window.location.origin;
-
 // C O N S T A N T S
 const lidwoordUrl = "https://welklidwoord.nl";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
@@ -100,7 +97,7 @@ function send(sender, msgs) {
 
 		pfp = document.createElement('img');
 		pfp.classList.add(`sender-is-${sender}`, 'pfp');
-		pfp.src = `${fullUrl}/assets/users/${sender}.png`;
+		pfp.src = `/assets/users/${sender}.png`;
 		li.appendChild(pfp);
 
 		// console.log('msgs: ', msgs);
@@ -260,7 +257,7 @@ const commands = {
 	nk: {
 		brief: 'Returns physics formulas. `list` for list of available arguments',
 		command: async (args) => {
-			nk_json = await fetch(`${fullUrl}/assets/physics.json`);
+			nk_json = await fetch(`/assets/physics.json`);
 			nk_json = await nk_json.json();
 			if (args[0] !== 'list') {
 				const array = nk_json[args[0]];

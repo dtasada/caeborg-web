@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var	websocketUpgrader = websocket.Upgrader{
+var	websocketUpgrader = websocket.Upgrader {
 	ReadBufferSize: 1024,
 	WriteBufferSize: 1024,
 }
@@ -33,7 +33,7 @@ func (m *Manager) serveChat(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// client := NewClient(conn, m)
-	client := &Client{
+	client := &Client {
 		connection: conn,
 		manager: m,
 	}
@@ -73,7 +73,7 @@ type Client struct {
 }
 
 func NewClient(conn *websocket.Conn, manager *Manager) *Client {
-	return &Client{
+	return &Client {
 		connection: conn,
 		manager: manager,
 	}
@@ -101,7 +101,7 @@ func (c *Client) chatHandler() {
 			path := PATH + "/server/assets/chat.json"
 			chatBin, err := os.ReadFile(path);					if err != nil { log.Println("Error reading chat.json:", err) }
 
-			var obj map[string]interface{}
+			var obj map[string]interface {}
 			err = json.Unmarshal(chatBin, &obj);				if err != nil { log.Println("Error:", err) }
 
 			marshalledMessage, err := json.Marshal(message);	if err != nil { log.Println("Error:", err) }
