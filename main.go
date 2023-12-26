@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"crypto/tls"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net"
 	"net/http"
@@ -12,6 +12,8 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
+
+	"github.com/dtasada/caeborg-web/server"
 )
 
 func compileSelf() {
@@ -28,8 +30,6 @@ func compileSelf() {
 		goarch := strings.Split(pair, "_")[1]
 
 		comp := exec.Command("env", "GOOS=" + goos, "GOARCH=" + goarch, "go", "build", "-o", "./releases/caeborg_" + pair)
-		// comp.Env = append(comp.Env, fmt.Sprintf("GOOS=%s GOARCH=%s", goos, goarch))
-		// comp.Env = append(comp.Env, os.Environ()...)
 
 		_, err := comp.Output();
 		if err != nil {
@@ -41,7 +41,7 @@ func compileSelf() {
 	log.Println("New packages compiled")
 }
 
-func sassFunc() {
+func startSass() {
 	sass := exec.Command("sass", "--watch", "./client/public/styles:./client/public/.css")
 	sass.Env = append(sass.Env, os.Environ()...)
 
@@ -70,87 +70,93 @@ func bestIcon() {
 	}
 }
 
-// Init variables
-var (
-	domain = "caeborg.dev"
-	tlsConfig = &tls.Config {}
-	devMode = false
-	PATH, PUBLIC string
-	ipAddr string
-)
-
 func setTLS() {
-	tlsConfig.Certificates = make([]tls.Certificate, 1)
+	server.TlsConfig.Certificates = make([]tls.Certificate, 1)
 	var path [2]string
-	if devMode {
-		path = [2]string {"./cert.pem", "./key.pem"}
+	if server.DevMode {
+		path = [2]string {"./credentials/cert.pem", "./credentials/key.pem"}
 	} else {
-		path = [2]string {"/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem"}
+		// path = [2]string {"/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem"}
+		path = [2]string {"/var/www/caeborg_credentials/fullchain.pem", "/var/www/caeborg_credentials/privkey.pem"}
 	}
 	cert, err := tls.LoadX509KeyPair(path[0], path[1])
 	if err != nil {
 		log.Fatal(err)
 	}
-	tlsConfig.Certificates[0] = cert
+	server.TlsConfig.Certificates[0] = cert
 }
 
 func startServer() {
 	const PORT = 8000
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.Dir(PUBLIC)))
 
+	// Home
+	mux.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
+		url := strings.Split(fmt.Sprintf("%v", r.URL), "/")[1]
+
+		if strings.Contains(url, "?frame=") {
+			pages, err := os.ReadDir(server.PUBLIC + "/pages"); if err != nil { log.Println("Error reading file system:", err) }
+			for _, file := range pages {
+				http.Redirect(w, r, "/pages/" + file.Name() + url, http.StatusSeeOther)
+			}
+		} else {
+			server := http.FileServer(http.Dir(server.PUBLIC))
+			http.StripPrefix("/", server).ServeHTTP(w, r)
+		}
+	})
+
+	mux.HandleFunc("/login", server.HandleLogin)
+	mux.HandleFunc("/oauth_callback", server.HandleCallback)
+
+	// Icons
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {
-		url := fmt.Sprintf("http://%s:8080%s", ipAddr, r.URL)
-		log.Println("url:", url)
+		url := fmt.Sprintf("http://%s:8080%s", server.IpAddr, r.URL)
 
 		res, err := http.Get(url);					if err != nil { log.Println("Error serving image:", err) }
-		imgBytes, err := ioutil.ReadAll(res.Body);	if err != nil { log.Println("Error serving image:", err) }
+		imgBytes, err := io.ReadAll(res.Body);	if err != nil { log.Println("Error serving image:", err) }
 		res.Body.Close()
 
 		w.Write(imgBytes)
 	})
 
-	manager := Manager {
-		clients: make(ClientList),
+	// Chat
+	manager := server.Manager {
+		Clients: make(server.ClientList),
 	}
 
-	mux.HandleFunc("/chat", manager.serveChat)
+	mux.HandleFunc("/chat", manager.ServeChat)
 
-	server := &http.Server {
+	// Server
+	srv := &http.Server {
 		Addr:		fmt.Sprintf(":%d", PORT),
 		Handler:	mux,
-		TLSConfig:	tlsConfig,
+		TLSConfig:	server.TlsConfig,
 	}
 
-	err := server.ListenAndServeTLS("", "")
+	err := srv.ListenAndServeTLS("", "")
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
 func main() {
-	PATH, _ = os.Getwd()
-	PUBLIC = PATH + "/client/public"
+	server.PATH, _ = os.Getwd()
+	server.PUBLIC = server.PATH + "/client/public"
 	args := os.Args[1:]
 
-	if len(args) != 0 {
-		if args[0] == "dev" {
-			devMode = true
-			ipAddr = "localhost"
-			domain = "localhost"
-			go compileSelf()
-			go sassFunc()
-		}
-	} else {
-		ips, _ := net.LookupIP(domain)
+	if len(args) == 0 {
+		ips, _ := net.LookupIP(server.Domain)
 		for _, ip := range ips {
 			if ipv4 := ip.To4(); ipv4 != nil {
-				ipAddr = fmt.Sprintf("%s", ipv4)
+				server.IpAddr = fmt.Sprintf("%s", ipv4)
 			}
 		}
+	} else {
+		go compileSelf()
+		go startSass()
 	}
 
-	log.Printf("At '%s':\n", domain)
+	log.Printf("At '%s':\n", server.Domain)
 
 	bestIcon()
 	setTLS()

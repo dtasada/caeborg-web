@@ -14,9 +14,9 @@
 	--col-green: #a6da95;
 	--col-blue: #8aadf4;
 	--col-lightrose: #f4dbd6;
+}
 
-	/* Please keep: light mode */
-	/*
+.light-mode {
 	--col-crust: #dce0e8;
 	--col-subbase: #e6e9ef;
 	--col-base: #eff1f5;
@@ -31,5 +31,4 @@
 	--col-green: #40a02b;
 	--col-blue: #1e66f5;
 	--col-lightrose: #dc8a78;
-	*/
 }

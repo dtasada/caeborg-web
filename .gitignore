@@ -7,3 +7,6 @@ cert.pem
 client/public/.css/
 key.pem
 node_modules/
+client_id
+client_secret
+credentials/

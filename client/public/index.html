@@ -3,12 +3,13 @@
 <html lang="en" dir="ltr">
 
 	<head>
-		<meta name="viewport" content="Dashboard webapp with a collection of useful tools" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width">
+		<meta name="description" content="Dashboard webapp with a collection of useful tools">
 		<meta charset="utf-8">
 		<title>Caeborg - Dashboard</title>
-		<link rel="stylesheet" type="text/css" href=".css/style.css">
-		<link rel="stylesheet" type="text/css" href=".css/styles/index.css">
-		<link rel="icon" type="image/x-icon" href="assets/caeborg.png">
+		<link rel="stylesheet" type="text/css" href="/.css/style.css">
+		<link rel="stylesheet" type="text/css" href="/.css/styles/index.css">
+		<link rel="icon" type="image/x-icon" href="assets/users/caeborg.png">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<script> window.addEventListener('contextmenu', (event) => { event.preventDefault(); }) </script>
 	</head>
@@ -17,30 +18,30 @@
 
 		<section id="header-sec">
 			<button id="menu-button" onclick="toggleSidebarSec()"><i class="fa-solid fa-bars"></i></button> 
-			<a href="javascript:switchFrame('launcher')"><img src="assets/caeborg.png" width="48" height="48" alt="caeborg-logo"></a>
-			<button id="colors-button" onclick="setColorScheme()"><i class="fa-solid fa-sun"></i></button> 
+			<a href="javascript:switchFrame('launcher')"><img src="assets/users/caeborg.png" width="48" height="48" alt="caeborg-logo"></a>
+			<button id="colors-button" onclick="setColors()"><i class="fa-solid fa-sun"></i></button> 
 		</section>
 
 
 		<section id="sidebar-sec">
 			<ol id="sidebar-ol" class="button-list">
-				<li><button onclick="switchFrame('calc')">Calculator</button></li>
-				<li><button onclick="switchFrame('chat')">Chatting</button></li>
-				<li><button onclick="switchFrame('chemtools')" disabled>ChemTools</button></li>
-				<li><button onclick="switchFrame('games')" disabled>Games</button></li>
-				<li><button onclick="switchFrame('graph')">Graphing Tool</button></li>
-				<li><button onclick="switchFrame('map')">Map</button></li>
-				<li><button onclick="switchFrame('meme')" disabled>Meme Maker</button></li>
-				<li><button onclick="switchFrame('paint')" disabled>Paint</button></li>
-				<li><button onclick="switchFrame('quote')">Inspirobot™</button></li>
-				<li><button onclick="switchFrame('shell')">Shell</button></li>
-				<li><button onclick="switchFrame('soundboard')">Soundboard</button></li>
-				<li><button onclick="switchFrame('translator')">Translator</button></li>
+				<li><button aria-label="Open calculator"	onclick="switchFrame('calc')">Calculator</button></li>
+				<li><button aria-label="Open chat"			onclick="switchFrame('chat')">Chatting</button></li>
+				<li><button aria-label="Open chemtools"		onclick="switchFrame('chemtools')" disabled>ChemTools</button></li>
+				<li><button aria-label="Open games"			onclick="switchFrame('games')" disabled>Games</button></li>
+				<li><button aria-label="Open graphing tool"	onclick="switchFrame('graph')">Graphing Tool</button></li>
+				<li><button aria-label="Open map"			onclick="switchFrame('map')">Map</button></li>
+				<li><button aria-label="Open meme maker"	onclick="switchFrame('meme')" disabled>Meme Maker</button></li>
+				<li><button aria-label="Open paint tool" 	onclick="switchFrame('paint')" disabled>Paint</button></li>
+				<li><button aria-label="Open Inspirobot"	onclick="switchFrame('quote')">Inspirobot™</button></li>
+				<li><button aria-label="Open shell"			onclick="switchFrame('shell')">Shell</button></li>
+				<li><button aria-label="Open soundboard"	onclick="switchFrame('soundboard')" disabled>Soundboard</button></li>
+				<li><button aria-label="Open translator"	onclick="switchFrame('translator')">Translator</button></li>
 			</ol>
 		</section>
 
 		<section id="rest-sec">
-			<iframe id="rest-iframe" src="pages/launcher.html" frameBorder="0"></iframe>
+			<iframe id="rest-iframe" title="insideFrame" src="pages/launcher.html" frameBorder="0"></iframe>
 		</section>
 
 		<section id="footer-sec">caeborg-web build v1.0</section>

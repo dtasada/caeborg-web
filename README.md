@@ -1,8 +1,8 @@
 ## Todo
-* [ ] Fix icons
+* [ ] Optimize frontend HTML CSS & JS
+* [ ] Fix color scheme switching
 * [ ] Set up single sign on
 * [ ] Make Paint tool
-* [ ] Fix color scheme switching
 
 ## Notes
 * To run the web server, run `go run *.go` in `caeborg-web/`.
@@ -11,13 +11,33 @@
 
 ## Setup
 ### Server setup
-* Copy the example systemd service file to the systemd folder by running `cp ./server/caeborg.service /usr/lib/systemd/system/` as root.
+```
+[Unit]
+Description=Caeborg
+Requires=network.target
+After=network.target systemd-ask-password-console.service multi-user.target
+
+[Service]
+User=root
+WorkingDirectory=/var/www/caeborg.dev
+ExecStart=/usr/bin/sudo /var/www/caeborg.dev/releases/caeborg_linux_arm64
+ExecReload=/usr/bin/sudo /var/www/caeborg.dev/releases/caeborg_linux_arm64
+Type=simple
+Restart=always
+TimeoutSec=360
+
+[Install]
+WantedBy=default.target
+```
+* Copy the example systemd service file to the systemd services folder `/usr/lib/systemd/system/` as root.
 * Enable the service with `systemctl enable --now caeborg`.
-* Don't forget to `chmod +rwx ./releases/*` to avoid an error.
+* Don't forget to `chmod +rwx ./releases/*` and `chmod +rwx ./server/besticon/*` to avoid permission errors.
 ### HTTPS Development
 For your development environment to work correctly, you need to set up HTTPS keys. These are self-signed keys intended only for development use.
 * To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365`.
 * Then remove the passcode `openssl rsa -in key.pem -out key.pem -passin pass:1234`.
+* These keys are saved in `caeborg-web/credentials` during development.
+    * The required keys are `cert.pem` and `key.pem` for HTTPS, and `client_id` and `client_secret` for OAuth.
 
 ## Development dependencies
 * `go` (v1.18)
