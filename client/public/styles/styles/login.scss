@@ -1,0 +1,90 @@
+@import "../style";
+
+$input-element-height: 48px;
+
+html, body, #footer-sec {
+	background: var(--col-crust);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	height: calc(100vh - #{$footer-sec-height})
+}
+
+#main {
+	display: flex;
+	flex-direction: column;
+
+	justify-content: center;
+	align-content: center;
+
+	height: fit-content;
+	width: 40vw;
+	min-width: 480px !important;
+	padding: 64px 16px 32px;
+
+	#header {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		h1 {
+			font-size: $title-fontsize;
+			margin: 0px;
+		}
+
+		margin-bottom: 32px;
+	}
+
+	#inputs {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		input {
+			height: $input-element-height;
+
+			background: var(--col-surface);
+			margin: 8px 0;
+			width: 100%;
+		}
+
+		#password-div {
+			width: 100%;
+			position: relative;
+
+			#show-password-button {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				position: absolute;
+
+				border-radius: 50px;
+				bottom: 16px;
+				right: 8px;
+				width: 32px;
+				height: 32px;
+			}
+		}
+
+		#submit-button {
+			width: fit-content;
+			margin-top: 16px;
+			font-size: $subtitle-fontsize;
+		}
+	}
+}
+
+#footer-sec {
+	display: flex;
+	justify-content: center;
+
+	position: absolute;
+	bottom: 0px;
+
+	width: 100%;
+	height: $footer-sec-height;
+
+	border-radius: 0px;
+	padding-top: 4px;
+}

@@ -23,6 +23,4 @@ func init() {
 			Domain = "localhost"
 		}
 	}
-
-	Auth()
 }

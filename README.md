@@ -34,8 +34,8 @@ WantedBy=default.target
 * Don't forget to `chmod +rwx ./releases/*` and `chmod +rwx ./server/besticon/*` to avoid permission errors.
 ### HTTPS Development
 For your development environment to work correctly, you need to set up HTTPS keys. These are self-signed keys intended only for development use.
-* To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365`.
-* Then remove the passcode `openssl rsa -in key.pem -out key.pem -passin pass:1234`.
+* To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout ./credentials/privkey.pem -out ./credentials/fullchain.pem -sha256 -days 365`.
+* Then remove the passcode `openssl rsa -in ./credentials/privkey.pem -out ./credentials/privkey.pem -passin pass:1234`.
 * These keys are saved in `caeborg-web/credentials` during development.
     * The required keys are `cert.pem` and `key.pem` for HTTPS, and `client_id` and `client_secret` for OAuth.
 

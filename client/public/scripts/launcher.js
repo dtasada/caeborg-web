@@ -121,7 +121,6 @@ function confirm(element) {
 
 [...document.querySelectorAll('#launcher-ol > li > button')].forEach(element => {
 	if (document.location.search === "?newTabDash") {
-		console.log('here')
 		oldClick = element.getAttribute("onclick")
 		element.setAttribute("onclick", oldClick.replace(/window.open(.*.)/, "window.parent.location.href=$1"))
 	}

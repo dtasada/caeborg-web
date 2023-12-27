@@ -10,6 +10,7 @@ $right-margin-width: $footer-sec-height;
 $headerfooter-height: calc(#{$header-sec-height} + #{$footer-sec-height});
 $sidebarrightmargin-width: calc(#{$sidebar-sec-width} + #{$right-margin-width});
 
+$title-fontsize: 24px;
 $subtitle-fontsize: 20px;
 $body-fontsize: 16px;
 
@@ -46,6 +47,8 @@ button {
 
 	&:disabled { opacity: 60%; }
 	&:not(:disabled):hover { background: var(--col-overlay) !important; }
+	
+	i { background: inherit;}
 }
 
 input, button { outline: none; }

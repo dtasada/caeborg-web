@@ -74,7 +74,7 @@ func setTLS() {
 	server.TlsConfig.Certificates = make([]tls.Certificate, 1)
 	var path [2]string
 	if server.DevMode {
-		path = [2]string {"./credentials/cert.pem", "./credentials/key.pem"}
+		path = [2]string {"./credentials/fullchain.pem", "./credentials/privkey.pem"}
 	} else {
 		// path = [2]string {"/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem"}
 		path = [2]string {"/var/www/caeborg_credentials/fullchain.pem", "/var/www/caeborg_credentials/privkey.pem"}
@@ -105,8 +105,13 @@ func startServer() {
 		}
 	})
 
-	mux.HandleFunc("/login", server.HandleLogin)
-	mux.HandleFunc("/oauth_callback", server.HandleCallback)
+	// mux.HandleFunc("/login", server.HandleLogin)
+	mux.HandleFunc("/login", func(r http.ResponseWriter, w *http.Request) {
+		loginFile, err := os.ReadFile(server.PUBLIC + "/pages/login.html")
+		if err != nil { log.Println("Couldn't read login.html")}
+		r.Write(loginFile)
+	})
+	mux.HandleFunc("/auth", server.HandleAuth)
 
 	// Icons
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {

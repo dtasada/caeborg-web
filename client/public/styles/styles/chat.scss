@@ -18,6 +18,10 @@
 				border-radius: 50px;
 			}
 
+			img.imageMessage {
+				max-width: 33% !important;
+			}
+
 			p {
 				&.usernameTag {
 					// margin-top: -10px;
