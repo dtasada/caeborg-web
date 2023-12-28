@@ -12,6 +12,7 @@ var (
 	PATH, _ = os.Getwd()
 	PUBLIC = PATH + "/client/public"
 	IpAddr string
+	AssetsPath string
 )
 
 func init() {
@@ -22,5 +23,11 @@ func init() {
 			IpAddr = "localhost"
 			Domain = "localhost"
 		}
+	}
+
+	if DevMode {
+		AssetsPath = "./assets"
+	} else {
+		AssetsPath = "/var/www/caeborg_assets"
 	}
 }

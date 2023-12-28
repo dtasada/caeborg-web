@@ -72,14 +72,7 @@ func bestIcon() {
 
 func setTLS() {
 	server.TlsConfig.Certificates = make([]tls.Certificate, 1)
-	var path [2]string
-	if server.DevMode {
-		path = [2]string { "./assets/credentials/fullchain.pem", "./assets/credentials/privkey.pem" }
-	} else {
-		// path = [2]string { "/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem" }
-		path = [2]string { "/var/www/caeborg_assets/credentials/fullchain.pem", "/var/www/caeborg_assets/credentials/privkey.pem" }
-	}
-	cert, err := tls.LoadX509KeyPair(path[0], path[1])
+	cert, err := tls.LoadX509KeyPair(server.AssetsPath + "/credentials/fullchain.pem", server.AssetsPath + "/credentials/privkey.pem")
 	if err != nil {
 		log.Fatal(err)
 	}

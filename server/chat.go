@@ -93,7 +93,7 @@ func (c *Client) chatHandler() {
 			break
 		}
 
-		path := "./assets/chat.json"
+		path := AssetsPath + "/chat.json"
 		chatBin, err := os.ReadFile(path);	if err != nil { log.Println("Error reading chat.json:", err) }
 
 		switch message["type"] {
