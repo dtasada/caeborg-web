@@ -1,7 +1,6 @@
 ## Todo
 * [ ] Optimize frontend HTML CSS & JS
-* [ ] Fix color scheme switching
-* [ ] Set up single sign on
+* [ ] Rebuild color themes and sidebar hiding
 * [ ] Make Paint tool
 
 ## Notes

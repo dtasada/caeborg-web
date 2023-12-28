@@ -64,8 +64,8 @@ function cleanup() {
 
 function getUrlFromInput() {
 	if (url_input.value.includes('://')) val = url_input.value;
-	else if (url_input.value.includes('www.')) val = url_input.value.replace('www.', 'https://') ;
-	else val = `https://${url_input.value}`;
+	else if (url_input.value.includes('www.')) val = url_input.value.replace('www.', 'http://') ;
+	else val = `http://${url_input.value}`;
 	return val;
 }
 
