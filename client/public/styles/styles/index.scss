@@ -13,10 +13,8 @@ html {
 	background-color: var(--col-crust);
 
 	* { float: left; }
-	#colors-button {
-		float: right;
-		margin-right: 0px;
-	}
+
+
 	button {
 		height: 48px;
 		width: 48px;
@@ -25,6 +23,25 @@ html {
 
 		border-radius: 4px;
 		text-align: center;
+
+		&#login-button, &#colors-button, &#account-button {
+			float: right;
+		}
+
+		&#login-button {
+			display: flex;
+
+			justify-content: center;
+			align-items: center;
+
+			width: 128px !important;
+			margin-right: 8px;
+		}
+
+		&#colors-button {
+			margin-right: 0px;
+		}
+
 		i {
 			font-size: 24px;
 			width: 24px;

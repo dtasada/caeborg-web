@@ -236,7 +236,7 @@ const commands = {
 
 	deofhet: {
 		brief: "Gives you the article of given Dutch word - <i>de</i> or <i>het</i>",
-		command: async (event) => {
+		command: async () => {
 			dataJson = await fetch(`${lidwoordUrl}/appel`)
 			dataJson = await response.json()
 			return [ dataJson[0][0][0] ];
@@ -245,12 +245,12 @@ const commands = {
 
 	help: {
 		brief: "Lists all commands available in the <i>Chat</i> scope",
-		command: (args) => {
-			let ret = ''
+		command: () => {
+			let ret = bi("Welcome to CShell! This is a text interface that offers different tools.<br>Here are the available commands:<br>");
 			for (const [k, v] of Object.entries(commands)) {
-				ret += `${bi(k)}: ${v.brief}<br>`;
+				ret += `${bi(k)}: ${v.brief};<br>`;
 			}
-			return [ret]
+			return [ ret ]
 		}
 	},
 

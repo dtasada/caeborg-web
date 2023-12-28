@@ -5,6 +5,5 @@
 .env
 cert.pem
 client/public/.css/
+assets/
 key.pem
-node_modules/
-credentials/*

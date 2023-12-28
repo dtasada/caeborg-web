@@ -56,3 +56,11 @@ function switchFrame(page) {
 
 if (localStorage.getItem('saved_frame') === null) localStorage.setItem('saved_frame', 'launcher')
 else switchFrame(localStorage.getItem('saved_frame'))
+
+// if (localStorage.user) {
+// 	document.getElementById("login-button").style.display = "none"
+// } else {
+// 	document.getElementById("account-button").style.display = "none"
+// }
+
+document.getElementById(localStorage.user ? "login-button" : "account-button").style.display = "none"

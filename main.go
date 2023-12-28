@@ -74,10 +74,10 @@ func setTLS() {
 	server.TlsConfig.Certificates = make([]tls.Certificate, 1)
 	var path [2]string
 	if server.DevMode {
-		path = [2]string {"./credentials/fullchain.pem", "./credentials/privkey.pem"}
+		path = [2]string { "./assets/credentials/fullchain.pem", "./assets/credentials/privkey.pem" }
 	} else {
-		// path = [2]string {"/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem"}
-		path = [2]string {"/var/www/caeborg_credentials/fullchain.pem", "/var/www/caeborg_credentials/privkey.pem"}
+		// path = [2]string { "/etc/letsencrypt/live/caeborg.dev/fullchain.pem", "/etc/letsencrypt/live/caeborg.dev/privkey.pem" }
+		path = [2]string { "/var/www/caeborg_assets/credentials/fullchain.pem", "/var/www/caeborg_assets/credentials/privkey.pem" }
 	}
 	cert, err := tls.LoadX509KeyPair(path[0], path[1])
 	if err != nil {
@@ -97,7 +97,7 @@ func startServer() {
 		if strings.Contains(url, "?frame=") {
 			pages, err := os.ReadDir(server.PUBLIC + "/pages"); if err != nil { log.Println("Error reading file system:", err) }
 			for _, file := range pages {
-				http.Redirect(w, r, "/pages/" + file.Name() + url, http.StatusSeeOther)
+				http.Redirect(w, r, "/pages/" + file.Name() + url, http.StatusPermanentRedirect)
 			}
 		} else {
 			server := http.FileServer(http.Dir(server.PUBLIC))
@@ -105,12 +105,7 @@ func startServer() {
 		}
 	})
 
-	// mux.HandleFunc("/login", server.HandleLogin)
-	mux.HandleFunc("/login", func(r http.ResponseWriter, w *http.Request) {
-		loginFile, err := os.ReadFile(server.PUBLIC + "/pages/login.html")
-		if err != nil { log.Println("Couldn't read login.html")}
-		r.Write(loginFile)
-	})
+	mux.HandleFunc("/login", server.HandleLogin)
 	mux.HandleFunc("/auth", server.HandleAuth)
 
 	// Icons
@@ -118,7 +113,7 @@ func startServer() {
 		url := fmt.Sprintf("http://%s:8080%s", server.IpAddr, r.URL)
 
 		res, err := http.Get(url);					if err != nil { log.Println("Error serving image:", err) }
-		imgBytes, err := io.ReadAll(res.Body);	if err != nil { log.Println("Error serving image:", err) }
+		imgBytes, err := io.ReadAll(res.Body);		if err != nil { log.Println("Error serving image:", err) }
 		res.Body.Close()
 
 		w.Write(imgBytes)
@@ -145,8 +140,6 @@ func startServer() {
 }
 
 func main() {
-	server.PATH, _ = os.Getwd()
-	server.PUBLIC = server.PATH + "/client/public"
 	args := os.Args[1:]
 
 	if len(args) == 0 {

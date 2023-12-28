@@ -1,7 +1,7 @@
 // P R E R E Q U I S I T E S
 time = new Date();
 
-const username = "dtasada"
+const username = localStorage.getItem("user")
 
 const ws = new WebSocket(`wss://${document.location.host}/chat`);
 ws.addEventListener("open", () => {
@@ -26,6 +26,24 @@ ws.addEventListener("message", ({ data }) => {
 
 
 // html tags as variables
+const input = document.getElementById('input-box');
+if (!username) {
+	input.setAttribute("disabled", true)
+	input.setAttribute("placeholder", "please sign in to use chat")
+}
+input.focus();
+input.addEventListener('keydown', event => {
+	switch (event.key) {
+		case 'Enter':
+			parseInput(input.value);
+			input.value = "";
+			localStorage.setItem('saved_chat_input_value', input.value);
+		break;
+	}
+});
+
+input.oninput = () => { localStorage.setItem('saved_chat_input_value', input.value); }
+
 const output_sec = document.getElementById('output-sec');
 output_sec.scrollTop = output_sec.scrollHeight;
 const output_ol = document.getElementById('output-ol');
@@ -36,6 +54,7 @@ submit.addEventListener('click', () => {
 	localStorage.setItem('saved_chat_input_value', input.value);
 });
 
+// Handle images
 const addButton = document.getElementById('add-button');
 addButton.addEventListener('click', () => {
 	const inputFile = document.createElement('input');
@@ -46,7 +65,7 @@ addButton.addEventListener('click', () => {
 		const file = event.target.files[0];
 		if (file) {
 			reader = new FileReader();
-			reader.onload = (e) => {
+			reader.onload = () => {
 				// Convert to binary
 				let data=(reader.result).split(",")[1];
 				let imageBin = atob(data);
@@ -66,20 +85,6 @@ addButton.addEventListener('click', () => {
 	});
 	inputFile.click();
 });
-
-const input = document.getElementById('input-box');
-input.focus();
-input.addEventListener('keydown', event => {
-	switch (event.key) {
-		case 'Enter':
-			parseInput(input.value);
-			input.value = "";
-			localStorage.setItem('saved_chat_input_value', input.value);
-		break;
-	}
-});
-
-input.oninput = () => { localStorage.setItem('saved_chat_input_value', input.value); }
 
 // important functions
 async function renderMessage(json) {
@@ -102,8 +107,6 @@ async function renderMessage(json) {
 		p.innerHTML = json.content;
 		li.appendChild(p);
 	} else if (json.dataType === "img") {
-		console.log("here");
-
 		img = document.createElement("img");
 		img.src = `data:image/png;base64,${btoa(json.content)}`;
 		img.classList.add("imageMessage")
@@ -115,6 +118,7 @@ async function renderMessage(json) {
 	document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 }
 
+// Handle text
 async function parseInput(text) {
 	if (text !== "") {
 		ws.send(JSON.stringify({
@@ -125,7 +129,5 @@ async function parseInput(text) {
 			dataType: "txt",
 			type: "chatPostMessage"
 		}));
-	} else {
-		return;
 	}
 }

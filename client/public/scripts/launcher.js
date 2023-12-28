@@ -26,7 +26,6 @@ function genShortcuts() {
 	launcher_ol.classList.add('horizontal');
 
 	if (localStorage.getItem('saved_launcher_ol') === null) {
-		console.log('rebuilding')
 		localStorage.setItem("saved_launcher_ol", JSON.stringify({
 			Magister: "https://hageveld.magister.net",
 			YouTube: "https://youtube.com",

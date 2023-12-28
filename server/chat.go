@@ -93,15 +93,15 @@ func (c *Client) chatHandler() {
 			break
 		}
 
+		path := "./assets/chat.json"
+		chatBin, err := os.ReadFile(path);	if err != nil { log.Println("Error reading chat.json:", err) }
+
 		switch message["type"] {
 		case "chatPostMessage":
-			path := PATH + "/server/assets/chat.json"
-			chatBin, err := os.ReadFile(path);					if err != nil { log.Println("Error reading chat.json:", err) }
-
 			var obj map[string]interface {}
-			err = json.Unmarshal(chatBin, &obj);				if err != nil { log.Println("Error:", err) }
+			err = json.Unmarshal(chatBin, &obj); if err != nil { log.Println("Error:", err) }
 
-			marshalledMessage, err := json.Marshal(message);	if err != nil { log.Println("Error:", err) }
+			marshalledMessage, err := json.Marshal(message); if err != nil { log.Println("Error:", err) }
 
 			delete(message, "type")
 			obj[fmt.Sprintf("%d", len(obj))] = message
@@ -115,8 +115,6 @@ func (c *Client) chatHandler() {
 				}
 			}
 		case "chatFetchAll":
-			path := PATH + "/server/assets/chat.json"
-			chatBin, err := os.ReadFile(path);			if err != nil { log.Println("Error reading chat.json:", err) }
 			if err := c.connection.WriteMessage(websocket.TextMessage, chatBin); err != nil {
 				log.Println("Failed to send message:", err)
 			}
