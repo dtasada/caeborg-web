@@ -48,7 +48,6 @@ async function confirm() {
 		})
 
 		const resText = await res.text()
-		console.log(resText);
 		if (resText !== "?userinvalid" && resText) {
 			localStorage.setItem("user", resText)
 			window.location.replace("/");
