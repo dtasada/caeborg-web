@@ -48,16 +48,21 @@ func startSass() {
 	sass := exec.Command("sass", shouldWatch, "./client/public/styles:./client/public/.css")
 	sass.Env = append(sass.Env, os.Environ()...)
 
-	stdout, _ := sass.StdoutPipe()
 
-	sass.Start()
-	log.Println("Started sass compiler")
+	if server.DevMode {
+		stdout, _ := sass.StdoutPipe()
+		sass.Start()
+		log.Println("Started sass compiler")
 
-	reader := bufio.NewReader(stdout)
+		reader := bufio.NewReader(stdout)
 
-	for {
-		output, _ := reader.ReadString('\n')
-		log.Print(output)
+		for {
+			output, _ := reader.ReadString('\n')
+			log.Print("sass -", output)
+		}
+	} else {
+		sass.Run()
+		log.Println("Compiled sass files.")
 	}
 }
 
@@ -143,9 +148,10 @@ func main() {
 				server.IpAddr = fmt.Sprintf("%s", ipv4)
 			}
 		}
+
+		go compileSelf()
 	}
 
-	go compileSelf()
 	go startSass()
 
 	log.Printf("At '%s':\n", server.Domain)
