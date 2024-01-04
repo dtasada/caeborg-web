@@ -31,7 +31,7 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 
 	var usersMap map[string]string
 	err = json.Unmarshal(usersFileBin, &usersMap); if err != nil {
-		log.Printf("Could not unmarshal %s: %v", path, err)
+		log.Printf("Could not unmarshal %s: %v\n", path, err)
 		return
 	}
 

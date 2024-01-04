@@ -17,22 +17,20 @@
 	<body style="min-height: 100vh;">
 
 		<section id="header-sec">
-			<button id="menu-button" onclick="toggleSidebarSec()"><i class="fa-solid fa-bars"></i></button> 
+			<button aria-label="Menu button" id="menu-button" onclick="toggleSidebarSec()"><i class="fa-solid fa-bars"></i></button> 
 			<a href="javascript:switchFrame('launcher')"><img src="assets/users/caeborg.png" width="48" height="48" alt="caeborg-logo"></a>
-			<button id="colors-button" onclick="setColors()"><i class="fa-solid fa-sun"></i></button> 
-			<button id="login-button" onclick="window.location.href='/login'">
+			<button aria-label="Login" id="login-button" onclick="window.location.href='/login'">
 				<i class="fa-solid fa-arrow-right-to-bracket"></i>&ensp;Sign in
 			</button>
-			<button id="account-button" onclick="window.location.href='/login'"><i class="fa-solid fa-user"></i></button>
+			<button aria-label="See account" id="account-button" onclick="window.location.href='/login'"><i class="fa-solid fa-user"></i></button>
 		</section>
-
 
 		<section id="sidebar-sec">
 			<ol id="sidebar-ol" class="button-list">
 				<li><button aria-label="Open calculator"	onclick="switchFrame('calc')">Calculator</button></li>
 				<li><button aria-label="Open chat"			onclick="switchFrame('chat')">Chatting</button></li>
 				<li><button aria-label="Open chemtools"		onclick="switchFrame('chemtools')" disabled>ChemTools</button></li>
-				<li><button aria-label="Open games"			onclick="switchFrame('games')" disabled>Games</button></li>
+				<li><button aria-label="Open games"			onclick="switchFrame('games')">Games</button></li>
 				<li><button aria-label="Open graphing tool"	onclick="switchFrame('graph')">Graphing Tool</button></li>
 				<li><button aria-label="Open map"			onclick="switchFrame('map')">Map</button></li>
 				<li><button aria-label="Open meme maker"	onclick="switchFrame('meme')" disabled>Meme Maker</button></li>
@@ -48,7 +46,7 @@
 			<iframe id="rest-iframe" title="insideFrame" src="pages/launcher.html" frameBorder="0"></iframe>
 		</section>
 
-		<section id="footer-sec">caeborg-web build v1.0</section>
+		<section id="footer-sec">caeborg-web</section>
 
 		<script type="text/javascript" src="scripts/index.js" defer></script>
 	</body>

@@ -16,8 +16,7 @@ var (
 )
 
 func init() {
-	args := os.Args[1:]
-	if len(args) != 0 {
+	if args := os.Args[1:]; len(args) != 0 {
 		if args[0] == "dev" {
 			DevMode = true
 			IpAddr = "localhost"

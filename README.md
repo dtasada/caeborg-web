@@ -1,6 +1,6 @@
 ## Todo
 * [ ] Optimize frontend HTML CSS & JS
-* [ ] Rebuild color themes and sidebar hiding
+* [ ] Rebuild sidebar hiding
 * [ ] Make Paint tool
 
 ## Notes
@@ -31,15 +31,17 @@ WantedBy=default.target
 * Copy the example systemd service file to the systemd services folder `/usr/lib/systemd/system/` as root.
 * Enable the service with `systemctl enable --now caeborg`.
 * Don't forget to `chmod +rwx ./releases/*` and `chmod +rwx ./server/besticon/*` to avoid permission errors.
-### HTTPS Development
+### Development
 For your development environment to work correctly, you need to set up HTTPS keys. These are self-signed keys intended only for development use.
 * To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout ./credentials/privkey.pem -out ./credentials/fullchain.pem -sha256 -days 365`.
 * Then remove the passcode `openssl rsa -in ./credentials/privkey.pem -out ./credentials/privkey.pem -passin pass:1234`.
 * These keys are saved in `caeborg-web/assets/credentials` during development.
     * The required keys are `cert.pem` and `key.pem` for HTTPS.
+    * An `auth-secret` file is also necessary for encryption.
+* The server also requires an `assets/chat.json` and an `assets/user.json` file.
 
 ## Development dependencies
-* `go` (v1.18)
+* `go` (v1.21)
 * `dart-sass` or `node-sass` is required for SCSS transpilation.
 
 ## CaeborgDiscordBot functions to implement:

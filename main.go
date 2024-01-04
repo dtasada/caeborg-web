@@ -42,7 +42,10 @@ func compileSelf() {
 }
 
 func startSass() {
-	sass := exec.Command("sass", "--watch", "./client/public/styles:./client/public/.css")
+	var shouldWatch string
+	if server.DevMode { shouldWatch = "--watch" }
+	
+	sass := exec.Command("sass", shouldWatch, "./client/public/styles:./client/public/.css")
 	sass.Env = append(sass.Env, os.Environ()...)
 
 	stdout, _ := sass.StdoutPipe()
@@ -84,19 +87,18 @@ func startServer() {
 	mux := http.NewServeMux()
 
 	// Home
-	mux.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
-		url := strings.Split(fmt.Sprintf("%v", r.URL), "/")[1]
-
-		if strings.Contains(url, "?frame=") {
-			pages, err := os.ReadDir(server.PUBLIC + "/pages"); if err != nil { log.Println("Error reading file system:", err) }
-			for _, file := range pages {
-				http.Redirect(w, r, "/pages/" + file.Name() + url, http.StatusPermanentRedirect)
-			}
-		} else {
-			server := http.FileServer(http.Dir(server.PUBLIC))
-			http.StripPrefix("/", server).ServeHTTP(w, r)
-		}
-	})
+	// mux.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
+	// 	url := strings.Split(fmt.Sprintf("%v", r.URL), "/")[1]
+	//
+	// 	if strings.Contains(url, "?frame=") {
+	// 		// file, err := os.ReadDir(server.PUBLIC + "/pages"); if err != nil { log.Println("Error reading file system:", err) }
+	// 		// http.Redirect(w, r, fmt.Sprintf("%s/pages/%s.html", server.PUBLIC, url), http.StatusPermanentRedirect)
+	// 	} else {
+	// 		server := http.FileServer(http.Dir(server.PUBLIC))
+	// 		http.StripPrefix("/", server).ServeHTTP(w, r)
+	// 	}
+	// })
+	mux.Handle("/", http.FileServer(http.Dir(server.PUBLIC)))
 
 	mux.HandleFunc("/login", server.HandleLogin)
 	mux.HandleFunc("/auth", server.HandleAuth)
@@ -109,6 +111,7 @@ func startServer() {
 		imgBytes, err := io.ReadAll(res.Body);		if err != nil { log.Println("Error serving image:", err) }
 		res.Body.Close()
 
+		w.Header().Add("cache-control", "max-age=21600")
 		w.Write(imgBytes)
 	})
 
@@ -133,19 +136,17 @@ func startServer() {
 }
 
 func main() {
-	args := os.Args[1:]
-
-	if len(args) == 0 {
+	if server.DevMode {
 		ips, _ := net.LookupIP(server.Domain)
 		for _, ip := range ips {
 			if ipv4 := ip.To4(); ipv4 != nil {
 				server.IpAddr = fmt.Sprintf("%s", ipv4)
 			}
 		}
-	} else {
-		go compileSelf()
-		go startSass()
 	}
+
+	go compileSelf()
+	go startSass()
 
 	log.Printf("At '%s':\n", server.Domain)
 

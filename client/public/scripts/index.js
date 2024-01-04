@@ -1,22 +1,3 @@
-let isDark = true;
-function setColors(toggle=true) {
-	if (toggle === true) {
-		isDark = !isDark;
-		if (isDark) document.body.classList.remove("light-mode");
-		else document.body.classList.add("light-mode");
-	}
-
-	const rootStyles = getComputedStyle(document.documentElement);
-	const iframeStyles = document.querySelector("iframe").contentDocument.firstElementChild.style
-
-    for (property of Object.values(rootStyles)) {
-        if (property.startsWith('--col')) {
-            iframeStyles.setProperty(property, rootStyles.getPropertyValue(property));
-            console.log(property, rootStyles.getPropertyValue(property));
-        }
-    } 
-}
-
 // Switching frames
 function switchFrame(page) {
 	localStorage.setItem('saved_frame', page);
@@ -56,11 +37,5 @@ function switchFrame(page) {
 
 if (localStorage.getItem('saved_frame') === null) localStorage.setItem('saved_frame', 'launcher')
 else switchFrame(localStorage.getItem('saved_frame'))
-
-// if (localStorage.user) {
-// 	document.getElementById("login-button").style.display = "none"
-// } else {
-// 	document.getElementById("account-button").style.display = "none"
-// }
 
 document.getElementById(localStorage.user ? "login-button" : "account-button").style.display = "none"
