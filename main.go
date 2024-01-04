@@ -107,6 +107,7 @@ func startServer() {
 
 	mux.HandleFunc("/login", server.HandleLogin)
 	mux.HandleFunc("/auth", server.HandleAuth)
+	mux.HandleFunc("/validate", server.HandleValidation)
 
 	// Icons
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {

@@ -38,8 +38,11 @@ showPasswordButton.addEventListener("click", () => {
 
 async function confirm() {
 	// generate UUID
-	const uuid = crypto.randomUUID();
-	localStorage.uuid = uuid;
+	let uuid;
+	if (!localStorage.uuid) {
+		uuid = crypto.randomUUID();
+		localStorage.uuid = uuid;
+	}
 
 	if (usernameInput.value && passwordInput.value) {
 		res = await fetch("/auth", {

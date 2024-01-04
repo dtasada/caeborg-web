@@ -28,6 +28,7 @@ function switchFrame(page) {
 		case "launcher":	document.title = "Caeborg - Launcher"; break;
 		case "maps":		document.title = "Caeborg - Map"; break;
 		case "meme":		document.title = "Caeborg - Meme Maker"; break;
+		case "notes":		document.title = "Caeborg - Notes"; break;
 		case "paint":		document.title = "Caeborg - Paint"; break;
 		case "quote":		document.title = "Caeborg - Quote"; break;
 		case "shell":		document.title = "Caeborg - Shell"; break;
@@ -39,4 +40,18 @@ function switchFrame(page) {
 if (localStorage.savedFrame) switchFrame(localStorage.savedFrame)
 else localStorage.savedFrame = 'launcher';
 
-document.getElementById(localStorage.uuid ? "login-button" : "account-button").style.display = "none"
+async function validate() {
+	if (!localStorage.uuid) localStorage.uuid = crypto.randomUUID();;
+
+	res = await fetch("/validate", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: localStorage.uuid,
+	});
+	res = await res.text()
+	if (res === "?userinvalid") localStorage.removeItem("uuid")
+
+	document.getElementById(localStorage.uuid ? "login-button" : "account-button").style.display = "none"
+}
+validate()
+
