@@ -14,6 +14,7 @@ function switchFrame(page) {
 	document.getElementById("rest-sec").appendChild(new_frame);
 	for (param of document.location.search.split("&")) {
 		if (param === "?newTabDash") {
+			switchFrame("launcher")
 			window.history.pushState({}, document.title, document.location.search.replace(param, ""));
 		}
 	}
