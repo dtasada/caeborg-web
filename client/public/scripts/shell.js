@@ -2,39 +2,35 @@
 const lidwoordUrl = "https://welklidwoord.nl";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
 const urbandictUrl = "https://api.urbandictionary.com/v0/define?term=";
-let shell_input_array = localStorage.getItem('shell_input_array');
-if (shell_input_array === null || typeof shell_input_array === 'string') shell_input_array = [];
-let arrowup_index = -1
+let shellInputArray = localStorage.shellInputArray ?? [];
+let arrowupIndex = -1
 
 // Starting localStorage values
-function startLocalStorage() {
-	const output_sec = document.getElementById('output-sec');
-	const output_ol = document.createElement('ol');
-	if (localStorage.getItem('saved_shell_output_ol') === null) {
-		output_ol.id = 'output-ol';
-		output_sec.appendChild(output_ol);
-	} else {
-		output_sec.appendChild(output_ol);
-		output_ol.outerHTML = localStorage.getItem('saved_shell_output_ol');
+const outputSec = document.getElementById("output-sec");
+const outputOl = document.createElement("ol");
+if (localStorage.savedShellOutputOl === null) {
+	outputOl.id = "output-ol";
+	outputSec.appendChild(outputOl);
+} else {
+	outputSec.appendChild(outputOl);
+	outputOl.outerHTML = localStorage.savedShellOutputOl;
 
-		output_sec.scrollTop = output_sec.scrollHeight;
-	}
+	outputSec.scrollTop = outputSec.scrollHeight;
 }
-startLocalStorage();
 
 // html tags as variables
-const output_ol = document.getElementById('output-ol');
-const submit = document.getElementById('submit-button');
-submit.addEventListener('click', () => {
+// const outputOl = document.getElementById("output-ol");
+const submit = document.getElementById("submit-button");
+submit.addEventListener("click", () => {
 	parseInput(input.value);
-	input.value = '';
-	localStorage.setItem('saved_shell_input_value', input.value);
+	input.value = "";
+	localStorage.savedShellInputValue = input.value;
 });
 
-const addButton = document.getElementById('add-button');
-addButton.addEventListener('click', () => {
-	const inputFile = document.createElement('input');
-	inputFile.type = 'file';
+const addButton = document.getElementById("add-button");
+addButton.addEventListener("click", () => {
+	const inputFile = document.createElement("input");
+	inputFile.type = "file";
 	inputFile.hidden = true;
 
 	inputFile.addEventListener("change", (event) => {
@@ -56,84 +52,84 @@ addButton.addEventListener('click', () => {
 	inputFile.click();
 })
 
-const input = document.getElementById('input-box');
+const input = document.getElementById("input-box");
 input.focus();
-input.addEventListener('keydown', (event) => {
+input.addEventListener("keydown", (event) => {
 	switch (event.key) {
-		case 'Enter':
+		case "Enter":
 			parseInput(input.value);
 			input.value = "";
-			localStorage.setItem('saved_shell_input_value', input.value);
-			arrowup_index = -1
+			localStorage.savedShellInputValue = input.value;
+			arrowupIndex = -1
 			break;
-		case 'ArrowUp':
+		case "ArrowUp":
 			event.preventDefault();
-			if (shell_input_array[arrowup_index + 1] !== undefined) {
-				arrowup_index += 1;
-				input.value = shell_input_array[arrowup_index];
+			if (shellInputArray[arrowupIndex + 1] !== undefined) {
+				arrowupIndex += 1;
+				input.value = shellInputArray[arrowupIndex];
 			}
-			localStorage.setItem('shell_input_array', shell_input_array)
+			localStorage.shellInputArray = shellInputArray;
 			break;
-		case 'ArrowDown':
+		case "ArrowDown":
 			event.preventDefault();
-			if (shell_input_array[arrowup_index - 1] !== undefined) {
-				arrowup_index -= 1;
-				input.value = shell_input_array[arrowup_index];
+			if (shellInputArray[arrowupIndex - 1] !== undefined) {
+				arrowupIndex -= 1;
+				input.value = shellInputArray[arrowupIndex];
 			}
-			localStorage.setItem('shell_input_array', shell_input_array)
+			localStorage.shellInputArray = shellInputArray;
 			break;
 	}
 });
 
 input.oninput = () => {
 	autocomplete();
-	localStorage.setItem('saved_shell_input_value', input.value);
+	localStorage.savedShellInputValue = input.value;
 }
 
 // important functions
 function send(sender, msgs) {
 	if (sender != null) {
-		const li = document.createElement('li');
+		const li = document.createElement("li");
 
-		pfp = document.createElement('img');
-		pfp.classList.add(`sender-is-${sender}`, 'pfp');
+		pfp = document.createElement("img");
+		pfp.classList.add(`sender-is-${sender}`, "pfp");
 		pfp.src = `/assets/users/${sender}.png`;
 		li.appendChild(pfp);
 
-		// console.log('msgs: ', msgs);
-		// console.log('typeof msgs: ', typeof msgs);
+		// console.log("msgs: ", msgs);
+		// console.log("typeof msgs: ", typeof msgs);
 		for (msg of msgs) {
-			if (typeof msg === 'string') {
-				const p = document.createElement('p');
+			if (typeof msg === "string") {
+				const p = document.createElement("p");
 				p.innerHTML = msg;
 				li.appendChild(p);
 			} else {
 				li.appendChild(msg);
 			}
 		}
-		output_ol.appendChild(li);
-		localStorage.setItem('saved_shell_output_ol', output_ol.outerHTML);
-		document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
+		outputOl.appendChild(li);
+		localStorage.savedShellOutputOl = outputOl.outerHTML;
+		document.getElementById("output-sec").scrollTop = document.getElementById("output-sec").scrollHeight;
 	}
 }
 
 // main text parser and lexer
 async function parseInput(text) {
 	// init variables
-	send('user', [text]);
-	shell_input_array.unshift(text);
-	localStorage.setItem('shell_input_array', shell_input_array);
-	const args = text.split(' ');
+	send("user", [text]);
+	shellInputArray.unshift(text);
+	localStorage.shellInputArray = shellInputArray;
+	const args = text.split(" ");
 	const command = args.shift();
 	if (command === "") { return; }
 	// execute command
 	if (command in commands) {
 		const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
-		if (results != null) send('caeborg', results);
-		else console.log('Function return is null!')
+		if (results != null) send("caeborg", results);
+		else console.log("Function return is null!")
 	} else {
 		// console.log(`Command ${command} not found`);
-		send('caeborg', [ `<i>Command '${command}' not found</i>`] );
+		send("caeborg", [ `<i>Command "${command}" not found</i>`] );
 	}
 }
 
@@ -161,32 +157,32 @@ function httpGet(theUrl) {
 // dict of functions
 const commands = {
 	chem: {
-		brief: 'Gives the structure of given IUPAC organic compound name',
+		brief: "Gives the structure of given IUPAC organic compound name",
 		command: (args) => {
 			// init
-			const compound = args.join(' ');
+			const compound = args.join(" ");
 			const url = `${chemUrl}/${compound}.png`;
-			img = document.createElement('img');
+			img = document.createElement("img");
 			const response = httpGet(url);
 			const text = response.responseText;
 			if (response.status === 404) {
-				const importantMessage = text.split('as follows:')[1];
+				const importantMessage = text.split("as follows:")[1];
 				return [ importantMessage ];
 			} else {
 				img.src = url;
-				img.classList.add('compound-img');
-				return [ `IUPAC nomenclature for '${bi(compound)}':`, img ];
+				img.classList.add("compound-img");
+				return [ `IUPAC nomenclature for "${bi(compound)}":`, img ];
 			}
 		}
 	},
 
 	clear: {
-		brief: 'Clears the screen',
+		brief: "Clears the screen",
 		command: () => {
-			while(output_ol.firstChild) {
-				output_ol.removeChild(output_ol.firstChild);
+			while(outputOl.firstChild) {
+				outputOl.removeChild(outputOl.firstChild);
 			}
-			localStorage.setItem('saved_shell_output_ol', output_ol.outerHTML);
+			localStorage.savedShellOutputOl = outputOl.outerHTML;
 			return null;
 		}
 	},
@@ -218,7 +214,7 @@ const commands = {
 			// console.log(JSON.stringify(dataJson, "<br>", "\t"))
 			// if (command === "--full") return [ JSON.stringify(dataJson) ]
 			// else {
-			// 	let returnArray = [ bi(word + ':') ]
+			// 	let returnArray = [ bi(word + ":") ]
 			// 	for (index of Object.values(dataJson)) {
 			// 		for (key of Object.keys(index)) {
 			// 			value = index[property];
@@ -255,38 +251,38 @@ const commands = {
 	},
 
 	nk: {
-		brief: 'Returns physics formulas. `list` for list of available arguments',
+		brief: "Returns physics formulas. `list` for list of available arguments",
 		command: async (args) => {
-			nk_json = await fetch(`/assets/physics.json`);
-			nk_json = await nk_json.json();
-			if (args[0] !== 'list') {
-				const array = nk_json[args[0]];
-				const base_formula = array[0];
-				const definitions = array[1].join('<br>');
+			nkJSON = await fetch(`/assets/physics.json`);
+			nkJSON = await nkJSON.json();
+			if (args[0] !== "list") {
+				const array = nkJSON[args[0]];
+				const baseFormula = array[0];
+				const definitions = array[1].join("<br>");
 
-				console.log('nk_json:', nk_json);
-				if (args[0] === 'list') {
-					return [object.keys(nk_json).join('<br>')];
+				console.log("nkJSON:", nkJSON);
+				if (args[0] === "list") {
+					return [object.keys(nkJSON).join("<br>")];
 				} else {
-					console.log('were here!');
+					console.log("were here!");
 					return [
-						`base formula for ${bi(args[0])}:<br> ${bi(base_formula)}`,
+						`base formula for ${bi(args[0])}:<br> ${bi(baseFormula)}`,
 						`contextual definitions:<br> ${bi(definitions)}`
 					];
 				}
 			} else {
-				const all = Object.keys(nk_json);
+				const all = Object.keys(nkJSON);
 				let brief = []
-				for ([key, value] of Object.entries(nk_json)) {
+				for ([key, value] of Object.entries(nkJSON)) {
 					brief.push(`${key}: ${bi(value[0])}`);
 				}
-				return [ `${brief.join('<br>')}` ];
+				return [ `${brief.join("<br>")}` ];
 			}
 		}
 	},
 
 	ping: {
-		brief: 'Ping user back',
+		brief: "Ping user back",
 		command: () => {
 			return ["pong!"];
 		}

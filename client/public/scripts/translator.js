@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const addButton = document.getElementById("add-button");
 	inputBox.focus();
 
-	// make newlang_sec
+	// make newlangSel
 	const newlangSel = document.createElement("select");
 	newlangSel.id = "newlang-sel";
 	newlangSel.hidden = true;
@@ -159,8 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("buttons").insertBefore(newlangSel, copyButton);
 	//
 
-	if (localStorage.getItem("translate-input-box")) {
-		inputBox.value = localStorage.getItem("translate-input-box");
+	if (localStorage.translateInputBox) {
+		inputBox.value = localStorage.translateInputBox;
 		translate();
 	}
 
@@ -227,10 +227,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(inputBox.value)}`;
 		fetch(url)
 		.then(response => response.json())
-			.then(data_json => {
-				if (data_json[0]) outputBox.value = data_json[0][0][0];
+			.then(dataJSON => {
+				if (dataJSON[0]) outputBox.value = dataJSON[0][0][0];
 		});
-		if (inputBox.value !== '') localStorage.setItem("translate-input-box", inputBox.value);
+		if (inputBox.value !== '') localStorage.translateInputBox = inputBox.value;
 		else outputBox.value = '';
 	}
 });

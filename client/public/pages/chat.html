@@ -20,7 +20,7 @@
 
 		<section id="input-sec">
 			<input type="text" id="input-box" placeholder="Enter function here..."  autocomplete="off">
-			<script>document.getElementById('input-box').value = localStorage.getItem('saved_chat_input_value')</script>
+			<script>document.getElementById('input-box').value = localStorage.savedChatInputValue ?? ""</script>
 			<button id="submit-button">Submit</button>
 			<button id="add-button"><i class="fa-solid fa-plus"></i></button>
 

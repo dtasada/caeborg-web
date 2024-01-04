@@ -1,7 +1,7 @@
 // P R E R E Q U I S I T E S
 time = new Date();
 
-const username = localStorage.getItem("user")
+const uuid = localStorage.uuid;
 
 const ws = new WebSocket(`wss://${document.location.host}/chat`);
 ws.addEventListener("open", () => {
@@ -13,9 +13,9 @@ ws.addEventListener("message", ({ data }) => {
 	const json = JSON.parse(data);
 
 	switch (json.type) {
-		case "chatJson":
+		case "chatJSON":
 			for (value of Object.values(json)) {
-				if (value !== "chatJson") renderMessage(value);
+				if (value !== "chatJSON") renderMessage(value);
 			}
 		break;
 		case "chatPostMessage":
@@ -27,31 +27,32 @@ ws.addEventListener("message", ({ data }) => {
 
 // html tags as variables
 const input = document.getElementById('input-box');
-if (!username) {
+if (!localStorage.uuid) {
 	input.setAttribute("disabled", true)
 	input.setAttribute("placeholder", "please sign in to use chat")
 }
+
 input.focus();
 input.addEventListener('keydown', event => {
 	switch (event.key) {
 		case 'Enter':
 			parseInput(input.value);
 			input.value = "";
-			localStorage.setItem('saved_chat_input_value', input.value);
+			localStorage.savedChatInputValue = input.value;
 		break;
 	}
 });
 
-input.oninput = () => { localStorage.setItem('saved_chat_input_value', input.value); }
+input.oninput = () => { localStorage.savedChatInputValue = input.value; }
 
-const output_sec = document.getElementById('output-sec');
-output_sec.scrollTop = output_sec.scrollHeight;
-const output_ol = document.getElementById('output-ol');
+const outputSec = document.getElementById('output-sec');
+outputSec.scrollTop = outputSec.scrollHeight;
+const outputOl = document.getElementById('output-ol');
 const submit = document.getElementById('submit-button');
 submit.addEventListener('click', () => {
 	parseInput(input.value);
 	input.value = '';
-	localStorage.setItem('saved_chat_input_value', input.value);
+	localStorage.savedChatInputValue = input.value;
 });
 
 // Handle images
@@ -73,7 +74,7 @@ addButton.addEventListener('click', () => {
 				// Send to server
 				ws.send(JSON.stringify({
 					content: imageBin,
-					sender: username,
+					sender: uuid,
 					date: `${time.toLocaleDateString()}`,
 					time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
 					dataType: "img",
@@ -113,8 +114,7 @@ async function renderMessage(json) {
 		li.appendChild(img);
 	}
 
-	output_ol.appendChild(li);
-	localStorage.setItem('saved_chat_output_ol', output_ol.outerHTML);
+	outputOl.appendChild(li);
 	document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
 }
 
@@ -123,7 +123,7 @@ async function parseInput(text) {
 	if (text !== "") {
 		ws.send(JSON.stringify({
 			content: text,
-			sender: username,
+			sender: uuid,
 			date: `${time.toLocaleDateString()}`,
 			time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
 			dataType: "txt",

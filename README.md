@@ -1,12 +1,14 @@
 ## Todo
+* [ ] Setup accounts in launcher
 * [ ] Optimize frontend HTML CSS & JS
+* [ ] Write Paint tool
+* [ ] Write Notes tool
 * [ ] Rebuild sidebar hiding
-* [ ] Make Paint tool
 
 ## Notes
 * To run the web server, run `go run *.go` in `caeborg-web/`.
 * To run the server in its dev mode, run `go run main.go dev` in `caeborg-web/`. `dev` includes SCSS compilation.
-* To compile SCSS to CSS loosely, run `sass --watch ./client/public/styles:./client/public/.css` in `caeborg-web/`.
+* To compile SCSS to CSS separately, run `sass --watch ./client/public/styles:./client/public/.css` in `caeborg-web/`.
 
 ## Setup
 ### Server setup
@@ -39,6 +41,19 @@ For your development environment to work correctly, you need to set up HTTPS key
     * The required keys are `cert.pem` and `key.pem` for HTTPS.
     * An `auth-secret` file is also necessary for encryption.
 * The server also requires an `assets/chat.json` and an `assets/user.json` file.
+    * Example of `users.json`: ```json
+    {
+        "permanito": {
+            "launcher": {
+                "YouTube": "youtube.com"
+            },
+            "password": "X3xikhbQf87bK0k=",
+            "whitelist": [
+                "a2eb9c82-071d-4b0a-a645-1c48273d6477"
+            ]
+        }
+    }
+    ```
 
 ## Development dependencies
 * `go` (v1.21)

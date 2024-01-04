@@ -5,8 +5,8 @@ quoteButton.addEventListener("click", newQuote);
 
 async function newQuote() {
 	res = await fetch("https://inspirobot.me/api?generate=true")
-	img_url = await res.text()
-	img.src = img_url;
+	imgURL = await res.text()
+	img.src = imgURL;
 	document.querySelector("body").appendChild(img);
 }
 

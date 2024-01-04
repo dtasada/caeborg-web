@@ -1,15 +1,15 @@
-const new_shortcut_sec = document.getElementById('new-shortcut-sec');
-const url_input = document.getElementById('url-input');
-const name_input = document.getElementById('name-input');
-const add_button = document.getElementById('add-button');
-const favicon_img = document.getElementById('favicon-img');
+const newShortcutSec = document.getElementById('new-shortcut-sec');
+const urlInput = document.getElementById('url-input');
+const nameInput = document.getElementById('name-input');
+const addButton = document.getElementById('add-button');
+const faviconIMG = document.getElementById('favicon-img');
 
-const confirm_button = document.getElementById('confirm-button');
-const delete_button = document.getElementById('delete-button');
+const confirmButton = document.getElementById('confirm-button');
+const deleteButton = document.getElementById('delete-button');
 
-let new_favicon_url;
+let newFaviconURL;
 let url;
-let is_new;
+let isNew;
 
 let obj;
 
@@ -20,101 +20,101 @@ function genShortcuts() {
 		document.querySelector('launcher-sec').remove()
 	}
 
-	const launcher_sec = document.getElementById('launcher-sec');
-	const launcher_ol = document.createElement('ol');
-	launcher_ol.id = 'launcher-ol';
-	launcher_ol.classList.add('horizontal');
+	const launcherSec = document.getElementById('launcher-sec');
+	const launcherOl = document.createElement('ol');
+	launcherOl.id = 'launcher-ol';
+	launcherOl.classList.add('horizontal');
 
-	if (localStorage.getItem('saved_launcher_ol') === null) {
-		localStorage.setItem("saved_launcher_ol", JSON.stringify({
+	if (!localStorage.savedLauncherOl) {
+		localStorage.savedLauncherOl = JSON.stringify({
 			Magister: "https://hageveld.magister.net",
 			YouTube: "https://youtube.com",
-		}))
+		})
 	}
 
-	obj = JSON.parse(localStorage.getItem("saved_launcher_ol"))
+	obj = JSON.parse(localStorage.savedLauncherOl)
 
 	for (key of Object.keys(obj)) {
 		li = document.createElement("li");
 		url = obj[key]
 		li.innerHTML = `<button onclick="window.open('${url}')">
 			<img src="/icon?url=${url}&size=64..128..256" width="128" height="128"/><br><p>${key}</p></button>`;
-		launcher_ol.appendChild(li);
+		launcherOl.appendChild(li);
 	}
 
-	launcher_sec.appendChild(launcher_ol);
+	launcherSec.appendChild(launcherOl);
 }
 
 genShortcuts();
 
 // Functions for repetition
 function cleanup() {
-	url_input.value = '';
-	name_input.value = '';
-	favicon_img.style.opacity = '0';
-	new_shortcut_sec.style.display = 'none';
+	urlInput.value = '';
+	nameInput.value = '';
+	faviconIMG.style.opacity = '0';
+	newShortcutSec.style.display = 'none';
 
-	confirm_button.classList.remove('half');
-	delete_button.classList.remove('half');
+	confirmButton.classList.remove('half');
+	deleteButton.classList.remove('half');
 
-	localStorage.setItem('saved_launcher_ol', JSON.stringify(obj));
+	localStorage.savedLauncherOl = JSON.stringify(obj);
 	location.reload();
-	is_new = true;
+	isNew = true;
 }
 
 function getUrlFromInput() {
-	if (url_input.value.includes('://')) val = url_input.value;
-	else if (url_input.value.includes('www.')) val = url_input.value.replace('www.', 'http://') ;
-	else val = `http://${url_input.value}`;
+	if (urlInput.value.includes('://')) val = urlInput.value;
+	else if (urlInput.value.includes('www.')) val = urlInput.value.replace('www.', 'http://') ;
+	else val = `http://${urlInput.value}`;
 	return val;
 }
 
 function eventHandler(element) {
-	name_input.focus();
-	name_input.addEventListener('keydown', event => { if (event.key === 'Enter') url_input.focus() });
+	nameInput.focus();
+	nameInput.addEventListener('keydown', event => { if (event.key === 'Enter') urlInput.focus() });
 	
 	window.addEventListener('keydown', event => { if (event.key === 'Escape') cleanup(); })
 
 	if (element) {
-		is_new = false;
-		delete_button.addEventListener('click', () => { delete obj[element.parentElement.querySelector('p').innerHTML]; cleanup() });
-		url_input.addEventListener('keydown', event => { if (event.key === 'Enter') confirm(element) });
-		confirm_button.addEventListener('click', () => { confirm(element) });
+		isNew = false;
+		deleteButton.addEventListener('click', () => { delete obj[element.parentElement.querySelector('p').innerHTML]; cleanup() });
+		urlInput.addEventListener('keydown', event => { if (event.key === 'Enter') confirm(element) });
+		confirmButton.addEventListener('click', () => { confirm(element) });
 	} else {
-		is_new = true;
-		url_input.addEventListener('keydown', event => { if (event.key === 'Enter') confirm() });
-		confirm_button.addEventListener('click', () => { confirm() });
+		isNew = true;
+		urlInput.addEventListener('keydown', event => { if (event.key === 'Enter') confirm() });
+		confirmButton.addEventListener('click', () => { confirm() });
 	}
 }
 
 function placeholderFavicon() {
-	if (url_input !== null && url_input !== undefined) {
-		favicon_img.style.opacity = '1';
-		if (url_input.value === '') {
-			favicon_img.style.opacity = '0';
+	if (urlInput !== null && urlInput !== undefined) {
+		faviconIMG.style.opacity = '1';
+		if (urlInput.value === '') {
+			faviconIMG.style.opacity = '0';
 			return;
 		}
 		url = getUrlFromInput();
-		new_favicon_url = `/icon?url=${url}&size=64..128..256`
-		favicon_img.src = new_favicon_url;
+		newFaviconURL = `/icon?url=${url}&size=64..128..256`
+		faviconIMG.src = newFaviconURL;
 	}
 }
 
 function addShortcut() {
-	if (new_shortcut_sec.style.display === 'flex') {
+	if (newShortcutSec.style.display === 'flex') {
 		cleanup();
 	} else {
-		new_shortcut_sec.style.display = 'flex';
+		newShortcutSec.style.display = 'flex';
 		eventHandler();
 	}
 }
 
 // Real functional functions
 function confirm(element) {
-	if (is_new === false) {
+	if (isNew === false) {
 		delete obj[element.querySelector('p').innerHTML];
 	}
-	obj[name_input.value] = getUrlFromInput();
+	obj[nameInput.value] = getUrlFromInput();
 	cleanup();
 }
 
@@ -126,19 +126,19 @@ function confirm(element) {
 
 	element.addEventListener('contextmenu', () => {
 		event.preventDefault();
-		if (new_shortcut_sec.style.display === 'flex') {
+		if (newShortcutSec.style.display === 'flex') {
 			cleanup();
 		} else {
-			new_shortcut_sec.style.display = 'flex';
-			name_input.value = element.querySelector('p').innerHTML;
-			url_input.value = element.getAttribute('onclick').split("'")[1];
-			favicon_img.src = element.querySelector('img').src;
+			newShortcutSec.style.display = 'flex';
+			nameInput.value = element.querySelector('p').innerHTML;
+			urlInput.value = element.getAttribute('onclick').split("'")[1];
+			faviconIMG.src = element.querySelector('img').src;
 
 			placeholderFavicon();
-			name_input.focus();
+			nameInput.focus();
 
-			confirm_button.classList.add('half');
-			delete_button.classList.add('half');
+			confirmButton.classList.add('half');
+			deleteButton.classList.add('half');
 			eventHandler(element);
 		}
 	});

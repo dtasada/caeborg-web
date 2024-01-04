@@ -37,19 +37,23 @@ showPasswordButton.addEventListener("click", () => {
 });
 
 async function confirm() {
+	// generate UUID
+	const uuid = crypto.randomUUID();
+	localStorage.uuid = uuid;
+
 	if (usernameInput.value && passwordInput.value) {
 		res = await fetch("/auth", {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
-				username: usernameInput.value,
+				uuid: uuid,
 				password: atob(passwordInput.value),
+				username: usernameInput.value,
 			})
 		})
 
 		const resText = await res.text()
-		if (resText !== "?userinvalid" && resText) {
-			localStorage.setItem("user", resText)
+		if (resText && resText !== "?userinvalid") {
 			window.location.replace("/");
 		} else {
 			window.location.replace("/login?userinvalid");

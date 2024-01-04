@@ -98,10 +98,24 @@ func (c *Client) chatHandler() {
 
 		switch message["type"] {
 		case "chatPostMessage":
-			var obj map[string]interface {}
-			err = json.Unmarshal(chatBin, &obj); if err != nil { log.Println("Error:", err) }
+			var obj map[string]interface{}
+			err = json.Unmarshal(chatBin, &obj); if err != nil {
+				log.Println("Error:", err)
+				return
+			}
 
-			marshalledMessage, err := json.Marshal(message); if err != nil { log.Println("Error:", err) }
+			username := ValidateUser(message["sender"]); if username != "?userinvalid" {
+				message["sender"] = username
+			} else {
+				log.Println("Failed to validate user")
+				return
+			}
+
+			// Marshal *after* changing username
+			marshalledMessage, err := json.Marshal(message); if err != nil {
+				log.Println("Error:", err)
+				return
+			}
 
 			delete(message, "type")
 			obj[fmt.Sprintf("%d", len(obj))] = message
