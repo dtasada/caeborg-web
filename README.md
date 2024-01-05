@@ -1,3 +1,4 @@
+## Table of Contents
 - [Introduction](#introduction)
 - [Todo](#todo)
     + [CaeborgDiscordBot functions to implement:](#caeborgdiscordbot-functions-to-implement-)
