@@ -3,7 +3,5 @@
 */.env
 .DS_Store/
 .env
-cert.pem
 client/public/.css/
-assets/
-key.pem
+./assets/

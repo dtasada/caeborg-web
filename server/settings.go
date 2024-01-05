@@ -46,6 +46,8 @@ func init() {
 			DevMode = true
 			IpAddr = "localhost"
 			Domain = "localhost"
+		} else {
+			log.Fatal("Unknown argument" + args[0])
 		}
 	}
 

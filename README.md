@@ -1,18 +1,39 @@
-## Todo
+- [Introduction](#introduction)
+- [Todo](#todo)
+    + [CaeborgDiscordBot functions to implement:](#caeborgdiscordbot-functions-to-implement-)
+- [Notes](#notes)
+- [Setup](#setup)
+  * [Server setup](#server-setup)
+  * [Development](#development)
+- [Development dependencies](#development-dependencies)
+
+## Introduction
+Caeborg is an all-in-one homepage that includes different tools for my day-to-day. The idea behind it is that I can unify the most popular tools I use into one environment.
+![](https://caeborg.dev/assets/screenshot.png "Caeborg Homepage Screenshot")
+
+# Todo
 * [ ] Setup accounts in launcher
 * [ ] Optimize frontend HTML CSS & JS
+    * [ ] Fix flaky `shell.js`
 * [ ] Write Paint tool
 * [ ] Write Notes tool
 * [ ] Rebuild sidebar hiding
+    ### CaeborgDiscordBot shell commands to implement:
+    * [ ] deofhet
+    * [ ] weather
+    * [ ] ascii
+    * [ ] define word
+    * [ ] spanish
+    * [ ] meme
 
-## Notes
+# Notes
 * To run the web server, run `go run *.go` in `caeborg-web/`.
 * To run the server in its dev mode, run `go run main.go dev` in `caeborg-web/`. `dev` includes SCSS compilation.
 * To compile SCSS to CSS separately, run `sass --watch ./client/public/styles:./client/public/.css` in `caeborg-web/`.
 
-## Setup
-### Server setup
-```toml
+# Setup
+## Server setup
+```
 [Unit]
 Description=Caeborg
 Requires=network.target
@@ -33,7 +54,7 @@ WantedBy=default.target
 * Copy the example systemd service file to the systemd services folder `/usr/lib/systemd/system/` as root.
 * Enable the service with `systemctl enable --now caeborg`.
 * Don't forget to `chmod +rwx ./releases/*` and `chmod +rwx ./server/besticon/*` to avoid permission errors.
-### Development
+## Development
 For your development environment to work correctly, you need to set up HTTPS keys. These are self-signed keys intended only for development use.
 * To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout ./credentials/privkey.pem -out ./credentials/fullchain.pem -sha256 -days 365`.
 * Then remove the passcode `openssl rsa -in ./credentials/privkey.pem -out ./credentials/privkey.pem -passin pass:1234`.
@@ -41,9 +62,10 @@ For your development environment to work correctly, you need to set up HTTPS key
     * The required keys are `cert.pem` and `key.pem` for HTTPS.
     * An `auth-secret` file is also necessary for encryption.
 * The server also requires an `assets/chat.json` and an `assets/user.json` file.
-    * Example of `users.json`: ```json
+    * Example of `users.json`:
+     ```json
     {
-        "permanito": {
+        "johnappleseed": {
             "launcher": {
                 "YouTube": "youtube.com"
             },
@@ -55,14 +77,6 @@ For your development environment to work correctly, you need to set up HTTPS key
     }
     ```
 
-## Development dependencies
+# Development dependencies
 * `go` (v1.21)
 * `dart-sass` or `node-sass` is required for SCSS transpilation.
-
-## CaeborgDiscordBot functions to implement:
-* [ ] deofhet
-* [ ] weather
-* [ ] ascii
-* [ ] define word
-* [ ] spanish
-* [ ] meme
