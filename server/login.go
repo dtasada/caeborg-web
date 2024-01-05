@@ -26,6 +26,7 @@ func HandleValidation(w http.ResponseWriter, r *http.Request) {
 		log.Println("Failed to read request body:", err)
 		return
 	}
+	r.Body.Close()
 
 	request := string(requestBodyBytes)
 
@@ -70,6 +71,7 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 		log.Println("Could not read request body:", err)
 		return
 	}
+	r.Body.Close()
 	
 	var request map[string]string
 	err = json.Unmarshal(requestBodyBytes, &request); if err != nil {

@@ -12,12 +12,6 @@ function switchFrame(page) {
 	});
 
 	document.getElementById("rest-sec").appendChild(newFrame);
-	for (param of document.location.search.split("&")) {
-		if (param === "?newTabDash") {
-			switchFrame("launcher")
-			window.history.pushState({}, document.title, document.location.search.replace(param, ""));
-		}
-	}
 
 	switch (page) {
 		case "calc":		document.title = "Caeborg - Calculator"; break;
@@ -34,6 +28,13 @@ function switchFrame(page) {
 		case "shell":		document.title = "Caeborg - Shell"; break;
 		case "soundboard":	document.title = "Caeborg - Soundboard"; break;
 		case "translator":	document.title = "Caeborg - Translator"; break;
+	}
+}
+
+for (param of document.location.search.split("&")) {
+	if (param === "?newTabDash") {
+		switchFrame("launcher")
+		window.history.pushState({}, document.title, document.location.search.replace(param, ""))
 	}
 }
 

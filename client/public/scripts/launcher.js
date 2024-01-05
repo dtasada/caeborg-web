@@ -124,7 +124,7 @@ function confirm(element) {
 		element.setAttribute("onclick", oldClick.replace(/window.open(.*.)/, "window.parent.location.href=$1"))
 	}
 
-	element.addEventListener('contextmenu', () => {
+	element.addEventListener('contextmenu', (event) => {
 		event.preventDefault();
 		if (newShortcutSec.style.display === 'flex') {
 			cleanup();

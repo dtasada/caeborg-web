@@ -12,7 +12,7 @@
 
 ## Setup
 ### Server setup
-```
+```toml
 [Unit]
 Description=Caeborg
 Requires=network.target
