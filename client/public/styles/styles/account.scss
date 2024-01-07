@@ -1,0 +1,26 @@
+@import "../style";
+@import "./login";
+
+body { height: initial; }
+
+.button-list {
+	height: inherit;
+	float: left;
+	padding: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+
+	border-top-left-radius: $border-radius;
+	border-bottom-left-radius: $border-radius;
+
+	li > button + button {
+		border-top-left-radius: $border-radius;
+	}
+}
+
+#main {
+	height: inherit;
+
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+}

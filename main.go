@@ -92,23 +92,14 @@ func startServer() {
 	mux := http.NewServeMux()
 
 	// Home
-	// mux.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
-	// 	url := strings.Split(fmt.Sprintf("%v", r.URL), "/")[1]
-	//
-	// 	if strings.Contains(url, "?frame=") {
-	// 		// file, err := os.ReadDir(server.PUBLIC + "/pages"); if err != nil { log.Println("Error reading file system:", err) }
-	// 		// http.Redirect(w, r, fmt.Sprintf("%s/pages/%s.html", server.PUBLIC, url), http.StatusPermanentRedirect)
-	// 	} else {
-	// 		server := http.FileServer(http.Dir(server.PUBLIC))
-	// 		http.StripPrefix("/", server).ServeHTTP(w, r)
-	// 	}
-	// })
 	mux.Handle("/", http.FileServer(http.Dir(server.PUBLIC)))
 
 	// login.go
-	mux.HandleFunc("/login", server.HandleLogin)
+	mux.HandleFunc("/login", server.ServeFile)
+	mux.HandleFunc("/account", server.ServeFile)
 	mux.HandleFunc("/auth", server.HandleAuth)
 	mux.HandleFunc("/validate", server.HandleValidation)
+
 
 	// launcher.go
 	mux.HandleFunc("/fetchLauncher", server.HandleFetchLauncher)

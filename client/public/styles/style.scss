@@ -29,7 +29,12 @@ $body-fontsize: 16px;
 	&:focus-visible { outline: none; }
 }
 
-.subtitle { size: $subtitle-fontsize; }
+.subtitle { font-size: $subtitle-fontsize; }
+.title {
+	margin: 24px;
+	font-size: $title-fontsize;
+}
+
 
 iframe {
 	padding: 0px !important;

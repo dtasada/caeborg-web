@@ -21,6 +21,14 @@ var (
 	AssetsPath string
 )
 
+func ServeFile(w http.ResponseWriter, r *http.Request) {
+	page := strings.Split(strings.Split(fmt.Sprintf("%v", r.URL), "/")[1], "?")[0]
+	file, err := os.ReadFile(fmt.Sprintf("%s/pages/%s.html", PUBLIC, page)); if err != nil {
+		log.Printf("Couldn't read %s.html", page)
+	}
+	w.Write(file)
+}
+
 func ReadBody(r *http.Request) []byte {
 	requestBodyBytes, err := io.ReadAll(r.Body); if err != nil {
 		log.Println("Failed to read request body:", err)

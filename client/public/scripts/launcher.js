@@ -21,12 +21,28 @@ async function genShortcuts() {
 	}
 
 	const launcherSec = document.getElementById("launcher-sec");
-	const launcherOl = document.createElement("ol");
-	launcherOl.id = "launcher-ol";
-	launcherOl.classList.add("horizontal");
-
+	let launcherOl;
 	res = await fetch(`/fetchLauncher?uuid=${localStorage.uuid}`);
-	obj = await res.json();
+	resText = await res.text()
+	if (resText !== "?userinvalid") {
+		obj = JSON.parse(resText);
+		launcherOl = document.createElement("ol");
+		launcherOl.id = "launcher-ol";
+		launcherOl.classList.add("horizontal");
+	} else {
+		launcherSec.style.setProperty("justify-content", "center")
+		launcherSec.style.setProperty("align-items", "center");
+
+		addButton.setAttribute("disabled", true)
+
+		const h = document.createElement("h1");
+		h.classList.add("title");
+		h.style.setProperty("color", "var(--col-subtext)");
+		h.innerHTML = "Please create an account to use the launcher";
+
+		launcherSec.appendChild(h)
+		return
+	}
 
 	for (key of Object.keys(obj)) {
 		li = document.createElement("li");
@@ -37,7 +53,6 @@ async function genShortcuts() {
 	}
 
 	launcherSec.appendChild(launcherOl);
-
 
 	[...document.querySelectorAll("#launcher-ol > li > button")].forEach(element => {
 		if (document.location.search === "?newTabDash") {

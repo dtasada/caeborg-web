@@ -35,44 +35,45 @@ html, body, #footer-sec {
 		margin-bottom: 32px;
 	}
 
-	#inputs {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+	input {
+		height: $input-element-height;
 
-		input {
-			height: $input-element-height;
+		background: var(--col-surface);
+		margin: 8px 0;
+		width: 100%;
 
-			background: var(--col-surface);
-			margin: 8px 0;
-			width: 100%;
-		}
+		&#inputs {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 
-		#password-div {
-			width: 100%;
-			position: relative;
+			#password-div {
+				width: 100%;
+				position: relative;
 
-			#show-password-button {
-				display: flex;
-				align-items: center;
-				justify-content: center;
+				#show-password-button {
+					display: flex;
+					align-items: center;
+					justify-content: center;
 
-				position: absolute;
+					position: absolute;
 
-				border-radius: 50px;
-				bottom: 16px;
-				right: 8px;
-				width: 32px;
-				height: 32px;
+					border-radius: 50px;
+					bottom: 16px;
+					right: 8px;
+					width: 32px;
+					height: 32px;
+				}
+			}
+
+			#submit-button {
+				width: fit-content;
+				margin-top: 16px;
+				font-size: $subtitle-fontsize;
 			}
 		}
-
-		#submit-button {
-			width: fit-content;
-			margin-top: 16px;
-			font-size: $subtitle-fontsize;
-		}
 	}
+
 }
 
 #footer-sec {

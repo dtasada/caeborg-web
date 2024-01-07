@@ -12,14 +12,6 @@ import (
 	"strings"
 )
 
-func HandleLogin(w http.ResponseWriter, r *http.Request) {
-	loginFile, err := os.ReadFile(PUBLIC + "/pages/login.html")
-	if err != nil {
-		log.Println("Couldn't read login.html")
-	}
-	w.Write(loginFile)
-}
-
 func HandleValidation(w http.ResponseWriter, r *http.Request) {
 	requestBodyBytes := ReadBody(r)
 	request := string(requestBodyBytes)
