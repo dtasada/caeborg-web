@@ -13,8 +13,8 @@ let isNew;
 
 let obj;
 
-// Starting localStorage values
-function genShortcuts() {
+// Generating shortcuts on startup
+async function genShortcuts() {
 	if (document.querySelector("launcher-ol")) {
 		document.querySelector("launcher-ol").remove()
 		document.querySelector("launcher-sec").remove()
@@ -25,14 +25,8 @@ function genShortcuts() {
 	launcherOl.id = "launcher-ol";
 	launcherOl.classList.add("horizontal");
 
-	if (!localStorage.savedLauncherOl) {
-		localStorage.savedLauncherOl = JSON.stringify({
-			Magister: "https://hageveld.magister.net",
-			YouTube: "https://youtube.com",
-		})
-	}
-
-	obj = JSON.parse(localStorage.savedLauncherOl)
+	res = await fetch(`/fetchLauncher?uuid=${localStorage.uuid}`);
+	obj = await res.json();
 
 	for (key of Object.keys(obj)) {
 		li = document.createElement("li");
@@ -57,7 +51,14 @@ function cleanup() {
 	confirmButton.classList.remove("half");
 	deleteButton.classList.remove("half");
 
-	localStorage.savedLauncherOl = JSON.stringify(obj);
+	asdf = fetch("/postLauncher", {
+		method: "PUT",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			uuid: uuid,
+			object: JSON.stringify(obj),
+		})
+	});
 	location.reload();
 	isNew = true;
 }

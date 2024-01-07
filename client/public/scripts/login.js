@@ -53,9 +53,9 @@ async function confirm() {
 				password: atob(passwordInput.value),
 				username: usernameInput.value,
 			})
-		})
+		});
 
-		const resText = await res.text()
+		const resText = await res.text();
 		if (resText && resText !== "?userinvalid") {
 			window.location.replace("/");
 		} else {

@@ -16,9 +16,11 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 * [ ] Setup accounts in launcher
 * [ ] Optimize frontend HTML CSS & JS
     * [ ] Fix flaky `shell.js`
-* [ ] Write Paint tool
-* [ ] Write Notes tool
-* [ ] Rebuild sidebar hiding
+    * [ ] Rebuild sidebar hiding
+* [ ] New features:
+    * [ ] Write Paint tool
+    * [ ] Write Notes tool
+    * [ ] Python/Lua/Bash interpreter?
     ### CaeborgDiscordBot shell commands to implement:
     * [ ] deofhet
     * [ ] weather

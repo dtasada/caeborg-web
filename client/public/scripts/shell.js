@@ -1,4 +1,4 @@
-// C O N S T A N T S
+// Constants
 const lidwoordUrl = "https://welklidwoord.nl";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
 const urbandictUrl = "https://api.urbandictionary.com/v0/define?term=";
@@ -294,11 +294,6 @@ const commands = {
 
 }
 
-
-// Other functions
-// function attachImage() {
-//
-// }
 
 function bi(str) {
 	return `<b><i>${str}</i></b>`;

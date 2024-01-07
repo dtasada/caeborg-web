@@ -109,6 +109,9 @@ func startServer() {
 	mux.HandleFunc("/auth", server.HandleAuth)
 	mux.HandleFunc("/validate", server.HandleValidation)
 
+	mux.HandleFunc("/fetchLauncher", server.HandleFetchLauncher)
+	mux.HandleFunc("/postLauncher", server.HandlePostLauncher)
+
 	// Icons
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {
 		url := fmt.Sprintf("http://%s:8080%s", server.IpAddr, r.URL)

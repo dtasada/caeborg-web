@@ -4,7 +4,9 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 )
@@ -18,6 +20,28 @@ var (
 	IpAddr string
 	AssetsPath string
 )
+
+func ReadBody(r *http.Request) []byte {
+	requestBodyBytes, err := io.ReadAll(r.Body); if err != nil {
+		log.Println("Failed to read request body:", err)
+		return nil
+	}
+	r.Body.Close()
+	
+	return requestBodyBytes
+}
+
+func parseUsersJSON() map[string]map[string]interface{} {
+	usersBin, err := os.ReadFile(AssetsPath + "/users.json"); if err != nil {
+		log.Println("Error reading users.json", err)
+	}
+
+	var usersMap map[string]map[string]interface{}
+	err = json.Unmarshal(usersBin, &usersMap); if err != nil {
+		log.Println("Failed to unmarshal users.json:", err)
+	}
+	return usersMap
+}
 
 func ValidateUser(uuid string) string {
 	usersBin, err := os.ReadFile(AssetsPath + "/users.json"); if err != nil {
