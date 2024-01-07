@@ -30,7 +30,7 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
     * [ ] meme
 
 # Notes
-* To run the web server, run `go run *.go` in `caeborg-web/`.
+* To run the web server, run `go run main.go` in `caeborg-web/`.
 * To run the server in its dev mode, run `go run main.go dev` in `caeborg-web/`. `dev` includes SCSS compilation.
 * To compile SCSS to CSS separately, run `sass --watch ./client/public/styles:./client/public/.css` in `caeborg-web/`.
 
@@ -63,7 +63,7 @@ For your development environment to work correctly, you need to set up HTTPS key
 * Then remove the passcode `openssl rsa -in ./credentials/privkey.pem -out ./credentials/privkey.pem -passin pass:1234`.
 * These keys are saved in `caeborg-web/assets/credentials` during development.
     * The required keys are `cert.pem` and `key.pem` for HTTPS.
-    * An `auth-secret` file is also necessary for encryption.
+    * An `auth_secret` file is also necessary for encryption.
 * The server also requires an `assets/chat.json` and an `assets/user.json` file.
     * Example of `users.json`:
      ```json

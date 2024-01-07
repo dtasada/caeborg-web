@@ -105,12 +105,21 @@ func startServer() {
 	// })
 	mux.Handle("/", http.FileServer(http.Dir(server.PUBLIC)))
 
+	// login.go
 	mux.HandleFunc("/login", server.HandleLogin)
 	mux.HandleFunc("/auth", server.HandleAuth)
 	mux.HandleFunc("/validate", server.HandleValidation)
 
+	// launcher.go
 	mux.HandleFunc("/fetchLauncher", server.HandleFetchLauncher)
 	mux.HandleFunc("/postLauncher", server.HandlePostLauncher)
+
+	// chat.go
+	manager := server.Manager {
+		Clients: make(server.ClientList),
+	}
+
+	mux.HandleFunc("/chat", manager.ServeChat)
 
 	// Icons
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {
@@ -123,13 +132,6 @@ func startServer() {
 		w.Header().Add("cache-control", "max-age=21600")
 		w.Write(imgBytes)
 	})
-
-	// Chat
-	manager := server.Manager {
-		Clients: make(server.ClientList),
-	}
-
-	mux.HandleFunc("/chat", manager.ServeChat)
 
 	// Server
 	srv := &http.Server {

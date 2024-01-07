@@ -37,12 +37,39 @@ async function genShortcuts() {
 	}
 
 	launcherSec.appendChild(launcherOl);
+
+
+	[...document.querySelectorAll("#launcher-ol > li > button")].forEach(element => {
+		if (document.location.search === "?newTabDash") {
+			oldClick = element.getAttribute("onclick")
+			element.setAttribute("onclick", oldClick.replace(/window.open(.*.)/, "window.parent.location.href=$1"))
+		}
+
+		element.addEventListener("contextmenu", (event) => {
+			event.preventDefault();
+			if (newShortcutSec.style.display === "flex") {
+				cleanup();
+			} else {
+				newShortcutSec.style.display = "flex";
+				nameInput.value = element.querySelector("p").innerHTML;
+				urlInput.value = element.getAttribute("onclick").split("'")[1];
+				faviconIMG.src = element.querySelector("img").src;
+
+				placeholderFavicon();
+				nameInput.focus();
+
+				confirmButton.classList.add("half");
+				deleteButton.classList.add("half");
+				eventHandler(element);
+			}
+		});
+	});
 }
 
 genShortcuts();
 
 // Functions for repetition
-function cleanup() {
+async function cleanup() {
 	urlInput.value = "";
 	nameInput.value = "";
 	faviconIMG.style.opacity = "0";
@@ -51,11 +78,11 @@ function cleanup() {
 	confirmButton.classList.remove("half");
 	deleteButton.classList.remove("half");
 
-	asdf = fetch("/postLauncher", {
-		method: "PUT",
+	await fetch("/postLauncher", {
+		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
-			uuid: uuid,
+			uuid: localStorage.uuid,
 			object: JSON.stringify(obj),
 		})
 	});
@@ -118,29 +145,3 @@ function confirm(element) {
 	obj[nameInput.value] = getUrlFromInput();
 	cleanup();
 }
-
-[...document.querySelectorAll("#launcher-ol > li > button")].forEach(element => {
-	if (document.location.search === "?newTabDash") {
-		oldClick = element.getAttribute("onclick")
-		element.setAttribute("onclick", oldClick.replace(/window.open(.*.)/, "window.parent.location.href=$1"))
-	}
-
-	element.addEventListener("contextmenu", (event) => {
-		event.preventDefault();
-		if (newShortcutSec.style.display === "flex") {
-			cleanup();
-		} else {
-			newShortcutSec.style.display = "flex";
-			nameInput.value = element.querySelector("p").innerHTML;
-			urlInput.value = element.getAttribute("onclick").split('"')[1];
-			faviconIMG.src = element.querySelector("img").src;
-
-			placeholderFavicon();
-			nameInput.focus();
-
-			confirmButton.classList.add("half");
-			deleteButton.classList.add("half");
-			eventHandler(element);
-		}
-	});
-});

@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"fmt"
 	"os"
 )
 
@@ -26,7 +25,6 @@ func HandleFetchLauncher(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandlePostLauncher(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("asdfsadfsafsdfsadhfjkhfksalhdfsadjf")
 	requestBodyBytes := ReadBody(r)
 
 	var bodyMap map[string]string
@@ -44,6 +42,7 @@ func HandlePostLauncher(w http.ResponseWriter, r *http.Request) {
 	target, err := json.MarshalIndent(usersMap, "", "\t"); if err != nil {
 		log.Println("Could not marshal users map:", err)
 	}
-	fmt.Println("target", target)
 	os.WriteFile(AssetsPath + "/users.json", target, 0777)
+
+	// w.Write([]byte("ok"))
 }
