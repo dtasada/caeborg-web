@@ -1,8 +1,7 @@
 const usernameInput = document.getElementById("username-input");
 const passwordInput = document.getElementById("password-input");
 const submitButton = document.getElementById("submit-button");
-
-const showPasswordButton = document.getElementById("show-password-button");
+const showPasswordButton = document.querySelector(".show-password-button");
 
 usernameInput.addEventListener("keydown", event => {
 	if (event.key === "Enter") passwordInput.focus()
@@ -33,7 +32,6 @@ showPasswordButton.addEventListener("click", () => {
 		passwordInput.setAttribute("type", "password")
 		document.querySelector("#show-password-button i").classList.replace("fa-eye-slash", "fa-eye")
 	}
-
 });
 
 async function confirm() {

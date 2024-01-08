@@ -16,23 +16,33 @@
 
 	<body>
 
-		<ol id="button-list" class="button-list">
-			<li><button>Change password</button></li>
-			<li><button>Change username</button></li>
-			<li><button>Change profile picture</button></li>
-		</ol>
 		<section id="main">
 			<div id="header">
 				<img src="/favicon.ico" width="48" height="48">&emsp;<h1>Manage your Caeborg account</h1>
 			</div>
 
-			<input id="change-password-input"></input>
+			<div>
+				<p class="subtitle" style="margin: 8px 16px 0px;">Change your username:</p>
+				<input id="new-username" placeholder="enter your new username" autocomplete="new-password"></input>
+			</div>
+
+			<div id="password-div">
+				<p class="subtitle" style="margin: 8px 16px 0px;">Change your password:</p>
+				<input id="new-password-input" placeholder="enter your new password" type="password" autocomplete="new-password"></input>
+				<button id="new" class="show-password-button"> <i class="fa-solid fa-eye"></i> </button>
+			</div>
+
+			<div id="exit-buttons">
+				<input id="old-password-input" placeholder="enter your old password" type="password" autocomplete="new-password" hidden></input>
+				<button id="old" class="show-password-button"> <i class="fa-solid fa-eye"></i> </button>
+				<button id="save-button">Save</button>
+				<button id="discard-button">Discard</button>
+			</div>
 		</section>
 
 		<section id="footer-sec">caeborg-web</section>
 
-		<!-- <script type="text/javascript" src="scripts/account.js" defer></script> -->
-		<script>document.getElementById("button-list").style.setProperty("height", getComputedStyle(document.getElementById("main")).height)</script>
+		<script type="text/javascript" src="scripts/account.js" defer></script>
 	</body>
 
 </html>

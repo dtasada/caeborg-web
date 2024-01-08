@@ -35,37 +35,37 @@ html, body, #footer-sec {
 		margin-bottom: 32px;
 	}
 
+	input {
+		height: $input-element-height;
+
+		background: var(--col-surface);
+		margin: 8px 0;
+		width: 100%;
+	}
+
+	.show-password-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		position: absolute;
+		bottom: 80px; right: 8px;
+
+		border-radius: 50px;
+		bottom: 16px;
+		right: 8px;
+		width: 32px;
+		height: 32px;
+	}
+
 	#inputs {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 
-		input {
-			height: $input-element-height;
-
-			background: var(--col-surface);
-			margin: 8px 0;
-			width: 100%;
-
-		}
-
 		#password-div {
 			width: 100%;
 			position: relative;
-
-			#show-password-button {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-
-				position: absolute;
-
-				border-radius: 50px;
-				bottom: 16px;
-				right: 8px;
-				width: 32px;
-				height: 32px;
-			}
 		}
 
 		#submit-button {

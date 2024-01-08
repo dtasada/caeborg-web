@@ -62,6 +62,7 @@ func startSass() {
 	} else {
 		sass.Run()
 		log.Println("Compiled sass files.")
+		return
 	}
 }
 

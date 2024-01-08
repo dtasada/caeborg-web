@@ -49,7 +49,7 @@ async function genShortcuts() {
 	}
 
 	if (Object.keys(obj).length === 0) {
-		makeTitle("Your launcher is empty!<br>You can add shortcuts with the<br>bottom left button.");
+		makeTitle("Your launcher is empty!<br>You can add shortcuts with<br>the bottom right button.");
 		return;
 	}
 
@@ -114,9 +114,9 @@ async function cleanup() {
 }
 
 function getUrlFromInput() {
-	if (urlInput.value.includes("://")) val = urlInput.value;
-	else if (urlInput.value.includes("www.")) val = urlInput.value.replace("www.", "http://") ;
-	else val = `http://${urlInput.value}`;
+	if (urlInput.value.includes("http://")) val = urlInput.value.replace("http://", "https://");
+	else if (urlInput.value.includes("www.")) val = urlInput.value.replace("www.", "https://");
+	else val = `https://${urlInput.value}`;
 	return val;
 }
 

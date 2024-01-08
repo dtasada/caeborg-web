@@ -83,8 +83,6 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 			log.Println("User whitelist does not exist!")
 		}
 
-		fmt.Println("usersmap", usersMap)
-
 		writeBytes, err := json.MarshalIndent(usersMap, "", "\t");
 		if err != nil {
 			log.Println("Could not marshal user-password map:", err)

@@ -1,26 +1,52 @@
 @import "../style";
 @import "./login";
 
-body { height: initial; }
+#main {
+	padding-bottom: 16px;
 
-.button-list {
-	height: inherit;
-	float: left;
-	padding: 0px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
+	#exit-buttons, #password-div {
+		position: relative;
+	}
 
-	border-top-left-radius: $border-radius;
-	border-bottom-left-radius: $border-radius;
+	#password-div {
+		&#old {
+			right: 128px;
+		}
+	}
 
-	li > button + button {
-		border-top-left-radius: $border-radius;
+	#exit-buttons {
+		display: flex;
+		justify-content: right;
+		align-items: center;
+		height: 64px;
+
+		#old-password-input {
+			height: 40px;
+
+			&.animate {
+				animation: scrollPassword 0.5s forwards;
+				transform-origin: right;
+			}
+		}
+
+		#old.show-password-button {
+			display: none;
+			right: 153px;
+		}
+
+		#save-button, #discard-button {
+			height: fit-content;
+			margin-left: 4px;
+		}
 	}
 }
 
-#main {
-	height: inherit;
 
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
+@keyframes scrollPassword {
+from {
+	transform: scaleX(0);
+}
+to {
+	transform: scaleX(1);
+}
 }
