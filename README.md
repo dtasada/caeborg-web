@@ -15,6 +15,7 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 # Todo
 * [ ] Add account options like sign out, 'sign out all devices', and token lifetime
 * [ ] Optimize frontend HTML CSS & JS
+    * [ ] Fix shell empty enter
     * [ ] Fix flaky `shell.js`
     * [ ] Rebuild sidebar hiding
 * [ ] New features:

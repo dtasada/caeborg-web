@@ -186,6 +186,7 @@ addButton.addEventListener("click", () => {
 
 			targetLanguage = languages[newlangSel.value];
 			buildButtons();
+			outputBox.setAttribute("placeholder", translate("Never gonna give you up"));
 			translate();
 		}, {once : true});
 	} else if (newlangSel.hidden === false) {
@@ -242,12 +243,13 @@ function buildButtons() {
 }
 buildButtons();
 
-function translate() {
-	const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(inputBox.value)}`;
+function translate(source=null) {
+	const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${source ?? targetLanguage}&dt=t&q=${encodeURI(inputBox.value)}`;
 	fetch(url)
 		.then(response => response.json())
 		.then(dataJSON => {
 			if (dataJSON[0]) outputBox.value = dataJSON[0][0][0];
+			if (source) return dataJSON[0][0][0];
 	});
 	localStorage.translateInputBox = inputBox.value;
 	if (inputBox.value === "") outputBox.value = "";

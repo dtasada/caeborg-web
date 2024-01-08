@@ -40,13 +40,12 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate
+	// Encrypt password
 	secret, err := os.ReadFile(AssetsPath + "/credentials/auth_secret"); if err != nil {
 		log.Println("Could not access auth_secret:", err)
 		return
 	}
 
-	// Encrypt
 	block, err := aes.NewCipher(secret); if err != nil {
 		log.Println("Error encrypting:", err)
 	}
@@ -56,6 +55,7 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 	cfb.XORKeyStream(cipherText, plainText)
 	encryptedPassword := base64.StdEncoding.EncodeToString(cipherText)
 
+	// Validate
 	userData := usersMap[request["username"]]
 	existingPassword, userExists := userData["password"]
 	if userExists {
@@ -66,7 +66,12 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 			userExists = false
 		}
 	} else {
-		userData["password"] = encryptedPassword
+		userData = map[string]interface{}{
+			"launcher": map[string]string{},
+			"password": encryptedPassword,
+			"whitelist": []interface{}{},
+		}
+		usersMap[request["username"]] = userData
 		log.Printf("Created new user '%s'!\n", request["username"])
 		userExists = true
 	}
@@ -74,7 +79,11 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 	if userExists {
 		if whitelist, ok := userData["whitelist"].([]interface{}); ok {
 			userData["whitelist"] = append(whitelist, request["uuid"])
+		} else {
+			log.Println("User whitelist does not exist!")
 		}
+
+		fmt.Println("usersmap", usersMap)
 
 		writeBytes, err := json.MarshalIndent(usersMap, "", "\t");
 		if err != nil {

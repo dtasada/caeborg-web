@@ -1,4 +1,5 @@
 const newShortcutSec = document.getElementById("new-shortcut-sec");
+const launcherSec = document.getElementById("launcher-sec");
 const urlInput = document.getElementById("url-input");
 const nameInput = document.getElementById("name-input");
 const addButton = document.getElementById("add-button");
@@ -14,13 +15,25 @@ let isNew;
 let obj;
 
 // Generating shortcuts on startup
+function makeTitle(text) {
+		launcherSec.style.setProperty("justify-content", "center")
+		launcherSec.style.setProperty("align-items", "center");
+
+		const h = document.createElement("h1");
+		h.classList.add("title");
+		h.style.setProperty("color", "var(--col-subtext)");
+		h.innerHTML = text;
+
+		launcherSec.appendChild(h)
+}
+
+
 async function genShortcuts() {
 	if (document.querySelector("launcher-ol")) {
 		document.querySelector("launcher-ol").remove()
 		document.querySelector("launcher-sec").remove()
 	}
 
-	const launcherSec = document.getElementById("launcher-sec");
 	let launcherOl;
 	res = await fetch(`/fetchLauncher?uuid=${localStorage.uuid}`);
 	resText = await res.text()
@@ -30,18 +43,14 @@ async function genShortcuts() {
 		launcherOl.id = "launcher-ol";
 		launcherOl.classList.add("horizontal");
 	} else {
-		launcherSec.style.setProperty("justify-content", "center")
-		launcherSec.style.setProperty("align-items", "center");
-
+		makeTitle("Please create an account to use the launcher");
 		addButton.setAttribute("disabled", true)
-
-		const h = document.createElement("h1");
-		h.classList.add("title");
-		h.style.setProperty("color", "var(--col-subtext)");
-		h.innerHTML = "Please create an account to use the launcher";
-
-		launcherSec.appendChild(h)
 		return
+	}
+
+	if (Object.keys(obj).length === 0) {
+		makeTitle("Your launcher is empty!<br>You can add shortcuts with the<br>bottom left button.");
+		return;
 	}
 
 	for (key of Object.keys(obj)) {
@@ -51,7 +60,6 @@ async function genShortcuts() {
 			<img src="/icon?url=${url}&size=64..128..256" width="128" height="128"/><br><p>${key}</p></button>`;
 		launcherOl.appendChild(li);
 	}
-
 	launcherSec.appendChild(launcherOl);
 
 	[...document.querySelectorAll("#launcher-ol > li > button")].forEach(element => {

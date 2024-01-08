@@ -120,20 +120,20 @@ function send(sender, msgs) {
 // main text parser and lexer
 async function parseInput(text) {
 	// init variables
-	send('user', [text]);
+	if (!text) return;
+	send("user", [text]);
 	shell_input_array.unshift(text);
-	localStorage.setItem('shell_input_array', shell_input_array);
-	const args = text.split(' ');
+	localStorage.setItem("shell_input_array", shell_input_array);
+	const args = text.split(" ");
 	const command = args.shift();
-	if (command === "") { return; }
 	// execute command
 	if (command in commands) {
 		const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
-		if (results != null) send('caeborg', results);
-		else console.log('Function return is null!')
+		if (results != null) send("caeborg", results);
+		else console.log("Function return is null!")
 	} else {
 		// console.log(`Command ${command} not found`);
-		send('caeborg', [ `<i>Command '${command}' not found</i>`] );
+		send("caeborg", [ `<i>Command "${command}" not found</i>`] );
 	}
 }
 
