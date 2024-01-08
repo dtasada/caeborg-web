@@ -48,7 +48,6 @@ func startSass() {
 	sass := exec.Command("sass", shouldWatch, "./client/public/styles:./client/public/.css")
 	sass.Env = append(sass.Env, os.Environ()...)
 
-
 	if server.DevMode {
 		stdout, _ := sass.StdoutPipe()
 		sass.Start()

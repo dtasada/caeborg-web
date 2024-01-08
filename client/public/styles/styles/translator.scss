@@ -21,11 +21,10 @@ body {
 	height: 64px;
 
 	background: var(--col-subbase);
-	button { width: 80px; }
-	select { width: 140px; }
 	button, select {
 		background: var(--col-subbase);
 		height: 100%;
+		width: fit-content;
 		border-radius: 0px;
 		border: none;
 		align-self: center;
@@ -68,16 +67,20 @@ body {
 		resize: none;
 		overflow: hidden;
 		border-bottom: none;
+
+		&#input-box {
+			border-bottom-left-radius: 32px;
+			border-top: 2px solid var(--col-red);
+			border-left: none;
+			border-right: 1px solid var(--col-overlay);
+		}
+
+		&#output-box {
+			border-bottom-right-radius: 32px;
+			border-top: 2px solid var(--col-blue);
+			border-right: none;
+			border-left: 1px solid var(--col-overlay);
+		}
 	}
 
-	#input-box {
-		border-bottom-left-radius: 32px;
-		border-top: 2px solid var(--col-red);
-		border-left: none;
-	}
-	#output-box {
-		border-bottom-right-radius: 32px;
-		border-top: 2px solid var(--col-blue);
-		border-right: none;
-	}
 }

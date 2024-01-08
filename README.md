@@ -56,7 +56,7 @@ WantedBy=default.target
 ```
 * Copy the example systemd service file to the systemd services folder `/usr/lib/systemd/system/` as root.
 * Enable the service with `systemctl enable --now caeborg`.
-* Don't forget to `chmod +rwx ./releases/*` and `chmod +rwx ./server/besticon/*` to avoid permission errors.
+* Don't forget to `chmod +x ./releases/*` and `chmod +x ./server/besticon/*` to avoid permission errors.
 ## Development
 For your development environment to work correctly, you need to set up HTTPS keys. These are self-signed keys intended only for development use.
 * To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout ./credentials/privkey.pem -out ./credentials/fullchain.pem -sha256 -days 365`.

@@ -1,5 +1,5 @@
-var sourceLanguage = "en";
-var targetLanguage = "nl";
+let sourceLanguage = "en";
+let targetLanguage = "nl";
 
 const languages = {
 	"Afrikaans": "af",
@@ -138,75 +138,92 @@ const languages = {
 	"Zulu": "zu",
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-	const inputBox = document.getElementById("input-box");
-	const outputBox = document.getElementById("output-box");
-	const flipButton = document.getElementById("flip-button");
-	const copyButton = document.getElementById("copy-button");
-	const addButton = document.getElementById("add-button");
-	inputBox.focus();
+const inputBox = document.getElementById("input-box");
+const outputBox = document.getElementById("output-box");
+const flipButton = document.getElementById("flip-button");
+const copyButton = document.getElementById("copy-button");
+const addButton = document.getElementById("add-button");
+const buttonsSec = document.getElementById("buttons");
+inputBox.focus();
 
-	// make newlangSel
-	const newlangSel = document.createElement("select");
-	newlangSel.id = "newlang-sel";
-	newlangSel.hidden = true;
-	for (key of Object.keys(languages)) {
-		let lang = document.createElement("option");
-		lang.innerHTML = key;
-		lang.value = key;
-		newlangSel.appendChild(lang);
-	}
-	document.getElementById("buttons").insertBefore(newlangSel, copyButton);
-	//
+// make newlangSel
+const newlangSel = document.createElement("select");
+newlangSel.id = "newlang-sel";
+newlangSel.hidden = true;
+for (key of Object.keys(languages)) {
+	let lang = document.createElement("option");
+	lang.innerHTML = key;
+	lang.value = key;
+	newlangSel.appendChild(lang);
+}
+buttonsSec.insertBefore(newlangSel, copyButton);
+//
 
-	if (localStorage.translateInputBox) {
-		inputBox.value = localStorage.translateInputBox;
-		translate();
-	}
+if (localStorage.translateInputBox) {
+	inputBox.value = localStorage.translateInputBox;
+	translate();
+}
 
-	copyButton.addEventListener("click", () => navigator.clipboard.writeText(outputBox.value));
+copyButton.addEventListener("click", () => navigator.clipboard.writeText(outputBox.value));
 
-	addButton.addEventListener("click", () => {
-		if (newlangSel.hidden === true) {
-			newlangSel.hidden = false;
-			addButton.classList.remove("fa-plus");
-			addButton.classList.add("fa-check");
-			// make it the new language
-		}
-		else if (newlangSel.hidden === false) {
-			newlangSel.hidden = true;
-			addButton.classList.remove("fa-check");
-			addButton.classList.add("fa-plus");
-		}
-	});
+addButton.addEventListener("click", () => {
+	if (newlangSel.hidden === true) {
+		newlangSel.hidden = false;
+		addButton.classList.remove("fa-plus");
+		addButton.classList.add("fa-check");
 
-	flipButton.addEventListener("click", () => {
-		let temp = sourceLanguage;
-		sourceLanguage = targetLanguage;
-		targetLanguage = temp;
-		// [sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
-		[inputBox.value, outputBox.value] = [outputBox.value, inputBox.value];
-		let sourceLanguageFull;
-		let targetLanguageFull;
-		for (key of Object.keys(languages)) {
-			if (languages[key] === sourceLanguage) sourceLanguageFull = key;
-			if (languages[key] === targetLanguage) targetLanguageFull = key;
-		}
-		[...document.querySelectorAll("#buttons button")].forEach(async element => {
-			if (element.innerHTML === sourceLanguageFull) {
-				element.classList.remove("source");
-				element.classList.add("target");
-			} else if (element.innerHTML === targetLanguageFull) {
-				element.classList.remove("target");
-				element.classList.add("source");
-			}
+		// make it the new language
+		addButton.addEventListener("click", () => {
+			document.querySelector(".target").classList.remove("target");
+
+			const newButton = document.createElement("button")	
+			newButton.classList.add("target");
+			newButton.innerHTML = newlangSel.value;
+			buttonsSec.insertBefore(newButton, addButton);
+			Array.from(buttonsSec.getElementsByTagName("button"))
+				.sort((a, b) => a.textContent.localeCompare(b.textContent))
+				.forEach(button => buttonsSec.insertBefore(button, addButton));
+
+			targetLanguage = languages[newlangSel.value];
+			buildButtons();
 			translate();
-			inputBox.focus();
-		});
+		}, {once : true});
+	} else if (newlangSel.hidden === false) {
+		addButton.onclick = undefined
+		newlangSel.hidden = true;
+		addButton.classList.remove("fa-check");
+		addButton.classList.add("fa-plus");
+	}
+});
+
+flipButton.addEventListener("click", () => {
+	let temp = sourceLanguage;
+	sourceLanguage = targetLanguage;
+	targetLanguage = temp;
+	// [sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
+	[inputBox.value, outputBox.value] = [outputBox.value, inputBox.value];
+	let sourceLanguageFull;
+	let targetLanguageFull;
+	for (key of Object.keys(languages)) {
+		if (languages[key] === sourceLanguage) sourceLanguageFull = key;
+		if (languages[key] === targetLanguage) targetLanguageFull = key;
+	}
+	[...document.querySelectorAll("#buttons button")].forEach(async element => {
+		if (element.innerHTML === sourceLanguageFull) {
+			element.classList.remove("source");
+			element.classList.add("target");
+		} else if (element.innerHTML === targetLanguageFull) {
+			element.classList.remove("target");
+			element.classList.add("source");
+		}
+		translate();
+		inputBox.focus();
 	});
+});
 
-	inputBox.addEventListener("keyup", translate);
+inputBox.addEventListener("keyup", translate);
 
+function buildButtons() {
 	[...document.querySelectorAll("#buttons > button")].forEach(element => {
 		element.addEventListener("click", () => {
 			document.querySelector(".source").classList.remove("source");
@@ -214,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			sourceLanguage = languages[element.innerHTML];
 			translate();
 		});
-		element.addEventListener("contextmenu", () => {
+		element.addEventListener("contextmenu", (event) => {
 			event.preventDefault();
 			document.querySelector(".target").classList.remove("target");
 			element.classList.add("target");
@@ -222,15 +239,16 @@ document.addEventListener("DOMContentLoaded", () => {
 			translate();
 		});
 	});
+}
+buildButtons();
 
-	function translate() {
-		const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(inputBox.value)}`;
-		fetch(url)
+function translate() {
+	const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLanguage}&tl=${targetLanguage}&dt=t&q=${encodeURI(inputBox.value)}`;
+	fetch(url)
 		.then(response => response.json())
-			.then(dataJSON => {
-				if (dataJSON[0]) outputBox.value = dataJSON[0][0][0];
-		});
-		if (inputBox.value !== '') localStorage.translateInputBox = inputBox.value;
-		else outputBox.value = '';
-	}
-});
+		.then(dataJSON => {
+			if (dataJSON[0]) outputBox.value = dataJSON[0][0][0];
+	});
+	localStorage.translateInputBox = inputBox.value;
+	if (inputBox.value === "") outputBox.value = "";
+}
