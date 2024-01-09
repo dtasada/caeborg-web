@@ -42,6 +42,12 @@ async function confirm() {
 		localStorage.uuid = uuid;
 	}
 
+	if (usernameInput.value.includes(" ")) {
+		usernameInput.setAttribute("placeholder", "spaces are not allowed!");
+		usernameInput.removeAttribute("value");
+		usernameInput.style.border = "2px solid var(--col-red)";
+	}
+		
 	if (usernameInput.value && passwordInput.value) {
 		res = await fetch("/auth", {
 			method: "PUT",

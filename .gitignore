@@ -4,4 +4,4 @@
 .DS_Store/
 .env
 client/public/.css/
-assets/
+/assets/

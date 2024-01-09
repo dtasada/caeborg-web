@@ -66,13 +66,10 @@ addButton.addEventListener('click', () => {
 		if (file) {
 			reader = new FileReader();
 			reader.onload = () => {
-				// Convert to binary
-				let data=(reader.result).split(",")[1];
-				let imageBin = atob(data);
-
 				// Send to server
+				console.log(`${reader.result}`)
 				ws.send(JSON.stringify({
-					content: imageBin,
+					content: `${reader.result}`,
 					sender: uuid,
 					date: `${time.toLocaleDateString()}`,
 					time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
@@ -92,9 +89,9 @@ async function renderMessage(json) {
 	const li = document.createElement("li");
 
 	pfp = document.createElement("img");
-	pfp.classList.add(`sender-is-${json.sender}`, "pfp");
+	pfp.classList.add("pfp");
 	pfp.src = `/icon?url=${json.sender}&size=64..128..256`
-	pfp.alt = `${json.sender}"s profile picture`
+	pfp.alt = `${json.sender}'s profile picture`
 	li.appendChild(pfp);
 
 	const senderP = document.createElement("p");
@@ -108,7 +105,7 @@ async function renderMessage(json) {
 		li.appendChild(p);
 	} else if (json.dataType === "img") {
 		img = document.createElement("img");
-		img.src = `data:image/png;base64,${btoa(json.content)}`;
+		img.src = json.content;
 		img.classList.add("imageMessage")
 		li.appendChild(img);
 	}

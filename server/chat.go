@@ -1,13 +1,17 @@
 package server
 
 import (
+	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 )
 
@@ -94,7 +98,9 @@ func (c *Client) chatHandler() {
 		}
 
 		path := AssetsPath + "/chat.json"
-		chatBin, err := os.ReadFile(path);	if err != nil { log.Println("Error reading chat.json:", err) }
+		chatBin, err := os.ReadFile(path); if err != nil {
+			log.Println("Error reading chat.json:", err)
+		}
 
 		switch message["type"] {
 		case "chatPostMessage":
@@ -111,6 +117,24 @@ func (c *Client) chatHandler() {
 				return
 			}
 
+			if message["dataType"] == "img" {
+				imgType := message["content"][strings.Index(message["content"], "/") + 1 : strings.Index(message["content"], ";")]
+				fileName := fmt.Sprintf("/assets/chat/%s.%s", uuid.New().String(), imgType)
+
+				message["content"] = strings.Split(message["content"], ";base64,")[1]
+
+				imgBin, err := base64.StdEncoding.DecodeString(message["content"]); if err != nil {
+					log.Println("Could not decode image base64 to bytes:", err)
+				}
+
+				if err := os.WriteFile(PUBLIC + fileName, imgBin, 0777); err != nil {
+					log.Println("Could not write image to", PUBLIC + fileName)
+					return
+				}
+
+				message["content"] = fileName
+			}
+
 			// Marshal *after* changing username
 			marshalledMessage, err := json.Marshal(message); if err != nil {
 				log.Println("Error:", err)
@@ -120,7 +144,7 @@ func (c *Client) chatHandler() {
 			delete(message, "type")
 			obj[fmt.Sprintf("%d", len(obj))] = message
 
-			saveObj, err := json.Marshal(obj)
+			saveObj, err := json.MarshalIndent(obj, "", "\t")
 			os.WriteFile(path, saveObj, 0777)
 
 			for client := range c.manager.Clients {
@@ -129,7 +153,11 @@ func (c *Client) chatHandler() {
 				}
 			}
 		case "chatFetchAll":
-			if err := c.connection.WriteMessage(websocket.TextMessage, chatBin); err != nil {
+			minified := &bytes.Buffer{}
+			if err := json.Compact(minified, chatBin); err != nil {
+				log.Println("Failed to minify chatBin:", err)
+			}
+			if err := c.connection.WriteMessage(websocket.TextMessage, minified.Bytes()); err != nil {
 				log.Println("Failed to send message:", err)
 			}
 		}
