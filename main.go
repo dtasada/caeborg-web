@@ -42,13 +42,10 @@ func compileSelf() {
 }
 
 func startSass() {
-	var shouldWatch string
-	if server.DevMode { shouldWatch = "--watch" }
-	
-	sass := exec.Command("sass", shouldWatch, "./client/public/styles:./client/public/.css")
-	sass.Env = append(sass.Env, os.Environ()...)
-
+	var sass *exec.Cmd
 	if server.DevMode {
+		sass = exec.Command("sass", "--watch", "./client/public/styles:./client/public/.css")
+		sass.Env = append(sass.Env, os.Environ()...)
 		stdout, _ := sass.StdoutPipe()
 		sass.Start()
 		log.Println("Started sass compiler")
@@ -60,6 +57,8 @@ func startSass() {
 			log.Print("sass -", output)
 		}
 	} else {
+		sass = exec.Command("sass", "./client/public/styles:./client/public/.css")
+		sass.Env = append(sass.Env, os.Environ()...)
 		sass.Run()
 		log.Println("Compiled sass files.")
 		return
@@ -94,9 +93,17 @@ func startServer() {
 	// Home
 	mux.Handle("/", http.FileServer(http.Dir(server.PUBLIC)))
 
+	if pagesFolder, err := os.ReadDir(server.PUBLIC + "/pages"); err == nil {
+		for _, file := range pagesFolder {
+			urlName := strings.ReplaceAll("/" + file.Name(), ".html", "")
+			mux.HandleFunc(urlName, server.ServeFile)
+		}
+	} else {
+		log.Fatalln("Could not read", server.PUBLIC + "/pages:", err)
+	}
+
 	// login.go
-	mux.HandleFunc("/login", server.ServeFile)
-	mux.HandleFunc("/account", server.ServeFile)
+	// /login and /account are already indexed
 	mux.HandleFunc("/auth", server.HandleAuth)
 	mux.HandleFunc("/validate", server.HandleValidation)
 
@@ -110,7 +117,7 @@ func startServer() {
 		Clients: make(server.ClientList),
 	}
 
-	mux.HandleFunc("/chat", manager.ServeChat)
+	mux.HandleFunc("/chatSocket", manager.ServeChat)
 
 	// Icons
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {

@@ -21,6 +21,7 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
     * [ ] Write Paint tool
     * [ ] Write Notes tool
     * [ ] Python/Lua/Bash interpreter?
+    * [ ] Chat features: menu and confirm image sending
     ### CaeborgDiscordBot shell commands to implement:
     * [ ] deofhet
     * [ ] weather

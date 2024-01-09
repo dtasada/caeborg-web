@@ -3,7 +3,7 @@ time = new Date();
 
 const uuid = localStorage.uuid;
 
-const ws = new WebSocket(`wss://${document.location.host}/chat`);
+const ws = new WebSocket(`wss://${document.location.host}/chatSocket`);
 ws.addEventListener("open", () => {
 	console.log("Websocket connected");
 	ws.send(JSON.stringify({ type: "chatFetchAll" }));
@@ -46,7 +46,6 @@ input.addEventListener('keydown', event => {
 input.oninput = () => { localStorage.savedChatInputValue = input.value; }
 
 const outputSec = document.getElementById('output-sec');
-outputSec.scrollTop = outputSec.scrollHeight;
 const outputOl = document.getElementById('output-ol');
 const submit = document.getElementById('submit-button');
 submit.addEventListener('click', () => {
@@ -90,21 +89,21 @@ addButton.addEventListener('click', () => {
 // important functions
 async function renderMessage(json) {
 	// render html message
-	const li = document.createElement('li');
+	const li = document.createElement("li");
 
-	pfp = document.createElement('img');
-	pfp.classList.add(`sender-is-${json.sender}`, 'pfp');
+	pfp = document.createElement("img");
+	pfp.classList.add(`sender-is-${json.sender}`, "pfp");
 	pfp.src = `/icon?url=${json.sender}&size=64..128..256`
-	pfp.alt = `${json.sender}'s profile picture`
+	pfp.alt = `${json.sender}"s profile picture`
 	li.appendChild(pfp);
 
-	const senderP = document.createElement('p');
+	const senderP = document.createElement("p");
 	senderP.innerHTML = json.sender;
-	senderP.classList.add('usernameTag');
+	senderP.classList.add("usernameTag");
 	li.appendChild(senderP);
 
 	if (json.dataType === "txt") {
-		const p = document.createElement('p');
+		const p = document.createElement("p");
 		p.innerHTML = json.content;
 		li.appendChild(p);
 	} else if (json.dataType === "img") {
@@ -115,7 +114,7 @@ async function renderMessage(json) {
 	}
 
 	outputOl.appendChild(li);
-	document.getElementById('output-sec').scrollTop = document.getElementById('output-sec').scrollHeight;
+	outputSec.scrollTop = 2 * outputSec.scrollHeight;
 }
 
 // Handle text
