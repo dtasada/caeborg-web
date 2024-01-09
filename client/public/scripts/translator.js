@@ -183,7 +183,7 @@ addButton.addEventListener("click", async () => {
 			targetLanguage = languages[newlangSel.value];
 			buildButtons();
 			await translate();
-		}, {once : true});
+		}, { once: true });
 	} else if (newlangSel.hidden === false) {
 		addButton.onclick = undefined
 		newlangSel.hidden = true;

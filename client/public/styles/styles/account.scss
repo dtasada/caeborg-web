@@ -2,7 +2,27 @@
 @import "./login";
 
 #main {
-	padding-bottom: 16px;
+	padding: 16px;
+	padding-bottom: 10px;
+
+	div p {
+		margin: 8px 16px 0px;
+	}
+
+	#header {
+		background: var(--col-subbase);
+		margin: -16px -16px 32px -16px;
+		height: 128px;
+		border-bottom-right-radius: 0px;
+		border-bottom-left-radius: 0px;
+		* { background: inherit; }
+	}
+
+	#pfp-sec {
+		#pfp {
+			float: left;
+		}
+	}
 
 	#exit-buttons, #password-div {
 		position: relative;
@@ -18,7 +38,7 @@
 		display: flex;
 		justify-content: right;
 		align-items: center;
-		height: 64px;
+		height: 48px;
 
 		#old-password-input {
 			height: 40px;

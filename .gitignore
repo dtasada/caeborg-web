@@ -4,5 +4,5 @@
 */.DS_Store/
 .env
 /client/public/.css/
-/client/public/assets/*
+/client/public/assets/chat/*
 /assets/

@@ -3,6 +3,7 @@ package server
 import (
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -37,6 +38,11 @@ func ReadBody(r *http.Request) []byte {
 	r.Body.Close()
 	
 	return requestBodyBytes
+}
+
+func fileExists(path string) bool {
+	_, err := os.Stat(path)
+	return !errors.Is(err, os.ErrNotExist)
 }
 
 func parseUsersJSON() map[string]map[string]interface{} {

@@ -16,3 +16,26 @@ document.getElementById("save-button").addEventListener("click", () => {
 	document.getElementById("old-password-input").hidden = false;
 	document.getElementById("old-password-input").classList.add("animate");
 });
+
+const pfp = document.getElementById("pfp")
+async function getPFP() {
+	res = await fetch("/fetchPFP", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: localStorage.uuid,
+	});
+
+	pfp.src = await res.text()
+}
+
+getPFP();
+
+// pfp.addEventListener("mouseover", () => {
+// 	const p = document.getElementById("userchange-p")
+// 	p.removeAttribute("hidden");
+//
+// 	pfp.addEventListener("mouseout", () => {
+// 		// p.hidden = true;
+// 		p.setAttribute("hidden", true)
+// 		}, { once: true });
+// });

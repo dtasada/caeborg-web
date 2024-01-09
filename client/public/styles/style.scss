@@ -73,6 +73,9 @@ ol {
 
 }
 
+#pfp, .pfp {
+	border-radius: 50px;
+}
 
 .button-list button {
 	// width: calc($sidebar-sec-width - 32px); // Rounded corners, centered buttons & text 

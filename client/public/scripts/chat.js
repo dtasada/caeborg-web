@@ -106,7 +106,7 @@ async function renderMessage(json) {
 	} else if (json.dataType === "img") {
 		img = document.createElement("img");
 		img.src = json.content;
-		img.classList.add("imageMessage")
+		img.classList.add("imageMessage");
 		li.appendChild(img);
 	}
 

@@ -42,8 +42,12 @@ async function confirm() {
 		localStorage.uuid = uuid;
 	}
 
-	if (usernameInput.value.includes(" ")) {
-		usernameInput.setAttribute("placeholder", "spaces are not allowed!");
+	if (usernameInput.value.includes(" ") || usernameInput.value.startsWith("__")) {
+		if (usernameInput.value.includes(" ")) {
+			usernameInput.setAttribute("placeholder", "spaces are not allowed!");
+		} else if (usernameInput.value.includes("__")) {
+			usernameInput.setAttribute("placeholder", "usernames are not allowed to start with '__'");
+		}
 		usernameInput.removeAttribute("value");
 		usernameInput.style.border = "2px solid var(--col-red)";
 	}
