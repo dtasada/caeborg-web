@@ -1,7 +1,8 @@
 *.css.map
 *.sass-cache
 */.env
-.DS_Store/
+*/.DS_Store/
 .env
-client/public/.css/
+/client/public/.css/
+/client/public/assets/*
 /assets/
