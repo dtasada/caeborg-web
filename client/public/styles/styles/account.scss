@@ -10,17 +10,25 @@
 	}
 
 	#header {
+		display: flex;
 		background: var(--col-subbase);
-		margin: -16px -16px 32px -16px;
+		padding: 20px;
+		margin: -16px -16px 8px -16px;
 		height: 128px;
 		border-bottom-right-radius: 0px;
 		border-bottom-left-radius: 0px;
 		* { background: inherit; }
-	}
 
-	#pfp-sec {
 		#pfp {
-			float: left;
+			z-index: 1;
+		}	
+
+		#userchange-p {
+			z-index: 2;
+			position: absolute;
+			font-size: 0.75em;
+			background: var(--col-crust);
+			opacity: 90%;
 		}
 	}
 
@@ -52,6 +60,7 @@
 		#old.show-password-button {
 			display: none;
 			right: 153px;
+			bottom: 8px;
 		}
 
 		#save-button, #discard-button {

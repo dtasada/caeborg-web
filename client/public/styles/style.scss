@@ -13,6 +13,7 @@ $sidebarrightmargin-width: calc(#{$sidebar-sec-width} + #{$right-margin-width});
 $title-fontsize: 24px;
 $subtitle-fontsize: 20px;
 $body-fontsize: 16px;
+$smol-fontsize: 12px;
 
 :export {
 	sidebarSecWidth: $sidebar-sec-width;

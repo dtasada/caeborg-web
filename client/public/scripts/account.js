@@ -30,12 +30,11 @@ async function getPFP() {
 
 getPFP();
 
-// pfp.addEventListener("mouseover", () => {
-// 	const p = document.getElementById("userchange-p")
-// 	p.removeAttribute("hidden");
-//
-// 	pfp.addEventListener("mouseout", () => {
-// 		// p.hidden = true;
-// 		p.setAttribute("hidden", true)
-// 		}, { once: true });
-// });
+pfp.addEventListener("mouseover", () => {
+	const p = document.getElementById("userchange-p")
+	p.style.display = "flex";
+
+	pfp.addEventListener("mouseout", () => {
+		p.style.display = null;
+		}, { once: true });
+});

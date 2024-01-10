@@ -27,9 +27,11 @@ ws.addEventListener("message", ({ data }) => {
 
 // html tags as variables
 const input = document.getElementById('input-box');
+const addButton = document.getElementById('add-button');
 if (!localStorage.uuid) {
 	input.setAttribute("disabled", true)
 	input.setAttribute("placeholder", "please sign in to use chat")
+	addButton.setAttribute("disabled", true)
 }
 
 input.focus();
@@ -55,7 +57,6 @@ submit.addEventListener('click', () => {
 });
 
 // Handle images
-const addButton = document.getElementById('add-button');
 addButton.addEventListener('click', () => {
 	const inputFile = document.createElement('input');
 	inputFile.type = "file";
@@ -99,8 +100,19 @@ async function renderMessage(json) {
 	senderP.classList.add("usernameTag");
 	li.appendChild(senderP);
 
+	const timedateP = document.createElement("p");
+	if (json.date === time.toLocaleDateString()) json.date = "Today";
+	if (json.time === `${time.getHours()}:${time.getMinutes()}`) {
+		timedateP.innerHTML = "&ensp;now";
+	} else {
+		timedateP.innerHTML = `&ensp;${json.date} at ${json.time}`;
+	}
+	timedateP.classList.add("datetimeTag");
+	li.appendChild(timedateP);
+
 	if (json.dataType === "txt") {
 		const p = document.createElement("p");
+		p.classList.add("messageContent")
 		p.innerHTML = json.content;
 		li.appendChild(p);
 	} else if (json.dataType === "img") {
@@ -121,7 +133,7 @@ async function parseInput(text) {
 			content: text,
 			sender: uuid,
 			date: `${time.toLocaleDateString()}`,
-			time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
+			time: `${time.getHours()}:${time.getMinutes()}`,
 			dataType: "txt",
 			type: "chatPostMessage"
 		}));
