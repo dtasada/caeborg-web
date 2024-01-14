@@ -21,7 +21,7 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
     * [ ] Write Paint tool
     * [ ] Write Notes tool
     * [ ] Python/Lua/Bash interpreter?
-    * [ ] Chat features: pinging, menu, show time/date, image from clipboard and confirm image sending
+    * [ ] Chat features: pinging, menu, image from clipboard and confirm image sending
     ### CaeborgDiscordBot shell commands to implement:
     * [ ] deofhet
     * [ ] weather

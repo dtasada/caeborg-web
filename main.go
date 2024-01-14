@@ -59,8 +59,11 @@ func startSass() {
 	} else {
 		sass = exec.Command("sass", "./client/public/styles:./client/public/.css")
 		sass.Env = append(sass.Env, os.Environ()...)
-		sass.Run()
-		log.Println("Compiled sass files.")
+		if err := sass.Run(); err != nil {
+			log.Println("Could not compile sass")
+		} else {
+			log.Println("Compiled sass files.")
+		}
 		return
 	}
 }

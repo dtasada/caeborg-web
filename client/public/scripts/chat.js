@@ -24,13 +24,16 @@ ws.addEventListener("message", ({ data }) => {
 	}
 });
 
-
 // html tags as variables
 const input = document.getElementById('input-box');
 const addButton = document.getElementById('add-button');
+const submit = document.getElementById('submit-button');
+const outputSec = document.getElementById('output-sec');
+const outputOl = document.getElementById('output-ol');
 if (!localStorage.uuid) {
-	input.setAttribute("disabled", true)
 	input.setAttribute("placeholder", "please sign in to use chat")
+	input.setAttribute("disabled", true)
+	submit.setAttribute("disabled", true)
 	addButton.setAttribute("disabled", true)
 }
 
@@ -47,9 +50,6 @@ input.addEventListener('keydown', event => {
 
 input.oninput = () => { localStorage.savedChatInputValue = input.value; }
 
-const outputSec = document.getElementById('output-sec');
-const outputOl = document.getElementById('output-ol');
-const submit = document.getElementById('submit-button');
 submit.addEventListener('click', () => {
 	parseInput(input.value);
 	input.value = '';

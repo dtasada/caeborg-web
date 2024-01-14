@@ -50,7 +50,9 @@ async function confirm() {
 		}
 		usernameInput.removeAttribute("value");
 		usernameInput.style.border = "2px solid var(--col-red)";
-	}
+
+		return;
+	} // Security only includes checking for dunders and spaces in the frontend
 		
 	if (usernameInput.value && passwordInput.value) {
 		res = await fetch("/auth", {
