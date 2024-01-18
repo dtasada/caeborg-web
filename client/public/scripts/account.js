@@ -31,7 +31,7 @@ document.getElementById("save-button").addEventListener("click", () => {
 	document.getElementById("old-password-input").classList.add("animate");
 });
 
-const pfp = document.getElementById("pfp")
+const pfp = document.getElementById("pfp-img")
 async function getPFP() {
 	res = await fetch("/fetchPFP", {
 		method: "POST",
@@ -44,11 +44,28 @@ async function getPFP() {
 
 getPFP();
 
-pfp.addEventListener("mouseover", () => {
-	const p = document.getElementById("userchange-p")
-	p.style.display = "flex";
+document.getElementById("pfp-button").addEventListener('click', () => {
+	const inputFile = document.createElement('input');
+	inputFile.type = "file";
+	inputFile.hidden = true;
 
-	pfp.addEventListener("mouseout", () => {
-		p.style.display = null;
-		}, { once: true });
+	inputFile.addEventListener("change", (event) => {
+		const file = event.target.files[0];
+		if (file) {
+			reader = new FileReader();
+			reader.onload = async () => {
+				console.log(typeof reader.result);
+				await fetch("/newPFP", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: {
+						content: reader.result,
+						uuid: localStorage.uuid
+					}
+				});
+			}
+			reader.readAsDataURL(file);
+		}
+	});
+	inputFile.click();
 });

@@ -18,17 +18,14 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
     * [ ] Fix flaky `shell.js`
     * [ ] Rebuild sidebar hiding
 * [ ] New features:
-    * [ ] Chat features: pinging, menu, image from clipboard and confirm image sending
+    * [ ] Chat features: implement pfp, pinging, menu, image from clipboard and confirm image sending
     * [ ] Write Paint tool
     * [ ] Write Notes tool
-    * [ ] Python/Lua/Bash interpreter?
     * [ ] OpenAI API with CaeborgGPT, DALL-E?
     ### CaeborgDiscordBot shell commands to implement:
     * [ ] deofhet
     * [ ] weather
     * [ ] ascii
-    * [ ] define word
-    * [ ] spanish
     * [ ] meme
 
 # Notes
@@ -76,9 +73,9 @@ For your development environment to work correctly, you need to set up HTTPS key
                 "YouTube": "youtube.com"
             },
             "password": "X3xikhbQf87bK0k=",
-            "whitelist": [
-                "a2eb9c82-071d-4b0a-a645-1c48273d6477"
-            ]
+            "whitelist": {
+                "a2eb9c82-071d-4b0a-a645-1c48273d6477": 1705572938
+            }
         }
     }
     ```

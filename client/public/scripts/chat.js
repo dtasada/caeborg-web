@@ -1,8 +1,6 @@
 // P R E R E Q U I S I T E S
 time = new Date();
 
-const uuid = localStorage.uuid;
-
 const ws = new WebSocket(`wss://${document.location.host}/chatSocket`);
 ws.addEventListener("open", () => {
 	console.log("Websocket connected");
@@ -56,6 +54,12 @@ submit.addEventListener('click', () => {
 	localStorage.savedChatInputValue = input.value;
 });
 
+function zeroPad(txt) {
+	if (len(txt) === 1) return `0${txt}`
+	else if (len(txt) === 2) return txt
+	else return "idk"
+}
+
 // Handle images
 addButton.addEventListener('click', () => {
 	const inputFile = document.createElement('input');
@@ -68,12 +72,11 @@ addButton.addEventListener('click', () => {
 			reader = new FileReader();
 			reader.onload = () => {
 				// Send to server
-				console.log(`${reader.result}`)
 				ws.send(JSON.stringify({
 					content: `${reader.result}`,
-					sender: uuid,
+					sender: localStorage.uuid,
 					date: `${time.toLocaleDateString()}`,
-					time: `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`,
+					time: `${zeroPad(time.getHours())}:${zeroPad(time.getMinutes())}`,
 					dataType: "img",
 					type: "chatPostMessage"
 				}));
@@ -102,7 +105,7 @@ async function renderMessage(json) {
 
 	const timedateP = document.createElement("p");
 	if (json.date === time.toLocaleDateString()) json.date = "Today";
-	if (json.time === `${time.getHours()}:${time.getMinutes()}`) {
+	if (json.time === `${zeroPad(time.getHours())}:${zeroPad(time.getMinutes())}`) {
 		timedateP.innerHTML = "&ensp;now";
 	} else {
 		timedateP.innerHTML = `&ensp;${json.date} at ${json.time}`;
@@ -133,9 +136,9 @@ async function parseInput(text) {
 	if (text !== "") {
 		ws.send(JSON.stringify({
 			content: text,
-			sender: uuid,
+			sender: localStorage.uuid,
 			date: `${time.toLocaleDateString()}`,
-			time: `${time.getHours()}:${time.getMinutes()}`,
+			time: `${zeroPad(time.getHours())}:${zeroPad(time.getMinutes())}`,
 			dataType: "txt",
 			type: "chatPostMessage"
 		}));

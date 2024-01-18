@@ -250,7 +250,7 @@ const commands = {
 			for (const [k, v] of Object.entries(commands)) {
 				ret += `${bi(k)}: ${v.brief};<br>`;
 			}
-			return [ ret ]
+			return [ ret ];
 		}
 	},
 

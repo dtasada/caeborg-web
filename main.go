@@ -111,6 +111,7 @@ func startServer() {
 	mux.HandleFunc("/logout", server.HandleLogout)
 	mux.HandleFunc("/validate", server.HandleValidation)
 	mux.HandleFunc("/fetchPFP", server.HandlePFP)
+	mux.HandleFunc("/newPFP", server.HandleNewPFP)
 	// /login and /account are already indexed
 
 
@@ -127,9 +128,9 @@ func startServer() {
 
 	// Icons
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {
-		url := fmt.Sprintf("http://%s:8080%s", server.IpAddr, r.URL)
-
-		res, err := http.Get(url);					if err != nil { log.Println("Error serving image:", err) }
+		res, err := http.Get(fmt.Sprintf("http://%s:8080%s", server.IpAddr, r.URL)); if err != nil {
+			log.Println("Error serving image:", err)
+		}
 		imgBytes, err := io.ReadAll(res.Body);		if err != nil { log.Println("Error serving image:", err) }
 		res.Body.Close()
 

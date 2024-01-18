@@ -19,9 +19,17 @@
 		border-bottom-left-radius: 0px;
 		* { background: inherit; }
 
-		#pfp {
-			z-index: 1;
-		}	
+		#pfp-button {
+			border-radius: 50px;
+			width: 80px;
+			height: 80px;
+			padding: 0px !important;
+		}
+		#pfp-img {
+			border-radius: inherit;
+			width: inherit;
+			height: inherit;
+		}
 
 		#userchange-p {
 			z-index: 2;

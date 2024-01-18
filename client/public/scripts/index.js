@@ -16,7 +16,6 @@ function switchFrame(page) {
 	switch (page) {
 		case "calc":		document.title = "Caeborg - Calculator"; break;
 		case "chat":		document.title = "Caeborg - Chatting"; break;
-		case "chemtools":	document.title = "Caeborg - ChemTools"; break;
 		case "games":		document.title = "Caeborg - Games"; break;
 		case "graph":		document.title = "Caeborg - Graph"; break;
 		case "launcher":	document.title = "Caeborg - Launcher"; break;
@@ -26,7 +25,6 @@ function switchFrame(page) {
 		case "paint":		document.title = "Caeborg - Paint"; break;
 		case "quote":		document.title = "Caeborg - Quote"; break;
 		case "shell":		document.title = "Caeborg - Shell"; break;
-		case "soundboard":	document.title = "Caeborg - Soundboard"; break;
 		case "translator":	document.title = "Caeborg - Translator"; break;
 	}
 }
@@ -46,7 +44,7 @@ async function validate() {
 
 	res = await fetch("/validate", {
 		method: "POST",
-		headers: { "Content-Type": "application/json" },
+		headers: { "Content-Type": "text/plain" },
 		body: localStorage.uuid,
 	});
 	res = await res.text()

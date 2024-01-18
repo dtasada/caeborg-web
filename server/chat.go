@@ -83,7 +83,7 @@ func NewClient(conn *websocket.Conn, manager *Manager) *Client {
 
 func getChat() []byte {
 	path := AssetsPath + "/chat.json"
-	if _, err := os.Stat(path); os.IsNotExist(err) {
+	if !fileExists(path) {
 		fmt.Println(path + " does not exist! Creating template chat.json file...")
 		os.Create(path)
 	}

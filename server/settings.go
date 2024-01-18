@@ -53,7 +53,7 @@ func fileExists(path string) bool {
 func parseUsersJSON() map[string]map[string]interface{} {
 	path := AssetsPath + "/users.json"
 
-	if _, err := os.Stat(path); os.IsNotExist(err) {
+	if !fileExists(path) {
 		fmt.Println(path + " does not exist! Creating template users.json file...")
 		os.Create(path)
 	}
