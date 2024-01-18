@@ -16,15 +16,15 @@ let obj;
 
 // Generating shortcuts on startup
 function makeTitle(text) {
-		launcherSec.style.setProperty("justify-content", "center")
-		launcherSec.style.setProperty("align-items", "center");
+	launcherSec.style.setProperty("justify-content", "center")
+	launcherSec.style.setProperty("align-items", "center");
 
-		const h = document.createElement("h1");
-		h.classList.add("title");
-		h.style.setProperty("color", "var(--col-subtext)");
-		h.innerHTML = text;
+	const h = document.createElement("h1");
+	h.classList.add("title");
+	h.style.setProperty("color", "var(--col-subtext)");
+	h.innerHTML = text;
 
-		launcherSec.appendChild(h)
+	launcherSec.appendChild(h)
 }
 
 

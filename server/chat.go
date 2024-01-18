@@ -80,6 +80,28 @@ func NewClient(conn *websocket.Conn, manager *Manager) *Client {
 	}
 }
 
+
+func getChat() []byte {
+	path := AssetsPath + "/chat.json"
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		fmt.Println(path + " does not exist! Creating template chat.json file...")
+		os.Create(path)
+	}
+
+	chatBin, err := os.ReadFile(path); if err != nil {
+		log.Println("Error reading chat.json:", err)
+	}
+
+	if string(chatBin) == "" {
+		chatBin := []byte(`{"type":"chatJSON"}`)
+		if err := os.WriteFile(path, chatBin, 0777); err != nil {
+			log.Println("Error creating chat.json")
+		}
+	}
+
+	return chatBin
+}
+
 func (c *Client) chatHandler() {
 	for {
 		_, response, err := c.connection.ReadMessage()
@@ -97,10 +119,7 @@ func (c *Client) chatHandler() {
 			break
 		}
 
-		path := AssetsPath + "/chat.json"
-		chatBin, err := os.ReadFile(path); if err != nil {
-			log.Println("Error reading chat.json:", err)
-		}
+		chatBin := getChat()
 
 		switch message["type"] {
 		case "chatPostMessage":
@@ -145,7 +164,7 @@ func (c *Client) chatHandler() {
 			obj[fmt.Sprintf("%d", len(obj))] = message
 
 			saveObj, err := json.MarshalIndent(obj, "", "\t")
-			os.WriteFile(path, saveObj, 0777)
+			os.WriteFile(AssetsPath + "/chat.json", saveObj, 0777)
 
 			for client := range c.manager.Clients {
 				if err := client.connection.WriteMessage(websocket.TextMessage, marshalledMessage); err != nil {
@@ -154,7 +173,7 @@ func (c *Client) chatHandler() {
 			}
 		case "chatFetchAll":
 			minified := &bytes.Buffer{}
-			if err := json.Compact(minified, chatBin); err != nil {
+			if err := json.Compact(minified, getChat()); err != nil {
 				log.Println("Failed to minify chatBin:", err)
 			}
 			if err := c.connection.WriteMessage(websocket.TextMessage, minified.Bytes()); err != nil {

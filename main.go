@@ -108,6 +108,7 @@ func startServer() {
 
 	// login.go
 	mux.HandleFunc("/auth", server.HandleAuth)
+	mux.HandleFunc("/logout", server.HandleLogout)
 	mux.HandleFunc("/validate", server.HandleValidation)
 	mux.HandleFunc("/fetchPFP", server.HandlePFP)
 	// /login and /account are already indexed

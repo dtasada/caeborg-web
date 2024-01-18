@@ -48,8 +48,20 @@
 		align-items: center;
 		height: 48px;
 
+		#logout-button {
+			position: absolute;
+			left: 0px;
+			width: 40px;
+			height: 40px;
+
+			i {
+				font-size: $title-fontsize;
+			}
+		}
+
 		#old-password-input {
 			height: 40px;
+			margin-left: 48px;
 
 			&.animate {
 				animation: scrollPassword 0.5s forwards;

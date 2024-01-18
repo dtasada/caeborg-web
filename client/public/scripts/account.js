@@ -1,3 +1,17 @@
+if (localStorage.uuid) {
+	document.getElementById("logout-button").onclick = async () => {
+		res = await fetch("/logout", {
+			method: "POST",
+			headers: { "Content-Type": "text/plain" },
+			body: localStorage.uuid
+		});
+		res = await res.text();
+		window.location.replace("/login");
+	}
+} else {
+	window.location.replace("/login")
+}
+
 [...document.querySelectorAll(".show-password-button")].forEach(element => {
 	element.addEventListener("click", () => {
 		const input = document.getElementById(`${element.id}-password-input`);

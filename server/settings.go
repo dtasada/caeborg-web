@@ -51,8 +51,22 @@ func fileExists(path string) bool {
 }
 
 func parseUsersJSON() map[string]map[string]interface{} {
-	usersBin, err := os.ReadFile(AssetsPath + "/users.json"); if err != nil {
+	path := AssetsPath + "/users.json"
+
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		fmt.Println(path + " does not exist! Creating template users.json file...")
+		os.Create(path)
+	}
+
+	usersBin, err := os.ReadFile(path); if err != nil {
 		log.Println("Error reading users.json", err)
+	}
+
+	if string(usersBin) == "" {
+		usersBin = []byte(`{}`)
+		if err := os.WriteFile(path, usersBin, 0777); err != nil {
+			log.Println("Error creating chat.json")
+		}
 	}
 
 	var usersMap map[string]map[string]interface{}
@@ -73,10 +87,19 @@ func ValidateUser(uuid string) string {
 	}
 
 	for username, userData := range usersMap {
-		whitelist, ok := userData["whitelist"].([][]interface{}); if ok {
-			if time.Now().Unix() - whitelist[1].(int) < 259200 {
+		whitelist, ok := userData["whitelist"].(map[string]interface{}); if ok {
+			for uuid, lifetime := range whitelist {
+				if time.Now().Unix() - int64(lifetime.(float64)) > 259200 { // 3 days
+					delete(whitelist, uuid)
 
+					if marshaledMap, err := json.MarshalIndent(usersMap, "", "\t"); err != nil {
+						log.Println("Failed to marshal users map:", err)
+					} else {
+						os.WriteFile(AssetsPath + "/users.json", marshaledMap, 0777)
+					}
+				}
 			}
+
 			// stupid std::slices lib won't accept an interface, so i have to format string substring it??
 			if strings.Contains(fmt.Sprintf("%v", whitelist), uuid) {
 				return username

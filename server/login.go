@@ -28,19 +28,6 @@ func HandleValidation(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func HandlePFP(w http.ResponseWriter, r *http.Request) {
-	readBodyBytes := ReadBody(r)
-	username := ValidateUser(string(readBodyBytes))
-
-	path := PUBLIC + "/assets/users/" + username + ".png"
-
-	if !fileExists(path) {
-		path = PUBLIC + "/assets/users/__default.png"
-	}
-
-	w.Write([]byte(strings.ReplaceAll(path, PUBLIC, "")))
-}
-
 func HandleAuth(w http.ResponseWriter, r *http.Request) {
 	// Grab existing user-password index
 	path := AssetsPath + "/users.json"
@@ -83,7 +70,7 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 		userData = map[string]interface{}{
 			"launcher": map[string]string{},
 			"password": encryptedPassword,
-			"whitelist": [][]any{},
+			"whitelist": map[string]int64{},
 		}
 		usersMap[request["username"]] = userData
 		log.Printf("Created new user '%s'!\n", request["username"])
@@ -91,8 +78,8 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if userExists {
-		if whitelist, ok := userData["whitelist"].([]interface{}); ok {
-			userData["whitelist"] = append(whitelist, [2]any{request["uuid"], time.Now().Unix()})
+		if whitelist, ok := userData["whitelist"].(map[string]interface{}); ok {
+			whitelist[request["uuid"]] = time.Now().Unix()
 		} else {
 			log.Println("User whitelist does not exist!")
 		}

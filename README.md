@@ -13,7 +13,7 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 ![](https://caeborg.dev/assets/screenshot.png "Caeborg Homepage Screenshot")
 
 # Todo
-* [ ] Add account options like sign out, 'sign out all devices', and token lifetime
+* [ ] Add account options like sign out, 'sign out all devices'
 * [ ] Optimize frontend HTML CSS & JS
     * [ ] Fix flaky `shell.js`
     * [ ] Rebuild sidebar hiding
@@ -61,8 +61,9 @@ WantedBy=default.target
 * Don't forget to `chmod +x ./releases/*` and `chmod +x ./server/besticon/*` to avoid permission errors.
 ## Development
 For your development environment to work correctly, you need to set up HTTPS keys. These are self-signed keys intended only for development use.
-* To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout ./credentials/privkey.pem -out ./credentials/fullchain.pem -sha256 -days 365`.
-* Then remove the passcode `openssl rsa -in ./credentials/privkey.pem -out ./credentials/privkey.pem -passin pass:1234`.
+* Create a private key `openssl genrsa -out ./assets/credentials/privkey.pem 4096`.
+* To create the self-signed SSL key, run `openssl req -x509 -newkey rsa:4096 -keyout ./assets/credentials/privkey.pem -out ./assets/credentials/fullchain.pem -sha256 -days 365`.
+* Then remove the passcode `openssl rsa -in ./assets/credentials/privkey.pem -out ./assets/credentials/privkey.pem -passin pass:1234`.
 * These keys are saved in `caeborg-web/assets/credentials` during development.
     * The required keys are `cert.pem` and `key.pem` for HTTPS.
     * An `auth_secret` file is also necessary for encryption.
