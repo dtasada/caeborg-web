@@ -10,16 +10,21 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 var (
 	Domain = "caeborg.dev"
 	TlsConfig = &tls.Config {}
-	DevMode = false
+
 	PATH, _ = os.Getwd()
 	PUBLIC = PATH + "/client/public"
+
 	IpAddr string
 	AssetsPath string
+
+	DevMode = false
+	Args []string = os.Args[1:]
 )
 
 func ServeFile(w http.ResponseWriter, r *http.Request) {
@@ -68,7 +73,10 @@ func ValidateUser(uuid string) string {
 	}
 
 	for username, userData := range usersMap {
-		whitelist, ok := userData["whitelist"].(interface{}); if ok {
+		whitelist, ok := userData["whitelist"].([][]interface{}); if ok {
+			if time.Now().Unix() - whitelist[1].(int) < 259200 {
+
+			}
 			// stupid std::slices lib won't accept an interface, so i have to format string substring it??
 			if strings.Contains(fmt.Sprintf("%v", whitelist), uuid) {
 				return username
@@ -79,13 +87,13 @@ func ValidateUser(uuid string) string {
 }
 
 func init() {
-	if args := os.Args[1:]; len(args) != 0 {
-		if args[0] == "dev" {
+	if len(Args) != 0 {
+		if Args[0] == "dev" {
 			DevMode = true
 			IpAddr = "localhost"
 			Domain = "localhost"
 		} else {
-			log.Fatal("Unknown argument" + args[0])
+			log.Fatal("Unknown argument" + Args[0])
 		}
 	}
 

@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
+	"slices"
 
 	"github.com/dtasada/caeborg-web/server"
 )
@@ -29,7 +30,7 @@ func compileSelf() {
 		goos := strings.Split(pair, "_")[0]
 		goarch := strings.Split(pair, "_")[1]
 
-		comp := exec.Command("env", "GOOS=" + goos, "GOARCH=" + goarch, "go", "build", "-o", "./releases/caeborg_" + pair)
+		comp := exec.Command("env", "GOOS=" + goos, "GOARCH=" + goarch, "go", "build", "-o", "~/.local/bin/caeborg_" + pair)
 
 		_, err := comp.Output();
 		if err != nil {
@@ -157,7 +158,9 @@ func main() {
 			}
 		}
 
-		go compileSelf()
+		if slices.Contains(server.Args, "--release") {
+			go compileSelf()
+		}
 	}
 
 	go startSass()

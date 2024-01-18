@@ -22,6 +22,7 @@ $input-element-height: 48px;
 
 		margin: auto $input-margin $input-margin;
 		padding-left: 52px;
+		padding-right: 86px;
 
 		width: calc(100% - 2 * #{$right-margin-width});
 		height: $input-element-height;
@@ -92,7 +93,6 @@ $input-element-height: 48px;
 
 		li {
 			width: 100%;
-			margin: 0px auto 0px;
 			padding: 20px 0px 20px 76px;
 			background: var(--col-base);
 			&:hover { background: var(--col-subbase); }

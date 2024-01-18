@@ -114,6 +114,8 @@ async function renderMessage(json) {
 		const p = document.createElement("p");
 		p.classList.add("messageContent")
 		p.innerHTML = json.content;
+		p.innerHTML = p.innerHTML.replace(/http\S+/, '<a href="$&" target="_blank">$&</a>');
+		console.log(p.innerHTML);
 		li.appendChild(p);
 	} else if (json.dataType === "img") {
 		img = document.createElement("img");

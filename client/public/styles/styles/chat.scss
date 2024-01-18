@@ -4,8 +4,9 @@
 	ol {
 		li {
 			width: 100%;
-			margin: 0px auto 0px;
-			padding: 10px 0px 10px 76px;
+			// margin: 0px auto 0px; // try without?
+			padding: 10px;
+			padding-left: 76px;
 			background: var(--col-base);
 			&:hover { background: var(--col-subbase); }
 			* { background: inherit; }
@@ -23,9 +24,8 @@
 			}
 
 			p {
+				display: inline;
 				&.usernameTag {
-					// margin-top: -10px;
-					float: left;
 					font-weight: 800;
 					color: var(--col-white);
 					&:hover { text-decoration: underline; }
@@ -35,9 +35,9 @@
 					font-size: $smol-fontsize;
 					color: var(--col-overlay);
 				}
-				&.messageContent {
-
-				}
+			}
+			.messageContent, .imageMessage {
+				display: block;
 			}
 		}
 	}

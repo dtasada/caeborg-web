@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 func HandleValidation(w http.ResponseWriter, r *http.Request) {
@@ -82,7 +83,7 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 		userData = map[string]interface{}{
 			"launcher": map[string]string{},
 			"password": encryptedPassword,
-			"whitelist": []interface{}{},
+			"whitelist": [][]any{},
 		}
 		usersMap[request["username"]] = userData
 		log.Printf("Created new user '%s'!\n", request["username"])
@@ -91,7 +92,7 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 
 	if userExists {
 		if whitelist, ok := userData["whitelist"].([]interface{}); ok {
-			userData["whitelist"] = append(whitelist, request["uuid"])
+			userData["whitelist"] = append(whitelist, [2]any{request["uuid"], time.Now().Unix()})
 		} else {
 			log.Println("User whitelist does not exist!")
 		}

@@ -18,10 +18,11 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
     * [ ] Fix flaky `shell.js`
     * [ ] Rebuild sidebar hiding
 * [ ] New features:
+    * [ ] Chat features: pinging, menu, image from clipboard and confirm image sending
     * [ ] Write Paint tool
     * [ ] Write Notes tool
     * [ ] Python/Lua/Bash interpreter?
-    * [ ] Chat features: pinging, menu, image from clipboard and confirm image sending
+    * [ ] OpenAI API with CaeborgGPT, DALL-E?
     ### CaeborgDiscordBot shell commands to implement:
     * [ ] deofhet
     * [ ] weather
