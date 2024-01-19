@@ -13,10 +13,11 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 ![](https://caeborg.dev/assets/screenshot.png "Caeborg Homepage Screenshot")
 
 # Todo
-* [ ] Add account options like sign out, 'sign out all devices'
+* [ ] Add account options: 'sign out all devices', change username & password
 * [ ] Optimize frontend HTML CSS & JS
     * [ ] Fix flaky `shell.js`
     * [ ] Rebuild sidebar hiding
+    * [ ] Light mode?
 * [ ] New features:
     * [ ] Chat features: implement pfp, pinging, menu, image from clipboard and confirm image sending
     * [ ] Write Paint tool

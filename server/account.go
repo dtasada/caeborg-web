@@ -1,13 +1,13 @@
 package server
 
 import (
-	"net/http"
-	"strings"
-	"encoding/json"
 	"encoding/base64"
-	"os"
-	"log"
+	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"strings"
 )
 
 func HandlePFP(w http.ResponseWriter, r *http.Request) {
@@ -35,8 +35,7 @@ func HandleNewPFP(w http.ResponseWriter, r *http.Request) {
 
 	username := ValidateUser(message["uuid"])
 
-	imgType := message["content"][strings.Index(message["content"], "/") + 1 : strings.Index(message["content"], ";")]
-	fileName := fmt.Sprintf("/assets/users/%s.%s", username, imgType)
+	fileName := fmt.Sprintf(PUBLIC + "/assets/users/%s.avif", username)
 
 	message["content"] = strings.Split(message["content"], ";base64,")[1]
 
@@ -44,10 +43,12 @@ func HandleNewPFP(w http.ResponseWriter, r *http.Request) {
 		log.Println("Could not decode image base64 to bytes:", err)
 	}
 
-	if err := os.WriteFile(PUBLIC + fileName, imgBin, 0777); err != nil {
+	if err := os.WriteFile(fileName, imgBin, 0777); err != nil {
 		log.Println("Could not write image to", PUBLIC + fileName)
 		return
 	}
+
+	toAVIF(fileName)
 }
 
 func HandleLogout(w http.ResponseWriter, r *http.Request) {

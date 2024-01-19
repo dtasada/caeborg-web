@@ -18,19 +18,19 @@ import (
 )
 
 func compileSelf() {
-	steps := []string {
-		"windows_amd64",
+	targets := []string {
+		"windows_amd64.exe",
 		"darwin_amd64",
 		"darwin_arm64",
 		"linux_amd64",
 		"linux_arm64",
 	}
 
-	for _, pair := range steps {
-		goos := strings.Split(pair, "_")[0]
-		goarch := strings.Split(pair, "_")[1]
+	for _, target := range targets {
+		goos := strings.Split(target, "_")[0]
+		goarch := strings.Split(target, "_")[1]
 
-		comp := exec.Command("env", "GOOS=" + goos, "GOARCH=" + goarch, "go", "build", "-o", "~/.local/bin/caeborg_" + pair)
+		comp := exec.Command("env", "GOOS=" + goos, "GOARCH=" + goarch, "go", "build", "-o", "~/.local/bin/caeborg_" + target)
 
 		_, err := comp.Output();
 		if err != nil {

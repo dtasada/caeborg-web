@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"slices"
 	"strings"
 	"sync"
 
@@ -137,21 +138,37 @@ func (c *Client) chatHandler() {
 			}
 
 			if message["dataType"] == "img" {
-				imgType := message["content"][strings.Index(message["content"], "/") + 1 : strings.Index(message["content"], ";")]
-				fileName := fmt.Sprintf("/assets/chat/%s.%s", uuid.New().String(), imgType)
+				path := PUBLIC + "/assets/chat"
+				if _, err := os.Stat(path); os.IsNotExist(err) {
+					log.Println(path + " does not exist! Creating template...")
+					if err := os.Mkdir(path, 0777); err != nil {
+						log.Println("Could not create template")
+						return
+					}
+				}
 
-				message["content"] = strings.Split(message["content"], ";base64,")[1]
+				b64IMG := message["content"]
+				var fileName string
+				if imgType := b64IMG[strings.Index(b64IMG, "/") + 1 : strings.Index(b64IMG, ";")]; slices.Contains([]string{"png", "jpeg", "jpg"}, imgType) {
+					fileName = "/" + uuid.New().String() + ".avif"
+					defer toAVIF(path + fileName)
+				} else {
+					fileName = "/" + uuid.New().String() + "." + imgType
+				}
 
-				imgBin, err := base64.StdEncoding.DecodeString(message["content"]); if err != nil {
+
+				b64IMG = strings.Split(b64IMG, ";base64,")[1]
+
+				imgBin, err := base64.StdEncoding.DecodeString(b64IMG); if err != nil {
 					log.Println("Could not decode image base64 to bytes:", err)
 				}
 
-				if err := os.WriteFile(PUBLIC + fileName, imgBin, 0777); err != nil {
-					log.Println("Could not write image to", PUBLIC + fileName)
+				if err := os.WriteFile(path + fileName, imgBin, 0777); err != nil {
+					log.Println("Could not write image to", fileName)
 					return
 				}
 
-				message["content"] = fileName
+				message["content"] = "/assets/chat" + fileName
 			}
 
 			// Marshal *after* changing username

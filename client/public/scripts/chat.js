@@ -55,8 +55,8 @@ submit.addEventListener('click', () => {
 });
 
 function zeroPad(txt) {
-	if (len(txt) === 1) return `0${txt}`
-	else if (len(txt) === 2) return txt
+	if (txt.length === 1) return `0${txt}`
+	else if (txt.length === 2) return txt
 	else return "idk"
 }
 
@@ -94,7 +94,7 @@ async function renderMessage(json) {
 
 	pfp = document.createElement("img");
 	pfp.classList.add("pfp");
-	pfp.src = `/icon?url=${json.sender}&size=64..128..256`
+	pfp.src = `/assets/users/${json.sender}.avif`
 	pfp.alt = `${json.sender}'s profile picture`
 	li.appendChild(pfp);
 

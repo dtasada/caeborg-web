@@ -23,12 +23,31 @@
 			border-radius: 50px;
 			width: 80px;
 			height: 80px;
-			padding: 0px !important;
-		}
-		#pfp-img {
-			border-radius: inherit;
-			width: inherit;
-			height: inherit;
+			padding: 0px;
+			display: flex;
+			// why tf did this take me an hour to get right
+			justify-content: center; // actual fucking insanity
+			align-items: center; // pls ong frfr do not change this
+			&:hover {
+				#pfp-img {
+					opacity: 0.2;
+					filter: blur(2px) brightness(50%);
+				}
+			}
+
+			#pfp-i {
+				display: none;
+				position: absolute;
+				margin-left: 6px;
+				margin-bottom: 6px;
+				font-size: 40px;
+			}
+			#pfp-img {
+				height: inherit;
+				width: inherit;
+				background: inherit;
+				border-radius: inherit;
+			}
 		}
 
 		#userchange-p {

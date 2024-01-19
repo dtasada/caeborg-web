@@ -44,7 +44,17 @@ async function getPFP() {
 
 getPFP();
 
-document.getElementById("pfp-button").addEventListener('click', () => {
+pfpButton = document.getElementById("pfp-button")
+pfpButton.addEventListener("mouseover", () => {
+	const i = document.getElementById("pfp-i");
+	i.style.display = "flex";
+
+	pfpButton.addEventListener("mouseout", () => {
+		i.style.display = null;
+		}, { once: true });
+});
+
+pfpButton.addEventListener('click', () => {
 	const inputFile = document.createElement('input');
 	inputFile.type = "file";
 	inputFile.hidden = true;
@@ -53,15 +63,14 @@ document.getElementById("pfp-button").addEventListener('click', () => {
 		const file = event.target.files[0];
 		if (file) {
 			reader = new FileReader();
-			reader.onload = async () => {
-				console.log(typeof reader.result);
-				await fetch("/newPFP", {
-					method: "POST",
+			reader.onload = () => {
+				fetch("/newPFP", {
+					method: "PUT",
 					headers: { "Content-Type": "application/json" },
-					body: {
+					body: JSON.stringify({
 						content: reader.result,
 						uuid: localStorage.uuid
-					}
+					})
 				});
 			}
 			reader.readAsDataURL(file);

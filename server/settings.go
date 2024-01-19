@@ -5,12 +5,17 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"image"
+	_ "image/png"
+	_ "image/jpeg"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/Kagami/go-avif"
 )
 
 var (
@@ -26,6 +31,23 @@ var (
 	DevMode = false
 	Args []string = os.Args[1:]
 )
+
+func toAVIF(path string) {
+	src, err := os.Open(path); if err != nil {
+		log.Println("Can't open source file:", err)
+		return
+	}
+
+	img, _, err := image.Decode(src); if err != nil {
+		log.Println("Can't decode source file:", err)
+		return
+	}
+
+	if avif.Encode(src, img, &avif.Options{ Quality: 30 }); err != nil {
+		log.Println("Can't encode source image:", err)
+		return
+	}
+}
 
 func ServeFile(w http.ResponseWriter, r *http.Request) {
 	page := strings.Split(strings.Split(fmt.Sprintf("%v", r.URL), "/")[1], "?")[0]
