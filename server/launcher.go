@@ -1,8 +1,6 @@
 package server
 
 import (
-	// "encoding/json"
-	// "os"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -11,6 +9,7 @@ import (
 
 func HandleFetchLauncher(w http.ResponseWriter, r *http.Request) {
 	uuid := r.URL.Query().Get("uuid")
+	w.Header().Add("cache-control", "max-age=3600")
 	username := ValidateUser(uuid); if username == "?userinvalid" {
 		w.Write([]byte("?userinvalid"))
 		return
@@ -43,6 +42,4 @@ func HandlePostLauncher(w http.ResponseWriter, r *http.Request) {
 		log.Println("Could not marshal users map:", err)
 	}
 	os.WriteFile(AssetsPath + "/users.json", target, 0777)
-
-	// w.Write([]byte("ok"))
 }

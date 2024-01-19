@@ -31,15 +31,11 @@ document.getElementById("save-button").addEventListener("click", () => {
 	document.getElementById("old-password-input").classList.add("animate");
 });
 
-const pfp = document.getElementById("pfp-img")
+const pfpIMG = document.getElementById("pfp-img")
 async function getPFP() {
-	res = await fetch("/fetchPFP", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: localStorage.uuid,
-	});
+	res = await fetch(`/fetchPFP?uuid=${localStorage.uuid}`);
 
-	pfp.src = await res.text()
+	pfpIMG.src = await res.text()
 }
 
 getPFP();
@@ -54,8 +50,8 @@ pfpButton.addEventListener("mouseover", () => {
 		}, { once: true });
 });
 
-pfpButton.addEventListener('click', () => {
-	const inputFile = document.createElement('input');
+pfpButton.addEventListener("click", () => {
+	const inputFile = document.createElement("input");
 	inputFile.type = "file";
 	inputFile.hidden = true;
 
@@ -64,7 +60,7 @@ pfpButton.addEventListener('click', () => {
 		if (file) {
 			reader = new FileReader();
 			reader.onload = () => {
-				fetch("/newPFP", {
+			fetch("/newPFP", {
 					method: "PUT",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({

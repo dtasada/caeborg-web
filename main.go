@@ -131,10 +131,12 @@ func startServer() {
 		res, err := http.Get(fmt.Sprintf("http://%s:8080%s", server.IpAddr, r.URL)); if err != nil {
 			log.Println("Error serving image:", err)
 		}
-		imgBytes, err := io.ReadAll(res.Body);		if err != nil { log.Println("Error serving image:", err) }
+		imgBytes, err := io.ReadAll(res.Body); if err != nil {
+			log.Println("Error serving image:", err)
+		}
 		res.Body.Close()
 
-		w.Header().Add("cache-control", "max-age=21600")
+		w.Header().Add("cache-control", "max-age=3600")
 		w.Write(imgBytes)
 	})
 

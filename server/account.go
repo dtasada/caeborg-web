@@ -11,17 +11,20 @@ import (
 )
 
 func HandlePFP(w http.ResponseWriter, r *http.Request) {
-	readBodyBytes := ReadBody(r)
-	username := ValidateUser(string(readBodyBytes))
+	username := r.URL.Query().Get("uuid"); if username != "" {
+		username = ValidateUser(username)
+	} else {
+		username = r.URL.Query().Get("username")
+	}
 
-	path := PUBLIC + "/assets/users/" + username + ".png"
+	path := "/assets/users/" + username + ".avif"
 
-	if fileExists(path) {
-		w.Write([]byte(strings.ReplaceAll(path, PUBLIC, "")))
+	w.Header().Add("cache-control", "max-age=3600")
+	if fileExists(PUBLIC + path) {
+		w.Write([]byte(path))
 	} else {
 		w.Write([]byte(fmt.Sprintf("/icon?url=%s&size=64..128..256", username)))
 	}
-
 }
 
 func HandleNewPFP(w http.ResponseWriter, r *http.Request) {
@@ -53,9 +56,11 @@ func HandleNewPFP(w http.ResponseWriter, r *http.Request) {
 
 func HandleLogout(w http.ResponseWriter, r *http.Request) {
 	readBodyBytes := ReadBody(r)
-	username := ValidateUser(string(readBodyBytes)); if username != "?userinvalid" {
+	w.Header().Add("cache-control", "max-age=3600")
+	username := ValidateUser(string(readBodyBytes)); if username == "?userinvalid" {
 		log.Println("HandleLogout: User invalid!")
 		w.Write([]byte("?userinvalid"))
+		return
 	}
 
 	usersMap := parseUsersJSON()
@@ -63,6 +68,7 @@ func HandleLogout(w http.ResponseWriter, r *http.Request) {
 	whitelist := usersMap[username]["whitelist"].(map[string]interface{})
 	delete(whitelist, string(readBodyBytes))
 
+	w.Header().Add("cache-control", "max-age=3600")
 	if marshaledMap, err := json.MarshalIndent(usersMap, "", "\t"); err == nil {
 		os.WriteFile(AssetsPath + "/users.json", marshaledMap, 0777)
 		w.Write([]byte("ok"))
@@ -71,4 +77,3 @@ func HandleLogout(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("fail"))
 	}
 }
-

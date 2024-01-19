@@ -54,6 +54,7 @@ func ServeFile(w http.ResponseWriter, r *http.Request) {
 	file, err := os.ReadFile(fmt.Sprintf("%s/pages/%s.html", PUBLIC, page)); if err != nil {
 		log.Printf("Couldn't read %s.html", page)
 	}
+	w.Header().Add("cache-control", "max-age=3600")
 	w.Write(file)
 }
 

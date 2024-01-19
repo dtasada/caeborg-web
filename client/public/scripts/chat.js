@@ -92,11 +92,13 @@ async function renderMessage(json) {
 	// render html message
 	const li = document.createElement("li");
 
-	pfp = document.createElement("img");
+	const pfp = document.createElement("img");
 	pfp.classList.add("pfp");
-	pfp.src = `/assets/users/${json.sender}.avif`
-	pfp.alt = `${json.sender}'s profile picture`
+	res = await fetch(`/fetchPFP?username=${json.sender}`);
+	pfp.src = await res.text();
+	pfp.alt = `${json.sender}'s pfp`;
 	li.appendChild(pfp);
+	console.log(li.children);
 
 	const senderP = document.createElement("p");
 	senderP.innerHTML = json.sender;
@@ -118,7 +120,6 @@ async function renderMessage(json) {
 		p.classList.add("messageContent")
 		p.innerHTML = json.content;
 		p.innerHTML = p.innerHTML.replace(/http\S+/, '<a href="$&" target="_blank">$&</a>');
-		console.log(p.innerHTML);
 		li.appendChild(p);
 	} else if (json.dataType === "img") {
 		img = document.createElement("img");

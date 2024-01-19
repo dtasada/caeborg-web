@@ -19,7 +19,7 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
     * [ ] Rebuild sidebar hiding
     * [ ] Light mode?
 * [ ] New features:
-    * [ ] Chat features: implement pfp, pinging, menu, image from clipboard and confirm image sending
+    * [ ] Chat features: pinging, menu, image from clipboard and confirm image sending
     * [ ] Write Paint tool
     * [ ] Write Notes tool
     * [ ] OpenAI API with CaeborgGPT, DALL-E?
