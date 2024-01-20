@@ -1,26 +1,33 @@
 @import "../style";
 @import "./login";
 
-#back-sec {
+#back-button {
 	position: absolute;
 	height: calc(100% - #{$footer-sec-height});
 	width: 320px;
 	left: 0px;
-	justify-content: center;
-	align-items: center;
 	z-index: 10;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
 
-	button {
-		margin: 4px;
-		i {
-			font-size: 128px;
-		}
+	margin: 4px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+
+	display: flex;
+	// why tf did this take me an hour to get right
+	justify-content: center; // actual fucking insanity
+	align-items: center; // pls ong frfr do not change this
+
+	i {
+		font-size: 128px;
 	}
-
+	
 	&.anim-in {
 		animation: slide-in 0.5s;
 		transform: translateX(0%);
 	}
+
 	&.anim-out {
 		animation: slide-out 0.5s;
 		transform: translateX(-100%);

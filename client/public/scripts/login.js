@@ -59,7 +59,7 @@ async function confirm() {
 
 		const resText = await res.text();
 		if (resText && resText !== "__userinvalid") {
-			window.location.replace("/");
+			window.location.assign("/");
 		} else {
 			passwordInput.value = null;
 			passwordInput.placeholder = "user-password pair was wrong!";

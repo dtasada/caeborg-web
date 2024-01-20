@@ -1,12 +1,12 @@
-*.css.map
-*.sass-cache
-*/.env
 */.DS_Store/
+*.sass-cache
+*.css.map
+*/.env
 .env
+/assets/
 /client/public/.css/
 /client/public/assets/chat/*
 /client/public/assets/users/*
-/assets/
 
 !/client/public/assets/users/__default.avif
 !/client/public/assets/users/caeborg.avif

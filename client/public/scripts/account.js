@@ -3,23 +3,24 @@ if (!localStorage.uuid) {
 	window.location.replace("/login")
 }
 
-const backSec = document.getElementById("back-sec")
+const backButton = document.getElementById("back-button")
 if (window.innerWidth >= 1200) {
-	backSec.style.display = "flex";
-	backSec.classList.add("anim-in");
+	backButton.style.display = "flex";
+	backButton.classList.add("anim-in");
 } else {
-	backSec.style.display = "none"
-	backSec.classList.add("anim-out");
+	backButton.style.display = "none"
+	backButton.classList.add("anim-out");
 }
 window.addEventListener("resize", () => {
-	if (window.innerWidth >= 1200 && !backSec.classList.contains("anim-in")) {
-		backSec.classList.add("anim-in");
-		backSec.classList.remove("anim-out");
-	} else if (window.innerWidth < 1200 && !backSec.classList.contains("anim-out")) {
-		backSec.classList.add("anim-out");
-		backSec.classList.remove("anim-in");
+	if (window.innerWidth >= 1200 && !backButton.classList.contains("anim-in")) {
+		backButton.classList.add("anim-in");
+		backButton.classList.remove("anim-out");
+	} else if (window.innerWidth < 1200 && !backButton.classList.contains("anim-out")) {
+		backButton.classList.add("anim-out");
+		backButton.classList.remove("anim-in");
 	}
 });
+backButton.addEventListener("click", () => { window.location.assign("/") });
 
 [...document.querySelectorAll(".show-password-button")].forEach(element => {
 	element.addEventListener("click", () => {
@@ -100,7 +101,7 @@ document.getElementById("save-button").addEventListener("click", async () => {
 
 	const passwordInput = document.getElementById("new-password-input");
 	if (passwordInput.value) {
-		fetch("/changePassword", {
+		await fetch("/changePassword", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
@@ -109,8 +110,6 @@ document.getElementById("save-button").addEventListener("click", async () => {
 			})
 		});
 	}
-
-	// window.location.replace("/")
 });
 
 document.getElementById("discard-button").addEventListener("click", () => {
