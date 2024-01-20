@@ -3,6 +3,24 @@ if (!localStorage.uuid) {
 	window.location.replace("/login")
 }
 
+const backSec = document.getElementById("back-sec")
+if (window.innerWidth >= 1200) {
+	backSec.style.display = "flex";
+	backSec.classList.add("anim-in");
+} else {
+	backSec.style.display = "none"
+	backSec.classList.add("anim-out");
+}
+window.addEventListener("resize", () => {
+	if (window.innerWidth >= 1200 && !backSec.classList.contains("anim-in")) {
+		backSec.classList.add("anim-in");
+		backSec.classList.remove("anim-out");
+	} else if (window.innerWidth < 1200 && !backSec.classList.contains("anim-out")) {
+		backSec.classList.add("anim-out");
+		backSec.classList.remove("anim-in");
+	}
+});
+
 [...document.querySelectorAll(".show-password-button")].forEach(element => {
 	element.addEventListener("click", () => {
 		const input = document.getElementById(`${element.id}-password-input`);

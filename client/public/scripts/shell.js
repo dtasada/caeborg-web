@@ -3,8 +3,9 @@ const lidwoordUrl = "https://welklidwoord.nl";
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
 const urbandictUrl = "https://api.urbandictionary.com/v0/define?term=";
 let shellInputArray = localStorage.shellInputArray;
-if (shellInputArray === null || typeof shellInputArray === "string") shellInputArray = [];
-let arrowUpIndex = -1
+if (!shellInputArray || typeof shellInputArray === "string") shellInputArray = [];
+let arrowUpIndex = -1;
+let shouldHelp;
 
 // Starting localStorage values
 function startLocalStorage() {
@@ -13,6 +14,7 @@ function startLocalStorage() {
 	if (!localStorage.savedShellOutputOl) {
 		outputOl.id = "output-ol";
 		outputSec.appendChild(outputOl);
+		shouldHelp = true;
 	} else {
 		outputSec.appendChild(outputOl);
 		outputOl.outerHTML = localStorage.savedShellOutputOl;
@@ -38,7 +40,6 @@ addButton.addEventListener("click", () => {
 	inputFile.hidden = true;
 
 	inputFile.addEventListener("change", (event) => {
-		console.log("asd");
 		const file = event.target.files[0];
 		if (file) {
 			reader = new FileReader();
@@ -91,17 +92,20 @@ input.oninput = () => {
 }
 
 // important functions
-function send(sender, msgs) {
+async function renderMessage(sender, msgs) {
 	if (sender != null) {
 		const li = document.createElement("li");
 
 		pfp = document.createElement("img");
-		pfp.classList.add(`sender-is-${sender}`, "pfp");
-		pfp.src = `/assets/users/${sender}.png`;
+		pfp.classList.add("pfp");
+		if (sender === "user") {
+			res = await fetch(`/fetchPFP?uuid=${localStorage.uuid}`);
+			pfp.src = await res.text();
+		} else if (sender === "caeborg") {
+			pfp.src = "/assets/users/caeborg.avif";
+		}
 		li.appendChild(pfp);
 
-		// console.log("msgs: ", msgs);
-		// console.log("typeof msgs: ", typeof msgs);
 		for (const msg of msgs) {
 			if (typeof msg === "string") {
 				const p = document.createElement("p");
@@ -121,7 +125,7 @@ function send(sender, msgs) {
 async function parseInput(text) {
 	// init variables
 	if (!text) return;
-	send("user", [text]);
+	renderMessage("user", [text]);
 	shellInputArray.unshift(text);
 	localStorage.shellInputArray = shellInputArray;
 	const args = text.split(" ");
@@ -129,11 +133,11 @@ async function parseInput(text) {
 	// execute command
 	if (command in commands) {
 		const results = await commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
-		if (results != null) send("caeborg", results);
+		if (results != null) renderMessage("caeborg", results);
 		else console.log("Function return is null!")
 	} else {
 		// console.log(`Command ${command} not found`);
-		send("caeborg", [ `<i>Command "${command}" not found</i>`] );
+		renderMessage("caeborg", [ `<i>Command "${command}" not found</i>`] );
 	}
 }
 
@@ -183,7 +187,7 @@ const commands = {
 	clear: {
 		brief: "Clears the screen",
 		command: () => {
-			while(outputOl.firstChild) {
+			while (outputOl.firstChild) {
 				outputOl.removeChild(outputOl.firstChild);
 			}
 			localStorage.savedShellOutputOl = outputOl.outerHTML;
@@ -294,6 +298,9 @@ const commands = {
 
 }
 
+if (shouldHelp === true) {
+	renderMessage("caeborg", commands["help"].command());
+}
 
 function bi(str) {
 	return `<b><i>${str}</i></b>`;
@@ -305,7 +312,7 @@ function ascii(img) {
 	context.drawImage(img, 0, 0);
 	const arr = context.getImageData(0, 0, img.width, img.height).data;
 
-	for (let i=0; i<arr.length; i+=4) {
+	for (let i = 0; i < arr.length; i += 4) {
 		const red = arr[i];
 		const green = arr[i + 1];
 		const blue = arr[i + 2];

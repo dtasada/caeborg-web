@@ -14,8 +14,9 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 
 # Todo
 * [ ] Optimize frontend HTML CSS & JS
-    * [ ] Fix flaky `shell.js`
+    * [ ] Fix flaky `shell.js` (kinda broken)
     * [ ] Rebuild sidebar hiding
+    * [ ] Animations everywhere?
     * [ ] Light mode?
 * [ ] New features:
     * [ ] Chat features: pinging, menu, image from clipboard and confirm image sending

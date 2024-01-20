@@ -1,6 +1,32 @@
 @import "../style";
 @import "./login";
 
+#back-sec {
+	position: absolute;
+	height: calc(100% - #{$footer-sec-height});
+	width: 320px;
+	left: 0px;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+
+	button {
+		margin: 4px;
+		i {
+			font-size: 128px;
+		}
+	}
+
+	&.anim-in {
+		animation: slide-in 0.5s;
+		transform: translateX(0%);
+	}
+	&.anim-out {
+		animation: slide-out 0.5s;
+		transform: translateX(-100%);
+	}
+}
+
 #main {
 	padding: 16px;
 	padding-bottom: 10px;
@@ -51,7 +77,6 @@
 		}
 
 		#userchange-p {
-			z-index: 2;
 			position: absolute;
 			font-size: 0.75em;
 			background: var(--col-crust);
@@ -59,11 +84,11 @@
 		}
 	}
 
-	#exit-buttons, #password-div {
+	#bottom-div, #password-div {
 		position: relative;
 	}
 
-	#exit-buttons {
+	#bottom-div {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -111,12 +136,8 @@
 }
 
 @keyframes slideToLeft {
-from {
-	transform: translateX(-15%) scaleX(0);
-}
-to {
-	transform: translateX(0%) scaleX(1);
-}
+from { transform: translateX(-15%) scaleX(0); }
+to { transform: translateX(0%) scaleX(1); }
 }
 
 @keyframes growBorders {
@@ -128,4 +149,14 @@ to {
 	border-top-right-radius: 0px;
 	border-bottom-right-radius: 0px;
 }
+}
+
+@keyframes slide-in {
+from { transform: translateX(-100%); }
+to { transform: translateX(0%); }
+}
+
+@keyframes slide-out {
+from { transform: translateX(0%); }
+to { transform: translateX(-100%); }
 }
