@@ -1,15 +1,19 @@
 package server
 
 import (
+	"crypto/aes"
+	"crypto/cipher"
 	"crypto/tls"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"image"
-	_ "image/png"
 	_ "image/jpeg"
+	_ "image/png"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"strings"
@@ -22,8 +26,9 @@ var (
 	Domain = "caeborg.dev"
 	TlsConfig = &tls.Config {}
 
-	PATH, _ = os.Getwd()
-	PUBLIC = PATH + "/client/public"
+	CWD, _ = os.Getwd()
+	PublicPath = CWD + "/client/public"
+	PubAssetsPath = PublicPath + "/assets"
 
 	IpAddr string
 	AssetsPath string
@@ -31,6 +36,15 @@ var (
 	DevMode = false
 	Args []string = os.Args[1:]
 )
+
+func parseBody[targetType any](r *http.Request) interface{} {
+	var body targetType
+	if err := json.Unmarshal(ReadBody(r), &body); err != nil {
+		log.Println("Error parsing JSON: ", err)
+		return err
+	}
+	return body
+}
 
 func toAVIF(path string) {
 	src, err := os.Open(path); if err != nil {
@@ -51,7 +65,7 @@ func toAVIF(path string) {
 
 func ServeFile(w http.ResponseWriter, r *http.Request) {
 	page := strings.Split(strings.Split(fmt.Sprintf("%v", r.URL), "/")[1], "?")[0]
-	file, err := os.ReadFile(fmt.Sprintf("%s/pages/%s.html", PUBLIC, page)); if err != nil {
+	file, err := os.ReadFile(fmt.Sprintf("%s/pages/%s.html", PublicPath, page)); if err != nil {
 		log.Printf("Couldn't read %s.html", page)
 	}
 	w.Header().Add("cache-control", "max-age=3600")
@@ -129,7 +143,42 @@ func ValidateUser(uuid string) string {
 			}
 		}
 	}
-	return "?userinvalid"
+	return "__userinvalid"
+}
+
+func encryptPassword(source string) string {
+	secretPath := AssetsPath + "/credentials/auth_secret"
+	if !fileExists(secretPath) {
+		fmt.Println(secretPath + " does not exist! Regenerating auth_secret file...")
+		os.Create(secretPath)
+	}
+
+	secret, err := os.ReadFile(secretPath); if err != nil {
+		log.Println("Error reading auth_secret:", err)
+		return "__error"
+	}
+
+	if string(secret) == "" {
+		secret = make([]byte, 16)
+		for i := range secret {
+			characters := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*"
+			secret[i] = characters[rand.Intn(len(characters))]
+		}
+		if err := os.WriteFile(secretPath, secret, 0777); err != nil {
+			log.Println("Error creating auth_secret.json")
+		}
+	}
+
+	block, err := aes.NewCipher(secret); if err != nil {
+		log.Println("Error encrypting:", err)
+	}
+
+	cfb := cipher.NewCFBEncrypter(block, []byte{35, 46, 57, 24, 85, 35, 24, 74, 87, 35, 88, 98, 66, 32, 14, 05})
+	passwordBytes := []byte(source)
+	cipherText := make([]byte, len(passwordBytes))
+	cfb.XORKeyStream(cipherText, passwordBytes)
+	encryptedPassword := base64.StdEncoding.EncodeToString(cipherText) // no reason to encode in b64, but just cuz
+	return encryptedPassword
 }
 
 func init() {

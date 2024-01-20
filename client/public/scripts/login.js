@@ -15,12 +15,6 @@ usernameInput.oninput = () => {
 	}
 }
 
-if (window.location.search === "?userinvalid") {
-	passwordInput.setAttribute("placeholder", "user-password pair was wrong!");
-	passwordInput.removeAttribute("value");
-	passwordInput.style.border = "2px solid var(--col-red)";
-}
-
 passwordInput.addEventListener("keydown", event => { if (event.key === "Enter") confirm() });
 submitButton.addEventListener("click", () => { confirm() });
 
@@ -36,19 +30,17 @@ showPasswordButton.addEventListener("click", () => {
 
 async function confirm() {
 	// generate UUID
-	let uuid;
 	if (!localStorage.uuid) {
-		uuid = crypto.randomUUID();
-		localStorage.uuid = uuid;
+		localStorage.uuid = crypto.randomUUID();
 	}
 
 	if (usernameInput.value.includes(" ") || usernameInput.value.startsWith("__")) {
 		if (usernameInput.value.includes(" ")) {
-			usernameInput.setAttribute("placeholder", "spaces are not allowed!");
+			usernameInput.placeholder = "spaces are not allowed!";
 		} else if (usernameInput.value.includes("__")) {
-			usernameInput.setAttribute("placeholder", "usernames are not allowed to start with '__'");
+			usernameInput.placeholder = "usernames are not allowed to start with '__'";
 		}
-		usernameInput.removeAttribute("value");
+		usernameInput.value = null;
 		usernameInput.style.border = "2px solid var(--col-red)";
 
 		return;
@@ -59,17 +51,19 @@ async function confirm() {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
-				uuid: uuid,
-				password: atob(passwordInput.value),
+				password: passwordInput.value,
 				username: usernameInput.value,
+				uuid: localStorage.uuid,
 			})
 		});
 
 		const resText = await res.text();
-		if (resText && resText !== "?userinvalid") {
+		if (resText && resText !== "__userinvalid") {
 			window.location.replace("/");
 		} else {
-			window.location.replace("/login?userinvalid");
+			passwordInput.value = null;
+			passwordInput.placeholder = "user-password pair was wrong!";
+			passwordInput.style.border = "2px solid var(--col-red)";
 		}
 	}
 }

@@ -10,8 +10,8 @@ import (
 func HandleFetchLauncher(w http.ResponseWriter, r *http.Request) {
 	uuid := r.URL.Query().Get("uuid")
 	w.Header().Add("cache-control", "max-age=3600")
-	username := ValidateUser(uuid); if username == "?userinvalid" {
-		w.Write([]byte("?userinvalid"))
+	username := ValidateUser(uuid); if username == "__userinvalid" {
+		w.Write([]byte("__userinvalid"))
 		return
 	}
 
@@ -28,7 +28,7 @@ func HandlePostLauncher(w http.ResponseWriter, r *http.Request) {
 
 	var bodyMap map[string]string
 	json.Unmarshal(requestBodyBytes, &bodyMap)
-	username := ValidateUser(bodyMap["uuid"]); if username == "?userinvalid" {
+	username := ValidateUser(bodyMap["uuid"]); if username == "__userinvalid" {
 		log.Println("User is invalid!")
 	}
 

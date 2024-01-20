@@ -37,7 +37,7 @@ async function genShortcuts() {
 	let launcherOl;
 	res = await fetch(`/fetchLauncher?uuid=${localStorage.uuid}`);
 	resText = await res.text()
-	if (resText !== "?userinvalid") {
+	if (resText !== "__userinvalid") {
 		obj = JSON.parse(resText);
 		launcherOl = document.createElement("ol");
 		launcherOl.id = "launcher-ol";

@@ -13,7 +13,6 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 ![](https://caeborg.dev/assets/screenshot.png "Caeborg Homepage Screenshot")
 
 # Todo
-* [ ] Add account options: 'sign out all devices', change username & password
 * [ ] Optimize frontend HTML CSS & JS
     * [ ] Fix flaky `shell.js`
     * [ ] Rebuild sidebar hiding

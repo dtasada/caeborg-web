@@ -5,6 +5,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width">
 		<meta name="description" content="Dashboard webapp with a collection of useful tools">
+		<meta http-equiv="Cache-control" content="no-cache,must-revalidate">
 		<meta charset="utf-8">
 		<title>Caeborg - Login</title>
 		<link rel="stylesheet" type="text/css" href="/.css/style.css">
@@ -27,7 +28,7 @@
 
 			<div>
 				<p class="subtitle">Change your username:</p>
-				<input id="new-username" placeholder="enter your new username" autocomplete="new-password"></input>
+				<input id="new-username-input" placeholder="enter your new username" autocomplete="new-password"></input>
 			</div>
 
 			<div id="password-div">
@@ -37,11 +38,14 @@
 			</div>
 
 			<div id="exit-buttons">
-				<button id="logout-button"> <i class="fa-solid fa-right-from-bracket"></i> </button>
-				<input id="old-password-input" placeholder="enter your old password" type="password" autocomplete="new-password" hidden></input>
-				<button id="old" class="show-password-button"> <i class="fa-solid fa-eye"></i> </button>
-				<button id="save-button">Save</button>
-				<button id="discard-button">Discard</button>
+				<div id="logout-div">
+					<button id="logout-button"> <i class="fa-solid fa-right-from-bracket"></i> </button>
+					<button id="logout-all-button">Logout all devices</button>
+				</div>
+				<div id="exit-div">
+					<button id="save-button">Save</button>
+					<button id="discard-button">Discard</button>
+				</div>
 			</div>
 		</section>
 		

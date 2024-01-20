@@ -63,58 +63,69 @@
 		position: relative;
 	}
 
-	#password-div {
-		&#old {
-			right: 128px;
-		}
-	}
-
 	#exit-buttons {
 		display: flex;
-		justify-content: right;
+		justify-content: space-between;
 		align-items: center;
 		height: 48px;
 
-		#logout-button {
-			position: absolute;
-			left: 0px;
-			width: 40px;
-			height: 40px;
+		#logout-div, #logout-button {
+			z-index: 1;
+		}
+		#logout-div {
+			display: flex;
+			align-items: center;
 
-			i {
-				font-size: $title-fontsize;
+			button {
+				height: 40px;
+			}
+			#logout-button {
+				width: 40px;
+				i {
+					font-size: $title-fontsize;
+				}
+				&.animate {
+					animation: growBorders 0.5s forwards;
+				}
+			}
+
+			#logout-all-button {
+				display: none;
+				z-index: 0;
+				border-top-left-radius: 0px;
+				border-bottom-left-radius: 0px;
+				&.animate {
+					animation: slideToLeft 0.5s forwards;
+					transform-origin: left;
+				}
 			}
 		}
 
-		#old-password-input {
-			height: 40px;
-			margin-left: 48px;
-
-			&.animate {
-				animation: scrollPassword 0.5s forwards;
-				transform-origin: right;
+		#exit-div {
+			#save-button, #discard-button {
+				height: fit-content;
+				margin-left: 4px;
 			}
-		}
-
-		#old.show-password-button {
-			display: none;
-			right: 153px;
-			bottom: 8px;
-		}
-
-		#save-button, #discard-button {
-			height: fit-content;
-			margin-left: 4px;
 		}
 	}
 }
 
-
-@keyframes scrollPassword {
+@keyframes slideToLeft {
 from {
-	transform: scaleX(0);
+	transform: translateX(-15%) scaleX(0);
 }
 to {
-	transform: scaleX(1);
+	transform: translateX(0%) scaleX(1);
+}
+}
+
+@keyframes growBorders {
+from {
+	border-top-right-radius: 32px;
+	border-bottom-right-radius: 32px;
+}
+to {
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
 }
 }

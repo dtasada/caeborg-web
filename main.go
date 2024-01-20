@@ -95,23 +95,26 @@ func startServer() {
 	mux := http.NewServeMux()
 
 	// Home
-	mux.Handle("/", http.FileServer(http.Dir(server.PUBLIC)))
+	mux.Handle("/", http.FileServer(http.Dir(server.PublicPath)))
 
-	if pagesFolder, err := os.ReadDir(server.PUBLIC + "/pages"); err == nil {
+	if pagesFolder, err := os.ReadDir(server.PublicPath + "/pages"); err == nil {
 		for _, file := range pagesFolder {
 			urlName := strings.ReplaceAll("/" + file.Name(), ".html", "")
 			mux.HandleFunc(urlName, server.ServeFile)
 		}
 	} else {
-		log.Fatalln("Could not read", server.PUBLIC + "/pages:", err)
+		log.Fatalln("Could not read", server.PublicPath + "/pages:", err)
 	}
 
 	// login.go
 	mux.HandleFunc("/auth", server.HandleAuth)
 	mux.HandleFunc("/logout", server.HandleLogout)
+	mux.HandleFunc("/logoutAll", server.HandleLogoutAll)
 	mux.HandleFunc("/validate", server.HandleValidation)
 	mux.HandleFunc("/fetchPFP", server.HandlePFP)
-	mux.HandleFunc("/newPFP", server.HandleNewPFP)
+	mux.HandleFunc("/changePFP", server.HandleChangePFP)
+	mux.HandleFunc("/changeUsername", server.HandleChangeUsername)
+	mux.HandleFunc("/changePassword", server.HandleChangePassword)
 	// /login and /account are already indexed
 
 

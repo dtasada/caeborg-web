@@ -48,7 +48,7 @@ async function validate() {
 		body: localStorage.uuid,
 	});
 	res = await res.text()
-	if (res === "?userinvalid") localStorage.removeItem("uuid")
+	if (res === "__userinvalid") localStorage.removeItem("uuid")
 
 	document.getElementById(localStorage.uuid ? "login-button" : "account-button").style.display = "none"
 }

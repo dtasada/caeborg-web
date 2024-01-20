@@ -98,7 +98,6 @@ async function renderMessage(json) {
 	pfp.src = await res.text();
 	pfp.alt = `${json.sender}'s pfp`;
 	li.appendChild(pfp);
-	console.log(li.children);
 
 	const senderP = document.createElement("p");
 	senderP.innerHTML = json.sender;

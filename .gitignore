@@ -5,4 +5,8 @@
 .env
 /client/public/.css/
 /client/public/assets/chat/*
+/client/public/assets/users/*
 /assets/
+
+!/client/public/assets/users/__default.avif
+!/client/public/assets/users/caeborg.avif

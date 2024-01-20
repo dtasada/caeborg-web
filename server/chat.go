@@ -130,7 +130,7 @@ func (c *Client) chatHandler() {
 				return
 			}
 
-			username := ValidateUser(message["sender"]); if username != "?userinvalid" {
+			username := ValidateUser(message["sender"]); if username != "__userinvalid" {
 				message["sender"] = username
 			} else {
 				log.Println("Failed to validate user")
@@ -138,7 +138,7 @@ func (c *Client) chatHandler() {
 			}
 
 			if message["dataType"] == "img" {
-				path := PUBLIC + "/assets/chat"
+				path := PubAssetsPath + "/chat"
 				if _, err := os.Stat(path); os.IsNotExist(err) {
 					log.Println(path + " does not exist! Creating template...")
 					if err := os.Mkdir(path, 0777); err != nil {

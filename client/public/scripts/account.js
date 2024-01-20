@@ -1,14 +1,5 @@
-if (localStorage.uuid) {
-	document.getElementById("logout-button").onclick = async () => {
-		res = await fetch("/logout", {
-			method: "POST",
-			headers: { "Content-Type": "text/plain" },
-			body: localStorage.uuid
-		});
-		res = await res.text();
-		window.location.replace("/login");
-	}
-} else {
+let pfpContent;
+if (!localStorage.uuid) {
 	window.location.replace("/login")
 }
 
@@ -25,19 +16,94 @@ if (localStorage.uuid) {
 	});
 });
 
-document.getElementById("save-button").addEventListener("click", () => {
-	document.querySelector("#old.show-password-button").style.display = "flex";
-	document.getElementById("old-password-input").hidden = false;
-	document.getElementById("old-password-input").classList.add("animate");
+document.getElementById("logout-button").onclick = async () => {
+	res = await fetch(`/logout?uuid=${localStorage.uuid}`);
+	res = await res.text();
+	window.location.replace("/login");
+}
+
+const logoutButton = document.getElementById("logout-button");
+const logoutDiv = document.getElementById("logout-div");
+logoutButton.addEventListener("mouseenter", () => {
+	const logoutAllButton = document.getElementById("logout-all-button");
+	logoutAllButton.style.display = "block";
+	logoutAllButton.classList.add("animate");
+	logoutButton.classList.add("animate");
+
+	logoutDiv.addEventListener("mouseleave", () => {
+		logoutAllButton.style.display = "none";
+		logoutAllButton.classList.remove("animate");
+		logoutButton.classList.remove("animate");
+		}, { once: true });
+});
+
+document.getElementById("save-button").addEventListener("click", async () => {
+	if (pfpContent) {
+		fetch("/changePFP", {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				content: pfpContent,
+				uuid: localStorage.uuid
+			})
+		});
+	}
+
+	const usernameInput = document.getElementById("new-username-input");
+	if (usernameInput.value) {
+		if (usernameInput.value.includes(" ") || usernameInput.value.startsWith("__")) {
+			if (usernameInput.value.includes(" ")) {
+				usernameInput.placeholder = "spaces are not allowed!";
+			} else if (usernameInput.value.startsWith("__")) {
+				usernameInput.placeholder = "usernames are not allowed to start with '__'";
+			}
+
+			usernameInput.value = null;
+			usernameInput.style.border = "2px solid var(--col-red)";
+			return;
+			} // Security only includes checking for dunders and spaces in the frontend
+		res = await fetch("/changeUsername", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				uuid: localStorage.uuid,
+				target: usernameInput.value
+			})
+		});
+
+		res = await res.text();
+		if (res === "__userExists") {
+			usernameInput.placeholder = "that username already exists!";
+			usernameInput.value = null;
+			usernameInput.style.border = "2px solid var(--col-red)";
+			return;
+		}
+	}
+
+	const passwordInput = document.getElementById("new-password-input");
+	if (passwordInput.value) {
+		fetch("/changePassword", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				uuid: localStorage.uuid,
+				target: passwordInput.value
+			})
+		});
+	}
+
+	// window.location.replace("/")
+});
+
+document.getElementById("discard-button").addEventListener("click", () => {
+	window.location.reload(true);
 });
 
 const pfpIMG = document.getElementById("pfp-img")
 async function getPFP() {
 	res = await fetch(`/fetchPFP?uuid=${localStorage.uuid}`);
-
 	pfpIMG.src = await res.text()
 }
-
 getPFP();
 
 pfpButton = document.getElementById("pfp-button")
@@ -53,6 +119,7 @@ pfpButton.addEventListener("mouseover", () => {
 pfpButton.addEventListener("click", () => {
 	const inputFile = document.createElement("input");
 	inputFile.type = "file";
+	inputFile.accept = ".png,.jpg,.jpeg,.avif";
 	inputFile.hidden = true;
 
 	inputFile.addEventListener("change", (event) => {
@@ -60,14 +127,7 @@ pfpButton.addEventListener("click", () => {
 		if (file) {
 			reader = new FileReader();
 			reader.onload = () => {
-			fetch("/newPFP", {
-					method: "PUT",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						content: reader.result,
-						uuid: localStorage.uuid
-					})
-				});
+				pfpIMG.src = pfpContent = reader.result;
 			}
 			reader.readAsDataURL(file);
 		}
