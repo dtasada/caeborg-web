@@ -10,7 +10,7 @@
 
 ## Introduction
 Caeborg is an all-in-one homepage that includes different tools for my day-to-day. The idea behind it is that I can unify the most popular tools I use into one environment.
-![](https://caeborg.dev/assets/screenshot.png "Caeborg Homepage Screenshot")
+![](https://caeborg.dev/assets/readme-1.png)
 
 # Todo
 * [ ] Optimize frontend HTML CSS & JS
