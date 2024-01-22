@@ -23,11 +23,11 @@ ws.addEventListener("message", ({ data }) => {
 });
 
 // html tags as variables
-const input = document.getElementById('input-box');
-const addButton = document.getElementById('add-button');
-const submit = document.getElementById('submit-button');
-const outputSec = document.getElementById('output-sec');
-const outputOl = document.getElementById('output-ol');
+const input = document.getElementById("input-box");
+const addButton = document.getElementById("add-button");
+const submit = document.getElementById("submit-button");
+const outputSec = document.getElementById("output-sec");
+const outputOl = document.getElementById("output-ol");
 if (!localStorage.uuid) {
 	input.setAttribute("placeholder", "please sign in to use chat")
 	input.setAttribute("disabled", true)
