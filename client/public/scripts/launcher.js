@@ -14,6 +14,15 @@ let isNew;
 
 let obj;
 
+function getUrlFromInput() {
+	let val = urlInput.value;
+	if (val.startsWith('http://') || val.startsWith('https://')) {
+		return val;
+	} else {
+		return `https://${val}`;
+	}
+}
+
 // Generating shortcuts on startup
 function makeTitle(text) {
 	launcherSec.style.setProperty("justify-content", "center")
@@ -92,7 +101,7 @@ async function genShortcuts() {
 genShortcuts();
 
 // Functions for repetition
-async function cleanup() {
+function cleanup() {
 	urlInput.value = "";
 	nameInput.value = "";
 	faviconIMG.style.opacity = "0";
@@ -101,7 +110,7 @@ async function cleanup() {
 	confirmButton.classList.remove("half");
 	deleteButton.classList.remove("half");
 
-	await fetch("/postLauncher", {
+	fetch("/postLauncher", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
@@ -111,13 +120,8 @@ async function cleanup() {
 	});
 	location.reload();
 	isNew = true;
-}
 
-function getUrlFromInput() {
-	if (urlInput.value.includes("http://")) val = urlInput.value.replace("http://", "https://");
-	else if (urlInput.value.includes("www.")) val = urlInput.value.replace("www.", "https://");
-	else val = `https://${urlInput.value}`;
-	return val;
+	genShortcuts();
 }
 
 function eventHandler(element) {
