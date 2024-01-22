@@ -38,6 +38,13 @@
 					color: var(--col-overlay);
 					user-select: none;
 				}
+
+				p.ping {
+					background: var(--col-blue);
+					color: var(--col-white);
+					border-radius: 2px;
+					padding: 2px;
+				}
 			}
 			.messageContent, .imageMessage {
 				display: block;

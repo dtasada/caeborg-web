@@ -36,9 +36,9 @@ if (!localStorage.uuid) {
 }
 
 input.focus();
-input.addEventListener('keydown', event => {
+input.addEventListener("keydown", event => {
 	switch (event.key) {
-		case 'Enter':
+		case "Enter":
 			parseInput(input.value);
 			input.value = "";
 			localStorage.savedChatInputValue = input.value;
@@ -48,9 +48,9 @@ input.addEventListener('keydown', event => {
 
 input.oninput = () => { localStorage.savedChatInputValue = input.value; }
 
-submit.addEventListener('click', () => {
+submit.addEventListener("click", () => {
 	parseInput(input.value);
-	input.value = '';
+	input.value = "";
 	localStorage.savedChatInputValue = input.value;
 });
 
@@ -61,8 +61,8 @@ function zeroPad(txt) {
 }
 
 // Handle images
-addButton.addEventListener('click', () => {
-	const inputFile = document.createElement('input');
+addButton.addEventListener("click", () => {
+	const inputFile = document.createElement("input");
 	inputFile.type = "file";
 	inputFile.hidden = true;
 
@@ -118,6 +118,7 @@ async function renderMessage(json) {
 		const p = document.createElement("p");
 		p.classList.add("messageContent")
 		p.innerHTML = json.content;
+		p.innerHTML = p.innerHTML.replace(/@\S+/, '<p class="ping">$&</p>');
 		p.innerHTML = p.innerHTML.replace(/http\S+/, '<a href="$&" target="_blank">$&</a>');
 		li.appendChild(p);
 	} else if (json.dataType === "img") {
