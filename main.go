@@ -128,6 +128,7 @@ func startServer() {
 	}
 
 	mux.HandleFunc("/chatSocket", manager.ServeChat)
+	mux.HandleFunc("/pingUser", server.HandlePingsMe)
 
 	// Icons
 	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {

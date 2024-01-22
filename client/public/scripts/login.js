@@ -3,6 +3,8 @@ const passwordInput = document.getElementById("password-input");
 const submitButton = document.getElementById("submit-button");
 const showPasswordButton = document.querySelector(".show-password-button");
 
+if (!localStorage.uuid) localStorage.uuid = crypto.randomUUID();;
+
 usernameInput.addEventListener("keydown", event => {
 	if (event.key === "Enter") passwordInput.focus()
 });

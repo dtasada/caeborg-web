@@ -1,3 +1,16 @@
+async function validate() {
+	res = await fetch("/validate", {
+		method: "POST",
+		headers: { "Content-Type": "text/plain" },
+		body: localStorage.uuid,
+	});
+	res = await res.text()
+	if (res === "__userinvalid") localStorage.removeItem("uuid")
+
+	document.getElementById(localStorage.uuid ? "login-button" : "account-button").style.display = "none"
+}
+validate();
+
 // Switching frames
 function switchFrame(page) {
 	localStorage.savedFrame = page;
@@ -38,19 +51,3 @@ for (param of document.location.search.split("&")) {
 
 if (localStorage.savedFrame) switchFrame(localStorage.savedFrame)
 else localStorage.savedFrame = 'launcher';
-
-async function validate() {
-	if (!localStorage.uuid) localStorage.uuid = crypto.randomUUID();;
-
-	res = await fetch("/validate", {
-		method: "POST",
-		headers: { "Content-Type": "text/plain" },
-		body: localStorage.uuid,
-	});
-	res = await res.text()
-	if (res === "__userinvalid") localStorage.removeItem("uuid")
-
-	document.getElementById(localStorage.uuid ? "login-button" : "account-button").style.display = "none"
-}
-validate()
-

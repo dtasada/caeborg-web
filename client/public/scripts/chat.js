@@ -7,18 +7,15 @@ ws.addEventListener("open", () => {
 	ws.send(JSON.stringify({ type: "chatFetchAll" }));
 });
 
-ws.addEventListener("message", ({ data }) => {
+ws.addEventListener("message", async ({ data }) => {
 	const json = JSON.parse(data);
 
-	switch (json.type) {
-		case "chatJSON":
-			for (value of Object.values(json)) {
-				if (value !== "chatJSON") renderMessage(value);
-			}
-		break;
-		case "chatPostMessage":
-			renderMessage(json);
-		break;
+	if (json.type === "chatPostMessage") {
+			await renderMessage(json);
+	} else {
+		for (value of Object.values(json)) {
+			await renderMessage(value);
+		}
 	}
 });
 
@@ -28,11 +25,12 @@ const addButton = document.getElementById("add-button");
 const submit = document.getElementById("submit-button");
 const outputSec = document.getElementById("output-sec");
 const outputOl = document.getElementById("output-ol");
+console.log(localStorage.uuid);
 if (!localStorage.uuid) {
-	input.setAttribute("placeholder", "please sign in to use chat")
-	input.setAttribute("disabled", true)
-	submit.setAttribute("disabled", true)
-	addButton.setAttribute("disabled", true)
+	input.placeholder = "please sign in to use chat";
+	input.disabled = true;
+	submit.disabled = true;
+	addButton.disabled = true;
 }
 
 input.focus();
@@ -54,10 +52,13 @@ submit.addEventListener("click", () => {
 	localStorage.savedChatInputValue = input.value;
 });
 
-function zeroPad(txt) {
-	if (txt.length === 1) return `0${txt}`
-	else if (txt.length === 2) return txt
-	else return "idk"
+function getTime() {
+	let hour = time.getHours().toString();
+	let minute = time.getMinutes().toString();
+	if (hour.length === 1) hour = "0" + hour
+	if (minute.length === 1) minute = "0" + minute
+
+	return `${hour}:${minute}`;
 }
 
 // Handle images
@@ -76,7 +77,7 @@ addButton.addEventListener("click", () => {
 					content: `${reader.result}`,
 					sender: localStorage.uuid,
 					date: `${time.toLocaleDateString()}`,
-					time: `${zeroPad(time.getHours())}:${zeroPad(time.getMinutes())}`,
+					time: getTime(),
 					dataType: "img",
 					type: "chatPostMessage"
 				}));
@@ -106,7 +107,7 @@ async function renderMessage(json) {
 
 	const timedateP = document.createElement("p");
 	if (json.date === time.toLocaleDateString()) json.date = "Today";
-	if (json.time === `${zeroPad(time.getHours())}:${zeroPad(time.getMinutes())}`) {
+	if (json.time === getTime()) {
 		timedateP.innerHTML = "&ensp;now";
 	} else {
 		timedateP.innerHTML = `&ensp;${json.date} at ${json.time}`;
@@ -118,7 +119,20 @@ async function renderMessage(json) {
 		const p = document.createElement("p");
 		p.classList.add("messageContent")
 		p.innerHTML = json.content;
-		p.innerHTML = p.innerHTML.replace(/@\S+/, '<p class="ping">$&</p>');
+		if (p.innerHTML.includes("@")) {
+			const user = p.innerHTML.match(/@\S+/)[0].split("@")[1];
+			let pingsMe = await fetch(`/pingUser`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					username: user,
+					uuid: localStorage.uuid
+				})
+			});
+			pingsMe = await pingsMe.text();
+			p.innerHTML = p.innerHTML.replace(/@\S+/, `<p class="ping">$&</p>`);
+			if (pingsMe === "true") li.classList.add("pingsMe");
+		}
 		p.innerHTML = p.innerHTML.replace(/http\S+/, '<a href="$&" target="_blank">$&</a>');
 		li.appendChild(p);
 	} else if (json.dataType === "img") {
@@ -139,7 +153,7 @@ async function parseInput(text) {
 			content: text,
 			sender: localStorage.uuid,
 			date: `${time.toLocaleDateString()}`,
-			time: `${zeroPad(time.getHours())}:${zeroPad(time.getMinutes())}`,
+			time: getTime(),
 			dataType: "txt",
 			type: "chatPostMessage"
 		}));

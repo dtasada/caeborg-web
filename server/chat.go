@@ -94,7 +94,7 @@ func getChat() []byte {
 	}
 
 	if string(chatBin) == "" {
-		chatBin := []byte(`{"type":"chatJSON"}`)
+		chatBin := []byte(`[]`)
 		if err := os.WriteFile(path, chatBin, 0777); err != nil {
 			log.Println("Error creating chat.json")
 		}
@@ -124,7 +124,7 @@ func (c *Client) chatHandler() {
 
 		switch message["type"] {
 		case "chatPostMessage":
-			var obj map[string]interface{}
+			var obj []map[string]string
 			err = json.Unmarshal(chatBin, &obj); if err != nil {
 				log.Println("Error:", err)
 				return
@@ -178,7 +178,7 @@ func (c *Client) chatHandler() {
 			}
 
 			delete(message, "type")
-			obj[fmt.Sprintf("%d", len(obj))] = message
+			obj = append(obj, message)
 
 			saveObj, err := json.MarshalIndent(obj, "", "\t")
 			os.WriteFile(AssetsPath + "/chat.json", saveObj, 0777)
@@ -201,4 +201,13 @@ func (c *Client) chatHandler() {
 
 	// clean up connection
 	c.manager.removeClient(c)
+}
+
+func HandlePingsMe(w http.ResponseWriter, r *http.Request) {
+	body := parseBody[map[string]string](r).(map[string]string)
+	if body["username"] == ValidateUser(body["uuid"]) {
+		w.Write([]byte("true"))
+	} else {
+		w.Write([]byte("false"))
+	}
 }

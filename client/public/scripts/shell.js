@@ -268,7 +268,6 @@ const commands = {
 				const baseFormula = array[0];
 				const definitions = array[1].join("<br>");
 
-				console.log("nkJSON:", nkJSON);
 				if (args[0] === "list") {
 					return [object.keys(nkJSON).join("<br>")];
 				} else {

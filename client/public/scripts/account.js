@@ -35,15 +35,16 @@ backButton.addEventListener("click", () => { window.location.assign("/") });
 	});
 });
 
-document.getElementById("logout-button").onclick = async () => {
+const logoutButton = document.getElementById("logout-button");
+const logoutDiv = document.getElementById("logout-div");
+logoutButton.onclick = async () => {
 	res = await fetch(`/logout?uuid=${localStorage.uuid}`);
 	res = await res.text();
+	localStorage.removeItem("uuid");
 	window.location.replace("/login");
 }
 
-const logoutButton = document.getElementById("logout-button");
-const logoutDiv = document.getElementById("logout-div");
-logoutButton.addEventListener("mouseenter", () => {
+logoutButton.onmouseenter = () => {
 	const logoutAllButton = document.getElementById("logout-all-button");
 	logoutAllButton.style.display = "block";
 	logoutAllButton.classList.add("animate");
@@ -54,7 +55,7 @@ logoutButton.addEventListener("mouseenter", () => {
 		logoutAllButton.classList.remove("animate");
 		logoutButton.classList.remove("animate");
 		}, { once: true });
-});
+};
 
 document.getElementById("save-button").addEventListener("click", async () => {
 	if (pfpContent) {

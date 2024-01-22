@@ -8,6 +8,9 @@
 			padding-left: 76px;
 			background: var(--col-base);
 			&:hover { background: var(--col-subbase); }
+			&.pingsMe {
+				background-color: color-mix(in srgb, var(--col-yellow) 25%, var(--col-base) 75%);
+			}
 			* { background: inherit; }
 
 			img.pfp {
@@ -30,7 +33,6 @@
 				&.usernameTag {
 					font-weight: 800;
 					color: var(--col-white);
-					&:hover { text-decoration: underline; }
 				}
 				&.datetimeTag {
 					margin-top: 5px;
@@ -39,11 +41,19 @@
 					user-select: none;
 				}
 
+				&.usernameTag:hover, p.ping:hover {
+					text-decoration: underline;
+				}
+
 				p.ping {
-					background: var(--col-blue);
+					background: var(--col-lavender);
 					color: var(--col-white);
 					border-radius: 2px;
 					padding: 2px;
+
+					&:hover {
+						filter: brightness(120%);
+					}
 				}
 			}
 			.messageContent, .imageMessage {
