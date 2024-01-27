@@ -59,7 +59,7 @@ logoutButton.onmouseenter = () => {
 
 document.getElementById("save-button").addEventListener("click", async () => {
 	if (pfpContent) {
-		fetch("/changePFP", {
+		await fetch("/changePFP", {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
@@ -111,6 +111,8 @@ document.getElementById("save-button").addEventListener("click", async () => {
 			})
 		});
 	}
+
+	window.location.assign("/");
 });
 
 document.getElementById("discard-button").addEventListener("click", () => {

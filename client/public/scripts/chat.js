@@ -25,7 +25,6 @@ const addButton = document.getElementById("add-button");
 const submit = document.getElementById("submit-button");
 const outputSec = document.getElementById("output-sec");
 const outputOl = document.getElementById("output-ol");
-console.log(localStorage.uuid);
 if (!localStorage.uuid) {
 	inputBox.placeholder = "please sign in to use chat";
 	inputBox.disabled = true;
@@ -37,7 +36,7 @@ inputBox.focus();
 inputBox.addEventListener("keydown", event => {
 	switch (event.key) {
 		case "Enter":
-			parseInput(inputBox.value);
+			if (inputBox.value !== "") send("txt", inputBox.value)
 			inputBox.value = "";
 			localStorage.savedChatInputValue = inputBox.value;
 		break;
@@ -55,6 +54,13 @@ function send(type, content) {
 	}));
 }
 
+function scrollBottom() {
+	outputSec.scroll({
+		top: outputOl.scrollHeight,
+		behavior: "smooth"
+	});
+}
+
 inputBox.addEventListener("paste", async (e) => {
 	for (const img of e.clipboardData.files) {
 		reader = new FileReader();
@@ -68,7 +74,7 @@ inputBox.addEventListener("paste", async (e) => {
 inputBox.oninput = () => { localStorage.savedChatInputValue = inputBox.value; }
 
 submit.addEventListener("click", () => {
-	parseInput(inputBox.value);
+	if (inputBox.value !== "") send("txt", inputBox.value)
 	inputBox.value = "";
 	localStorage.savedChatInputValue = inputBox.value;
 });
@@ -90,7 +96,6 @@ addButton.addEventListener("click", () => {
 
 	inputFile.addEventListener("change", (event) => {
 		const file = event.target.files[0];
-		console.log(file);
 		if (file.type.startsWith("image/")) {
 			reader = new FileReader();
 			reader.onload = () => {
@@ -155,16 +160,19 @@ async function renderMessage(json) {
 		img = document.createElement("img");
 		img.src = json.content;
 		img.classList.add("imageMessage");
+	
+		// img.addEventListener("click", () => {
+		// 	img.classList.add("animate") 
+		//
+		// 	img.addEventListener("click", () => {
+		// 		img.classList.remove("animate");
+		// 	}, { once: true });
+		// });
+		img.addEventListener("load", scrollBottom);
+
 		li.appendChild(img);
 	}
 
 	outputOl.appendChild(li);
-	outputSec.scrollTop = 2 * outputSec.scrollHeight;
-}
-
-// Handle text
-function parseInput(text) {
-	if (text !== "") {
-		send(text, "txt")
-	}
+	scrollBottom();
 }

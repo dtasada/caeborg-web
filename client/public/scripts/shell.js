@@ -8,6 +8,12 @@ let arrowUpIndex = -1;
 let shouldHelp;
 
 // Starting localStorage values
+function scroll() {
+	outputSec.scroll({
+		top: outputOl.scrollHeight,
+		behavior: "smooth"
+	});
+}
 function startLocalStorage() {
 	const outputSec = document.getElementById("output-sec");
 	const outputOl = document.createElement("ol");
@@ -19,7 +25,7 @@ function startLocalStorage() {
 		outputSec.appendChild(outputOl);
 		outputOl.outerHTML = localStorage.savedShellOutputOl;
 
-		outputSec.scrollTop = outputSec.scrollHeight;
+		scroll();
 	}
 }
 startLocalStorage();
@@ -117,7 +123,7 @@ async function renderMessage(sender, msgs) {
 		}
 		outputOl.appendChild(li);
 		localStorage.savedShellOutputOl = outputOl.outerHTML;
-		document.getElementById("output-sec").scrollTop = document.getElementById("output-sec").scrollHeight;
+		scroll();
 	}
 }
 

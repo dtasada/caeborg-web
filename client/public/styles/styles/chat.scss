@@ -1,65 +1,76 @@
 @import "shell";
 
-#output-sec {
-	ol {
-		li {
-			width: 100%;
-			padding: 10px;
-			padding-left: 76px;
-			background: var(--col-base);
-			&:hover { background: var(--col-subbase); }
-			&.pingsMe {
-				background-color: color-mix(in srgb, var(--col-yellow) 25%, var(--col-base) 75%);
-			}
-			* { background: inherit; }
+#output-sec ol {
+	li {
+		padding: 10px;
+		width: 100%;
+		padding-left: 76px;
+		background: var(--col-base);
+		&:hover { background: var(--col-subbase); }
+		&.pingsMe {
+			background-color: color-mix(in srgb, var(--col-yellow) 25%, var(--col-base) 75%);
+		}
+		* { background: inherit; }
 
-			img.pfp {
-				position: absolute;
-				left: 28px;
-				height: 40px;
-				width: 40px;
-				margin-top: auto; // important
-				border-radius: 50px;
+		img.pfp {
+			position: absolute;
+			left: 28px;
+			height: 40px;
+			width: 40px;
+			margin-top: auto; // important
+			border-radius: 50px;
+			user-select: none;
+		}
+
+		img.imageMessage {
+			margin-top: 4px;
+			max-width: 100%;
+
+			&.animate {
+				animation: middle 500s both;
+			}
+		}
+
+		p {
+			display: inline;
+			&.usernameTag {
+				font-weight: 800;
+				color: var(--col-white);
+			}
+			&.datetimeTag {
+				margin-top: 5px;
+				font-size: $smol-fontsize;
+				color: var(--col-overlay);
 				user-select: none;
 			}
 
-			img.imageMessage {
-				margin-top: 4px;
-				max-width: 33% !important;
+			&.usernameTag:hover, p.ping:hover {
+				text-decoration: underline;
 			}
 
-			p {
-				display: inline;
-				&.usernameTag {
-					font-weight: 800;
-					color: var(--col-white);
-				}
-				&.datetimeTag {
-					margin-top: 5px;
-					font-size: $smol-fontsize;
-					color: var(--col-overlay);
-					user-select: none;
-				}
+			p.ping {
+				background: var(--col-lavender);
+				color: var(--col-white);
+				border-radius: 2px;
+				padding: 2px;
 
-				&.usernameTag:hover, p.ping:hover {
-					text-decoration: underline;
+				&:hover {
+					filter: brightness(120%);
 				}
-
-				p.ping {
-					background: var(--col-lavender);
-					color: var(--col-white);
-					border-radius: 2px;
-					padding: 2px;
-
-					&:hover {
-						filter: brightness(120%);
-					}
-				}
-			}
-			.messageContent, .imageMessage {
-				display: block;
-				overflow-wrap: break-word;
 			}
 		}
+		.messageContent, .imageMessage {
+			display: block;
+			overflow-wrap: break-word;
+		}
 	}
+}
+
+@keyframes middle {
+to {
+	position: "fixed";
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
 }
