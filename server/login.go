@@ -26,8 +26,6 @@ func HandleValidation(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleAuth(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("cache-control", "max-age=3600")
-
 	// Grab existing user-password index
 	path := AssetsPath + "/users.json"
 	usersMap := parseUsersJSON()

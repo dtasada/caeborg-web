@@ -48,17 +48,17 @@ func parseBody[targetType any](r *http.Request) interface{} {
 
 func toAVIF(path string) {
 	src, err := os.Open(path); if err != nil {
-		log.Println("Can't open source file:", err)
+		log.Println("toAVIF: Can't open source file:", err)
 		return
 	}
 
 	img, _, err := image.Decode(src); if err != nil {
-		log.Println("Can't decode source file:", err)
+		log.Println("toAVIF: Can't decode source file:", err)
 		return
 	}
 
 	if avif.Encode(src, img, &avif.Options{ Quality: 30 }); err != nil {
-		log.Println("Can't encode source image:", err)
+		log.Println("toAVIF: Can't encode source image:", err)
 		return
 	}
 }
@@ -68,7 +68,7 @@ func ServeFile(w http.ResponseWriter, r *http.Request) {
 	file, err := os.ReadFile(fmt.Sprintf("%s/pages/%s.html", PublicPath, page)); if err != nil {
 		log.Printf("Couldn't read %s.html", page)
 	}
-	w.Header().Add("cache-control", "max-age=3600")
+	w.Header().Add("cache-control", "no-store,no-cache,must-revalidate,max-age=0")
 	w.Write(file)
 }
 

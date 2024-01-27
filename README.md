@@ -14,15 +14,14 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 
 # Todo
 * [ ] Optimize frontend HTML CSS & JS
-    * [ ] Fix `chat.js` user login prompt
     * [ ] Fix flaky `shell.js` (kinda broken)
     * [ ] Rebuild sidebar hiding
     * [ ] Animations everywhere?
     * [ ] Light mode?
 * [ ] New features:
-    * [ ] Chat features: menu, image from clipboard and confirm image sending
-    * [ ] Write Paint tool
+    * [ ] Chat features: confirm image sending, image preview, message menu
     * [ ] Write Notes tool
+    * [ ] Write Paint tool
     * [ ] OpenAI API with CaeborgGPT, DALL-E?
     ### CaeborgDiscordBot shell commands to implement:
     * [ ] deofhet

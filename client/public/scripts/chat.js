@@ -20,36 +20,57 @@ ws.addEventListener("message", async ({ data }) => {
 });
 
 // html tags as variables
-const input = document.getElementById("input-box");
+const inputBox = document.getElementById("input-box");
 const addButton = document.getElementById("add-button");
 const submit = document.getElementById("submit-button");
 const outputSec = document.getElementById("output-sec");
 const outputOl = document.getElementById("output-ol");
 console.log(localStorage.uuid);
 if (!localStorage.uuid) {
-	input.placeholder = "please sign in to use chat";
-	input.disabled = true;
+	inputBox.placeholder = "please sign in to use chat";
+	inputBox.disabled = true;
 	submit.disabled = true;
 	addButton.disabled = true;
 }
 
-input.focus();
-input.addEventListener("keydown", event => {
+inputBox.focus();
+inputBox.addEventListener("keydown", event => {
 	switch (event.key) {
 		case "Enter":
-			parseInput(input.value);
-			input.value = "";
-			localStorage.savedChatInputValue = input.value;
+			parseInput(inputBox.value);
+			inputBox.value = "";
+			localStorage.savedChatInputValue = inputBox.value;
 		break;
 	}
 });
 
-input.oninput = () => { localStorage.savedChatInputValue = input.value; }
+function send(type, content) {
+	ws.send(JSON.stringify({
+		content: content,
+		sender: localStorage.uuid,
+		date: `${time.toLocaleDateString()}`,
+		time: getTime(),
+		dataType: type,
+		type: "chatPostMessage"
+	}));
+}
+
+inputBox.addEventListener("paste", async (e) => {
+	for (const img of e.clipboardData.files) {
+		reader = new FileReader();
+		reader.readAsDataURL(img);
+		reader.onload = () => {
+			send("img", reader.result)
+		}
+	}
+});
+
+inputBox.oninput = () => { localStorage.savedChatInputValue = inputBox.value; }
 
 submit.addEventListener("click", () => {
-	parseInput(input.value);
-	input.value = "";
-	localStorage.savedChatInputValue = input.value;
+	parseInput(inputBox.value);
+	inputBox.value = "";
+	localStorage.savedChatInputValue = inputBox.value;
 });
 
 function getTime() {
@@ -69,20 +90,15 @@ addButton.addEventListener("click", () => {
 
 	inputFile.addEventListener("change", (event) => {
 		const file = event.target.files[0];
-		if (file) {
+		console.log(file);
+		if (file.type.startsWith("image/")) {
 			reader = new FileReader();
 			reader.onload = () => {
-				// Send to server
-				ws.send(JSON.stringify({
-					content: `${reader.result}`,
-					sender: localStorage.uuid,
-					date: `${time.toLocaleDateString()}`,
-					time: getTime(),
-					dataType: "img",
-					type: "chatPostMessage"
-				}));
+				send("img", reader.result);
 			};
 			reader.readAsDataURL(file);
+		} else {
+			inputBox.placeholder = "file format not supported!";
 		}
 	});
 	inputFile.click();
@@ -147,15 +163,8 @@ async function renderMessage(json) {
 }
 
 // Handle text
-async function parseInput(text) {
+function parseInput(text) {
 	if (text !== "") {
-		ws.send(JSON.stringify({
-			content: text,
-			sender: localStorage.uuid,
-			date: `${time.toLocaleDateString()}`,
-			time: getTime(),
-			dataType: "txt",
-			type: "chatPostMessage"
-		}));
+		send(text, "txt")
 	}
 }

@@ -20,7 +20,7 @@ function switchFrame(page) {
 
 	Object.assign(newFrame, {
 		id: "rest-iframe",
-		src: `../pages/${page}.html${document.location.search}`,
+		src: `/pages/${page}.html${document.location.search}`,
 		frameBorder: "0",
 	});
 

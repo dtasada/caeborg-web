@@ -140,7 +140,7 @@ func startServer() {
 		}
 		res.Body.Close()
 
-		w.Header().Add("cache-control", "max-age=3600")
+		w.Header().Add("cache-control", "no-store,no-cache,must-revalidate,max-age=0")
 		w.Write(imgBytes)
 	})
 

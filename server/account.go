@@ -19,7 +19,7 @@ func HandlePFP(w http.ResponseWriter, r *http.Request) {
 
 	path := "/assets/users/" + username + ".avif"
 
-	w.Header().Add("cache-control", "max-age=3600")
+	w.Header().Add("cache-control", "no-store,no-cache,must-revalidate,max-age=0")
 	if fileExists(PublicPath + path) {
 		w.Write([]byte(path))
 	} else {
@@ -103,7 +103,6 @@ func HandleChangePassword(w http.ResponseWriter, r *http.Request) {
 
 func HandleLogout(w http.ResponseWriter, r *http.Request) {
 	uuid := r.URL.Query().Get("uuid")
-	w.Header().Add("cache-control", "max-age=3600")
 	username := ValidateUser(uuid); if username == "__userinvalid" {
 		log.Println("HandleLogout: User invalid!")
 		w.Write([]byte("__userinvalid"))
@@ -115,7 +114,6 @@ func HandleLogout(w http.ResponseWriter, r *http.Request) {
 	whitelist := usersMap[username]["whitelist"].(map[string]interface{})
 	delete(whitelist, uuid)
 
-	w.Header().Add("cache-control", "max-age=3600")
 	if marshaledMap, err := json.MarshalIndent(usersMap, "", "\t"); err == nil {
 		os.WriteFile(AssetsPath + "/users.json", marshaledMap, 0777)
 		w.Write([]byte("__ok"))
@@ -127,7 +125,6 @@ func HandleLogout(w http.ResponseWriter, r *http.Request) {
 
 func HandleLogoutAll(w http.ResponseWriter, r *http.Request) {
 	uuid := r.URL.Query().Get("uuid")
-	w.Header().Add("cache-control", "max-age=3600")
 	username := ValidateUser(uuid); if username == "__userinvalid" {
 		log.Println("HandleLogout: User invalid!")
 		w.Write([]byte("__userinvalid"))
@@ -138,7 +135,6 @@ func HandleLogoutAll(w http.ResponseWriter, r *http.Request) {
 
 	usersMap[username]["whitelist"] = map[string]string{}
 
-	w.Header().Add("cache-control", "max-age=3600")
 	if marshaledMap, err := json.MarshalIndent(usersMap, "", "\t"); err == nil {
 		os.WriteFile(AssetsPath + "/users.json", marshaledMap, 0777)
 		w.Write([]byte("__ok"))

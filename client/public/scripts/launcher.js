@@ -52,7 +52,7 @@ async function genShortcuts() {
 		launcherOl.id = "launcher-ol";
 		launcherOl.classList.add("horizontal");
 	} else {
-		makeTitle("Please create an account to use the launcher");
+		makeTitle("Please sign in to use the launcher");
 		addButton.setAttribute("disabled", true)
 		return
 	}

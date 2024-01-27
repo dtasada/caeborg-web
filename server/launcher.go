@@ -9,7 +9,7 @@ import (
 
 func HandleFetchLauncher(w http.ResponseWriter, r *http.Request) {
 	uuid := r.URL.Query().Get("uuid")
-	w.Header().Add("cache-control", "max-age=3600")
+	w.Header().Add("cache-control", "no-store,no-cache,must-revalidate,max-age=0")
 	username := ValidateUser(uuid); if username == "__userinvalid" {
 		w.Write([]byte("__userinvalid"))
 		return

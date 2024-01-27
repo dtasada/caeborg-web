@@ -138,7 +138,7 @@ func (c *Client) chatHandler() {
 			}
 
 			if message["dataType"] == "img" {
-				path := PubAssetsPath + "/chat"
+				path := AssetsPath + "/chat.json"
 				if _, err := os.Stat(path); os.IsNotExist(err) {
 					log.Println(path + " does not exist! Creating template...")
 					if err := os.Mkdir(path, 0777); err != nil {
@@ -151,11 +151,10 @@ func (c *Client) chatHandler() {
 				var fileName string
 				if imgType := b64IMG[strings.Index(b64IMG, "/") + 1 : strings.Index(b64IMG, ";")]; slices.Contains([]string{"png", "jpeg", "jpg"}, imgType) {
 					fileName = "/" + uuid.New().String() + ".avif"
-					defer toAVIF(path + fileName)
+					defer toAVIF(PubAssetsPath + "/chat" + fileName )
 				} else {
 					fileName = "/" + uuid.New().String() + "." + imgType
 				}
-
 
 				b64IMG = strings.Split(b64IMG, ";base64,")[1]
 
@@ -163,8 +162,8 @@ func (c *Client) chatHandler() {
 					log.Println("Could not decode image base64 to bytes:", err)
 				}
 
-				if err := os.WriteFile(path + fileName, imgBin, 0777); err != nil {
-					log.Println("Could not write image to", fileName)
+				if err := os.WriteFile(PubAssetsPath + "/chat" + fileName , imgBin, 0777); err != nil {
+					log.Println("chatHandler: Could not write image to", fileName)
 					return
 				}
 
