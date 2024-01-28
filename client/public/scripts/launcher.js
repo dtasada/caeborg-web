@@ -101,7 +101,7 @@ async function genShortcuts() {
 genShortcuts();
 
 // Functions for repetition
-function cleanup() {
+async function cleanup() {
 	urlInput.value = "";
 	nameInput.value = "";
 	faviconIMG.style.opacity = "0";
@@ -110,7 +110,7 @@ function cleanup() {
 	confirmButton.classList.remove("half");
 	deleteButton.classList.remove("half");
 
-	fetch("/postLauncher", {
+	await fetch("/postLauncher", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({

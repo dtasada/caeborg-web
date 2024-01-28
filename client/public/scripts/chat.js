@@ -160,15 +160,18 @@ async function renderMessage(json) {
 		img = document.createElement("img");
 		img.src = json.content;
 		img.classList.add("imageMessage");
-	
-		// img.addEventListener("click", () => {
-		// 	img.classList.add("animate") 
-		//
-		// 	img.addEventListener("click", () => {
-		// 		img.classList.remove("animate");
-		// 	}, { once: true });
-		// });
-		img.addEventListener("load", scrollBottom);
+
+		img.addEventListener("click", () => {
+			img.classList.toggle("imagePreview");
+			const observer = new ResizeObserver(scrollBottom)
+			observer.observe(img);
+			img.addEventListener("transitionend", () => observer.disconnect())
+		});
+
+		img.addEventListener("load", () => {
+			img.style.width = `${img.naturalWidth}px`;
+			scrollBottom();
+		});
 
 		li.appendChild(img);
 	}
