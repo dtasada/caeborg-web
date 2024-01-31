@@ -1,9 +1,9 @@
-let pfpContent;
+let pfpContent: string;
 if (!localStorage.uuid) {
 	window.location.replace("/login")
 }
 
-const backButton = document.getElementById("back-button")
+const backButton = document.getElementById("back-button")!;
 if (window.innerWidth >= 1200) {
 	backButton.style.display = "flex";
 	backButton.classList.add("anim-in");
@@ -24,28 +24,28 @@ backButton.addEventListener("click", () => { window.location.assign("/") });
 
 [...document.querySelectorAll(".show-password-button")].forEach(element => {
 	element.addEventListener("click", () => {
-		const input = document.getElementById(`${element.id}-password-input`);
+		const input = document.getElementById(`${element.id}-password-input`)!;
+		const id = document.querySelector(`#${element.id}.show-password-button i`)!
 		if (input.getAttribute("type") === "password") {
-			input.removeAttribute("type")
-			document.querySelector(`#${element.id}.show-password-button i`).classList.replace("fa-eye", "fa-eye-slash")
+			input.removeAttribute("type");
+			id.classList.replace("fa-eye", "fa-eye-slash");
 		} else if (!input.getAttribute("type")) {
-			input.setAttribute("type", "password")
-			document.querySelector(`#${element.id}.show-password-button i`).classList.replace("fa-eye-slash", "fa-eye")
+			input.setAttribute("type", "password");
+			id.classList.replace("fa-eye-slash", "fa-eye");
 		}
 	});
 });
 
-const logoutButton = document.getElementById("logout-button");
-const logoutDiv = document.getElementById("logout-div");
+const logoutButton = document.getElementById("logout-button")!;
+const logoutDiv = document.getElementById("logout-div")!;
 logoutButton.onclick = async () => {
-	res = await fetch(`/logout?uuid=${localStorage.uuid}`);
-	res = await res.text();
+	fetch(`/logout?uuid=${localStorage.uuid}`);
 	localStorage.removeItem("uuid");
 	window.location.replace("/login");
 }
 
 logoutButton.onmouseenter = () => {
-	const logoutAllButton = document.getElementById("logout-all-button");
+	const logoutAllButton = document.getElementById("logout-all-button")!;
 	logoutAllButton.style.display = "block";
 	logoutAllButton.classList.add("animate");
 	logoutButton.classList.add("animate");
@@ -57,7 +57,7 @@ logoutButton.onmouseenter = () => {
 		}, { once: true });
 };
 
-document.getElementById("save-button").addEventListener("click", async () => {
+document.getElementById("save-button")!.addEventListener("click", async () => {
 	if (pfpContent) {
 		await fetch("/changePFP", {
 			method: "PUT",
@@ -69,7 +69,7 @@ document.getElementById("save-button").addEventListener("click", async () => {
 		});
 	}
 
-	const usernameInput = document.getElementById("new-username-input");
+	const usernameInput = document.getElementById("new-username-input")! as HTMLInputElement;
 	if (usernameInput.value) {
 		if (usernameInput.value.includes(" ") || usernameInput.value.startsWith("__")) {
 			if (usernameInput.value.includes(" ")) {
@@ -78,11 +78,11 @@ document.getElementById("save-button").addEventListener("click", async () => {
 				usernameInput.placeholder = "usernames are not allowed to start with '__'";
 			}
 
-			usernameInput.value = null;
+			usernameInput.value = "";
 			usernameInput.style.border = "2px solid var(--col-red)";
 			return;
 			} // Security only includes checking for dunders and spaces in the frontend
-		res = await fetch("/changeUsername", {
+		const res = await fetch("/changeUsername", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
@@ -91,16 +91,16 @@ document.getElementById("save-button").addEventListener("click", async () => {
 			})
 		});
 
-		res = await res.text();
-		if (res === "__userExists") {
+		const resText = await res.text();
+		if (resText === "__userExists") {
 			usernameInput.placeholder = "that username already exists!";
-			usernameInput.value = null;
+			usernameInput.value = "";
 			usernameInput.style.border = "2px solid var(--col-red)";
 			return;
 		}
 	}
 
-	const passwordInput = document.getElementById("new-password-input");
+	const passwordInput = document.getElementById("new-password-input") as HTMLInputElement;
 	if (passwordInput.value) {
 		await fetch("/changePassword", {
 			method: "POST",
@@ -115,24 +115,24 @@ document.getElementById("save-button").addEventListener("click", async () => {
 	window.location.assign("/");
 });
 
-document.getElementById("discard-button").addEventListener("click", () => {
-	window.location.reload(true);
+document.getElementById("discard-button")!.addEventListener("click", () => {
+	window.location.reload();
 });
 
-const pfpIMG = document.getElementById("pfp-img")
+const pfpIMG = document.getElementById("pfp-img") as HTMLImageElement;
 async function getPFP() {
-	res = await fetch(`/fetchPFP?uuid=${localStorage.uuid}`);
+	const res = await fetch(`/fetchPFP?uuid=${localStorage.uuid}`);
 	pfpIMG.src = await res.text()
 }
 getPFP();
 
-pfpButton = document.getElementById("pfp-button")
+const pfpButton = document.getElementById("pfp-button")!;
 pfpButton.addEventListener("mouseover", () => {
-	const i = document.getElementById("pfp-i");
+	const i = document.getElementById("pfp-i")!;
 	i.style.display = "flex";
 
 	pfpButton.addEventListener("mouseout", () => {
-		i.style.display = null;
+		i.style.removeProperty("display");
 		}, { once: true });
 });
 
@@ -142,15 +142,15 @@ pfpButton.addEventListener("click", () => {
 	inputFile.accept = ".png,.jpg,.jpeg,.avif";
 	inputFile.hidden = true;
 
-	inputFile.addEventListener("change", (event) => {
-		const file = event.target.files[0];
+	inputFile.onchange = (event) => {
+		const file = (event.target as HTMLInputElement).files![0];
 		if (file) {
-			reader = new FileReader();
+			const reader = new FileReader();
 			reader.onload = () => {
-				pfpIMG.src = pfpContent = reader.result;
+				pfpIMG.src = pfpContent = reader.result!.toString();
 			}
 			reader.readAsDataURL(file);
 		}
-	});
+	}
 	inputFile.click();
 });

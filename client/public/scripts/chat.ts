@@ -1,5 +1,5 @@
 // P R E R E Q U I S I T E S
-time = new Date();
+const time = new Date();
 
 const ws = new WebSocket(`wss://${document.location.host}/chatSocket`);
 ws.addEventListener("open", () => {
@@ -10,21 +10,16 @@ ws.addEventListener("open", () => {
 ws.addEventListener("message", async ({ data }) => {
 	const json = JSON.parse(data);
 
-	if (json.type === "chatPostMessage") {
-			await renderMessage(json);
-	} else {
-		for (value of Object.values(json)) {
-			await renderMessage(value);
-		}
-	}
+	if (json.type === "chatPostMessage") renderMessage(json);
+	else Object.values(json).forEach(renderMessage);
 });
 
 // html tags as variables
-const inputBox = document.getElementById("input-box");
-const addButton = document.getElementById("add-button");
-const submit = document.getElementById("submit-button");
-const outputSec = document.getElementById("output-sec");
-const outputOl = document.getElementById("output-ol");
+const inputBox = document.getElementById("input-box")! as HTMLInputElement;
+const addButton = document.getElementById("add-button")! as HTMLButtonElement;
+const submit = document.getElementById("submit-button")! as HTMLButtonElement;
+const outputSec = document.getElementById("output-sec")! as HTMLElement;
+const outputOl = document.getElementById("output-ol")! as HTMLElement;
 if (!localStorage.uuid) {
 	inputBox.placeholder = "please sign in to use chat";
 	inputBox.disabled = true;
@@ -163,12 +158,13 @@ async function renderMessage(json) {
 
 		img.addEventListener("click", () => {
 			img.classList.toggle("imagePreview");
-			const observer = new ResizeObserver(scrollBottom)
+			const observer = new ResizeObserver(scrollBottom);
 			observer.observe(img);
-			img.addEventListener("transitionend", () => observer.disconnect())
+			img.addEventListener("transitionend", () => observer.disconnect());
 		});
 
 		img.addEventListener("load", () => {
+			img.style.height = `${img.naturalHeight}px`;
 			img.style.width = `${img.naturalWidth}px`;
 			scrollBottom();
 		});

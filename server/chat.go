@@ -64,8 +64,6 @@ func (m *Manager) removeClient(client *Client) {
 }
 
 // clients
-type ClientList map[*Client]bool
-
 type Client struct {
 	connection *websocket.Conn
 	manager *Manager
@@ -73,6 +71,8 @@ type Client struct {
 	// avoid concurrent writes on websocket connection
 	egress chan []byte
 }
+
+type ClientList map[*Client]bool
 
 func NewClient(conn *websocket.Conn, manager *Manager) *Client {
 	return &Client {

@@ -13,21 +13,25 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 ![](https://caeborg.dev/assets/readme-1.png)
 
 # Todo
-* [ ] Optimize frontend HTML CSS & JS
-    * [ ] Fix flaky `shell.js` (kinda broken)
-    * [ ] Rebuild sidebar hiding
-    * [ ] Animations everywhere?
-    * [ ] Light mode?
-* [ ] New features:
-    * [ ] Chat features: image preview, confirm image sending, message menu, link previews, reply to message
-    * [ ] Write Notes tool
-    * [ ] Write Paint tool
-    * [ ] OpenAI API with CaeborgGPT, DALL-E?
+* Optimize frontend HTML CSS & JS
+    * Fix flaky `shell.js` (kinda broken)
+    * Rebuild sidebar hiding
+    * Animations everywhere?
+    * Light mode?
+* New features:
+    * Chat features:
+        - image preview, confirm image sending
+        - message menu, reply to message
+        - link previews
+        - optimize loading
+    * Write Notes tool
+    * Write Paint tool
+    * OpenAI API with CaeborgGPT, DALL-E?
     ### CaeborgDiscordBot shell commands to implement:
-    * [ ] deofhet
-    * [ ] weather
-    * [ ] ascii
-    * [ ] meme
+    * deofhet
+    * weather
+    * ascii
+    * meme
 
 # Notes
 * To run the web server, run `go run main.go` in `caeborg-web/`.
