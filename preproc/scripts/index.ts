@@ -1,22 +1,23 @@
+export {};
 async function validate() {
-	res = await fetch("/validate", {
+	const res = await fetch("/validate", {
 		method: "POST",
 		headers: { "Content-Type": "text/plain" },
 		body: localStorage.uuid,
 	});
-	res = await res.text()
-	if (res === "__userinvalid") localStorage.removeItem("uuid")
+	const resText = await res.text()
+	if (resText === "__userinvalid") localStorage.removeItem("uuid")
 
-	document.getElementById(localStorage.uuid ? "login-button" : "account-button").style.display = "none"
+	document.getElementById(localStorage.uuid ? "login-button" : "account-button")!.style.display = "none"
 }
 validate();
 
 // Switching frames
-function switchFrame(page) {
+function switchFrame(page: string) {
 	localStorage.savedFrame = page;
 
-	document.getElementById("rest-iframe").remove();
-	newFrame = document.createElement("iframe");
+	document.getElementById("rest-iframe")!.remove();
+	const newFrame = document.createElement("iframe");
 
 	Object.assign(newFrame, {
 		id: "rest-iframe",
@@ -24,7 +25,7 @@ function switchFrame(page) {
 		frameBorder: "0",
 	});
 
-	document.getElementById("rest-sec").appendChild(newFrame);
+	document.getElementById("rest-sec")!.appendChild(newFrame);
 
 	switch (page) {
 		case "calc":		document.title = "Caeborg - Calculator"; break;
@@ -42,7 +43,7 @@ function switchFrame(page) {
 	}
 }
 
-for (param of document.location.search.split("&")) {
+for (const param of document.location.search.split("&")) {
 	if (param === "?newTabDash") {
 		switchFrame("launcher")
 		window.history.pushState({}, document.title, document.location.search.replace(param, ""))

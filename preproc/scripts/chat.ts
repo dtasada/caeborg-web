@@ -1,5 +1,15 @@
+export {};
 // P R E R E Q U I S I T E S
 const time = new Date();
+
+interface message {
+	content: string,
+	sender: string,
+	date: string,
+	time: string,
+	dataType: string,
+	type: string,
+}
 
 const ws = new WebSocket(`wss://${document.location.host}/chatSocket`);
 ws.addEventListener("open", () => {
@@ -11,15 +21,15 @@ ws.addEventListener("message", async ({ data }) => {
 	const json = JSON.parse(data);
 
 	if (json.type === "chatPostMessage") renderMessage(json);
-	else Object.values(json).forEach(renderMessage);
+	else Object.values(json).forEach((element) => renderMessage(element as message));
 });
 
 // html tags as variables
 const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 const submit = document.getElementById("submit-button")! as HTMLButtonElement;
-const outputSec = document.getElementById("output-sec")! as HTMLElement;
-const outputOl = document.getElementById("output-ol")! as HTMLElement;
+const outputSec = document.getElementById("output-sec")!;
+const outputOl = document.getElementById("output-ol")!;
 if (!localStorage.uuid) {
 	inputBox.placeholder = "please sign in to use chat";
 	inputBox.disabled = true;
@@ -38,7 +48,7 @@ inputBox.addEventListener("keydown", event => {
 	}
 });
 
-function send(type, content) {
+function send(type: string, content: string) {
 	ws.send(JSON.stringify({
 		content: content,
 		sender: localStorage.uuid,
@@ -57,11 +67,13 @@ function scrollBottom() {
 }
 
 inputBox.addEventListener("paste", async (e) => {
-	for (const img of e.clipboardData.files) {
-		reader = new FileReader();
+	for (const img of e!.clipboardData!.files) {
+		const reader = new FileReader();
 		reader.readAsDataURL(img);
-		reader.onload = () => {
-			send("img", reader.result)
+		if (reader.result !== null) {
+			reader.onload = () => {
+				send("img", reader.result!.toString())
+			}
 		}
 	}
 });
@@ -90,12 +102,14 @@ addButton.addEventListener("click", () => {
 	inputFile.hidden = true;
 
 	inputFile.addEventListener("change", (event) => {
-		const file = event.target.files[0];
+		const file = (event.target as HTMLInputElement).files![0];
 		if (file.type.startsWith("image/")) {
-			reader = new FileReader();
-			reader.onload = () => {
-				send("img", reader.result);
-			};
+			const reader = new FileReader();
+			if (reader.result) {
+				reader.onload = () => {
+					send("img", reader.result!.toString());
+				};
+			}
 			reader.readAsDataURL(file);
 		} else {
 			inputBox.placeholder = "file format not supported!";
@@ -105,13 +119,13 @@ addButton.addEventListener("click", () => {
 });
 
 // important functions
-async function renderMessage(json) {
+async function renderMessage(json: message) {
 	// render html message
 	const li = document.createElement("li");
 
 	const pfp = document.createElement("img");
 	pfp.classList.add("pfp");
-	res = await fetch(`/fetchPFP?username=${json.sender}`);
+	const res = await fetch(`/fetchPFP?username=${json.sender}`);
 	pfp.src = await res.text();
 	pfp.alt = `${json.sender}'s pfp`;
 	li.appendChild(pfp);
@@ -136,8 +150,8 @@ async function renderMessage(json) {
 		p.classList.add("messageContent")
 		p.innerHTML = json.content;
 		if (p.innerHTML.includes("@")) {
-			const user = p.innerHTML.match(/@\S+/)[0].split("@")[1];
-			let pingsMe = await fetch(`/pingUser`, {
+			const user = p.innerHTML.match(/@\S+/)![0].split("@")[1];
+			const pingsMe = await fetch(`/pingUser`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -145,14 +159,14 @@ async function renderMessage(json) {
 					uuid: localStorage.uuid
 				})
 			});
-			pingsMe = await pingsMe.text();
+			const pingsMeText = await pingsMe.text();
 			p.innerHTML = p.innerHTML.replace(/@\S+/, `<p class="ping">$&</p>`);
-			if (pingsMe === "true") li.classList.add("pingsMe");
+			if (pingsMeText === "true") li.classList.add("pingsMe");
 		}
 		p.innerHTML = p.innerHTML.replace(/http\S+/, '<a href="$&" target="_blank">$&</a>');
 		li.appendChild(p);
 	} else if (json.dataType === "img") {
-		img = document.createElement("img");
+		const img = document.createElement("img");
 		img.src = json.content;
 		img.classList.add("imageMessage");
 

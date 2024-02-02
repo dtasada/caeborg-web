@@ -42,10 +42,36 @@ func compileSelf() {
 	log.Println("New packages compiled")
 }
 
-func startSass() {
+func compileTS() {
+	var tsc *exec.Cmd
+	tsc = exec.Command("tsc-watch", "--noClear")
+	if server.DevMode {
+		tsc.Env = append(tsc.Env, os.Environ()...)
+		stdout, _ := tsc.StdoutPipe()
+		tsc.Start()
+		log.Println("Started tsc-watch")
+
+		reader := bufio.NewReader(stdout)
+
+		for {
+			output, _ := reader.ReadString('\n')
+			log.Print("tsc-watch - ", output)
+		}
+	} else {
+		tsc.Env = append(tsc.Env, os.Environ()...)
+		if err := tsc.Run(); err != nil {
+			log.Println("Could not compile typescript")
+		} else {
+			log.Println("Compiled typescript")
+		}
+		return
+	}
+}
+
+func compileSass() {
 	var sass *exec.Cmd
 	if server.DevMode {
-		sass = exec.Command("sass", "--watch", "./client/public/styles:./client/public/.css")
+		sass = exec.Command("sass", "--watch", "./preproc/styles:./client/public/.css")
 		sass.Env = append(sass.Env, os.Environ()...)
 		stdout, _ := sass.StdoutPipe()
 		sass.Start()
@@ -55,10 +81,10 @@ func startSass() {
 
 		for {
 			output, _ := reader.ReadString('\n')
-			log.Print("sass -", output)
+			log.Print("sass - ", output)
 		}
 	} else {
-		sass = exec.Command("sass", "./client/public/styles:./client/public/.css")
+		sass = exec.Command("sass", "./preproc/styles:./client/public/.css")
 		sass.Env = append(sass.Env, os.Environ()...)
 		if err := sass.Run(); err != nil {
 			log.Println("Could not compile sass")
@@ -171,7 +197,8 @@ func main() {
 		}
 	}
 
-	go startSass()
+	go compileSass()
+	go compileTS()
 
 	log.Printf("At '%s':\n", server.Domain)
 

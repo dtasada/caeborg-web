@@ -1,7 +1,8 @@
-const usernameInput = document.getElementById("username-input");
-const passwordInput = document.getElementById("password-input");
-const submitButton = document.getElementById("submit-button");
-const showPasswordButton = document.querySelector(".show-password-button");
+export {};
+const usernameInput = document.getElementById("username-input")! as HTMLInputElement;
+const passwordInput = document.getElementById("password-input")! as HTMLInputElement;
+const submitButton = document.getElementById("submit-button")! as HTMLButtonElement;
+const showPasswordButton = document.querySelector(".show-password-button")! as HTMLButtonElement;
 
 if (!localStorage.uuid) localStorage.uuid = crypto.randomUUID();;
 
@@ -23,10 +24,10 @@ submitButton.addEventListener("click", () => { confirm() });
 showPasswordButton.addEventListener("click", () => {
 	if (passwordInput.getAttribute("type") === "password") {
 		passwordInput.removeAttribute("type")
-		document.querySelector("#show-password-button i").classList.replace("fa-eye", "fa-eye-slash")
+		document.querySelector("#show-password-button i")!.classList.replace("fa-eye", "fa-eye-slash")
 	} else if (!passwordInput.getAttribute("type")) {
 		passwordInput.setAttribute("type", "password")
-		document.querySelector("#show-password-button i").classList.replace("fa-eye-slash", "fa-eye")
+		document.querySelector("#show-password-button i")!.classList.replace("fa-eye-slash", "fa-eye")
 	}
 });
 
@@ -42,14 +43,14 @@ async function confirm() {
 		} else if (usernameInput.value.includes("__")) {
 			usernameInput.placeholder = "usernames are not allowed to start with '__'";
 		}
-		usernameInput.value = null;
+		usernameInput.removeAttribute("value");
 		usernameInput.style.border = "2px solid var(--col-red)";
 
 		return;
 	} // Security only includes checking for dunders and spaces in the frontend
 		
 	if (usernameInput.value && passwordInput.value) {
-		res = await fetch("/auth", {
+		const res = await fetch("/auth", {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
@@ -63,7 +64,7 @@ async function confirm() {
 		if (resText && resText !== "__userinvalid") {
 			window.location.assign("/");
 		} else {
-			passwordInput.value = null;
+			passwordInput.removeAttribute("value");
 			passwordInput.placeholder = "user-password pair was wrong!";
 			passwordInput.style.border = "2px solid var(--col-red)";
 		}

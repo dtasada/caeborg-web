@@ -1,7 +1,8 @@
+export {};
 let sourceLanguage = "en";
 let targetLanguage = "nl";
 
-const languages = {
+const languages: Record<string, string> = {
 	"Afrikaans": "af",
 	"Albanian": "sq",
 	"Amharic": "am",
@@ -64,7 +65,6 @@ const languages = {
 	"Konkani": "gom",
 	"Korean": "ko",
 	"Krio": "kri",
-	"Kurdish": "ckb",
 	"Kurdish": "ku",
 	"Kyrgyz": "ky",
 	"Lao": "lo",
@@ -138,19 +138,19 @@ const languages = {
 	"Zulu": "zu",
 };
 
-const inputBox = document.getElementById("input-box");
-const outputBox = document.getElementById("output-box");
-const flipButton = document.getElementById("flip-button");
-const copyButton = document.getElementById("copy-button");
-const addButton = document.getElementById("add-button");
-const buttonsSec = document.getElementById("buttons");
+const inputBox = document.getElementById("input-box")! as HTMLInputElement;
+const outputBox = document.getElementById("output-box")! as HTMLInputElement;
+const flipButton = document.getElementById("flip-button")! as HTMLButtonElement;
+const copyButton = document.getElementById("copy-button")! as HTMLButtonElement;
+const addButton = document.getElementById("add-button")! as HTMLButtonElement;
+const buttonsSec = document.getElementById("buttons")!;
 inputBox.focus();
 
 // make newlangSel
 const newlangSel = document.createElement("select");
 newlangSel.id = "newlang-sel";
 newlangSel.hidden = true;
-for (key of Object.keys(languages)) {
+for (const key of Object.keys(languages)) {
 	let lang = document.createElement("option");
 	lang.innerHTML = key;
 	lang.value = key;
@@ -170,14 +170,14 @@ addButton.addEventListener("click", async () => {
 
 		// make it the new language
 		addButton.addEventListener("click", async () => {
-			document.querySelector(".target").classList.remove("target");
+			document.querySelector(".target")!.classList.remove("target");
 
 			const newButton = document.createElement("button")	
 			newButton.classList.add("target");
 			newButton.innerHTML = newlangSel.value;
 			buttonsSec.insertBefore(newButton, addButton);
 			Array.from(buttonsSec.getElementsByTagName("button"))
-				.sort((a, b) => a.textContent.localeCompare(b.textContent))
+				.sort((a, b) => a.textContent!.localeCompare(b.textContent!))
 				.forEach(button => buttonsSec.insertBefore(button, addButton));
 
 			targetLanguage = languages[newlangSel.value];
@@ -185,7 +185,7 @@ addButton.addEventListener("click", async () => {
 			await translate();
 		}, { once: true });
 	} else if (newlangSel.hidden === false) {
-		addButton.onclick = undefined
+		addButton.onclick = null
 		newlangSel.hidden = true;
 		addButton.classList.remove("fa-check");
 		addButton.classList.add("fa-plus");
@@ -198,9 +198,9 @@ flipButton.addEventListener("click", async () => {
 	targetLanguage = temp;
 	// [sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
 	[inputBox.value, outputBox.value] = [outputBox.value, inputBox.value];
-	let sourceLanguageFull;
-	let targetLanguageFull;
-	for (key of Object.keys(languages)) {
+	let sourceLanguageFull: string;
+	let targetLanguageFull: string;
+	for (const key of Object.keys(languages)) {
 		if (languages[key] === sourceLanguage) sourceLanguageFull = key;
 		if (languages[key] === targetLanguage) targetLanguageFull = key;
 	}
@@ -217,19 +217,19 @@ flipButton.addEventListener("click", async () => {
 	});
 });
 
-inputBox.addEventListener("keyup", translate);
+inputBox.addEventListener("keyup", () => translate());
 
 function buildButtons() {
 	[...document.querySelectorAll("#buttons > button")].forEach(element => {
 		element.addEventListener("click", async () => {
-			document.querySelector(".source").classList.remove("source");
+			document.querySelector(".source")!.classList.remove("source");
 			element.classList.add("source");
 			sourceLanguage = languages[element.innerHTML];
 			await translate();
 		});
 		element.addEventListener("contextmenu", async (event) => {
 			event.preventDefault();
-			document.querySelector(".target").classList.remove("target");
+			document.querySelector(".target")!.classList.remove("target");
 			element.classList.add("target");
 			targetLanguage = languages[element.innerHTML];
 			await translate();
@@ -238,12 +238,12 @@ function buildButtons() {
 }
 buildButtons();
 
-async function translate(source, target) {
+async function translate(source?: string, target?: string) {
 	if (typeof source === "object") source = undefined
 	if (source || inputBox.value) {
 		const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${target ? "en" : sourceLanguage}&tl=${target ?? targetLanguage}&dt=t&q=${encodeURI(source ?? inputBox.value)}`; // Some of the worst code I've written in my life
-		dataJSON = await fetch(url);
-		dataJSON = await dataJSON.json();
+		const res = await fetch(url);
+		let dataJSON = await res.json();
 		if (dataJSON[0]) {
 			dataJSON = dataJSON[0][0][0];
 			if (source) return dataJSON;

@@ -1,18 +1,19 @@
-const newShortcutSec = document.getElementById("new-shortcut-sec");
-const launcherSec = document.getElementById("launcher-sec");
-const urlInput = document.getElementById("url-input");
-const nameInput = document.getElementById("name-input");
-const addButton = document.getElementById("add-button");
-const faviconIMG = document.getElementById("favicon-img");
+export {};
+const newShortcutSec = document.getElementById("new-shortcut-sec")!;
+const launcherSec = document.getElementById("launcher-sec")!;
+const urlInput = document.getElementById("url-input")! as HTMLInputElement;
+const nameInput = document.getElementById("name-input")! as HTMLInputElement;
+const addButton = document.getElementById("add-button")! as HTMLButtonElement;
+const faviconIMG = document.getElementById("favicon-img")! as HTMLImageElement;
 
-const confirmButton = document.getElementById("confirm-button");
-const deleteButton = document.getElementById("delete-button");
+const confirmButton = document.getElementById("confirm-button")! as HTMLButtonElement;
+const deleteButton = document.getElementById("delete-button")! as HTMLButtonElement;
 
-let newFaviconURL;
-let url;
-let isNew;
+let newFaviconURL: string;
+let url: string;
+let isNew: boolean;
 
-let obj;
+let obj: Record<string, string>;
 
 function getUrlFromInput() {
 	let val = urlInput.value;
@@ -24,7 +25,7 @@ function getUrlFromInput() {
 }
 
 // Generating shortcuts on startup
-function makeTitle(text) {
+function makeTitle(text: string) {
 	launcherSec.style.setProperty("justify-content", "center")
 	launcherSec.style.setProperty("align-items", "center");
 
@@ -39,13 +40,13 @@ function makeTitle(text) {
 
 async function genShortcuts() {
 	if (document.querySelector("launcher-ol")) {
-		document.querySelector("launcher-ol").remove()
-		document.querySelector("launcher-sec").remove()
+		document.querySelector("launcher-ol")!.remove()
+		document.querySelector("launcher-sec")!.remove()
 	}
 
-	let launcherOl;
-	res = await fetch(`/fetchLauncher?uuid=${localStorage.uuid}`);
-	resText = await res.text()
+	let launcherOl: HTMLElement;
+	const res = await fetch(`/fetchLauncher?uuid=${localStorage.uuid}`);
+	const resText = await res.text()
 	if (resText !== "__userinvalid") {
 		obj = JSON.parse(resText);
 		launcherOl = document.createElement("ol");
@@ -53,8 +54,8 @@ async function genShortcuts() {
 		launcherOl.classList.add("horizontal");
 	} else {
 		makeTitle("Please sign in to use the launcher");
-		addButton.setAttribute("disabled", true)
-		return
+		addButton.setAttribute("disabled", "true");
+		return;
 	}
 
 	if (Object.keys(obj).length === 0) {
@@ -62,9 +63,9 @@ async function genShortcuts() {
 		return;
 	}
 
-	for (key of Object.keys(obj)) {
-		li = document.createElement("li");
-		url = obj[key]
+	for (const key of Object.keys(obj)) {
+		const li = document.createElement("li");
+		url = obj[key];
 		li.innerHTML = `<button onclick="window.open('${url}')">
 			<img src="/icon?url=${url}&size=64..128..256" width="128" height="128"/><br><p>${key}</p></button>`;
 		launcherOl.appendChild(li);
@@ -73,7 +74,7 @@ async function genShortcuts() {
 
 	[...document.querySelectorAll("#launcher-ol > li > button")].forEach(element => {
 		if (document.location.search === "?newTabDash") {
-			oldClick = element.getAttribute("onclick")
+			const oldClick = element.getAttribute("onclick")!;
 			element.setAttribute("onclick", oldClick.replace(/window.open(.*.)/, "window.parent.location.href=$1"))
 		}
 
@@ -83,9 +84,9 @@ async function genShortcuts() {
 				cleanup();
 			} else {
 				newShortcutSec.style.display = "flex";
-				nameInput.value = element.querySelector("p").innerHTML;
-				urlInput.value = element.getAttribute("onclick").split("'")[1];
-				faviconIMG.src = element.querySelector("img").src;
+				nameInput.value = element.querySelector("p")!.innerHTML;
+				urlInput.value = element.getAttribute("onclick")!.split("'")[1];
+				faviconIMG.src = element.querySelector("img")!.src;
 
 				placeholderFavicon();
 				nameInput.focus();
@@ -124,7 +125,7 @@ async function cleanup() {
 	genShortcuts();
 }
 
-function eventHandler(element) {
+function eventHandler(element?: Element) {
 	nameInput.focus();
 	nameInput.addEventListener("keydown", event => { if (event.key === "Enter") urlInput.focus() });
 	
@@ -132,13 +133,13 @@ function eventHandler(element) {
 
 	if (element) {
 		isNew = false;
-		deleteButton.addEventListener("click", () => { delete obj[element.parentElement.querySelector("p").innerHTML]; cleanup() });
-		urlInput.addEventListener("keydown", event => { if (event.key === "Enter") confirm(element) });
-		confirmButton.addEventListener("click", () => { confirm(element) });
+		deleteButton.addEventListener("click", () => { delete obj[element.parentElement!.querySelector("p")!.innerHTML]; cleanup() });
+		urlInput.addEventListener("keydown", event => { if (event.key === "Enter") confirmAll(element) });
+		confirmButton.addEventListener("click", () => confirmAll(element));
 	} else {
 		isNew = true;
-		urlInput.addEventListener("keydown", event => { if (event.key === "Enter") confirm() });
-		confirmButton.addEventListener("click", () => { confirm() });
+		urlInput.addEventListener("keydown", event => { if (event.key === "Enter") confirmAll() });
+		confirmButton.addEventListener("click", () => { confirmAll() });
 	}
 }
 
@@ -155,19 +156,10 @@ function placeholderFavicon() {
 	}
 }
 
-function addShortcut() {
-	if (newShortcutSec.style.display === "flex") {
-		cleanup();
-	} else {
-		newShortcutSec.style.display = "flex";
-		eventHandler();
-	}
-}
-
 // Real functional functions
-function confirm(element) {
+function confirmAll(element?: Element) {
 	if (isNew === false) {
-		delete obj[element.querySelector("p").innerHTML];
+		delete obj[element!.querySelector("p")!.innerHTML];
 	}
 	obj[nameInput.value] = getUrlFromInput();
 	cleanup();

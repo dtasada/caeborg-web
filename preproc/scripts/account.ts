@@ -1,3 +1,4 @@
+export {};
 let pfpContent: string;
 if (!localStorage.uuid) {
 	window.location.replace("/login")
