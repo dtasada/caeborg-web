@@ -14,7 +14,7 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 
 # Todo
 * Optimize frontend HTML CSS & JS
-    * Fix flaky `shell.js` (kinda broken)
+    * Fix `shell.ts` (pretty much broken)
     * Fix launcher image loading
     * Rebuild sidebar hiding
     * Animations everywhere?

@@ -1,3 +1,20 @@
+document.querySelectorAll("#sidebar-ol li > button").forEach(element => {
+	(element as HTMLButtonElement).addEventListener("click", () => {
+		let url: string;
+		switch (element.innerHTML) {
+			case "Calculator": url = "calc"; break;
+			case "Chatting": url = "chat"; break;
+			case "Graphing Tool": url = "graph"; break;
+			case "Inspirobot™": url = "quote"; break;
+			case "Google Maps": url = "map"; break;
+			case "Meme Maker": url = "meme"; break;
+			case "Notes": url = "notes"; break;
+			default: url = element.innerHTML.toLowerCase();
+		}
+		switchFrame(url);
+	});
+});
+
 async function validate() {
 	const res = await fetch("/validate", {
 		method: "POST",
@@ -44,8 +61,8 @@ function switchFrame(page: string) {
 
 for (const param of document.location.search.split("&")) {
 	if (param === "?newTabDash") {
-		switchFrame("launcher")
-		window.history.pushState({}, document.title, document.location.search.replace(param, ""))
+		switchFrame("launcher");
+		window.location.replace(window.location.origin);
 	}
 }
 

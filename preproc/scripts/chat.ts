@@ -1,7 +1,19 @@
-// P R E R E Q U I S I T E S
-const time = new Date();
+export {};
+const inputBox = document.getElementById("input-box")! as HTMLInputElement;
+const addButton = document.getElementById("add-button")! as HTMLButtonElement;
+const submit = document.getElementById("submit-button")! as HTMLButtonElement;
+const outputOl = document.getElementById("output-ol")!;
 
-interface message {
+function scrollBottom() {
+	document.getElementById("output-sec")!.scroll({
+		top: outputOl.scrollHeight,
+		behavior: "smooth"
+	});
+}
+
+
+const time = new Date();
+interface Message {
 	content: string,
 	sender: string,
 	date: string,
@@ -20,7 +32,7 @@ ws.addEventListener("message", async ({ data }) => {
 	const json = JSON.parse(data);
 
 	if (json.type === "chatPostMessage") renderMessage(json);
-	else Object.values(json).forEach((element) => renderMessage(element as message));
+	else Object.values(json).forEach((element) => renderMessage(element as Message));
 });
 
 // html tags as variables
@@ -37,7 +49,7 @@ inputBox.addEventListener("keydown", event => {
 		case "Enter":
 			if (inputBox.value !== "") send("txt", inputBox.value)
 			inputBox.value = "";
-			localStorage.savedChatInputValue = inputBox.value;
+			localStorage.savednputValue = inputBox.value;
 		break;
 	}
 });
@@ -65,12 +77,12 @@ inputBox.addEventListener("paste", async (e) => {
 	}
 });
 
-inputBox.oninput = () => { localStorage.savedChatInputValue = inputBox.value; }
+inputBox.oninput = () => { localStorage.savednputValue = inputBox.value; }
 
 submit.addEventListener("click", () => {
 	if (inputBox.value !== "") send("txt", inputBox.value)
 	inputBox.value = "";
-	localStorage.savedChatInputValue = inputBox.value;
+	localStorage.savednputValue = inputBox.value;
 });
 
 function getTime() {
@@ -106,7 +118,7 @@ addButton.addEventListener("click", () => {
 });
 
 // important functions
-async function renderMessage(json: message) {
+async function renderMessage(json: Message) {
 	// render html message
 	const li = document.createElement("li");
 

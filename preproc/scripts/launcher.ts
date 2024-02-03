@@ -1,11 +1,13 @@
+export {};
 const newShortcutSec = document.getElementById("new-shortcut-sec")!;
 const launcherSec = document.getElementById("launcher-sec")!;
 const urlInput = document.getElementById("url-input")! as HTMLInputElement;
 const nameInput = document.getElementById("name-input")! as HTMLInputElement;
 const faviconIMG = document.getElementById("favicon-img")! as HTMLImageElement;
-
 const confirmButton = document.getElementById("confirm-button")! as HTMLButtonElement;
 const deleteButton = document.getElementById("delete-button")! as HTMLButtonElement;
+
+const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 
 let newFaviconURL: string;
 let url: string;

@@ -4,14 +4,15 @@
 		"target": "es2022",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
 		
 		/* Modules */
-		"module": "es2022",                                /* Specify what module code is generated. */
-		"lib": ["dom", "es2022"],
+		"module": "es6",                                /* Specify what module code is generated. */
+		"lib": [ "dom", "es2022" ],
 		"rootDir": "./preproc/scripts",                                  /* Specify the root folder within your source files. */
 
 		/* Interop Constraints */
 		"isolatedModules": false,                          /* Ensure that each file can be safely transpiled without relying on other imports. */
-		"esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+		"esModuleInterop": false,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
 		"forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
+		"moduleDetection": "force",
 
 		/* Type Checking */
 		"strict": true,                                      /* Enable all strict type-checking options. */
@@ -22,6 +23,6 @@
 	},
 
 	"include": [
-		"./preproc/scripts/*.ts"
+		"./preproc/scripts/*"
 	]
 }

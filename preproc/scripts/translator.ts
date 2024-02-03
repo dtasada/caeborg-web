@@ -1,3 +1,7 @@
+export {};
+const inputBox = document.getElementById("input-box")! as HTMLInputElement;
+const addButton = document.getElementById("add-button")! as HTMLButtonElement;
+
 let sourceLanguage = "en";
 let targetLanguage = "nl";
 

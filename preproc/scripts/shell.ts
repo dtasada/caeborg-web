@@ -1,30 +1,36 @@
+export {};
+const inputBox = document.getElementById("input-box")! as HTMLInputElement;
+const addButton = document.getElementById("add-button")! as HTMLButtonElement;
+const submit = document.getElementById("submit-button")! as HTMLButtonElement;
+const outputOl = document.getElementById("output-ol")!;
+
+function scrollBottom() {
+	document.getElementById("output-sec")!.scroll({
+		top: outputOl.scrollHeight,
+		behavior: "smooth"
+	});
+}
+
 // Constants
 const chemUrl = "https://opsin.ch.cam.ac.uk/opsin";
-let shellInputArray = localStorage.shellInputArray;
+let shellInputArray: string[] = localStorage.shellInputArray;
 if (!shellInputArray || typeof shellInputArray === "string") shellInputArray = [];
 let arrowUpIndex = -1;
-let shouldHelp: boolean = false;
+let shouldHelp = false;
 
 // Starting localStorage values
-function startLocalStorage() {
-	if (!localStorage.savedShellOutputOl) {
-		outputOl.id = "output-ol";
-		outputSec.appendChild(outputOl);
-		shouldHelp = true;
-	} else {
-		outputSec.appendChild(outputOl);
-		outputOl.outerHTML = localStorage.savedShellOutputOl;
-
-		scrollBottom();
-	}
+if (!localStorage.savedOutputOl) {
+	shouldHelp = true;
+} else {
+	outputOl.outerHTML = localStorage.savedOutputOl;
+	scrollBottom();
 }
-startLocalStorage();
 
 // html tags as variables
 submit.addEventListener("click", () => {
 	parseInput(inputBox.value);
-	inputBox.value = "";	
-	localStorage.savedShellInputValue = inputBox.value;
+	inputBox.value = "";
+	localStorage.savednputValue = inputBox.value;
 });
 
 addButton.addEventListener("click", () => {
@@ -56,7 +62,7 @@ inputBox.addEventListener("keydown", (event) => {
 		case "Enter":
 			parseInput(inputBox.value);
 			inputBox.value = "";
-			localStorage.savedShellInputValue = inputBox.value;
+			localStorage.savednputValue = inputBox.value;
 			arrowUpIndex = -1
 			break;
 		case "ArrowUp":
@@ -79,38 +85,36 @@ inputBox.addEventListener("keydown", (event) => {
 });
 
 inputBox.oninput = () => {
-	localStorage.savedShellInputValue = inputBox.value;
+	localStorage.savednputValue = inputBox.value;
 }
 
 // important functions
-namespace Shell {
-	export async function renderMessage(sender: string, msgs: string[]) {
-		if (sender != null) {
-			const li = document.createElement("li");
+async function renderMessage(sender: string, msgs: string[]) {
+	if (sender != null) {
+		const li = document.createElement("li");
 
-			const pfp = document.createElement("img") as HTMLImageElement;
-			pfp.classList.add("pfp");
-			if (sender === "user") {
-				const res = await fetch(`/fetchPFP?uuid=${localStorage.uuid}`);
-				pfp.src = await res.text();
-			} else if (sender === "caeborg") {
-				pfp.src = "/assets/users/caeborg.avif";
-			}
-			li.appendChild(pfp);
-
-			for (const msg of msgs) {
-				if (typeof msg === "string") {
-					const p = document.createElement("p");
-					p.innerHTML = msg;
-					li.appendChild(p);
-				} else {
-					li.appendChild(msg);
-				}
-			}
-			outputOl.appendChild(li);
-			localStorage.savedShellOutputOl = outputOl.outerHTML;
-			scrollBottom();
+		const pfp = document.createElement("img") as HTMLImageElement;
+		pfp.classList.add("pfp");
+		if (sender === "user") {
+			const res = await fetch(`/fetchPFP?uuid=${localStorage.uuid}`);
+			pfp.src = await res.text();
+		} else if (sender === "caeborg") {
+			pfp.src = "/assets/users/caeborg.avif";
 		}
+		li.appendChild(pfp);
+
+		for (const msg of msgs) {
+			if (typeof msg === "string") {
+				const p = document.createElement("p");
+				p.innerHTML = msg;
+				li.appendChild(p);
+			} else {
+				li.appendChild(msg);
+			}
+		}
+		outputOl.appendChild(li);
+		localStorage.savedOutputOl = outputOl.outerHTML;
+		scrollBottom();
 	}
 }
 
@@ -118,7 +122,7 @@ namespace Shell {
 async function parseInput(text: string) {
 	// init variables
 	if (!text) return;
-	Shell.renderMessage("user", [text]);
+	renderMessage("user", [text]);
 	shellInputArray.unshift(text);
 	localStorage.shellInputArray = shellInputArray;
 	const args = text.split(" ");
@@ -126,11 +130,11 @@ async function parseInput(text: string) {
 	// execute command
 	if (command in commands) {
 		const results = commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
-		if (results != null) Shell.renderMessage("caeborg", results);
+		if (results != null) renderMessage("caeborg", results);
 		else console.log("Function return is null!")
 	} else {
 		// console.log(`Command ${command} not found`);
-		Shell.renderMessage("caeborg", [ `<i>Command "${command}" not found</i>`] );
+		renderMessage("caeborg", [ `<i>Command "${command}" not found</i>`] );
 	}
 }
 
@@ -173,21 +177,21 @@ const commands: Record<string, Command> = {
 			while (outputOl.firstChild) {
 				outputOl.removeChild(outputOl.firstChild);
 			}
-			localStorage.savedShellOutputOl = outputOl.outerHTML;
+			localStorage.savedOutputOl = outputOl.outerHTML;
 			return [ null ];
 		}
 	},
 
-	// define: {
-	// 	brief: "Gives you the correct definition of the word",
-	// 	command: async function(args) {
-	// 		const term = args[0];
-	// 		const url = urbandictUrl + term;
-	// 		const response = await fetch(url);
-	// 		const js = await response.json();
-	// 		alert(js);
-	// 	}
-	// },
+	/* define: {
+		brief: "Gives you the correct definition of the word",
+		command: async function(args) {
+			const term = args[0];
+			const url = urbandictUrl + term;
+			const response = await fetch(url);
+			const js = await response.json();
+			alert(js);
+		}
+	}, */
 	
 	/* dict: {
 		brief: "Gives word definitions from <i>dictionaryapi.dev</i>",
@@ -234,7 +238,7 @@ const commands: Record<string, Command> = {
 	help: {
 		brief: "Lists all available commands",
 		command: () => {
-			let ret = bi("Welcome to CShell! This is a text interface that offers different tools.<br>Here are the available commands:<br>");
+			let ret = bi("Welcome to C This is a text interface that offers different tools.<br>Here are the available commands:<br>");
 			for (const [k, v] of Object.entries(commands)) {
 				ret += `${bi(k)}: ${v.brief};<br>`;
 			}
@@ -255,9 +259,8 @@ const commands: Record<string, Command> = {
 						const definitions = array[1].join("<br>");
 
 						if (args[0] === "list") {
-							return [Object.keys(nkJSON).join("<br>")];
+							ret = [Object.keys(nkJSON).join("<br>")];
 						} else {
-							console.log("were here!");
 							ret = [
 								`base formula for ${bi(args[0])}:<br> ${bi(baseFormula)}`,
 								`contextual definitions:<br> ${bi(definitions)}`
@@ -286,7 +289,7 @@ const commands: Record<string, Command> = {
 }
 
 if (shouldHelp) {
-	Shell.renderMessage("caeborg", commands["help"].command([""]));
+	renderMessage("caeborg", commands["help"].command([""]));
 }
 
 function bi(str: string) {
