@@ -1,8 +1,8 @@
+"use strict";
 const newShortcutSec = document.getElementById("new-shortcut-sec");
 const launcherSec = document.getElementById("launcher-sec");
 const urlInput = document.getElementById("url-input");
 const nameInput = document.getElementById("name-input");
-const addButton = document.getElementById("add-button");
 const faviconIMG = document.getElementById("favicon-img");
 const confirmButton = document.getElementById("confirm-button");
 const deleteButton = document.getElementById("delete-button");
@@ -60,7 +60,7 @@ async function genShortcuts() {
         launcherOl.appendChild(li);
     }
     launcherSec.appendChild(launcherOl);
-    [...document.querySelectorAll("#launcher-ol > li > button")].forEach(element => {
+    document.querySelectorAll("#launcher-ol > li > button").forEach(element => {
         if (document.location.search === "?newTabDash") {
             const oldClick = element.getAttribute("onclick");
             element.setAttribute("onclick", oldClick.replace(/window.open(.*.)/, "window.parent.location.href=$1"));
@@ -145,4 +145,3 @@ function confirmAll(element) {
     obj[nameInput.value] = getUrlFromInput();
     cleanup();
 }
-export {};

@@ -1,4 +1,3 @@
-export {};
 const usernameInput = document.getElementById("username-input")! as HTMLInputElement;
 const passwordInput = document.getElementById("password-input")! as HTMLInputElement;
 const submitButton = document.getElementById("submit-button")! as HTMLButtonElement;

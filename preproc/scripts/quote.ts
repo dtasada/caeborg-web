@@ -1,4 +1,3 @@
-export {};
 const quoteButton = document.getElementById("quote-button")!;
 const img = document.createElement("img")!;
 

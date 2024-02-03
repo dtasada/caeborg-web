@@ -1,3 +1,4 @@
+"use strict";
 let sourceLanguage = "en";
 let targetLanguage = "nl";
 const languages = {
@@ -135,11 +136,9 @@ const languages = {
     "Yoruba": "yo",
     "Zulu": "zu",
 };
-const inputBox = document.getElementById("input-box");
 const outputBox = document.getElementById("output-box");
 const flipButton = document.getElementById("flip-button");
 const copyButton = document.getElementById("copy-button");
-const addButton = document.getElementById("add-button");
 const buttonsSec = document.getElementById("buttons");
 inputBox.focus();
 // make newlangSel
@@ -197,7 +196,7 @@ flipButton.addEventListener("click", async () => {
         if (languages[key] === targetLanguage)
             targetLanguageFull = key;
     }
-    [...document.querySelectorAll("#buttons button")].forEach(async (element) => {
+    document.querySelectorAll("#buttons button").forEach(async (element) => {
         if (element.innerHTML === sourceLanguageFull) {
             element.classList.remove("source");
             element.classList.add("target");
@@ -212,7 +211,7 @@ flipButton.addEventListener("click", async () => {
 });
 inputBox.addEventListener("keyup", () => translate());
 function buildButtons() {
-    [...document.querySelectorAll("#buttons > button")].forEach(element => {
+    document.querySelectorAll("#buttons > button").forEach(element => {
         element.addEventListener("click", async () => {
             document.querySelector(".source").classList.remove("source");
             element.classList.add("source");
@@ -233,7 +232,7 @@ async function translate(source, target) {
     if (typeof source === "object")
         source = undefined;
     if (source || inputBox.value) {
-        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${target ? "en" : sourceLanguage}&tl=${target !== null && target !== void 0 ? target : targetLanguage}&dt=t&q=${encodeURI(source !== null && source !== void 0 ? source : inputBox.value)}`; // Some of the worst code I've written in my life
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${target ? "en" : sourceLanguage}&tl=${target ?? targetLanguage}&dt=t&q=${encodeURI(source ?? inputBox.value)}`; // Some of the worst code I've written in my life
         const res = await fetch(url);
         let dataJSON = await res.json();
         if (dataJSON[0]) {
@@ -254,4 +253,3 @@ async function translate(source, target) {
     outputBox.setAttribute("placeholder", await translate("Never gonna give you up"));
     inputBox.setAttribute("placeholder", await translate("Never gonna give you up", sourceLanguage));
 }
-export {};

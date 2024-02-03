@@ -1,3 +1,4 @@
+"use strict";
 async function validate() {
     const res = await fetch("/validate", {
         method: "POST",
@@ -70,4 +71,3 @@ if (localStorage.savedFrame)
     switchFrame(localStorage.savedFrame);
 else
     localStorage.savedFrame = 'launcher';
-export {};

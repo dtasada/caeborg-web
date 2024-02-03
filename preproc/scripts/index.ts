@@ -1,4 +1,3 @@
-export {};
 async function validate() {
 	const res = await fetch("/validate", {
 		method: "POST",

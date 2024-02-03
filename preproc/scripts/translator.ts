@@ -1,4 +1,3 @@
-export {};
 let sourceLanguage = "en";
 let targetLanguage = "nl";
 
@@ -138,11 +137,9 @@ const languages: Record<string, string> = {
 	"Zulu": "zu",
 };
 
-const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const outputBox = document.getElementById("output-box")! as HTMLInputElement;
 const flipButton = document.getElementById("flip-button")! as HTMLButtonElement;
 const copyButton = document.getElementById("copy-button")! as HTMLButtonElement;
-const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 const buttonsSec = document.getElementById("buttons")!;
 inputBox.focus();
 
@@ -204,7 +201,7 @@ flipButton.addEventListener("click", async () => {
 		if (languages[key] === sourceLanguage) sourceLanguageFull = key;
 		if (languages[key] === targetLanguage) targetLanguageFull = key;
 	}
-	[...document.querySelectorAll("#buttons button")].forEach(async element => {
+	document.querySelectorAll("#buttons button").forEach(async element => {
 		if (element.innerHTML === sourceLanguageFull) {
 			element.classList.remove("source");
 			element.classList.add("target");
@@ -220,7 +217,7 @@ flipButton.addEventListener("click", async () => {
 inputBox.addEventListener("keyup", () => translate());
 
 function buildButtons() {
-	[...document.querySelectorAll("#buttons > button")].forEach(element => {
+	document.querySelectorAll("#buttons > button").forEach(element => {
 		element.addEventListener("click", async () => {
 			document.querySelector(".source")!.classList.remove("source");
 			element.classList.add("source");

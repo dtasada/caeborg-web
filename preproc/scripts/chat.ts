@@ -1,4 +1,3 @@
-export {};
 // P R E R E Q U I S I T E S
 const time = new Date();
 
@@ -25,11 +24,6 @@ ws.addEventListener("message", async ({ data }) => {
 });
 
 // html tags as variables
-const inputBox = document.getElementById("input-box")! as HTMLInputElement;
-const addButton = document.getElementById("add-button")! as HTMLButtonElement;
-const submit = document.getElementById("submit-button")! as HTMLButtonElement;
-const outputSec = document.getElementById("output-sec")!;
-const outputOl = document.getElementById("output-ol")!;
 if (!localStorage.uuid) {
 	inputBox.placeholder = "please sign in to use chat";
 	inputBox.disabled = true;
@@ -59,15 +53,8 @@ function send(type: string, content: string) {
 	}));
 }
 
-function scrollBottom() {
-	outputSec.scroll({
-		top: outputOl.scrollHeight,
-		behavior: "smooth"
-	});
-}
-
 inputBox.addEventListener("paste", async (e) => {
-	for (const img of e!.clipboardData!.files) {
+	for (const img of Array.from(e!.clipboardData!.files)) {
 		const reader = new FileReader();
 		reader.readAsDataURL(img);
 		if (reader.result !== null) {

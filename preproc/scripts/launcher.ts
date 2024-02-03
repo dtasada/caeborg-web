@@ -1,9 +1,7 @@
-export {};
 const newShortcutSec = document.getElementById("new-shortcut-sec")!;
 const launcherSec = document.getElementById("launcher-sec")!;
 const urlInput = document.getElementById("url-input")! as HTMLInputElement;
 const nameInput = document.getElementById("name-input")! as HTMLInputElement;
-const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 const faviconIMG = document.getElementById("favicon-img")! as HTMLImageElement;
 
 const confirmButton = document.getElementById("confirm-button")! as HTMLButtonElement;
@@ -72,7 +70,7 @@ async function genShortcuts() {
 	}
 	launcherSec.appendChild(launcherOl);
 
-	[...document.querySelectorAll("#launcher-ol > li > button")].forEach(element => {
+	document.querySelectorAll("#launcher-ol > li > button").forEach(element => {
 		if (document.location.search === "?newTabDash") {
 			const oldClick = element.getAttribute("onclick")!;
 			element.setAttribute("onclick", oldClick.replace(/window.open(.*.)/, "window.parent.location.href=$1"))

@@ -1,5 +1,5 @@
-export {};
 let pfpContent: string;
+
 if (!localStorage.uuid) {
 	window.location.replace("/login")
 }
@@ -23,7 +23,7 @@ window.addEventListener("resize", () => {
 });
 backButton.addEventListener("click", () => { window.location.assign("/") });
 
-[...document.querySelectorAll(".show-password-button")].forEach(element => {
+document.querySelectorAll(".show-password-button").forEach(element => {
 	element.addEventListener("click", () => {
 		const input = document.getElementById(`${element.id}-password-input`)!;
 		const id = document.querySelector(`#${element.id}.show-password-button i`)!

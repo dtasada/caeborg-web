@@ -1,3 +1,4 @@
+"use strict";
 const quoteButton = document.getElementById("quote-button");
 const img = document.createElement("img");
 quoteButton.addEventListener("click", newQuote);
@@ -8,4 +9,3 @@ async function newQuote() {
     document.querySelector("body").appendChild(img);
 }
 newQuote();
-export {};

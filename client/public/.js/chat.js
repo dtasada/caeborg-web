@@ -1,3 +1,4 @@
+"use strict";
 // P R E R E Q U I S I T E S
 const time = new Date();
 const ws = new WebSocket(`wss://${document.location.host}/chatSocket`);
@@ -13,11 +14,6 @@ ws.addEventListener("message", async ({ data }) => {
         Object.values(json).forEach((element) => renderMessage(element));
 });
 // html tags as variables
-const inputBox = document.getElementById("input-box");
-const addButton = document.getElementById("add-button");
-const submit = document.getElementById("submit-button");
-const outputSec = document.getElementById("output-sec");
-const outputOl = document.getElementById("output-ol");
 if (!localStorage.uuid) {
     inputBox.placeholder = "please sign in to use chat";
     inputBox.disabled = true;
@@ -45,14 +41,8 @@ function send(type, content) {
         type: "chatPostMessage"
     }));
 }
-function scrollBottom() {
-    outputSec.scroll({
-        top: outputOl.scrollHeight,
-        behavior: "smooth"
-    });
-}
 inputBox.addEventListener("paste", async (e) => {
-    for (const img of e.clipboardData.files) {
+    for (const img of Array.from(e.clipboardData.files)) {
         const reader = new FileReader();
         reader.readAsDataURL(img);
         if (reader.result !== null) {
@@ -167,4 +157,3 @@ async function renderMessage(json) {
     outputOl.appendChild(li);
     scrollBottom();
 }
-export {};

@@ -1,10 +1,11 @@
 {
 	"compilerOptions": {
 		/* Language and Environment */
-		"target": "es2017",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+		"target": "es2022",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
 		
 		/* Modules */
-		"module": "es6",                                /* Specify what module code is generated. */
+		"module": "es2022",                                /* Specify what module code is generated. */
+		"lib": ["dom", "es2022"],
 		"rootDir": "./preproc/scripts",                                  /* Specify the root folder within your source files. */
 
 		/* Interop Constraints */

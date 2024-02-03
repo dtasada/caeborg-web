@@ -1,3 +1,4 @@
+"use strict";
 const usernameInput = document.getElementById("username-input");
 const passwordInput = document.getElementById("password-input");
 const submitButton = document.getElementById("submit-button");
@@ -67,4 +68,3 @@ async function confirm() {
         }
     }
 }
-export {};
