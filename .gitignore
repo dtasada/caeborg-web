@@ -1,10 +1,8 @@
 */.DS_Store/
-*.sass-cache
-*.css.map
 */.env
-.env
 /assets/
 /client/public/.css/
+/client/public/.js/
 /client/public/assets/chat/*
 /client/public/assets/users/*
 
