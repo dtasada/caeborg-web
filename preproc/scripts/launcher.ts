@@ -164,3 +164,12 @@ function confirmAll(element?: Element) {
 	obj[nameInput.value] = getUrlFromInput();
 	cleanup();
 }
+
+function addShortcut() {
+	if (newShortcutSec.style.display === "flex") {
+		cleanup();
+	} else {
+		newShortcutSec.style.display = "flex";
+		eventHandler();
+	}
+}

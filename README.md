@@ -89,4 +89,4 @@ For your development environment to work correctly, you need to set up HTTPS key
 # Development dependencies
 * `go` (v1.21)
 * `dart-sass` or `node-sass` is required for SCSS transpilation.
-* `typesecript` and `tsc-watch` is requried for TypeScript transpilation
+* `typesecript` and `tsc-watch` is requried for TypeScript transpilation.
