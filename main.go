@@ -11,14 +11,14 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
-	"strings"
 	"slices"
+	"strings"
 
 	"github.com/dtasada/caeborg-web/server"
 )
 
 func compileSelf() {
-	targets := []string {
+	targets := []string{
 		"windows_amd64.exe",
 		"darwin_amd64",
 		"darwin_arm64",
@@ -30,9 +30,9 @@ func compileSelf() {
 		goos := strings.Split(target, "_")[0]
 		goarch := strings.Split(target, "_")[1]
 
-		comp := exec.Command("env", "GOOS=" + goos, "GOARCH=" + goarch, "go", "build", "-o", "~/.local/bin/caeborg_" + target)
+		comp := exec.Command("env", "GOOS="+goos, "GOARCH="+goarch, "go", "build", "-o", "~/.local/bin/caeborg_"+target)
 
-		_, err := comp.Output();
+		_, err := comp.Output()
 		if err != nil {
 			log.Println("Error compiling new packages:", err)
 			return
@@ -98,7 +98,7 @@ func compileSass() {
 func bestIcon() {
 	machineType := runtime.GOOS + "_" + runtime.GOARCH
 
-	besticon := exec.Command("./server/besticon/besticon_" + machineType, ">", "/dev/null")
+	besticon := exec.Command("./server/besticon/besticon_"+machineType, ">", "/dev/null")
 	besticon.Env = append(os.Environ(), "PORT=8080", "DISABLE_BROWSE_PAGES=true")
 
 	err := besticon.Start()
@@ -109,7 +109,7 @@ func bestIcon() {
 
 func setTLS() {
 	server.TlsConfig.Certificates = make([]tls.Certificate, 1)
-	cert, err := tls.LoadX509KeyPair(server.AssetsPath + "/credentials/fullchain.pem", server.AssetsPath + "/credentials/privkey.pem")
+	cert, err := tls.LoadX509KeyPair(server.AssetsPath+"/credentials/fullchain.pem", server.AssetsPath+"/credentials/privkey.pem")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -125,11 +125,11 @@ func startServer() {
 
 	if pagesFolder, err := os.ReadDir(server.PublicPath + "/pages"); err == nil {
 		for _, file := range pagesFolder {
-			urlName := strings.ReplaceAll("/" + file.Name(), ".html", "")
+			urlName := strings.ReplaceAll("/"+file.Name(), ".html", "")
 			mux.HandleFunc(urlName, server.ServeFile)
 		}
 	} else {
-		log.Fatalln("Could not read", server.PublicPath + "/pages:", err)
+		log.Fatalln("Could not read", server.PublicPath+"/pages:", err)
 	}
 
 	// login.go
@@ -143,13 +143,12 @@ func startServer() {
 	mux.HandleFunc("/changePassword", server.HandleChangePassword)
 	// /login and /account are already indexed
 
-
 	// launcher.go
 	mux.HandleFunc("/fetchLauncher", server.HandleFetchLauncher)
 	mux.HandleFunc("/postLauncher", server.HandlePostLauncher)
 
 	// chat.go
-	manager := server.Manager {
+	manager := server.Manager{
 		Clients: make(server.ClientList),
 	}
 
@@ -157,11 +156,13 @@ func startServer() {
 	mux.HandleFunc("/pingUser", server.HandlePingsMe)
 
 	// Icons
-	mux.HandleFunc("/icon", func (w http.ResponseWriter, r *http.Request) {
-		res, err := http.Get(fmt.Sprintf("http://%s:8080%s", server.IpAddr, r.URL)); if err != nil {
+	mux.HandleFunc("/icon", func(w http.ResponseWriter, r *http.Request) {
+		res, err := http.Get(fmt.Sprintf("http://%s:8080%s", server.IpAddr, r.URL))
+		if err != nil {
 			log.Println("Error serving image:", err)
 		}
-		imgBytes, err := io.ReadAll(res.Body); if err != nil {
+		imgBytes, err := io.ReadAll(res.Body)
+		if err != nil {
 			log.Println("Error serving image:", err)
 		}
 		res.Body.Close()
@@ -171,10 +172,10 @@ func startServer() {
 	})
 
 	// Server
-	srv := &http.Server {
-		Addr:		fmt.Sprintf(":%d", PORT),
-		Handler:	mux,
-		TLSConfig:	server.TlsConfig,
+	srv := &http.Server{
+		Addr:      fmt.Sprintf(":%d", PORT),
+		Handler:   mux,
+		TLSConfig: server.TlsConfig,
 	}
 
 	err := srv.ListenAndServeTLS("", "")

@@ -55,7 +55,7 @@ logoutButton.onmouseenter = () => {
 		logoutAllButton.style.display = "none";
 		logoutAllButton.classList.remove("animate");
 		logoutButton.classList.remove("animate");
-		}, { once: true });
+	}, { once: true });
 };
 
 document.getElementById("save-button")!.addEventListener("click", async () => {
@@ -82,7 +82,7 @@ document.getElementById("save-button")!.addEventListener("click", async () => {
 			usernameInput.value = "";
 			usernameInput.style.border = "2px solid var(--col-red)";
 			return;
-			} // Security only includes checking for dunders and spaces in the frontend
+		} // Security only includes checking for dunders and spaces in the frontend
 		const res = await fetch("/changeUsername", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -134,7 +134,7 @@ pfpButton.addEventListener("mouseover", () => {
 
 	pfpButton.addEventListener("mouseout", () => {
 		i.style.removeProperty("display");
-		}, { once: true });
+	}, { once: true });
 });
 
 pfpButton.addEventListener("click", () => {

@@ -25,6 +25,7 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
         - message menu, reply to message
         - link previews
         - optimize loading
+    * Translator dictionary API
     * Write Notes tool
     * Write Paint tool
     * OpenAI API with CaeborgGPT, DALL-E?
