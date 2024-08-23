@@ -2,168 +2,210 @@
 @import "./login";
 
 #back-button {
-	position: absolute;
-	height: calc(100% - #{$footer-sec-height});
-	width: 320px;
-	left: 0px;
-	z-index: 10;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
+  position: absolute;
+  height: calc(100% - #{$footer-sec-height});
+  width: 320px;
+  left: 0px;
+  z-index: 10;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 
-	margin: 4px;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
+  margin: 4px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 
-	display: flex;
-	// why tf did this take me an hour to get right
-	justify-content: center; // actual fucking insanity
-	align-items: center; // pls ong frfr do not change this
+  display: flex;
+  // why tf did this take me an hour to get right
+  justify-content: center; // actual fucking insanity
+  align-items: center; // pls ong frfr do not change this
 
-	i {
-		font-size: 128px;
-	}
-	
-	&.anim-in {
-		animation: slide-in 0.5s;
-		transform: translateX(0%);
-	}
+  i {
+    font-size: 128px;
+  }
 
-	&.anim-out {
-		animation: slide-out 0.5s;
-		transform: translateX(-100%);
-	}
+  &.anim-in {
+    animation: slide-in 0.5s;
+    transform: translateX(0%);
+  }
+
+  &.anim-out {
+    animation: slide-out 0.5s;
+    transform: translateX(-100%);
+  }
 }
 
 #main {
-	padding: 16px;
-	padding-bottom: 10px;
+  padding: 16px;
+  padding-bottom: 10px;
 
-	div p {
-		margin: 8px 16px 0px;
-	}
+  div p {
+    margin: 8px 16px 0px;
+  }
 
-	#header {
-		display: flex;
-		background: var(--col-subbase);
-		padding: 20px;
-		margin: -16px -16px 8px -16px;
-		height: 128px;
-		border-bottom-right-radius: 0px;
-		border-bottom-left-radius: 0px;
-		* { background: inherit; }
+  #header {
+    display: flex;
+    background: var(--col-subbase);
+    padding: 20px;
+    margin: -16px -16px 8px -16px;
+    height: 128px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
 
-		#pfp-button {
-			border-radius: 50px;
-			width: 80px;
-			height: 80px;
-			padding: 0px;
-			display: flex;
-			// why tf did this take me an hour to get right
-			justify-content: center; // actual fucking insanity
-			align-items: center; // pls ong frfr do not change this
-			&:hover {
-				#pfp-img {
-					opacity: 0.2;
-					filter: blur(2px) brightness(50%);
-				}
-			}
+    * {
+      background: inherit;
+    }
 
-			#pfp-i {
-				display: none;
-				position: absolute;
-				margin-left: 6px;
-				margin-bottom: 6px;
-				font-size: 40px;
-			}
-			#pfp-img {
-				height: inherit;
-				width: inherit;
-				background: inherit;
-				border-radius: inherit;
-			}
-		}
+    #pfp-button {
+      border-radius: 50px;
+      width: 80px;
+      height: 80px;
+      padding: 0px;
+      display: flex;
+      // why tf did this take me an hour to get right
+      justify-content: center; // actual fucking insanity
+      align-items: center; // pls ong frfr do not change this
 
-		#userchange-p {
-			position: absolute;
-			font-size: 0.75em;
-			background: var(--col-crust);
-			opacity: 90%;
-		}
-	}
+      &:hover {
+        #pfp-img {
+          opacity: 0.2;
+          filter: blur(2px) brightness(50%);
+        }
+      }
 
-	#bottom-div, #password-div {
-		position: relative;
-	}
+      #pfp-i {
+        display: none;
+        position: absolute;
+        margin-left: 6px;
+        margin-bottom: 6px;
+        font-size: 40px;
+      }
 
-	#bottom-div {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 48px;
+      #pfp-img {
+        height: inherit;
+        width: inherit;
+        background: inherit;
+        border-radius: inherit;
+      }
+    }
 
-		#logout-div, #logout-button {
-			z-index: 1;
-		}
-		#logout-div {
-			display: flex;
-			align-items: center;
+    #userchange-p {
+      position: absolute;
+      font-size: 0.75em;
+      background: var(--col-crust);
+      opacity: 90%;
+    }
+  }
 
-			button {
-				height: 40px;
-			}
-			#logout-button {
-				width: 40px;
-				i {
-					font-size: $title-fontsize;
-				}
-				&.animate {
-					animation: growBorders 0.5s forwards;
-				}
-			}
+  #bottom-div,
+  #password-div {
+    position: relative;
+  }
 
-			#logout-all-button {
-				display: none;
-				z-index: 0;
-				border-top-left-radius: 0px;
-				border-bottom-left-radius: 0px;
-				&.animate {
-					animation: slideToLeft 0.5s forwards;
-					transform-origin: left;
-				}
-			}
-		}
+  #bottom-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
 
-		#exit-div {
-			#save-button, #discard-button {
-				height: fit-content;
-				margin-left: 4px;
-			}
-		}
-	}
+    #logout-div,
+    #logout-button {
+      z-index: 1;
+    }
+
+    #logout-div {
+      display: flex;
+      align-items: center;
+
+      button {
+        height: 40px;
+      }
+
+      #logout-button {
+        width: 40px;
+
+        i {
+          font-size: $title-fontsize;
+        }
+
+        &.animate {
+          animation: growBorders 0.5s forwards;
+        }
+      }
+
+      #logout-all-button {
+        display: none;
+        z-index: 0;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+
+        animation: slideToRight 0.5s forwards;
+        transform-origin: left;
+
+        &.animate {
+          animation: slideToLeft 0.5s forwards;
+        }
+      }
+    }
+
+    #exit-div {
+
+      #save-button,
+      #discard-button {
+        height: fit-content;
+        margin-left: 4px;
+      }
+    }
+  }
 }
 
 @keyframes slideToLeft {
-from { transform: translateX(-15%) scaleX(0); }
-to { transform: translateX(0%) scaleX(1); }
+  from {
+    transform: translateX(-15%) scaleX(0);
+  }
+
+  to {
+    transform: translateX(0%) scaleX(1);
+  }
+}
+
+@keyframes slideToRight {
+  from {
+    transform: translateX(0%) scaleX(1);
+  }
+
+  to {
+    transform: translateX(-15%) scaleX(0);
+  }
 }
 
 @keyframes growBorders {
-from {
-	border-top-right-radius: 32px;
-	border-bottom-right-radius: 32px;
-}
-to {
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-}
+  from {
+    border-top-right-radius: 32px;
+    border-bottom-right-radius: 32px;
+  }
+
+  to {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
 }
 
 @keyframes slide-in {
-from { transform: translateX(-100%); }
-to { transform: translateX(0%); }
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
 }
 
 @keyframes slide-out {
-from { transform: translateX(0%); }
-to { transform: translateX(-100%); }
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
 }

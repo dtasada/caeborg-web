@@ -16,9 +16,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-
-var	websocketUpgrader = websocket.Upgrader {
-	ReadBufferSize: 1024,
+var websocketUpgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
 
@@ -36,9 +35,9 @@ func (m *Manager) ServeChat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := &Client {
+	client := &Client{
 		connection: conn,
-		manager: m,
+		manager:    m,
 	}
 
 	m.addClient(client)
@@ -66,7 +65,7 @@ func (m *Manager) removeClient(client *Client) {
 // clients
 type Client struct {
 	connection *websocket.Conn
-	manager *Manager
+	manager    *Manager
 
 	// avoid concurrent writes on websocket connection
 	egress chan []byte
@@ -75,12 +74,11 @@ type Client struct {
 type ClientList map[*Client]bool
 
 func NewClient(conn *websocket.Conn, manager *Manager) *Client {
-	return &Client {
+	return &Client{
 		connection: conn,
-		manager: manager,
+		manager:    manager,
 	}
 }
-
 
 func getChat() []byte {
 	path := AssetsPath + "/chat.json"
@@ -89,7 +87,8 @@ func getChat() []byte {
 		os.Create(path)
 	}
 
-	chatBin, err := os.ReadFile(path); if err != nil {
+	chatBin, err := os.ReadFile(path)
+	if err != nil {
 		log.Println("Error reading chat.json:", err)
 	}
 
@@ -125,12 +124,14 @@ func (c *Client) chatHandler() {
 		switch message["type"] {
 		case "chatPostMessage":
 			var obj []map[string]string
-			err = json.Unmarshal(chatBin, &obj); if err != nil {
+			err = json.Unmarshal(chatBin, &obj)
+			if err != nil {
 				log.Println("Error:", err)
 				return
 			}
 
-			username := ValidateUser(message["sender"]); if username != "__userinvalid" {
+			username := ValidateUser(message["sender"])
+			if username != "__userinvalid" {
 				message["sender"] = username
 			} else {
 				log.Println("Failed to validate user")
@@ -149,20 +150,21 @@ func (c *Client) chatHandler() {
 
 				b64IMG := message["content"]
 				var fileName string
-				if imgType := b64IMG[strings.Index(b64IMG, "/") + 1 : strings.Index(b64IMG, ";")]; slices.Contains([]string{"png", "jpeg", "jpg"}, imgType) {
-					fileName = "/" + uuid.New().String() + ".avif"
-					defer toAVIF(PubAssetsPath + "/chat" + fileName )
+				if imgType := b64IMG[strings.Index(b64IMG, "/")+1 : strings.Index(b64IMG, ";")]; slices.Contains([]string{"png", "jpeg", "jpg"}, imgType) {
+					fileName = "/" + uuid.New().String() + ".tmp"
+					defer convertImage(fileName)
 				} else {
 					fileName = "/" + uuid.New().String() + "." + imgType
 				}
 
 				b64IMG = strings.Split(b64IMG, ";base64,")[1]
 
-				imgBin, err := base64.StdEncoding.DecodeString(b64IMG); if err != nil {
+				imgBin, err := base64.StdEncoding.DecodeString(b64IMG)
+				if err != nil {
 					log.Println("Could not decode image base64 to bytes:", err)
 				}
 
-				if err := os.WriteFile(PubAssetsPath + "/chat" + fileName , imgBin, 0777); err != nil {
+				if err := os.WriteFile(PubAssetsPath+"/chat"+fileName, imgBin, 0777); err != nil {
 					log.Println("chatHandler: Could not write image to", fileName)
 					return
 				}
@@ -171,7 +173,8 @@ func (c *Client) chatHandler() {
 			}
 
 			// Marshal *after* changing username
-			marshalledMessage, err := json.Marshal(message); if err != nil {
+			marshalledMessage, err := json.Marshal(message)
+			if err != nil {
 				log.Println("Error:", err)
 				return
 			}
@@ -180,7 +183,7 @@ func (c *Client) chatHandler() {
 			obj = append(obj, message)
 
 			saveObj, err := json.MarshalIndent(obj, "", "\t")
-			os.WriteFile(AssetsPath + "/chat.json", saveObj, 0777)
+			os.WriteFile(AssetsPath+"/chat.json", saveObj, 0777)
 
 			for client := range c.manager.Clients {
 				if err := client.connection.WriteMessage(websocket.TextMessage, marshalledMessage); err != nil {

@@ -3,6 +3,9 @@ export async function setUserSettings() {
 	const resText = await res.text();
 	const userSettingsJSON = JSON.parse(resText);
 
+	if (!localStorage.colorScheme) localStorage.colorScheme = "Catppuccin Dark";
+	if (!localStorage.userFont) localStorage.userFont = "JetBrains Mono";
+
 	const colorsObject = userSettingsJSON.colorSchemes[localStorage.colorScheme];
 
 	let root = document.querySelector(":root") as HTMLElement;

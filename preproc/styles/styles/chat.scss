@@ -1,72 +1,84 @@
 @import "shell";
 
 #output-sec ol {
-	li {
-		padding: 10px;
-		width: 100%;
-		padding-left: 76px;
-		background: var(--col-base);
-		&:hover { background: var(--col-subbase); }
-		&.pingsMe {
-			background-color: color-mix(in srgb, var(--col-yellow) 25%, var(--col-base) 75%);
-		}
-		* { background: inherit; }
+  li {
+    padding: 10px;
+    width: 100%;
+    padding-left: 76px;
+    background: var(--col-base);
 
-		img {
-			&.pfp {
-				position: absolute;
-				left: 28px;
-				height: 40px;
-				width: 40px;
-				margin-top: auto; // important
-				border-radius: 50px;
-				user-select: none;
-			}
+    &:hover {
+      background: var(--col-subbase);
+    }
 
-			&.imageMessage {
-				max-width: 80% !important;
-				max-height: 80% !important;
-				margin-top: 4px;
-				transition: all 0.5s ease-in-out;
+    &.pingsMe {
+      background-color: color-mix(in srgb, var(--col-yellow) 25%, var(--col-base) 75%);
+    }
 
-				&.imagePreview {
-					width: 80% !important;
-					height: 80% !important;
-				}
-			}
-		}
+    * {
+      background: inherit;
+    }
 
-		p {
-			display: inline;
-			&.usernameTag {
-				font-weight: 800;
-				color: var(--col-white);
-			}
-			&.datetimeTag {
-				margin-top: 5px;
-				font-size: $smol-fontsize;
-				color: var(--col-overlay);
-				user-select: none;
-			}
+    img {
+      &.pfp {
+        position: absolute;
+        left: 28px;
+        height: 40px;
+        width: 40px;
+        margin-top: auto; // important
+        border-radius: 50px;
+        user-select: none;
+      }
 
-			&.usernameTag:hover, p.ping:hover {
-				text-decoration: underline;
-			}
+      &.imageMessage {
+        max-width: 80% !important;
+        max-height: 80% !important;
+        margin-top: 4px;
+        transition: all 0.5s ease-in-out;
 
-			p.ping {
-				background: var(--col-lavender);
-				color: var(--col-white);
-				border-radius: 2px;
-				padding: 2px;
+        &.imagePreview {
+          width: 80% !important;
+          height: 80% !important;
+        }
+      }
+    }
 
-				&:hover {
-					filter: brightness(120%);
-				}
-			}
-		}
-		.messageContent, .imageMessage {
-			display: block;
-			overflow-wrap: break-word;
-		}
-	}
+    p {
+      display: inline;
+
+      &.usernameTag {
+        font-weight: 800;
+        color: var(--col-overtext);
+      }
+
+      &.datetimeTag {
+        margin-top: 5px;
+        font-size: $smol-fontsize;
+        color: var(--col-overlay);
+        user-select: none;
+      }
+
+      &.usernameTag:hover,
+      p.ping:hover {
+        text-decoration: underline;
+      }
+
+      p.ping {
+        background: var(--col-lavender);
+        color: var(--col-overtext);
+        border-radius: 2px;
+        padding: 2px;
+
+        &:hover {
+          filter: brightness(120%);
+        }
+      }
+    }
+
+    .messageContent,
+    .imageMessage {
+      display: block;
+      overflow-wrap: break-word;
+    }
+  }
 }

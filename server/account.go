@@ -11,7 +11,8 @@ import (
 )
 
 func HandlePFP(w http.ResponseWriter, r *http.Request) {
-	username := r.URL.Query().Get("uuid"); if username != "" {
+	username := r.URL.Query().Get("uuid")
+	if username != "" {
 		username = ValidateUser(username)
 	} else {
 		username = r.URL.Query().Get("username")
@@ -32,11 +33,13 @@ func HandleChangePFP(w http.ResponseWriter, r *http.Request) {
 
 	username := ValidateUser(body["uuid"])
 
-	fileName := fmt.Sprintf(PubAssetsPath + "/users/%s.avif", username)
+	fileName := fmt.Sprintf("%s/users/%s.tmp", PubAssetsPath, username)
+	defer convertImage(fileName)
 
 	body["content"] = strings.Split(body["content"], ";base64,")[1]
 
-	imgBin, err := base64.StdEncoding.DecodeString(body["content"]); if err != nil {
+	imgBin, err := base64.StdEncoding.DecodeString(body["content"])
+	if err != nil {
 		log.Println("Could not decode image base64 to bytes:", err)
 	}
 
@@ -45,7 +48,6 @@ func HandleChangePFP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	toAVIF(fileName)
 }
 
 func HandleChangeUsername(w http.ResponseWriter, r *http.Request) {
@@ -61,18 +63,20 @@ func HandleChangeUsername(w http.ResponseWriter, r *http.Request) {
 	}
 	usersMap[body["target"]] = usersMap[username]
 	delete(usersMap, username)
-	marshaledUsersMap, err := json.MarshalIndent(usersMap, "", "\t"); if err != nil {
+	marshaledUsersMap, err := json.MarshalIndent(usersMap, "", "\t")
+	if err != nil {
 		log.Println("HandleChangeUsername: Failed to marshal users map:", err)
 		return
 	}
-	os.WriteFile(AssetsPath + "/users.json", marshaledUsersMap, 0777)
+	os.WriteFile(AssetsPath+"/users.json", marshaledUsersMap, 0777)
 
 	oldPFP := fmt.Sprintf("%s/assets/users/%s.avif", PublicPath, username)
 	os.Rename(oldPFP, strings.Replace(oldPFP, username, body["target"], 1))
 
 	chatJSONPath := AssetsPath + "/chat.json"
-	chatJSON, err := os.ReadFile(chatJSONPath); if err != nil {
-		log.Println("HandleChangeUsername: Could not read", chatJSONPath + ":", err)
+	chatJSON, err := os.ReadFile(chatJSONPath)
+	if err != nil {
+		log.Println("HandleChangeUsername: Could not read", chatJSONPath+":", err)
 	}
 	newChatJSON := strings.ReplaceAll(string(chatJSON), fmt.Sprintf(`"sender": "%s"`, username), fmt.Sprintf(`"sender": "%s"`, body["target"]))
 	os.WriteFile(chatJSONPath, []byte(newChatJSON), 0777)
@@ -91,19 +95,21 @@ func HandleChangePassword(w http.ResponseWriter, r *http.Request) {
 	usersMap[username]["password"] = encryptPassword(body["target"])
 	fmt.Println("New password:", usersMap[username]["password"])
 
-	marshaledUsersMap, err := json.MarshalIndent(usersMap, "", "\t"); if err != nil {
+	marshaledUsersMap, err := json.MarshalIndent(usersMap, "", "\t")
+	if err != nil {
 		log.Println("HandleChangePassword: Error marshaling users map:", err)
 		return
 	}
 
-	if err := os.WriteFile(AssetsPath + "/users.json", marshaledUsersMap, 0777); err != nil {
-		log.Println("HandleChangePassword: Error writing to " + AssetsPath + "/users.json:", err)
+	if err := os.WriteFile(AssetsPath+"/users.json", marshaledUsersMap, 0777); err != nil {
+		log.Println("HandleChangePassword: Error writing to "+AssetsPath+"/users.json:", err)
 	}
 }
 
 func HandleLogout(w http.ResponseWriter, r *http.Request) {
 	uuid := r.URL.Query().Get("uuid")
-	username := ValidateUser(uuid); if username == "__userinvalid" {
+	username := ValidateUser(uuid)
+	if username == "__userinvalid" {
 		log.Println("HandleLogout: User invalid!")
 		w.Write([]byte("__userinvalid"))
 		return
@@ -115,7 +121,7 @@ func HandleLogout(w http.ResponseWriter, r *http.Request) {
 	delete(whitelist, uuid)
 
 	if marshaledMap, err := json.MarshalIndent(usersMap, "", "\t"); err == nil {
-		os.WriteFile(AssetsPath + "/users.json", marshaledMap, 0777)
+		os.WriteFile(AssetsPath+"/users.json", marshaledMap, 0777)
 		w.Write([]byte("__ok"))
 	} else {
 		log.Println("Failed to marshal users map:", err)
@@ -125,7 +131,8 @@ func HandleLogout(w http.ResponseWriter, r *http.Request) {
 
 func HandleLogoutAll(w http.ResponseWriter, r *http.Request) {
 	uuid := r.URL.Query().Get("uuid")
-	username := ValidateUser(uuid); if username == "__userinvalid" {
+	username := ValidateUser(uuid)
+	if username == "__userinvalid" {
 		log.Println("HandleLogout: User invalid!")
 		w.Write([]byte("__userinvalid"))
 		return
@@ -136,7 +143,7 @@ func HandleLogoutAll(w http.ResponseWriter, r *http.Request) {
 	usersMap[username]["whitelist"] = map[string]string{}
 
 	if marshaledMap, err := json.MarshalIndent(usersMap, "", "\t"); err == nil {
-		os.WriteFile(AssetsPath + "/users.json", marshaledMap, 0777)
+		os.WriteFile(AssetsPath+"/users.json", marshaledMap, 0777)
 		w.Write([]byte("__ok"))
 	} else {
 		log.Println("Failed to marshal users map:", err)

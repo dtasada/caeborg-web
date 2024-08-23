@@ -1,4 +1,4 @@
-export {};
+export { };
 const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 const submit = document.getElementById("submit-button")! as HTMLButtonElement;
@@ -49,8 +49,8 @@ inputBox.addEventListener("keydown", event => {
 		case "Enter":
 			if (inputBox.value !== "") send("txt", inputBox.value)
 			inputBox.value = "";
-			localStorage.savednputValue = inputBox.value;
-		break;
+			localStorage.savedInputValue = inputBox.value;
+			break;
 	}
 });
 
@@ -77,12 +77,12 @@ inputBox.addEventListener("paste", async (e) => {
 	}
 });
 
-inputBox.oninput = () => { localStorage.savednputValue = inputBox.value; }
+inputBox.oninput = () => { localStorage.savedInputValue = inputBox.value; }
 
 submit.addEventListener("click", () => {
 	if (inputBox.value !== "") send("txt", inputBox.value)
 	inputBox.value = "";
-	localStorage.savednputValue = inputBox.value;
+	localStorage.savedInputValue = inputBox.value;
 });
 
 function getTime() {
@@ -100,20 +100,25 @@ addButton.addEventListener("click", () => {
 	inputFile.type = "file";
 	inputFile.hidden = true;
 
-	inputFile.addEventListener("change", (event) => {
+	inputFile.onchange = (event) => {
 		const file = (event.target as HTMLInputElement).files![0];
-		if (file.type.startsWith("image/")) {
+		console.log("file:", file)
+		if (file.size < 256_000_000) {
 			const reader = new FileReader();
-			if (reader.result) {
-				reader.onload = () => {
-					send("img", reader.result!.toString());
-				};
+			if (file.type.startsWith("image/")) {
+				if (reader.result) {
+					reader.onload = () => {
+						send("img", reader.result!.toString());
+					};
+				}
+				reader.readAsDataURL(file);
+				inputBox.placeholder = "Enter message here...";
+			} else {
+				inputBox.placeholder = "file format not supported!";
 			}
-			reader.readAsDataURL(file);
-		} else {
-			inputBox.placeholder = "file format not supported!";
 		}
-	});
+	};
+
 	inputFile.click();
 });
 

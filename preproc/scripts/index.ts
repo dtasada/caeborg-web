@@ -1,5 +1,4 @@
 import { setUserSettings } from "./usersettings.js";
-setUserSettings();
 
 document.querySelectorAll("#sidebar-ol li > button").forEach(element => {
 	(element as HTMLButtonElement).addEventListener("click", () => {
@@ -73,3 +72,5 @@ for (const param of document.location.search.split("&")) {
 
 if (localStorage.savedFrame) switchFrame(localStorage.savedFrame)
 else localStorage.savedFrame = 'launcher';
+
+setUserSettings();

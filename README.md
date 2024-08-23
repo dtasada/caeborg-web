@@ -17,8 +17,6 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
     * Fix `shell.ts` (pretty much broken)
     * Fix launcher image loading
     * Rebuild sidebar hiding
-    * Animations everywhere?
-    * Light mode?
 * New features:
     * Chat features:
         - image preview, confirm image sending

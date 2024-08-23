@@ -1,17 +1,110 @@
 @import "../style";
 @import "./account";
 
-select {
-  background: var(--col-subbase);
-  height: 100%;
-  padding: 12px;
-  width: fit-content;
-  border: none;
-  align-self: center;
-  overflow: hidden;
-  text-align: center;
+#main {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
 
-  &:hover {
-    filter: brightness(90%);
+  section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    &:first-child {
+      margin-bottom: 5px;
+    }
+
+    &:last-child {
+      margin-top: 5px;
+    }
+
+    .icon,
+    button {
+      border-radius: 0px;
+      height: 3em;
+    }
+
+    .icon {
+      width: 3em;
+
+      i {
+        font-size: 1.5em;
+      }
+
+      border-radius: $border-radius;
+
+      &.animate {
+        animation: growBorders 0.5s forwards;
+      }
+    }
+
+    div {
+      display: flex;
+      animation: slideToRight 0.5s forwards;
+      transform-origin: left;
+
+      &.animate {
+        animation: slideToLeft 0.5s forwards;
+      }
+
+      button {
+        height: 100%;
+        width: fit-content;
+
+
+        margin: 0px;
+
+        &.active {
+          background: var(--col-overlay) !important;
+        }
+
+        &:last-child {
+          border-top-right-radius: $border-radius;
+          border-bottom-right-radius: $border-radius;
+        }
+
+        border: none;
+        align-self: center;
+        overflow: hidden;
+        text-align: center;
+
+        &:hover {
+          filter: brightness(90%);
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideToLeft {
+  from {
+    transform: translateX(0) scaleX(0);
+  }
+
+  to {
+    transform: translateX(0) scaleX(1);
+  }
+}
+
+@keyframes slideToRight {
+  from {
+    transform: translateX(0) scaleX(1);
+  }
+
+  to {
+    transform: translateX(0) scaleX(0);
+  }
+}
+
+@keyframes growBorders {
+  from {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  to {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
   }
 }

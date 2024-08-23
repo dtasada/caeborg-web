@@ -54,7 +54,6 @@ logoutButton.onmouseenter = () => {
 	logoutButton.classList.add("animate");
 
 	logoutDiv.addEventListener("mouseleave", () => {
-		logoutAllButton.style.display = "none";
 		logoutAllButton.classList.remove("animate");
 		logoutButton.classList.remove("animate");
 	}, { once: true });

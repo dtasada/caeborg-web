@@ -1,8 +1,9 @@
 :root {
 	/* Global CSS variables (that need to be accessible from JS) go here */
+	--font: "JetBrains Mono";
 
 	/* Leave colors commented */
-	/* --col-crust: #181926;
+	--col-crust: #181926;
 	--col-subbase: #1e2030;
 	--col-base: #24273a;
 	--col-surface: #363a4f;
@@ -17,6 +18,4 @@
 	--col-green: #a6da95;
 	--col-blue: #8aadf4;
 	--col-lavender: #7287fd;
-
-	--font: "JetBrains Mono"; */
 }

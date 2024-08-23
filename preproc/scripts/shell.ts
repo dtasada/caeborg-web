@@ -1,4 +1,4 @@
-export {};
+export { };
 const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 const submit = document.getElementById("submit-button")! as HTMLButtonElement;
@@ -30,7 +30,7 @@ if (!localStorage.savedOutputOl) {
 submit.addEventListener("click", () => {
 	parseInput(inputBox.value);
 	inputBox.value = "";
-	localStorage.savednputValue = inputBox.value;
+	localStorage.savedInputValue = inputBox.value;
 });
 
 addButton.addEventListener("click", () => {
@@ -62,7 +62,7 @@ inputBox.addEventListener("keydown", (event) => {
 		case "Enter":
 			parseInput(inputBox.value);
 			inputBox.value = "";
-			localStorage.savednputValue = inputBox.value;
+			localStorage.savedInputValue = inputBox.value;
 			arrowUpIndex = -1
 			break;
 		case "ArrowUp":
@@ -85,7 +85,7 @@ inputBox.addEventListener("keydown", (event) => {
 });
 
 inputBox.oninput = () => {
-	localStorage.savednputValue = inputBox.value;
+	localStorage.savedInputValue = inputBox.value;
 }
 
 // important functions
@@ -134,7 +134,7 @@ async function parseInput(text: string) {
 		else console.log("Function return is null!")
 	} else {
 		// console.log(`Command ${command} not found`);
-		renderMessage("caeborg", [ `<i>Command "${command}" not found</i>`] );
+		renderMessage("caeborg", [`<i>Command "${command}" not found</i>`]);
 	}
 }
 
@@ -162,11 +162,11 @@ const commands: Record<string, Command> = {
 			const text = response.responseText;
 			if (response.status === 404) {
 				const importantMessage = text.split("as follows:")[1];
-				return [ importantMessage ];
+				return [importantMessage];
 			} else {
 				img.src = url;
 				img.classList.add("compound-img");
-				return [ `IUPAC nomenclature for "${bi(compound)}":`, img ];
+				return [`IUPAC nomenclature for "${bi(compound)}":`, img];
 			}
 		}
 	},
@@ -178,7 +178,7 @@ const commands: Record<string, Command> = {
 				outputOl.removeChild(outputOl.firstChild);
 			}
 			localStorage.savedOutputOl = outputOl.outerHTML;
-			return [ null ];
+			return [null];
 		}
 	},
 
@@ -192,7 +192,7 @@ const commands: Record<string, Command> = {
 			alert(js);
 		}
 	}, */
-	
+
 	/* dict: {
 		brief: "Gives word definitions from <i>dictionaryapi.dev</i>",
 		command: (args: string[]) => {
@@ -242,7 +242,7 @@ const commands: Record<string, Command> = {
 			for (const [k, v] of Object.entries(commands)) {
 				ret += `${bi(k)}: ${v.brief};<br>`;
 			}
-			return [ ret ];
+			return [ret];
 		}
 	},
 
@@ -272,9 +272,9 @@ const commands: Record<string, Command> = {
 						for (const [key, value] of Object.entries<any[]>(nkJSON)) {
 							brief.push(`${key}: ${bi(value[0])}`);
 						}
-						ret = [ `${brief.join("<br>")}` ];
+						ret = [`${brief.join("<br>")}`];
 					}
-			});
+				});
 			return ret;
 		}
 	},
