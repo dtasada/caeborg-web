@@ -1,0 +1,17 @@
+@import "../style";
+@import "./account";
+
+select {
+  background: var(--col-subbase);
+  height: 100%;
+  padding: 12px;
+  width: fit-content;
+  border: none;
+  align-self: center;
+  overflow: hidden;
+  text-align: center;
+
+  &:hover {
+    filter: brightness(90%);
+  }
+}

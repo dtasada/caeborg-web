@@ -9,8 +9,8 @@ import (
 	"errors"
 	"fmt"
 	"image"
-	_ "image/jpeg"
-	_ "image/png"
+	_ "image/jpeg" // these are necessary import
+	_ "image/png"  // these are necessary import
 	"io"
 	"log"
 	"math/rand"
@@ -23,18 +23,18 @@ import (
 )
 
 var (
-	Domain = "caeborg.dev"
-	TlsConfig = &tls.Config {}
+	Domain    = "caeborg.dev"
+	TlsConfig = &tls.Config{}
 
-	CWD, _ = os.Getwd()
-	PublicPath = CWD + "/client/public"
+	CWD, _        = os.Getwd()
+	PublicPath    = CWD + "/client/public"
 	PubAssetsPath = PublicPath + "/assets"
 
-	IpAddr string
+	IpAddr     string
 	AssetsPath string
 
-	DevMode = false
-	Args []string = os.Args[1:]
+	DevMode          = false
+	Args    []string = os.Args[1:]
 )
 
 func parseBody[targetType any](r *http.Request) interface{} {
@@ -47,17 +47,19 @@ func parseBody[targetType any](r *http.Request) interface{} {
 }
 
 func toAVIF(path string) {
-	src, err := os.Open(path); if err != nil {
+	src, err := os.Open(path)
+	if err != nil {
 		log.Println("toAVIF: Can't open source file:", err)
 		return
 	}
 
-	img, _, err := image.Decode(src); if err != nil {
+	img, _, err := image.Decode(src)
+	if err != nil {
 		log.Println("toAVIF: Can't decode source file:", err)
 		return
 	}
 
-	if avif.Encode(src, img, &avif.Options{ Quality: 30 }); err != nil {
+	if avif.Encode(src, img, &avif.Options{Quality: 30}); err != nil {
 		log.Println("toAVIF: Can't encode source image:", err)
 		return
 	}
@@ -65,7 +67,8 @@ func toAVIF(path string) {
 
 func ServeFile(w http.ResponseWriter, r *http.Request) {
 	page := strings.Split(strings.Split(fmt.Sprintf("%v", r.URL), "/")[1], "?")[0]
-	file, err := os.ReadFile(fmt.Sprintf("%s/pages/%s.html", PublicPath, page)); if err != nil {
+	file, err := os.ReadFile(fmt.Sprintf("%s/pages/%s.html", PublicPath, page))
+	if err != nil {
 		log.Printf("Couldn't read %s.html", page)
 	}
 	w.Header().Add("cache-control", "no-store,no-cache,must-revalidate,max-age=0")
@@ -73,12 +76,13 @@ func ServeFile(w http.ResponseWriter, r *http.Request) {
 }
 
 func ReadBody(r *http.Request) []byte {
-	requestBodyBytes, err := io.ReadAll(r.Body); if err != nil {
+	requestBodyBytes, err := io.ReadAll(r.Body)
+	if err != nil {
 		log.Println("Failed to read request body:", err)
 		return nil
 	}
 	r.Body.Close()
-	
+
 	return requestBodyBytes
 }
 
@@ -95,7 +99,8 @@ func parseUsersJSON() map[string]map[string]interface{} {
 		os.Create(path)
 	}
 
-	usersBin, err := os.ReadFile(path); if err != nil {
+	usersBin, err := os.ReadFile(path)
+	if err != nil {
 		log.Println("Error reading users.json", err)
 	}
 
@@ -107,32 +112,36 @@ func parseUsersJSON() map[string]map[string]interface{} {
 	}
 
 	var usersMap map[string]map[string]interface{}
-	err = json.Unmarshal(usersBin, &usersMap); if err != nil {
+	err = json.Unmarshal(usersBin, &usersMap)
+	if err != nil {
 		log.Println("Failed to unmarshal users.json:", err)
 	}
 	return usersMap
 }
 
 func ValidateUser(uuid string) string {
-	usersBin, err := os.ReadFile(AssetsPath + "/users.json"); if err != nil {
+	usersBin, err := os.ReadFile(AssetsPath + "/users.json")
+	if err != nil {
 		log.Println("Error reading users.json", err)
 	}
 
 	var usersMap map[string]map[string]interface{}
-	err = json.Unmarshal(usersBin, &usersMap); if err != nil {
+	err = json.Unmarshal(usersBin, &usersMap)
+	if err != nil {
 		log.Println("Failed to unmarshal users.json:", err)
 	}
 
 	for username, userData := range usersMap {
-		whitelist, ok := userData["whitelist"].(map[string]interface{}); if ok {
+		whitelist, ok := userData["whitelist"].(map[string]interface{})
+		if ok {
 			for uuid, lifetime := range whitelist {
-				if time.Now().Unix() - int64(lifetime.(float64)) > 259200 { // 3 days
+				if time.Now().Unix()-int64(lifetime.(float64)) > 259200 { // 3 days
 					delete(whitelist, uuid)
 
 					if marshaledMap, err := json.MarshalIndent(usersMap, "", "\t"); err != nil {
 						log.Println("Failed to marshal users map:", err)
 					} else {
-						os.WriteFile(AssetsPath + "/users.json", marshaledMap, 0777)
+						os.WriteFile(AssetsPath+"/users.json", marshaledMap, 0777)
 					}
 				}
 			}
@@ -153,7 +162,8 @@ func encryptPassword(source string) string {
 		os.Create(secretPath)
 	}
 
-	secret, err := os.ReadFile(secretPath); if err != nil {
+	secret, err := os.ReadFile(secretPath)
+	if err != nil {
 		log.Println("Error reading auth_secret:", err)
 		return "__error"
 	}
@@ -169,7 +179,8 @@ func encryptPassword(source string) string {
 		}
 	}
 
-	block, err := aes.NewCipher(secret); if err != nil {
+	block, err := aes.NewCipher(secret)
+	if err != nil {
 		log.Println("Error encrypting:", err)
 	}
 
@@ -188,7 +199,7 @@ func init() {
 			IpAddr = "localhost"
 			Domain = "localhost"
 		} else {
-			log.Fatal("Unknown argument" + Args[0])
+			log.Fatal("Unknown argument: " + Args[0])
 		}
 	}
 

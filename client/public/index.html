@@ -2,53 +2,59 @@
 
 <html lang="en" dir="ltr">
 
-	<head>
-		<meta name="viewport" content="width=device-width">
-		<meta name="description" content="Dashboard webapp with a collection of useful tools">
-		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"> 
-		<meta charset="utf-8">
-		<title>Caeborg - Dashboard</title>
-		<link rel="stylesheet" type="text/css" href="/.css/style.css">
-		<link rel="stylesheet" type="text/css" href="/.css/styles/index.css">
-		<link rel="icon" type="image/x-icon" href="/assets/users/caeborg.avif">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<script> window.addEventListener('contextmenu', (event) => { event.preventDefault(); }) </script>
-	</head>
+<head>
+	<meta name="viewport" content="width=device-width">
+	<meta name="description" content="Dashboard webapp with a collection of useful tools">
+	<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+	<meta charset="utf-8">
+	<title>Caeborg - Dashboard</title>
+	<link rel="stylesheet" type="text/css" href="/.css/style.css">
+	<link rel="stylesheet" type="text/css" href="/.css/styles/index.css">
+	<link rel="icon" type="image/x-icon" href="/assets/users/caeborg.avif">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+		integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script> window.addEventListener('contextmenu', (event) => {event.preventDefault();}) </script>
+</head>
 
-	<body style="min-height: 100vh;">
+<body style="min-height: 100vh;">
 
-		<section id="header-sec">
-			<button aria-label="Menu button" id="menu-button" onclick="toggleSidebarSec()"><i class="fa-solid fa-bars"></i></button> 
-			<a href="/?newTabDash"><img src="/assets/users/caeborg.avif" width="48" height="48" alt="caeborg-logo"></a>
-			<button aria-label="Login" id="login-button" onclick="window.location.href='/login'">
-				<i class="fa-solid fa-arrow-right-to-bracket"></i>&ensp;Sign in
-			</button>
-			<button aria-label="See account" id="account-button" onclick="window.location.href='/account'"><i class="fa-solid fa-user"></i></button>
-		</section>
+	<section id="header-sec">
+		<button aria-label="Menu button" id="menu-button" onclick="toggleSidebarSec()"><i
+				class="fa-solid fa-bars"></i></button>
+		<a href="/?newTabDash"><img src="/assets/users/caeborg.avif" width="48" height="48" alt="caeborg-logo"></a>
+		<button aria-label="Login" id="login-button" onclick="window.location.href='/login'">
+			<i class="fa-solid fa-arrow-right-to-bracket"></i>&ensp;Sign in
+		</button>
+		<button aria-label="See account" id="account-button" onclick="window.location.href='/account'"><i
+				class="fa-solid fa-user"></i></button>
+		<button aria-label="Settings" id="settings-button" onclick="window.location.href='/settings'"><i
+				class="fa-solid fa-gear"></i></button>
+	</section>
 
-		<section id="sidebar-sec">
-			<ol id="sidebar-ol" class="button-list">
-				<li><button aria-label="Open calculator"	>Calculator</button></li>
-				<li><button aria-label="Open chat"			>Chatting</button></li>
-				<li><button aria-label="Open games"			>Games</button></li>
-				<li><button aria-label="Open graphing tool"	>Graphing Tool</button></li>
-				<li><button aria-label="Open Inspirobot"	>Inspirobot™</button></li>
-				<li><button aria-label="Open map"			>Google Maps</button></li>
-				<li><button aria-label="Open meme maker" disabled>Meme Maker</button></li>
-				<li><button aria-label="Open notes"			>Notes</button></li>
-				<li><button aria-label="Open paint tool" disabled>Paint</button></li>
-				<li><button aria-label="Open shell"			>Shell</button></li>
-				<li><button aria-label="Open translator"	>Translator</button></li>
-			</ol>
-		</section>
+	<section id="sidebar-sec">
+		<ol id="sidebar-ol" class="button-list">
+			<li><button aria-label="Open calculator">Calculator</button></li>
+			<li><button aria-label="Open chat">Chatting</button></li>
+			<li><button aria-label="Open games">Games</button></li>
+			<li><button aria-label="Open graphing tool">Graphing Tool</button></li>
+			<li><button aria-label="Open Inspirobot">Inspirobot™</button></li>
+			<li><button aria-label="Open map">Google Maps</button></li>
+			<li><button aria-label="Open meme maker" disabled>Meme Maker</button></li>
+			<li><button aria-label="Open notes">Notes</button></li>
+			<li><button aria-label="Open paint tool" disabled>Paint</button></li>
+			<li><button aria-label="Open shell">Shell</button></li>
+			<li><button aria-label="Open translator">Translator</button></li>
+		</ol>
+	</section>
 
-		<section id="rest-sec">
-			<iframe id="rest-iframe" title="insideFrame" src="/pages/launcher.html" frameBorder="0"></iframe>
-		</section>
+	<section id="rest-sec">
+		<iframe id="rest-iframe" title="insideFrame" src="/pages/launcher.html" frameBorder="0"></iframe>
+	</section>
 
-		<section id="footer-sec">caeborg-web</section>
+	<section id="footer-sec">caeborg-web</section>
 
-		<script type="module" src="/.js/index.js" defer></script>
-	</body>
+	<script type="module" src="/.js/index.js" defer></script>
+</body>
 
 </html>

@@ -1,3 +1,6 @@
+import { setUserSettings } from "./usersettings.js";
+setUserSettings();
+
 document.querySelectorAll("#sidebar-ol li > button").forEach(element => {
 	(element as HTMLButtonElement).addEventListener("click", () => {
 		let url: string;
@@ -57,6 +60,8 @@ function switchFrame(page: string) {
 		case "shell": document.title = "Caeborg - Shell"; break;
 		case "translator": document.title = "Caeborg - Translator"; break;
 	}
+
+	setUserSettings();
 }
 
 for (const param of document.location.search.split("&")) {

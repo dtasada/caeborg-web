@@ -1,86 +1,101 @@
 @import "../style";
 
 html {
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 body {
-	margin: 32px;
-	flex-grow: 1;
+  margin: 32px;
+  flex-grow: 1;
 }
 
 #buttons {
-	display: flex;
-	align-self: center;
-	flex-direction: row;
-	height: 64px;
+  display: flex;
+  align-self: center;
+  flex-direction: row;
+  height: 64px;
 
-	background: var(--col-subbase);
-	button, select {
-		background: var(--col-subbase);
-		height: 100%;
-		width: fit-content;
-		border-radius: 0px;
-		border: none;
-		align-self: center;
-		overflow: hidden;
-		text-align: center;
+  background: var(--col-subbase);
 
-		&:hover { filter: brightness(90%); }
-		&.source { background: var(--col-red) !important; }
-		&.target { background: var(--col-blue) !important; }
-	}
+  button,
+  select {
+    background: var(--col-subbase);
+    height: 100%;
+    width: fit-content;
+    border-radius: 0px;
+    border: none;
+    align-self: center;
+    overflow: hidden;
+    text-align: center;
 
-	i {
-		font-size: 24px; 
-		padding: 12px;
-		align-self: center;
-		margin: 0px 12px;
-		&:hover { background: var(--col-overlay); }
-		&#copy-button { margin-left: auto; }
-	}
+    &:hover {
+      filter: brightness(90%);
+    }
 
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
+    &.source {
+      background: var(--col-red) !important;
+    }
+
+    &.target {
+      background: var(--col-blue) !important;
+    }
+  }
+
+  i {
+    font-size: 24px;
+    padding: 12px;
+    align-self: center;
+    margin: 0px 12px;
+
+    &:hover {
+      background: var(--col-overlay);
+    }
+
+    &#copy-button {
+      margin-left: auto;
+    }
+  }
+
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 
 #text-areas {
-	display: flex;
-	flex-grow: 1;
-	flex-direction: row;
-	height: calc(100% - 64px);
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  height: calc(100% - 64px);
 
-	textarea {
-		flex-grow: 1;
-		border-radius: 0px;
-		padding: 16px;
-		padding-bottom: 32px;
+  textarea {
+    flex-grow: 1;
+    border-radius: 0px;
+    padding: 16px;
+    padding-bottom: 32px;
 
-		background: var(--col-surface);
+    background: var(--col-surface);
 
-		resize: none;
-		overflow: hidden;
-		border-bottom: none;
+    resize: none;
+    overflow: hidden;
+    border-bottom: none;
 
-		&#input-box {
-			border-bottom-left-radius: 32px;
-			border-top: 2px solid var(--col-red);
-			border-left: none;
-			border-right: 1px solid var(--col-overlay);
-		}
+    &#input-box {
+      border-bottom-left-radius: 32px;
+      border-top: 2px solid var(--col-red);
+      border-left: none;
+      border-right: 1px solid var(--col-overlay);
+    }
 
-		&#output-box {
-			border-bottom-right-radius: 32px;
-			border-top: 2px solid var(--col-blue);
-			border-right: none;
-			border-left: 1px solid var(--col-overlay);
-		}
-	}
-
+    &#output-box {
+      border-bottom-right-radius: 32px;
+      border-top: 2px solid var(--col-blue);
+      border-right: none;
+      border-left: 1px solid var(--col-overlay);
+    }
+  }
 }

@@ -1,3 +1,6 @@
+import { setUserSettings } from "./usersettings.js";
+setUserSettings();
+
 let pfpContent: string;
 
 if (!localStorage.uuid) {
@@ -21,7 +24,6 @@ window.addEventListener("resize", () => {
 		backButton.classList.remove("anim-in");
 	}
 });
-backButton.addEventListener("click", () => { window.location.assign("/") });
 
 document.querySelectorAll(".show-password-button").forEach(element => {
 	element.addEventListener("click", () => {

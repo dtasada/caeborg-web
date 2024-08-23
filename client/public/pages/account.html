@@ -2,61 +2,64 @@
 
 <html lang="en" dir="ltr">
 
-	<head>
-		<meta name="viewport" content="width=device-width">
-		<meta name="description" content="Dashboard webapp with a collection of useful tools">
-		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"> 
-		<meta charset="utf-8">
-		<title>Caeborg - Login</title>
-		<link rel="stylesheet" type="text/css" href="/.css/style.css">
-		<link rel="stylesheet" type="text/css" href="/.css/styles/account.css">
-		<link rel="icon" type="image/x-icon" href="/assets/users/caeborg.avif">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<script> window.addEventListener('contextmenu', (event) => { event.preventDefault(); }) </script>
-	</head>
+<head>
+	<meta name="viewport" content="width=device-width">
+	<meta name="description" content="Dashboard webapp with a collection of useful tools">
+	<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+	<meta charset="utf-8">
+	<title>Caeborg - Login</title>
+	<link rel="stylesheet" type="text/css" href="/.css/style.css">
+	<link rel="stylesheet" type="text/css" href="/.css/styles/account.css">
+	<link rel="icon" type="image/x-icon" href="/assets/users/caeborg.avif">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+		integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script> window.addEventListener('contextmenu', (event) => {event.preventDefault();}) </script>
+</head>
 
-	<body>
+<body>
 
-		<button id="back-button">
-			<i class="fa-solid fa-arrow-right-from-bracket" style="transform: scaleX(-1)"></i>
-		</button>
+	<button id="back-button" onclick="window.location.assign('/')">
+		<i class="fa-solid fa-arrow-right-from-bracket" style="transform: scaleX(-1)"></i>
+	</button>
 
-		<section id="main">
-			<div id="header">
-				<button id="pfp-button">
-					<i id="pfp-i" class="fa-solid fa-pen-to-square"></i>
-					<img id="pfp-img" width="80" height="80">
-				</button>&emsp;
-				<h1>Manage your Caeborg account</h1>
+	<section id="main">
+		<div id="header">
+			<button id="pfp-button">
+				<i id="pfp-i" class="fa-solid fa-pen-to-square"></i>
+				<img id="pfp-img" width="80" height="80">
+			</button>&emsp;
+			<h1>Manage your Caeborg account</h1>
+		</div>
+
+		<div>
+			<p class="subtitle">Change your username:</p>
+			<input id="new-username-input" placeholder="enter your new username" autocomplete="new-password"></input>
+		</div>
+
+		<div id="password-div">
+			<p class="subtitle">Change your password:</p>
+			<input id="new-password-input" placeholder="enter your new password" type="password"
+				autocomplete="new-password"></input>
+			<button id="new" class="show-password-button"> <i class="fa-solid fa-eye"></i> </button>
+		</div>
+
+		<div id="bottom-div">
+			<div id="logout-div">
+				<button id="logout-button"> <i class="fa-solid fa-right-from-bracket"></i> </button>
+				<button id="logout-all-button">Logout all devices</button>
 			</div>
-
-			<div>
-				<p class="subtitle">Change your username:</p>
-				<input id="new-username-input" placeholder="enter your new username" autocomplete="new-password"></input>
+			<div id="exit-div">
+				<button id="save-button">Save</button>
+				<button id="discard-button">Discard</button>
 			</div>
+		</div>
+	</section>
 
-			<div id="password-div">
-				<p class="subtitle">Change your password:</p>
-				<input id="new-password-input" placeholder="enter your new password" type="password" autocomplete="new-password"></input>
-				<button id="new" class="show-password-button"> <i class="fa-solid fa-eye"></i> </button>
-			</div>
 
-			<div id="bottom-div">
-				<div id="logout-div">
-					<button id="logout-button"> <i class="fa-solid fa-right-from-bracket"></i> </button>
-					<button id="logout-all-button">Logout all devices</button>
-				</div>
-				<div id="exit-div">
-					<button id="save-button">Save</button>
-					<button id="discard-button">Discard</button>
-				</div>
-			</div>
-		</section>
-		
+	<section id="footer-sec">caeborg-web</section>
 
-		<section id="footer-sec">caeborg-web</section>
-
-		<script type="module" src="/.js/account.js"></script>
-	</body>
+	<script type="module" src="/.js/account.js"></script>
+</body>
 
 </html>

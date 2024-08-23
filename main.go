@@ -48,14 +48,19 @@ func compileTS() {
 	if server.DevMode {
 		tsc.Env = append(tsc.Env, os.Environ()...)
 		stdout, _ := tsc.StdoutPipe()
-		tsc.Start()
-		log.Println("Started tsc-watch")
+		if err := tsc.Start(); err != nil {
+			fmt.Println("Couldn't run tsc-watch. Make sure it's installed.")
+			fmt.Println("Consider running `npm install -g tsc-watch`")
+			os.Exit(1)
+		}
 
+		log.Println("Started tsc-watch")
 		reader := bufio.NewReader(stdout)
 
 		for {
-			output, _ := reader.ReadString('\n')
-			log.Print("tsc-watch - ", output)
+			if output, _ := reader.ReadString('\n'); output != "\n" {
+				log.Print("tsc-watch - ", output)
+			}
 		}
 	} else {
 		tsc.Env = append(tsc.Env, os.Environ()...)
@@ -80,8 +85,9 @@ func compileSass() {
 		reader := bufio.NewReader(stdout)
 
 		for {
-			output, _ := reader.ReadString('\n')
-			log.Print("sass - ", output)
+			if output, _ := reader.ReadString('\n'); output != "\n" {
+				log.Print("sass - ", output)
+			}
 		}
 	} else {
 		sass = exec.Command("sass", "./preproc/styles:./client/public/.css")
