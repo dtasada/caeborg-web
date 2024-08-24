@@ -138,16 +138,15 @@ func (c *Client) chatHandler() {
 				return
 			}
 
-			if message["dataType"] == "img" {
-				path := AssetsPath + "/chat.json"
-				if _, err := os.Stat(path); os.IsNotExist(err) {
-					log.Println(path + " does not exist! Creating template...")
-					if err := os.Mkdir(path, 0777); err != nil {
-						log.Println("Could not create template")
-						return
-					}
+			path := AssetsPath + "/chat.json"
+			if _, err := os.Stat(path); os.IsNotExist(err) {
+				log.Println(path + " does not exist! Creating template...")
+				if err := os.Mkdir(path, 0777); err != nil {
+					log.Println("Could not create template")
+					return
 				}
-
+			}
+			if message["dataType"] == "img" {
 				b64IMG := message["content"]
 				var fileName string
 				if imgType := b64IMG[strings.Index(b64IMG, "/")+1 : strings.Index(b64IMG, ";")]; slices.Contains([]string{"png", "jpeg", "jpg"}, imgType) {
@@ -170,6 +169,25 @@ func (c *Client) chatHandler() {
 				}
 
 				message["content"] = "/assets/chat" + fileName
+			} else if message["dataType"] == "file" {
+				bytes := []byte(message["content"])
+				var fileName string
+				dots := strings.Split(message["fileName"], ".")
+				fileName = "/" + uuid.New().String() + "." + dots[len(dots)-1]
+
+				filePath := PubAssetsPath + "/chat" + fileName
+				if err := os.WriteFile(filePath, bytes, 0777); err != nil {
+					log.Println("chatHandler: Could not write file to", fileName)
+					return
+				}
+
+				message["content"] = "/assets/chat" + fileName
+
+				file, err := os.Stat(filePath)
+				if err != nil {
+					log.Println("chatHandler: Could not os.Stat " + path)
+				}
+				message["fileSize"] = fileSize(file.Size())
 			}
 
 			// Marshal *after* changing username

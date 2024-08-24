@@ -19,6 +19,42 @@
       background: inherit;
     }
 
+    .file-container-div {
+      background: var(--col-surface);
+      border-radius: 16px;
+
+      margin: 4px 0px;
+      padding: 10px;
+
+      width: fit-content;
+      height: fit-content;
+
+      display: flex;
+      flex-direction: row;
+
+      .p-div {
+        margin-right: 14px;
+        align-content: space-around;
+
+        .file-name {
+          text-decoration: underline wavy var(--col-blue);
+          color: var(--col-blue);
+          font-size: 1.1em;
+
+          &:hover {
+            filter: brightness(110%);
+          }
+        }
+      }
+
+      button {
+        border-radius: 50%;
+        font-size: 2em;
+        height: 2em;
+        width: 2em;
+      }
+    }
+
     img {
       &.pfp {
         position: absolute;

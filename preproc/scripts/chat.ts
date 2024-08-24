@@ -1,4 +1,5 @@
-export { };
+import { setUserSettings } from "./usersettings.js";
+
 const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 const submit = document.getElementById("submit-button")! as HTMLButtonElement;
@@ -20,6 +21,8 @@ interface Message {
 	time: string,
 	dataType: string,
 	type: string,
+	fileName?: string,
+	fileSize?: string,
 }
 
 const ws = new WebSocket(`wss://${document.location.host}/chatSocket`);
@@ -54,25 +57,24 @@ inputBox.addEventListener("keydown", event => {
 	}
 });
 
-function send(type: string, content: string) {
+function send(type: string, content: string, fileName?: string) {
 	ws.send(JSON.stringify({
 		content: content,
 		sender: localStorage.uuid,
 		date: `${time.toLocaleDateString()}`,
 		time: getTime(),
 		dataType: type,
-		type: "chatPostMessage"
+		type: "chatPostMessage",
+		fileName: fileName
 	}));
 }
 
 inputBox.addEventListener("paste", async (e) => {
-	for (const img of Array.from(e!.clipboardData!.files)) {
+	for (const file of Array.from(e!.clipboardData!.files)) {
 		const reader = new FileReader();
-		reader.readAsDataURL(img);
+		reader.readAsDataURL(file);
 		if (reader.result !== null) {
-			reader.onload = () => {
-				send("img", reader.result!.toString())
-			}
+			reader.onload = () => send(file.type.startsWith("image/") ? "img" : "file", reader.result!.toString())
 		}
 	}
 });
@@ -95,32 +97,31 @@ function getTime() {
 }
 
 // Handle images
-addButton.addEventListener("click", () => {
-	const inputFile = document.createElement("input");
-	inputFile.type = "file";
-	inputFile.hidden = true;
+addButton.onclick = () => {
+	let fileInput = document.createElement("input");
+	fileInput.type = "file"
 
-	inputFile.onchange = (event) => {
-		const file = (event.target as HTMLInputElement).files![0];
-		console.log("file:", file)
-		if (file.size < 256_000_000) {
-			const reader = new FileReader();
+	fileInput.onchange = () => {
+		let file = fileInput.files![0];
+
+		let reader = new FileReader();
+		if (file.type.startsWith("image/")) {
+			reader.readAsDataURL(file);
+		} else {
+			reader.readAsBinaryString(file);
+		};
+
+		reader.onload = e => {
 			if (file.type.startsWith("image/")) {
-				if (reader.result) {
-					reader.onload = () => {
-						send("img", reader.result!.toString());
-					};
-				}
-				reader.readAsDataURL(file);
-				inputBox.placeholder = "Enter message here...";
+				send("img", e.target!.result!.toString());
 			} else {
-				inputBox.placeholder = "file format not supported!";
-			}
-		}
+				send("file", e.target!.result!.toString(), file.name);
+			};
+		};
 	};
 
-	inputFile.click();
-});
+	fileInput.click();
+}
 
 // important functions
 async function renderMessage(json: Message) {
@@ -149,47 +150,68 @@ async function renderMessage(json: Message) {
 	timedateP.classList.add("datetimeTag");
 	li.appendChild(timedateP);
 
-	if (json.dataType === "txt") {
-		const p = document.createElement("p");
-		p.classList.add("messageContent")
-		p.innerHTML = json.content;
-		if (p.innerHTML.includes("@")) {
-			const user = p.innerHTML.match(/@\S+/)![0].split("@")[1];
-			const pingsMe = await fetch(`/pingUser`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					username: user,
-					uuid: localStorage.uuid
-				})
-			});
-			const pingsMeText = await pingsMe.text();
-			p.innerHTML = p.innerHTML.replace(/@\S+/, `<p class="ping">$&</p>`);
-			if (pingsMeText === "true") li.classList.add("pingsMe");
+	switch (json.dataType) {
+		case "txt": {
+			const p = document.createElement("p");
+			p.classList.add("messageContent")
+			p.innerHTML = json.content;
+			if (p.innerHTML.includes("@")) {
+				const user = p.innerHTML.match(/@\S+/)![0].split("@")[1];
+				const pingsMe = await fetch(`/pingUser`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						username: user,
+						uuid: localStorage.uuid
+					})
+				});
+				const pingsMeText = await pingsMe.text();
+				p.innerHTML = p.innerHTML.replace(/@\S+/, `<p class="ping">$&</p>`);
+				if (pingsMeText === "true") li.classList.add("pingsMe");
+			}
+			p.innerHTML = p.innerHTML.replace(/http\S+/, '<a href="$&" target="_blank">$&</a>');
+			li.appendChild(p);
+			break;
 		}
-		p.innerHTML = p.innerHTML.replace(/http\S+/, '<a href="$&" target="_blank">$&</a>');
-		li.appendChild(p);
-	} else if (json.dataType === "img") {
-		const img = document.createElement("img");
-		img.src = json.content;
-		img.classList.add("imageMessage");
+		case "img": {
+			const img = document.createElement("img");
+			img.src = json.content;
+			img.classList.add("imageMessage");
 
-		img.addEventListener("click", () => {
-			img.classList.toggle("imagePreview");
-			const observer = new ResizeObserver(scrollBottom);
-			observer.observe(img);
-			img.addEventListener("transitionend", () => observer.disconnect());
-		});
+			img.addEventListener("click", () => {
+				img.classList.toggle("imagePreview");
+				const observer = new ResizeObserver(scrollBottom);
+				observer.observe(img);
+				img.addEventListener("transitionend", () => observer.disconnect());
+			});
 
-		img.addEventListener("load", () => {
-			img.style.height = `${img.naturalHeight}px`;
-			img.style.width = `${img.naturalWidth}px`;
-			scrollBottom();
-		});
+			img.addEventListener("load", () => {
+				img.style.height = `${img.naturalHeight}px`;
+				img.style.width = `${img.naturalWidth}px`;
+				scrollBottom();
+			});
 
-		li.appendChild(img);
+			li.appendChild(img);
+			break;
+		}
+		case "file": {
+			const div = document.createElement("div");
+			div.innerHTML = `<div class="file-container-div">
+				<div class="p-div">
+					<a href="${json.content}" download="${json.fileName}"><b class="file-name" >${json.fileName!}</b></a><br>
+					<p class="file-size">${json.fileSize!}</p>
+				</div>
+				<a href="${json.content}" download="${json.fileName}"><button class="fa-solid fa-download"></button></a>
+			</div>`;
+
+
+			li.appendChild(div.firstChild!); // dont know why i have to do this instead of outerHTML, but whatever
+			break;
+		}
 	}
 
 	outputOl.appendChild(li);
 	scrollBottom();
 }
+
+setUserSettings();
