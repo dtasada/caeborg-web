@@ -1,9 +1,16 @@
-export {};
+import { setUserSettings } from "./usersettings.js";
+
 const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 
+const dictDiv = document.getElementById("dict-div")! as HTMLDivElement;
+const sourceDictBox = document.getElementById("source-dict-box") as HTMLTextAreaElement;
+let translateDiv = document.getElementById("translate-div")! as HTMLDivElement;
+let resizerDiv = document.getElementById("resizer-div")! as HTMLDivElement;
+
 let sourceLanguage = "en";
 let targetLanguage = "nl";
+let isResizing = false;
 
 const languages: Record<string, string> = {
 	"Afrikaans": "af",
@@ -173,7 +180,7 @@ addButton.addEventListener("click", async () => {
 		addButton.addEventListener("click", async () => {
 			document.querySelector(".target")!.classList.remove("target");
 
-			const newButton = document.createElement("button")	
+			const newButton = document.createElement("button")
 			newButton.classList.add("target");
 			newButton.innerHTML = newlangSel.value;
 			buttonsSec.insertBefore(newButton, addButton);
@@ -194,31 +201,42 @@ addButton.addEventListener("click", async () => {
 });
 
 flipButton.addEventListener("click", async () => {
-	let temp = sourceLanguage;
-	sourceLanguage = targetLanguage;
-	targetLanguage = temp;
-	// [sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
+	[sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
 	[inputBox.value, outputBox.value] = [outputBox.value, inputBox.value];
-	let sourceLanguageFull: string;
-	let targetLanguageFull: string;
-	for (const key of Object.keys(languages)) {
-		if (languages[key] === sourceLanguage) sourceLanguageFull = key;
-		if (languages[key] === targetLanguage) targetLanguageFull = key;
-	}
-	document.querySelectorAll("#buttons button").forEach(async element => {
+	let sourceLanguageFull = Object.keys(languages).find(key => languages[key] === sourceLanguage);
+	let targetLanguageFull = Object.keys(languages).find(key => languages[key] === targetLanguage);
+
+	document.querySelectorAll("#buttons button").forEach(element => {
 		if (element.innerHTML === sourceLanguageFull) {
+			console.log("srcl", element);
 			element.classList.remove("source");
 			element.classList.add("target");
 		} else if (element.innerHTML === targetLanguageFull) {
+			console.log("trgl", element);
 			element.classList.remove("target");
 			element.classList.add("source");
 		}
-		await translate();
+		translate();
 		inputBox.focus();
 	});
 });
 
 inputBox.addEventListener("keyup", () => translate());
+
+resizerDiv.onmousedown = () => isResizing = true;
+document.onmousemove = (e) => {
+	// fix annoying bug here (holding mouse down below min-height)
+	if (!isResizing) return;
+
+	const translateDivHeight = e.clientY - translateDiv.getBoundingClientRect().top;
+
+	translateDiv.style.height = `${translateDivHeight}px`;
+	dictDiv.style.height = `calc(100% - ${translateDivHeight + resizerDiv.clientHeight}px)`;
+
+	document.addEventListener("mouseup", () => {
+		isResizing = false;
+	}, { once: true });
+}
 
 function buildButtons() {
 	document.querySelectorAll("#buttons > button").forEach(element => {
@@ -259,4 +277,77 @@ async function translate(source?: string, target?: string) {
 
 	outputBox.setAttribute("placeholder", await translate("Never gonna give you up"));
 	inputBox.setAttribute("placeholder", await translate("Never gonna give you up", sourceLanguage));
+
+	let words = inputBox.value.split(" ").filter(e => e);
+	if (words.length === 1 && sourceLanguage === "en") {
+		dictDiv.style.display = "flex";
+		resizerDiv.style.display = "flex";
+
+		translateDiv.classList.add("dict");
+
+		let srcDef = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/${sourceLanguage}/${words[0]}`);
+		sourceDictBox.innerHTML = parseDict(await srcDef.json());
+	} else {
+		translateDiv.classList.remove("dict");
+
+		resizerDiv.style.display = "none";
+		dictDiv.style.display = "none";
+	}
 }
+
+function parseDict(json: any): string {
+	let ret: any[] = [];
+	console.log("json", json)
+	json.forEach((definition: any, index: number) => {
+		const { word, phonetic, phonetics, origin, meanings } = definition;
+
+		// Start with the word and phonetic information
+		let formatted = `${word}: definition ${index + 1}\n`;
+
+		if (phonetic) formatted += `Phonetic: ${phonetic}\n`;
+
+		// Add all available phonetics
+		if (phonetics && phonetics.length > 0) {
+			formatted += `Phonetics:\n`;
+			phonetics.forEach((p: any, index: any) => {
+				formatted += `  ${index + 1}.${p.text ? ' ' : ''}${p.text || ''}`;
+				if (p.audio) {
+					formatted += ` (Audio: ${p.audio})`;
+				}
+				formatted += `\n`;
+			});
+		}
+
+
+		// Add origin if available
+		if (origin) {
+			formatted += `Origin: ${origin}\n`;
+		}
+
+		// Add meanings, part of speech, and definitions
+		if (meanings && meanings.length > 0) {
+			formatted += `Meanings:\n`;
+			meanings.forEach((meaning: any) => {
+				formatted += `  Part of Speech: ${meaning.partOfSpeech}\n`;
+				meaning.definitions.forEach((definition: any, index: any) => {
+					formatted += `    ${index + 1}. Definition: ${definition.definition}\n`;
+					if (definition.example) {
+						formatted += `       Example: ${definition.example}\n`;
+					}
+					if (definition.synonyms && definition.synonyms.length > 0) {
+						formatted += `       Synonyms: ${definition.synonyms.join(', ')}\n`;
+					}
+					if (definition.antonyms && definition.antonyms.length > 0) {
+						formatted += `       Antonyms: ${definition.antonyms.join(', ')}\n`;
+					}
+				});
+			});
+		}
+
+		ret.push(formatted);
+	})
+
+	return ret.join("\n");
+}
+
+setUserSettings(); // Idk why this is necessary, but it seems to be

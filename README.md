@@ -15,7 +15,6 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 # Todo
 * Optimize frontend HTML CSS & JS
     * Fix `shell.ts` (pretty much broken)
-    * Fix launcher image loading
     * Rebuild sidebar hiding
 * New features:
     * Chat features:
@@ -23,7 +22,6 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
         - message menu, reply to message
         - link previews
         - optimize loading
-    * Translator dictionary API
     * Write Notes tool
     * Write Paint tool
     * OpenAI API with CaeborgGPT, DALL-E?

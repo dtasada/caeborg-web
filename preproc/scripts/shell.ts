@@ -238,7 +238,7 @@ const commands: Record<string, Command> = {
 	help: {
 		brief: "Lists all available commands",
 		command: () => {
-			let ret = bi("Welcome to C This is a text interface that offers different tools.<br>Here are the available commands:<br>");
+			let ret = bi("Welcome to CShell! This is a text interface that offers different tools.<br>Here are the available commands:<br>");
 			for (const [k, v] of Object.entries(commands)) {
 				ret += `${bi(k)}: ${v.brief};<br>`;
 			}

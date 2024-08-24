@@ -69,8 +69,39 @@ body {
 #text-areas {
   display: flex;
   flex-grow: 1;
-  flex-direction: row;
+  flex-direction: column;
   height: calc(100% - 64px);
+
+  #resizer-div {
+    height: 4px;
+    background: var(--col-overlay);
+    cursor: row-resize;
+  }
+
+  #translate-div,
+  #dict-div {
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    border: 1px solid var(--col-overlay);
+  }
+
+  #translate-div {
+    height: 65%;
+    resize: vertical;
+    border-radius: 0px 0px 32px 32px;
+
+    &.dict,
+    &.dict textarea {
+      border-radius: 0px;
+    }
+  }
+
+  #dict-div {
+    height: 35%;
+    border-radius: 0px 0px 32px 32px;
+    min-height: calc(35%);
+  }
 
   textarea {
     flex-grow: 1;
@@ -83,6 +114,14 @@ body {
     resize: none;
     overflow: hidden;
     border-bottom: none;
+
+    &#source-dict-box {
+      padding: 12px;
+      overflow: scroll;
+      border: none;
+      border-top: none;
+      resize: none
+    }
 
     &#input-box {
       border-bottom-left-radius: 32px;

@@ -1,4 +1,5 @@
-export {};
+import { setUserSettings } from "./usersettings.js";
+
 const newShortcutSec = document.getElementById("new-shortcut-sec")!;
 const launcherSec = document.getElementById("launcher-sec")!;
 const urlInput = document.getElementById("url-input")! as HTMLInputElement;
@@ -39,19 +40,22 @@ function makeTitle(text: string) {
 
 
 async function genShortcuts() {
-	if (document.querySelector("launcher-ol")) {
-		document.querySelector("launcher-ol")!.remove()
-		document.querySelector("launcher-sec")!.remove()
+	let launcherOl = document.getElementById("launcher-ol")!;
+	if (launcherOl) {
+		launcherOl.innerHTML = "";
+		console.log("launcherOl", launcherOl);
+	} else {
+		launcherOl = document.createElement("ol");
+		launcherOl.id = "launcher-ol";
+		launcherOl.classList.add("horizontal");
+		launcherSec.appendChild(launcherOl);
+		console.log("appended");
 	}
 
-	let launcherOl: HTMLElement;
 	const res = await fetch(`/fetchLauncher?uuid=${localStorage.uuid}`);
 	const resText = await res.text()
 	if (resText !== "__userinvalid") {
 		obj = JSON.parse(resText);
-		launcherOl = document.createElement("ol");
-		launcherOl.id = "launcher-ol";
-		launcherOl.classList.add("horizontal");
 	} else {
 		makeTitle("Please sign in to use the launcher");
 		addButton.setAttribute("disabled", "true");
@@ -70,7 +74,6 @@ async function genShortcuts() {
 			<img src="/icon?url=${url}&size=64..128..256" width="128" height="128"/><br><p>${key}</p></button>`;
 		launcherOl.appendChild(li);
 	}
-	launcherSec.appendChild(launcherOl);
 
 	document.querySelectorAll("#launcher-ol > li > button").forEach(element => {
 		if (document.location.search === "?newTabDash") {
@@ -97,6 +100,8 @@ async function genShortcuts() {
 			}
 		});
 	});
+
+	setUserSettings();
 }
 
 genShortcuts();
@@ -119,7 +124,7 @@ async function cleanup() {
 			object: JSON.stringify(obj),
 		})
 	});
-	location.reload();
+
 	isNew = true;
 
 	genShortcuts();
@@ -128,7 +133,7 @@ async function cleanup() {
 function eventHandler(element?: Element) {
 	nameInput.focus();
 	nameInput.addEventListener("keydown", event => { if (event.key === "Enter") urlInput.focus() });
-	
+
 	window.addEventListener("keydown", event => { if (event.key === "Escape") cleanup(); })
 
 	if (element) {
@@ -156,7 +161,6 @@ function placeholderFavicon() {
 	}
 }
 
-// Real functional functions
 function confirmAll(element?: Element) {
 	if (isNew === false) {
 		delete obj[element!.querySelector("p")!.innerHTML];
@@ -165,7 +169,8 @@ function confirmAll(element?: Element) {
 	cleanup();
 }
 
-function addShortcut() {
+urlInput.oninput = placeholderFavicon
+addButton.onclick = () => {
 	if (newShortcutSec.style.display === "flex") {
 		cleanup();
 	} else {
