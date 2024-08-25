@@ -197,6 +197,7 @@ async function renderMessage(json: Message) {
 				<a href="${link}" target="_blank"><button class="fa-solid fa-arrow-up-right-from-square"></button></a>
 				`
 
+
 				li.appendChild(previewDiv);
 			}
 			break;
@@ -232,7 +233,6 @@ async function renderMessage(json: Message) {
 				<a href="${json.content}" download="${json.fileName}"><button class="fa-solid fa-download"></button></a>
 			</div>`;
 
-
 			li.appendChild(div.firstChild!); // dont know why i have to do this instead of outerHTML, but whatever
 			break;
 		}
@@ -240,17 +240,18 @@ async function renderMessage(json: Message) {
 
 	outputOl.appendChild(li);
 
-	document.querySelectorAll(".link-preview-div").forEach(e => {
-		let div = e as HTMLDivElement;
-		let img = div.querySelector("img")
-		if (img) {
-			div.style.paddingLeft = window.getComputedStyle(div).height;
-			img.onerror = () => {
-				img.remove();
-				div.style.removeProperty("padding-left");
-			}
+	
+	let previewDiv = li.querySelector(".link-preview-div") as HTMLDivElement;
+	if (previewDiv) {
+		let img = previewDiv.querySelector(".link-preview-img")! as HTMLImageElement;
+		img.onload = () => {
+			previewDiv.style.paddingLeft = window.getComputedStyle(img).width;
 		}
-	});
+		img.onerror = () => {
+			img.remove();
+			previewDiv.style.removeProperty("padding-left");
+		};
+	}
 
 	scrollBottom();
 }

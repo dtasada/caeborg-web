@@ -20,7 +20,6 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
     * Chat features:
         - image preview, confirm image sending
         - message menu, reply to message
-        - link previews
         - optimize loading
     * Write Notes tool
     * Write Paint tool

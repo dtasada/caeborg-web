@@ -32,7 +32,7 @@
       background: var(--col-surface);
       border-radius: 16px;
 
-      margin: 4px 0px;
+      margin-top: 8px;
       padding: 10px;
       /* purely a reminder, this is set in chat.ts; padding-left: self.height; */
       max-width: 50%;
@@ -50,9 +50,8 @@
         top: 0px;
         left: 0px;
         max-height: 100%;
-        aspect-ratio: 1 / 1;
         height: auto;
-        object-fit: contain;
+        object-fit: cover !important;
       }
 
       .p-div {
