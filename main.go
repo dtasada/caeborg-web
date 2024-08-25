@@ -160,6 +160,7 @@ func startServer() {
 
 	mux.HandleFunc("/chatSocket", manager.ServeChat)
 	mux.HandleFunc("/pingUser", server.HandlePingsMe)
+	mux.HandleFunc("/siteMetadata", server.HandleGetSiteMetadata)
 
 	// Icons
 	mux.HandleFunc("/icon", func(w http.ResponseWriter, r *http.Request) {

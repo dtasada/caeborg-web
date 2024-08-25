@@ -5,9 +5,9 @@ const showPasswordButton = document.querySelector(".show-password-button")! as H
 
 if (!localStorage.uuid) localStorage.uuid = crypto.randomUUID();;
 
-usernameInput.addEventListener("keydown", event => {
+usernameInput.onkeydown = event => {
 	if (event.key === "Enter") passwordInput.focus()
-});
+};
 
 usernameInput.oninput = () => {
 	if (usernameInput.value.includes("?")) {
@@ -17,10 +17,12 @@ usernameInput.oninput = () => {
 	}
 }
 
-passwordInput.addEventListener("keydown", event => { if (event.key === "Enter") confirm() });
-submitButton.addEventListener("click", () => { confirm() });
+passwordInput.onkeydown = event => {
+	if (event.key === "Enter") confirm();
+};
+submitButton.onclick = () => confirm();
 
-showPasswordButton.addEventListener("click", () => {
+showPasswordButton.onclick = () => {
 	if (passwordInput.getAttribute("type") === "password") {
 		passwordInput.removeAttribute("type")
 		document.querySelector("#show-password-button i")!.classList.replace("fa-eye", "fa-eye-slash")
@@ -28,7 +30,7 @@ showPasswordButton.addEventListener("click", () => {
 		passwordInput.setAttribute("type", "password")
 		document.querySelector("#show-password-button i")!.classList.replace("fa-eye-slash", "fa-eye")
 	}
-});
+};
 
 async function confirm() {
 	// generate UUID
@@ -47,7 +49,7 @@ async function confirm() {
 
 		return;
 	} // Security only includes checking for dunders and spaces in the frontend
-		
+
 	if (usernameInput.value && passwordInput.value) {
 		const res = await fetch("/auth", {
 			method: "PUT",

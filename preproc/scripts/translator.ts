@@ -1,4 +1,4 @@
-import { setUserSettings } from "./usersettings.js";
+import { setUserSettings } from "./lib.js";
 
 const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const addButton = document.getElementById("add-button")! as HTMLButtonElement;
@@ -168,9 +168,9 @@ buttonsSec.insertBefore(newlangSel, copyButton);
 
 if (localStorage.translateInputBox) inputBox.value = localStorage.translateInputBox;
 
-copyButton.addEventListener("click", () => navigator.clipboard.writeText(outputBox.value));
+copyButton.onclick = () => navigator.clipboard.writeText(outputBox.value);
 
-addButton.addEventListener("click", async () => {
+addButton.onclick = async () => {
 	if (newlangSel.hidden === true) {
 		newlangSel.hidden = false;
 		addButton.classList.remove("fa-plus");
@@ -198,9 +198,9 @@ addButton.addEventListener("click", async () => {
 		addButton.classList.remove("fa-check");
 		addButton.classList.add("fa-plus");
 	}
-});
+};
 
-flipButton.addEventListener("click", async () => {
+flipButton.onclick = async () => {
 	[sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
 	[inputBox.value, outputBox.value] = [outputBox.value, inputBox.value];
 	let sourceLanguageFull = Object.keys(languages).find(key => languages[key] === sourceLanguage);
@@ -219,9 +219,9 @@ flipButton.addEventListener("click", async () => {
 		translate();
 		inputBox.focus();
 	});
-});
+};
 
-inputBox.addEventListener("keyup", () => translate());
+inputBox.onkeyup = () => translate();
 
 resizerDiv.onmousedown = () => isResizing = true;
 document.onmousemove = (e) => {
@@ -240,19 +240,19 @@ document.onmousemove = (e) => {
 
 function buildButtons() {
 	document.querySelectorAll("#buttons > button").forEach(element => {
-		element.addEventListener("click", async () => {
+		(element as HTMLButtonElement).onclick = async () => {
 			document.querySelector(".source")!.classList.remove("source");
 			element.classList.add("source");
 			sourceLanguage = languages[element.innerHTML];
 			await translate();
-		});
-		element.addEventListener("contextmenu", async (event) => {
+		};
+		(element as HTMLButtonElement).oncontextmenu = async (event) => {
 			event.preventDefault();
 			document.querySelector(".target")!.classList.remove("target");
 			element.classList.add("target");
 			targetLanguage = languages[element.innerHTML];
 			await translate();
-		});
+		};
 	});
 }
 buildButtons();

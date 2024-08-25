@@ -1,4 +1,4 @@
-import { setUserSettings } from "./usersettings.js";
+import { setUserSettings } from "./lib.js";
 setUserSettings();
 
 let pfpContent: string;
@@ -15,7 +15,7 @@ if (window.innerWidth >= 1200) {
 	backButton.style.display = "none"
 	backButton.classList.add("anim-out");
 }
-window.addEventListener("resize", () => {
+window.onresize = () => {
 	if (window.innerWidth >= 1200 && !backButton.classList.contains("anim-in")) {
 		backButton.classList.add("anim-in");
 		backButton.classList.remove("anim-out");
@@ -23,10 +23,10 @@ window.addEventListener("resize", () => {
 		backButton.classList.add("anim-out");
 		backButton.classList.remove("anim-in");
 	}
-});
+};
 
 document.querySelectorAll(".show-password-button").forEach(element => {
-	element.addEventListener("click", () => {
+	(element as HTMLButtonElement).onclick = () => {
 		const input = document.getElementById(`${element.id}-password-input`)!;
 		const id = document.querySelector(`#${element.id}.show-password-button i`)!
 		if (input.getAttribute("type") === "password") {
@@ -36,7 +36,7 @@ document.querySelectorAll(".show-password-button").forEach(element => {
 			input.setAttribute("type", "password");
 			id.classList.replace("fa-eye-slash", "fa-eye");
 		}
-	});
+	};
 });
 
 const logoutButton = document.getElementById("logout-button")!;
@@ -59,7 +59,7 @@ logoutButton.onmouseenter = () => {
 	}, { once: true });
 };
 
-document.getElementById("save-button")!.addEventListener("click", async () => {
+document.getElementById("save-button")!.onclick = async () => {
 	if (pfpContent) {
 		await fetch("/changePFP", {
 			method: "PUT",
@@ -115,11 +115,9 @@ document.getElementById("save-button")!.addEventListener("click", async () => {
 	}
 
 	window.location.assign("/");
-});
+};
 
-document.getElementById("discard-button")!.addEventListener("click", () => {
-	window.location.reload();
-});
+document.getElementById("discard-button")!.onclick = () => window.location.reload();
 
 const pfpIMG = document.getElementById("pfp-img") as HTMLImageElement;
 async function getPFP() {
@@ -129,16 +127,16 @@ async function getPFP() {
 getPFP();
 
 const pfpButton = document.getElementById("pfp-button")!;
-pfpButton.addEventListener("mouseover", () => {
+pfpButton.onmouseover = () => {
 	const i = document.getElementById("pfp-i")!;
 	i.style.display = "flex";
 
 	pfpButton.addEventListener("mouseout", () => {
 		i.style.removeProperty("display");
 	}, { once: true });
-});
+};
 
-pfpButton.addEventListener("click", () => {
+pfpButton.onclick = () => {
 	const inputFile = document.createElement("input");
 	inputFile.type = "file";
 	inputFile.accept = ".png,.jpg,.jpeg,.avif";
@@ -155,4 +153,4 @@ pfpButton.addEventListener("click", () => {
 		}
 	}
 	inputFile.click();
-});
+};

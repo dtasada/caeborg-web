@@ -1,4 +1,4 @@
-import { setUserSettings } from "./usersettings.js";
+import { setUserSettings, getURL } from "./lib.js";
 
 const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const addButton = document.getElementById("add-button")! as HTMLButtonElement;
@@ -26,17 +26,20 @@ interface Message {
 }
 
 const ws = new WebSocket(`wss://${document.location.host}/chatSocket`);
-ws.addEventListener("open", () => {
+ws.onopen = () => {
 	console.log("Websocket connected");
 	ws.send(JSON.stringify({ type: "chatFetchAll" }));
-});
+};
 
-ws.addEventListener("message", async ({ data }) => {
+ws.onmessage = async ({ data }) => {
 	const json = JSON.parse(data);
 
-	if (json.type === "chatPostMessage") renderMessage(json);
-	else Object.values(json).forEach((element) => renderMessage(element as Message));
-});
+	if (json.type === "chatPostMessage") {
+		await renderMessage(json);
+	} else for (let message of json) {
+		await renderMessage(message as Message);
+	}
+};
 
 // html tags as variables
 if (!localStorage.uuid) {
@@ -47,7 +50,7 @@ if (!localStorage.uuid) {
 }
 
 inputBox.focus();
-inputBox.addEventListener("keydown", event => {
+inputBox.onkeydown = event => {
 	switch (event.key) {
 		case "Enter":
 			if (inputBox.value !== "") send("txt", inputBox.value)
@@ -55,7 +58,7 @@ inputBox.addEventListener("keydown", event => {
 			localStorage.savedInputValue = inputBox.value;
 			break;
 	}
-});
+};
 
 function send(type: string, content: string, fileName?: string) {
 	ws.send(JSON.stringify({
@@ -69,7 +72,7 @@ function send(type: string, content: string, fileName?: string) {
 	}));
 }
 
-inputBox.addEventListener("paste", async (e) => {
+inputBox.onpaste = async (e) => {
 	for (const file of Array.from(e!.clipboardData!.files)) {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
@@ -77,15 +80,15 @@ inputBox.addEventListener("paste", async (e) => {
 			reader.onload = () => send(file.type.startsWith("image/") ? "img" : "file", reader.result!.toString())
 		}
 	}
-});
+};
 
 inputBox.oninput = () => { localStorage.savedInputValue = inputBox.value; }
 
-submit.addEventListener("click", () => {
+submit.onclick = () => {
 	if (inputBox.value !== "") send("txt", inputBox.value)
 	inputBox.value = "";
 	localStorage.savedInputValue = inputBox.value;
-});
+};
 
 function getTime() {
 	let hour = time.getHours().toString();
@@ -155,6 +158,8 @@ async function renderMessage(json: Message) {
 			const p = document.createElement("p");
 			p.classList.add("messageContent")
 			p.innerHTML = json.content;
+
+			// @ tag processing
 			if (p.innerHTML.includes("@")) {
 				const user = p.innerHTML.match(/@\S+/)![0].split("@")[1];
 				const pingsMe = await fetch(`/pingUser`, {
@@ -169,8 +174,31 @@ async function renderMessage(json: Message) {
 				p.innerHTML = p.innerHTML.replace(/@\S+/, `<p class="ping">$&</p>`);
 				if (pingsMeText === "true") li.classList.add("pingsMe");
 			}
-			p.innerHTML = p.innerHTML.replace(/http\S+/, '<a href="$&" target="_blank">$&</a>');
+
 			li.appendChild(p);
+
+			// Link preview processing
+			const match = /(^| )(www\.|http(.|):\/\/)\S+/;
+			const matches = p.innerHTML.match(match);
+			if (matches) {
+				let link = getURL(matches[0]);
+				const res = await (await fetch(`/siteMetadata?url=${link}`)).json();
+
+				p.innerHTML = p.innerHTML.replace(matches[0], '<a href="$&" target="_blank">$&</a>');
+
+				let previewDiv = document.createElement("div");
+				previewDiv.classList.add("link-preview-div");
+				previewDiv.innerHTML = `
+				<img class="link-preview-img" src="${res.image}"></img>
+				<div class="p-div">
+						<a href="${link}" target="_blank"><b class="preview-name" >${res.title}</b></a><br>
+						<p class="preview-description">${res.description}</p>
+				</div>
+				<a href="${link}" target="_blank"><button class="fa-solid fa-arrow-up-right-from-square"></button></a>
+				`
+
+				li.appendChild(previewDiv);
+			}
 			break;
 		}
 		case "img": {
@@ -178,18 +206,18 @@ async function renderMessage(json: Message) {
 			img.src = json.content;
 			img.classList.add("imageMessage");
 
-			img.addEventListener("click", () => {
+			img.onclick = () => {
 				img.classList.toggle("imagePreview");
 				const observer = new ResizeObserver(scrollBottom);
 				observer.observe(img);
-				img.addEventListener("transitionend", () => observer.disconnect());
-			});
+				img.ontransitionend = () => observer.disconnect();
+			};
 
-			img.addEventListener("load", () => {
+			img.onload = () => {
 				img.style.height = `${img.naturalHeight}px`;
 				img.style.width = `${img.naturalWidth}px`;
 				scrollBottom();
-			});
+			};
 
 			li.appendChild(img);
 			break;
@@ -211,6 +239,19 @@ async function renderMessage(json: Message) {
 	}
 
 	outputOl.appendChild(li);
+
+	document.querySelectorAll(".link-preview-div").forEach(e => {
+		let div = e as HTMLDivElement;
+		let img = div.querySelector("img")
+		if (img) {
+			div.style.paddingLeft = window.getComputedStyle(div).height;
+			img.onerror = () => {
+				img.remove();
+				div.style.removeProperty("padding-left");
+			}
+		}
+	});
+
 	scrollBottom();
 }
 

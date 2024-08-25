@@ -12,6 +12,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 )
@@ -229,5 +230,65 @@ func HandlePingsMe(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("true"))
 	} else {
 		w.Write([]byte("false"))
+	}
+}
+
+func HandleGetSiteMetadata(w http.ResponseWriter, r *http.Request) {
+	url := r.URL.Query().Get("url")
+
+	res, err := http.Get(url)
+	if err != nil {
+		log.Printf("HandleGetSiteMetadata: failed to http.Get %s: %s\n", url, err.Error())
+
+		ret, err := json.Marshal(map[string]string{
+			"title":       url,
+			"description": url,
+			"image":       url,
+		})
+		if err != nil {
+			log.Println("HandleGetSiteMetadata: failed to marshal JSON")
+			_, err = w.Write([]byte("__error"))
+		}
+		_, err = w.Write(ret)
+		if err != nil {
+			log.Println("HandleGetSiteMetadata: failed to marshal write to ResponseWriter")
+			return
+		}
+		return
+	}
+	defer res.Body.Close()
+
+	doc, err := goquery.NewDocumentFromReader(res.Body)
+	if err != nil {
+		log.Println("HandleGetSiteMetadata: failed to parse response body")
+	}
+
+	title := doc.Find("head title").Text()
+
+	description := doc.Find("head meta[name='description']").AttrOr("content",
+		doc.Find("head meta[property='og:description']").AttrOr("content",
+			doc.Find("head meta[name='hostname']").AttrOr("content",
+				title,
+			),
+		),
+	)
+
+	image := doc.Find("head meta[property='og:image']").AttrOr("content",
+		fmt.Sprintf("/icon?url=%s&size=128", url),
+	)
+
+	ret, err := json.Marshal(map[string]string{
+		"title":       title,
+		"description": description,
+		"image":       image,
+	})
+	if err != nil {
+		log.Println("HandleGetSiteMetadata: failed to marshal JSON")
+		return
+	}
+	_, err = w.Write(ret)
+	if err != nil {
+		log.Println("HandleGetSiteMetadata: failed to marshal write to ResponseWriter")
+		return
 	}
 }

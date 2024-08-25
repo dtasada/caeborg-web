@@ -1,7 +1,7 @@
-import { setUserSettings } from "./usersettings.js";
+import { setUserSettings } from "./lib.js";
 
 document.querySelectorAll("#sidebar-ol li > button").forEach(element => {
-	(element as HTMLButtonElement).addEventListener("click", () => {
+	(element as HTMLButtonElement).onclick = () => {
 		let url: string;
 		switch (element.innerHTML) {
 			case "Calculator": url = "calc"; break;
@@ -14,7 +14,7 @@ document.querySelectorAll("#sidebar-ol li > button").forEach(element => {
 			default: url = element.innerHTML.toLowerCase();
 		}
 		switchFrame(url);
-	});
+	};
 });
 
 async function validate() {

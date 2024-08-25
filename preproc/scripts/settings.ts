@@ -1,4 +1,4 @@
-import { setUserSettings } from "./usersettings.js";
+import { setUserSettings } from "./lib.js";
 
 async function setButtons() {
 	await setUserSettings();

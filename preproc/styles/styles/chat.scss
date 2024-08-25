@@ -19,24 +19,54 @@
       background: inherit;
     }
 
-    .file-container-div {
+    .file-container-div .p-div {
+      margin-right: 14px;
+    }
+
+    .link-preview-div .p-div {
+      margin: 0px 16px;
+    }
+
+    .file-container-div,
+    .link-preview-div {
       background: var(--col-surface);
       border-radius: 16px;
 
       margin: 4px 0px;
       padding: 10px;
+      /* purely a reminder, this is set in chat.ts; padding-left: self.height; */
+      max-width: 50%;
 
       width: fit-content;
       height: fit-content;
+      overflow: hidden;
 
+      position: relative;
       display: flex;
       flex-direction: row;
 
-      .p-div {
-        margin-right: 14px;
-        align-content: space-around;
+      img {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        max-height: 100%;
+        aspect-ratio: 1 / 1;
+        height: auto;
+        object-fit: contain;
+      }
 
-        .file-name {
+      .p-div {
+        align-content: space-around;
+        max-width: 50ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .preview-description {
+          white-space: nowrap;
+        }
+
+        .file-name,
+        .preview-name {
           text-decoration: underline wavy var(--col-blue);
           color: var(--col-blue);
           font-size: 1.1em;

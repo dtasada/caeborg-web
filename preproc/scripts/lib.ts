@@ -1,3 +1,14 @@
+// Converts any string into a valid URL
+export function getURL(str: string) {
+	const urlPattern = /^(|https?:\/\/)?(www\.)?([^\/\s]+)(.*)$/i;
+
+	return str.replace(urlPattern, (match, protocol, www, domain, rest) => {
+		protocol = protocol ? protocol.toLowerCase() : 'https://';
+		domain = domain.replace(/(^|https?:\/\/)www\./, '');
+		return `${protocol}${domain}${rest}`;
+	});
+}
+
 export async function setUserSettings() {
 	const res = await fetch("/assets/settings.json");
 	const resText = await res.text();

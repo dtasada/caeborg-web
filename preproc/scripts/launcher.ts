@@ -1,4 +1,4 @@
-import { setUserSettings } from "./usersettings.js";
+import { setUserSettings, getURL } from "./lib.js";
 
 const newShortcutSec = document.getElementById("new-shortcut-sec")!;
 const launcherSec = document.getElementById("launcher-sec")!;
@@ -15,15 +15,6 @@ let url: string;
 let isNew: boolean;
 
 let obj: Record<string, string>;
-
-function getUrlFromInput() {
-	let val = urlInput.value;
-	if (val.startsWith('http://') || val.startsWith('https://')) {
-		return val;
-	} else {
-		return `https://${val}`;
-	}
-}
 
 // Generating shortcuts on startup
 function makeTitle(text: string) {
@@ -75,30 +66,30 @@ async function genShortcuts() {
 		launcherOl.appendChild(li);
 	}
 
-	document.querySelectorAll("#launcher-ol > li > button").forEach(element => {
+	document.querySelectorAll("#launcher-ol > li > button").forEach(button => {
 		if (document.location.search === "?newTabDash") {
-			const oldClick = element.getAttribute("onclick")!;
-			element.setAttribute("onclick", oldClick.replace(/window.open(.*.)/, "window.parent.location.href=$1"))
+			const oldClick = button.getAttribute("onclick")!;
+			button.setAttribute("onclick", oldClick.replace(/window.open(.*.)/, "window.parent.location.href=$1"))
 		}
 
-		element.addEventListener("contextmenu", (event) => {
+		(button as HTMLButtonElement).oncontextmenu = (event: Event) => {
 			event.preventDefault();
 			if (newShortcutSec.style.display === "flex") {
 				cleanup();
 			} else {
 				newShortcutSec.style.display = "flex";
-				nameInput.value = element.querySelector("p")!.innerHTML;
-				urlInput.value = element.getAttribute("onclick")!.split("'")[1];
-				faviconIMG.src = element.querySelector("img")!.src;
+				nameInput.value = button.querySelector("p")!.innerHTML;
+				urlInput.value = button.getAttribute("onclick")!.split("'")[1];
+				faviconIMG.src = button.querySelector("img")!.src;
 
 				placeholderFavicon();
 				nameInput.focus();
 
 				confirmButton.classList.add("half");
 				deleteButton.classList.add("half");
-				eventHandler(element);
+				eventHandler(button);
 			}
-		});
+		};
 	});
 
 	setUserSettings();
@@ -132,19 +123,30 @@ async function cleanup() {
 
 function eventHandler(element?: Element) {
 	nameInput.focus();
-	nameInput.addEventListener("keydown", event => { if (event.key === "Enter") urlInput.focus() });
+	nameInput.onkeydown = event => {
+		if (event.key === "Enter") urlInput.focus();
+	};
 
-	window.addEventListener("keydown", event => { if (event.key === "Escape") cleanup(); })
+	window.onkeydown = event => {
+		if (event.key === "Escape") cleanup();
+	}
 
 	if (element) {
 		isNew = false;
-		deleteButton.addEventListener("click", () => { delete obj[element.parentElement!.querySelector("p")!.innerHTML]; cleanup() });
-		urlInput.addEventListener("keydown", event => { if (event.key === "Enter") confirmAll(element) });
-		confirmButton.addEventListener("click", () => confirmAll(element));
+		deleteButton.onclick = () => {
+			delete obj[element.parentElement!.querySelector("p")!.innerHTML];
+			cleanup();
+		};
+		urlInput.onkeydown = event => {
+			if (event.key === "Enter") confirmAll(element);
+		};
+		confirmButton.onclick = () => confirmAll(element);
 	} else {
 		isNew = true;
-		urlInput.addEventListener("keydown", event => { if (event.key === "Enter") confirmAll() });
-		confirmButton.addEventListener("click", () => { confirmAll() });
+		urlInput.onkeydown = event => {
+			if (event.key === "Enter") confirmAll();
+		};
+		confirmButton.onclick = () => confirmAll();
 	}
 }
 
@@ -155,7 +157,7 @@ function placeholderFavicon() {
 			faviconIMG.style.opacity = "0";
 			return;
 		}
-		url = getUrlFromInput();
+		url = getURL(urlInput.value);
 		newFaviconURL = `/icon?url=${url}&size=64..128..256`
 		faviconIMG.src = newFaviconURL;
 	}
@@ -165,7 +167,7 @@ function confirmAll(element?: Element) {
 	if (isNew === false) {
 		delete obj[element!.querySelector("p")!.innerHTML];
 	}
-	obj[nameInput.value] = getUrlFromInput();
+	obj[nameInput.value] = getURL(urlInput.value);
 	cleanup();
 }
 

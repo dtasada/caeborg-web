@@ -1,4 +1,3 @@
-export { };
 const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 const submit = document.getElementById("submit-button")! as HTMLButtonElement;
@@ -27,18 +26,18 @@ if (!localStorage.savedOutputOl) {
 }
 
 // html tags as variables
-submit.addEventListener("click", () => {
+submit.onclick = () => {
 	parseInput(inputBox.value);
 	inputBox.value = "";
 	localStorage.savedInputValue = inputBox.value;
-});
+};
 
-addButton.addEventListener("click", () => {
+addButton.onclick = () => {
 	const inputFile = document.createElement("input");
 	inputFile.type = "file";
 	inputFile.hidden = true;
 
-	inputFile.addEventListener("change", (event) => {
+	inputFile.onchange = (event) => {
 		const file = (event.target as HTMLInputElement).files![0];
 		if (file) {
 			const reader = new FileReader();
@@ -51,13 +50,13 @@ addButton.addEventListener("click", () => {
 			};
 			reader.readAsDataURL(file);
 		}
-	});
+	};
 
 	inputFile.click();
-})
+}
 
 inputBox.focus();
-inputBox.addEventListener("keydown", (event) => {
+inputBox.onkeydown = (event) => {
 	switch (event.key) {
 		case "Enter":
 			parseInput(inputBox.value);
@@ -82,7 +81,7 @@ inputBox.addEventListener("keydown", (event) => {
 			localStorage.shellInputArray = shellInputArray;
 			break;
 	}
-});
+};
 
 inputBox.oninput = () => {
 	localStorage.savedInputValue = inputBox.value;
