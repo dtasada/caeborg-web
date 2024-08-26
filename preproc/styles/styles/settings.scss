@@ -55,10 +55,6 @@
 
         margin: 0px;
 
-        &.active {
-          background: var(--col-overlay) !important;
-        }
-
         &:last-child {
           border-top-right-radius: $border-radius;
           border-bottom-right-radius: $border-radius;
@@ -68,10 +64,6 @@
         align-self: center;
         overflow: hidden;
         text-align: center;
-
-        &:hover {
-          filter: brightness(90%);
-        }
       }
     }
   }

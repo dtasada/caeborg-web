@@ -1,11 +1,11 @@
+@import "./settings";
+
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,500;0,700;0,800;1,100;1,500;1,700;1,800&display=swap');
 
 @font-face {
   font-family: "CascadiaCode";
-  src: url("https://github.com/ryanoasis/nerd-fonts/blob/a2697b0fefe5e8d946c18a167a9496c6f224d7c9/patched-fonts/CascadiaCode/Regular/CaskaydiaCoveNerdFont-Regular.ttf") format(truetype);
+  src: url("https://github.com/ryanoasis/nerd-fonts/blob/a2697b0fefe5e8d946c18a167a9496c6f224d7c9/patched-fonts/CascadiaCode/Regular/CaskaydiaCoveNerdFont-Regular.ttf") format("truetype");
 }
-
-@import "./settings";
 
 $border-radius: 32px;
 
@@ -29,7 +29,10 @@ $smol-fontsize: 12px;
   font-family: var(--font), sans-serif;
   color: var(--col-text);
   background-color: var(--col-base);
+
   box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 
   font-size: $body-fontsize;
 
@@ -70,10 +73,21 @@ button {
     opacity: 60%;
   }
 
-  &:not(:disabled):hover {
+  &:not(:disabled):hover,
+  &.active {
     background: var(--col-overlay) !important;
+
+    -moz-transition: all .1s ease-in;
+    -o-transition: all .1s ease-in;
+    -webkit-transition: all .1s ease-in;
+    transition: all .1s ease-in;
   }
 
+  &:not(:hover).active {
+    filter: brightness(90%);
+  }
+
+  img,
   i {
     background: inherit;
   }

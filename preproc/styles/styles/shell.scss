@@ -5,116 +5,122 @@ $input-margin: 24px;
 $input-element-height: 48px;
 
 #input-sec {
-	position: fixed;
+  position: fixed;
 
-	height: $input-sec-height;
-	width: 100%;
+  height: $input-sec-height;
+  width: 100%;
 
-	bottom: 0px;
-	left: 0px;
+  bottom: 0px;
+  left: 0px;
 
-	background: var(--col-base);
+  background: var(--col-base);
 
-	input {
-		position: absolute;
-		left: 0px;
-		bottom: 0px;
+  input {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
 
-		margin: auto $input-margin $input-margin;
-		padding-left: 52px;
-		padding-right: 86px;
+    margin: auto $input-margin $input-margin;
+    padding-left: 52px;
+    padding-right: 86px;
 
-		width: calc(100% - 2 * #{$right-margin-width});
-		height: $input-element-height;
+    width: calc(100% - 2 * #{$right-margin-width});
+    height: $input-element-height;
 
-		background: var(--col-surface);
+    background: var(--col-surface);
 
-	}
+  }
 
-	button {
-		position: fixed;
-		bottom: 0px;
+  button {
+    position: fixed;
+    bottom: 0px;
 
-		height: calc(#{$input-element-height} * 0.8);
+    height: calc(#{$input-element-height} * 0.8);
 
-		margin-bottom: calc(#{$input-margin} + 5px);
+    margin-bottom: calc(#{$input-margin} + 5px);
 
-		&#submit-button {
-			right: 0px;
-			margin-right: calc(#{$input-margin} * 1.6);
-		}
+    &#submit-button {
+      right: 0px;
+      margin-right: calc(#{$input-margin} * 1.6);
+    }
 
-		&#add-button {
-			left: 0px;
-			margin-left: calc(#{$input-margin} * 1.2);
-			width: calc(#{$input-element-height} * 0.8);
-			padding: auto;
-			i {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				background: inherit;
-			}
-		}
-	}
+    &#add-button {
+      left: 0px;
+      margin-left: calc(#{$input-margin} * 1.2);
+      width: calc(#{$input-element-height} * 0.8);
+      padding: auto;
+
+      i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
 }
 
 #output-sec {
-	position: absolute;
+  position: absolute;
 
-	right: 0px;
-	bottom: $input-sec-height;
-	left: 0px;
+  right: 0px;
+  bottom: $input-sec-height;
+  left: 0px;
 
-	width: 100%;
-	height: calc(100% - (#{$input-sec-height}));
+  width: 100%;
+  height: calc(100% - (#{$input-sec-height}));
 
-	border-radius: 0px;
+  border-radius: 0px;
 
-	&::-webkit-scrollbar { display: none; }
-	scrollbar-width: none;
-	overflow-y: scroll;
-	overscroll-behavior-y: contain;
-	scroll-snap-type: y mandatory;
-	scroll-snap-align: end;
+  overflow-y: scroll;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+  scroll-snap-align: end;
 
-	* { border-radius: 0px; }
+  * {
+    border-radius: 0px;
+  }
 
-	ol {
-		position: absolute; // important for looks
+  ol {
+    position: absolute; // important for looks
 
-		bottom: 0px;
-		left: 0px;
+    bottom: 0px;
+    left: 0px;
 
-		height: 100%;
-		width: 100%;
+    height: 100%;
+    width: 100%;
 
-		padding-left: 0px;
+    padding-left: 0px;
 
-		li {
-			width: 100%;
-			padding: 20px;
-			padding-left: 76px;
-			background: var(--col-base);
-			&:hover { background: var(--col-subbase); }
-			* { background: inherit; }
+    li {
+      width: 100%;
+      padding: 20px;
+      padding-left: 76px;
+      background: var(--col-base);
 
-			img.pfp {
-				position: absolute;
-				left: 28px;
-				height: 40px;
-				margin-top: -10px;
-				border-radius: 50px;
-			}
+      &:hover {
+        background: var(--col-subbase);
+      }
 
-			p {
-				margin: 0px auto;
-				overflow-wrap: break-word;
-			}
-		}
-	}
+      * {
+        background: inherit;
+      }
+
+      img.pfp {
+        position: absolute;
+        left: 28px;
+        height: 40px;
+        margin-top: -10px;
+        border-radius: 50px;
+      }
+
+      p {
+        margin: 0px auto;
+        overflow-wrap: break-word;
+      }
+    }
+  }
 }
 
 .compound-img {
-	width: 300px;
+  width: 300px;
 }

@@ -6,9 +6,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"slices"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -120,17 +122,75 @@ func (c *Client) chatHandler() {
 			break
 		}
 
-		chatBin := getChat()
+		var chatBytes []map[string]string
+		if err := json.Unmarshal(getChat(), &chatBytes); err != nil {
+			log.Println("chatGetChunk: Failed to parse chatBin:", err)
+			return
+		}
 
+		chunkSize := 64
 		switch message["type"] {
-		case "chatPostMessage":
-			var obj []map[string]string
-			err = json.Unmarshal(chatBin, &obj)
+		case "chatGetMetadata":
+			chunkCount := int(math.Ceil(float64(len(chatBytes)) / float64(chunkSize)))
+			metadata, err := json.Marshal(map[string]string{
+				"type":   "metadata",
+				"chunks": strconv.Itoa(chunkCount),
+			})
 			if err != nil {
-				log.Println("Error:", err)
+				log.Println("chatGetChunk: Failed to marshal metadata:", err)
+				return
+			}
+			if err := c.connection.WriteMessage(websocket.TextMessage, metadata); err != nil {
+				log.Println("chatGetChunk: Failed to send message:", err)
 				return
 			}
 
+		case "chatGetAll":
+			minified := &bytes.Buffer{}
+			if err := json.Compact(minified, getChat()); err != nil {
+				log.Println("Failed to minify chatBin:", err)
+			}
+			if err := c.connection.WriteMessage(websocket.TextMessage, minified.Bytes()); err != nil {
+				log.Println("Failed to send message:", err)
+			}
+
+		case "chatGetChunk":
+			slices.Reverse(chatBytes) // Reverse to get newest messages as lower indexes
+
+			chunkNum, err := strconv.Atoi(message["chunk"])
+			if err != nil {
+				log.Println("chatGetChunk: message['chunk']", message["chunk"], "is not a valid number")
+				return
+			}
+
+			var chunks [][]map[string]string
+			iter := 0
+			for index := 0; index < len(chatBytes); index += chunkSize {
+				chunk := chatBytes[index:min(index+chunkSize, len(chatBytes))]
+				slices.Reverse(chunk)
+				chunks = append(chunks, chunk)
+				iter++
+				if iter == chunkNum {
+					break
+				}
+			}
+			chunkBytes, err := json.Marshal(chunks[len(chunks)-1])
+			if err != nil {
+				log.Println("chatGetChunk: Failed to get chunks", err)
+				return
+			}
+
+			minified := &bytes.Buffer{}
+			if err := json.Compact(minified, chunkBytes); err != nil {
+				log.Println("chatGetChunk: Failed to minify chatBin:", err)
+				return
+			}
+
+			if err := c.connection.WriteMessage(websocket.TextMessage, minified.Bytes()); err != nil {
+				log.Println("chatGetChunk: Failed to send message:", err)
+				return
+			}
+		case "chatPostMessage":
 			username := ValidateUser(message["sender"])
 			if username != "__userinvalid" {
 				message["sender"] = username
@@ -199,23 +259,15 @@ func (c *Client) chatHandler() {
 			}
 
 			delete(message, "type")
-			obj = append(obj, message)
+			chatBytes = append(chatBytes, message)
 
-			saveObj, err := json.MarshalIndent(obj, "", "\t")
+			saveObj, err := json.MarshalIndent(chatBytes, "", "\t")
 			os.WriteFile(AssetsPath+"/chat.json", saveObj, 0777)
 
 			for client := range c.manager.Clients {
 				if err := client.connection.WriteMessage(websocket.TextMessage, marshalledMessage); err != nil {
 					log.Println("Failed to send message:", err)
 				}
-			}
-		case "chatFetchAll":
-			minified := &bytes.Buffer{}
-			if err := json.Compact(minified, getChat()); err != nil {
-				log.Println("Failed to minify chatBin:", err)
-			}
-			if err := c.connection.WriteMessage(websocket.TextMessage, minified.Bytes()); err != nil {
-				log.Println("Failed to send message:", err)
 			}
 		}
 	}

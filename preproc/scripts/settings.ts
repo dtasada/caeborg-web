@@ -1,7 +1,7 @@
 import { setUserSettings } from "./lib.js";
 
 async function setButtons() {
-	await setUserSettings();
+	setUserSettings();
 
 	let themeList = document.getElementById("theme-list")! as HTMLDivElement;
 	let fontList = document.getElementById("font-list")! as HTMLDivElement;

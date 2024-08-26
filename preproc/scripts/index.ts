@@ -1,20 +1,23 @@
 import { setUserSettings } from "./lib.js";
 
-document.querySelectorAll("#sidebar-ol li > button").forEach(element => {
-	(element as HTMLButtonElement).onclick = () => {
-		let url: string;
-		switch (element.innerHTML) {
-			case "Calculator": url = "calc"; break;
-			case "Chatting": url = "chat"; break;
-			case "Graphing Tool": url = "graph"; break;
-			case "Inspirobot™": url = "quote"; break;
-			case "Google Maps": url = "map"; break;
-			case "Meme Maker": url = "meme"; break;
-			case "Notes": url = "notes"; break;
-			default: url = element.innerHTML.toLowerCase();
-		}
-		switchFrame(url);
-	};
+let names: Record<string, string> = {
+	"calc": "Calculator",
+	"chat": "Chat",
+	"games": "Games",
+	"graph": "Graphing Tool",
+	"quote": "Inspirobot™",
+	"maps": "Google Maps",
+	"meme": "Meme Maker",
+	"notes": "Notes",
+	"paint": "Paint",
+	"shell": "Shell",
+	"translate": "Translate",
+	"launcher": "Launcher",
+}
+
+document.querySelectorAll("#sidebar-ol li > button").forEach(e => {
+	let button = e as HTMLButtonElement
+	button.onclick = () => switchFrame(button.dataset.target!);
 });
 
 async function validate() {
@@ -32,6 +35,12 @@ validate();
 
 // Switching frames
 function switchFrame(page: string) {
+	document.querySelectorAll(`#sidebar-ol li > button`).forEach(e => {
+		let button = e as HTMLButtonElement;
+		if (button.dataset.target === page) button.classList.add("active")
+		else button.classList.remove("active")
+	})
+
 	localStorage.savedFrame = page;
 
 	document.getElementById("rest-iframe")!.remove();
@@ -45,21 +54,7 @@ function switchFrame(page: string) {
 
 	document.getElementById("rest-sec")!.appendChild(newFrame);
 
-	switch (page) {
-		case "calc": document.title = "Caeborg - Calculator"; break;
-		case "chat": document.title = "Caeborg - Chatting"; break;
-		case "games": document.title = "Caeborg - Games"; break;
-		case "graph": document.title = "Caeborg - Graph"; break;
-		case "launcher": document.title = "Caeborg - Launcher"; break;
-		case "maps": document.title = "Caeborg - Map"; break;
-		case "meme": document.title = "Caeborg - Meme Maker"; break;
-		case "notes": document.title = "Caeborg - Notes"; break;
-		case "paint": document.title = "Caeborg - Paint"; break;
-		case "quote": document.title = "Caeborg - Quote"; break;
-		case "shell": document.title = "Caeborg - Shell"; break;
-		case "translator": document.title = "Caeborg - Translator"; break;
-	}
-
+	document.title = `Caeborg - ${names[page]}`
 	setUserSettings();
 }
 

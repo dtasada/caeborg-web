@@ -180,3 +180,5 @@ addButton.onclick = () => {
 		eventHandler();
 	}
 }
+
+setUserSettings();

@@ -44,7 +44,9 @@ func parseBody[targetType any](r *http.Request) interface{} {
 }
 
 func convertImage(path string) {
-	ffmpeg_go.Input(path).Output(strings.Split(path, ".tmp")[0] + ".avif").GlobalArgs("-y").ErrorToStdOut().Run()
+	if err := ffmpeg_go.Input(path).Output(strings.Split(path, ".tmp")[0] + ".avif").GlobalArgs("-y").ErrorToStdOut().Run(); err != nil {
+		log.Println("convertImage: Failed to convert " + path)
+	}
 	if err := os.Remove(path); err != nil {
 		log.Println("convertImage: Failed to remove " + path)
 	}

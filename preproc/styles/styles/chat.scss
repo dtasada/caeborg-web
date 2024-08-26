@@ -1,5 +1,9 @@
 @import "shell";
 
+#output-sec {
+  display: flex;
+}
+
 #output-sec ol {
   li {
     padding: 10px;
@@ -34,7 +38,6 @@
 
       margin-top: 8px;
       padding: 10px;
-      /* purely a reminder, this is set in chat.ts; padding-left: self.height; */
       max-width: 50%;
 
       width: fit-content;

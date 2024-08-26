@@ -4,16 +4,18 @@ const inputBox = document.getElementById("input-box")! as HTMLInputElement;
 const addButton = document.getElementById("add-button")! as HTMLButtonElement;
 const submit = document.getElementById("submit-button")! as HTMLButtonElement;
 const outputOl = document.getElementById("output-ol")!;
+const outputSec = document.getElementById("output-sec")!;
 
-function scrollBottom() {
-	document.getElementById("output-sec")!.scroll({
-		top: outputOl.scrollHeight,
-		behavior: "smooth"
+let chunks = 1; // Amount of chunks shown on-screen. Also to be used as an index
+let totalChunks: number; // Amount of total chunks of chat (saved from server)
+
+function scrollBottom(smoothScrolling = true) {
+	outputSec.scroll({
+		top: outputSec.scrollHeight,
+		behavior: smoothScrolling ? "smooth" : "instant"
 	});
 }
 
-
-const time = new Date();
 interface Message {
 	content: string,
 	sender: string,
@@ -27,17 +29,61 @@ interface Message {
 
 const ws = new WebSocket(`wss://${document.location.host}/chatSocket`);
 ws.onopen = () => {
-	console.log("Websocket connected");
-	ws.send(JSON.stringify({ type: "chatFetchAll" }));
+	ws.send(JSON.stringify({
+		type: "chatGetChunk",
+		chunk: chunks.toString(),
+	}));
+	ws.send(JSON.stringify({ type: "chatGetMetadata" }));
 };
+
 
 ws.onmessage = async ({ data }) => {
 	const json = JSON.parse(data);
 
-	if (json.type === "chatPostMessage") {
-		await renderMessage(json);
-	} else for (let message of json) {
-		await renderMessage(message as Message);
+	switch (json.type) {
+		case "metadata": {
+			totalChunks = json.chunks;
+			outputSec.onscroll = () => {
+				if (outputSec.scrollTop === 0 && chunks < totalChunks) {
+					ws.send(JSON.stringify({ type: "chatGetChunk", chunk: (++chunks).toString() }));
+				}
+			}
+			break;
+		};
+		case "chatPostMessage": {
+			await renderMessage(json);
+			break;
+		};
+		default: {
+			if (chunks === 1) {
+				// Set loading screen
+				outputOl.hidden = true;
+
+				outputSec.style.setProperty("justify-content", "center")
+				outputSec.style.setProperty("align-items", "center");
+
+				const h = document.createElement("h1");
+				h.classList.add("title");
+				h.style.setProperty("color", "var(--col-subtext)");
+				h.innerHTML = "Loading chat...";
+
+				outputSec.appendChild(h);
+			}
+
+			// Loading in the background
+			(async () => {
+				for (let message of json) {
+					// if this is the first load, append everything. If scrolling up, prepend every message to the array
+					await renderMessage(message as Message, chunks === 1);
+				}
+
+				// When done loading
+				outputOl.hidden = false;
+				if (outputSec.scrollTop !== 0 || chunks === 1) scrollBottom(false);
+				outputOl.querySelectorAll("li").forEach(message => finishStyle(message));
+			})()
+			break;
+		}
 	}
 };
 
@@ -64,7 +110,7 @@ function send(type: string, content: string, fileName?: string) {
 	ws.send(JSON.stringify({
 		content: content,
 		sender: localStorage.uuid,
-		date: `${time.toLocaleDateString()}`,
+		date: `${new Date().toLocaleDateString()}`,
 		time: getTime(),
 		dataType: type,
 		type: "chatPostMessage",
@@ -90,7 +136,8 @@ submit.onclick = () => {
 	localStorage.savedInputValue = inputBox.value;
 };
 
-function getTime() {
+function getTime(): string {
+	let time = new Date();
 	let hour = time.getHours().toString();
 	let minute = time.getMinutes().toString();
 	if (hour.length === 1) hour = "0" + hour
@@ -127,7 +174,7 @@ addButton.onclick = () => {
 }
 
 // important functions
-async function renderMessage(json: Message) {
+async function renderMessage(json: Message, shouldAppend = true) {
 	// render html message
 	const li = document.createElement("li");
 
@@ -144,7 +191,7 @@ async function renderMessage(json: Message) {
 	li.appendChild(senderP);
 
 	const timedateP = document.createElement("p");
-	if (json.date === time.toLocaleDateString()) json.date = "Today";
+	if (json.date === new Date().toLocaleDateString()) json.date = "Today";
 	if (json.time === getTime()) {
 		timedateP.innerHTML = "&ensp;now";
 	} else {
@@ -197,8 +244,13 @@ async function renderMessage(json: Message) {
 				<a href="${link}" target="_blank"><button class="fa-solid fa-arrow-up-right-from-square"></button></a>
 				`
 
-
 				li.appendChild(previewDiv);
+
+				let img = previewDiv.querySelector("img")!;
+				img.onerror = () => {
+					img.remove();
+					previewDiv.style.removeProperty("padding-left");
+				};
 			}
 			break;
 		}
@@ -207,17 +259,11 @@ async function renderMessage(json: Message) {
 			img.src = json.content;
 			img.classList.add("imageMessage");
 
-			img.onclick = () => {
-				img.classList.toggle("imagePreview");
-				const observer = new ResizeObserver(scrollBottom);
-				observer.observe(img);
-				img.ontransitionend = () => observer.disconnect();
-			};
+			img.onclick = () => img.classList.toggle("imagePreview");
 
 			img.onload = () => {
 				img.style.height = `${img.naturalHeight}px`;
 				img.style.width = `${img.naturalWidth}px`;
-				scrollBottom();
 			};
 
 			li.appendChild(img);
@@ -238,22 +284,25 @@ async function renderMessage(json: Message) {
 		}
 	}
 
-	outputOl.appendChild(li);
+	shouldAppend ? outputOl.appendChild(li) : outputOl.prepend(li);
+	finishStyle(li);
 
-	
-	let previewDiv = li.querySelector(".link-preview-div") as HTMLDivElement;
-	if (previewDiv) {
-		let img = previewDiv.querySelector(".link-preview-img")! as HTMLImageElement;
-		img.onload = () => {
-			previewDiv.style.paddingLeft = window.getComputedStyle(img).width;
+	if (shouldAppend) scrollBottom();
+}
+
+function finishStyle(message: HTMLLIElement) {
+	let previewDiv = message.querySelector(".link-preview-div") as HTMLDivElement;
+	if (!previewDiv) return;
+	let img = previewDiv.querySelector(".link-preview-img")! as HTMLImageElement;
+	if (!img) return;
+
+	let interval = setInterval((() => {
+		const width = window.getComputedStyle(img).width;
+		if (width) {
+			previewDiv.style.paddingLeft = width;
+			clearInterval(interval)
 		}
-		img.onerror = () => {
-			img.remove();
-			previewDiv.style.removeProperty("padding-left");
-		};
-	}
-
-	scrollBottom();
+	}), 500);
 }
 
 setUserSettings();
