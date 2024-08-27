@@ -2,40 +2,34 @@
 
 <html lang="en" dir="ltr">
 
-	<head>
-		<meta name="viewport" content="width=device-width">
-		<meta name="description" content="Dashboard webapp with a collection of useful tools">
-		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"> 
-		<meta charset="utf-8">
-		<title>Caeborg - Shell</title>
-		<link rel="stylesheet" href="/.css/styles/shell.css">
-		<link rel="icon" type="image/x-icon" href="/assets/users/caeborg.avif">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<script>window.addEventListener('contextmenu', (event) => { event.preventDefault(); })</script>
-	</head>
+<head>
+	<meta name="viewport" content="width=device-width">
+	<meta name="description" content="Dashboard webapp with a collection of useful tools">
+	<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+	<meta charset="utf-8">
+	<title>Caeborg - Shell</title>
+	<link rel="stylesheet" href="/.css/styles/shell.css">
+	<link rel="icon" type="image/x-icon" href="/assets/users/caeborg.avif">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+		integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script>window.addEventListener('contextmenu', (event) => {event.preventDefault();})</script>
+</head>
 
-	<body>
+<body>
 
-		<section id="output-sec">
-			<ol id="output-ol"></ol>
-		</section>
+	<section id="output-sec">
+		<ol id="output-ol"></ol>
+	</section>
 
-		<section id="input-sec">
-			<div class="js-sayt sayt">
-				<input type="text" class="sayt__input">
-				<span class="js-sayt-suggestion sayt__suggestion"></span>
-				<span class="js-sayt-text-dump  sayt__text-dump"></span>
-			</div>
+	<section id="input-sec">
+		<input type="text" id="input-box" placeholder="Enter function here..." autocomplete="off">
+		<button id="submit-button">Submit</button>
+		<button id="add-button"><i class="fa-solid fa-plus"></i></button>
+	</section>
 
-			<input type="text" id="input-box" placeholder="Enter function here..." autocomplete="off">
-			<button id="submit-button">Submit</button>
-			<button id="add-button"><i class="fa-solid fa-plus"></i></button>
+	<script type="module" src="/.js/shell.js"></script>
 
-		</section>
-
-		<script type="module" src="/.js/shell.js"></script>
-
-	</body>
+</body>
 
 </html>
-

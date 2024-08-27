@@ -25,6 +25,11 @@ export function setUserSettings() {
 			if (iframeRoot) iframeRoot.style.setProperty(colVar, colorsObject[colVar]);
 		}
 
+		if (iframeRoot) {
+			iframeRoot.style.width = window.getComputedStyle(iframe).width;
+			iframeRoot.style.height = window.getComputedStyle(iframe).height;
+		}
+
 		root.style.setProperty("--font", localStorage.userFont);
 		if (iframeRoot) iframeRoot.style.setProperty("--font", localStorage.userFont);
 	});

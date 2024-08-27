@@ -6,7 +6,6 @@ let names: Record<string, string> = {
 	"games": "Games",
 	"graph": "Graphing Tool",
 	"quote": "Inspirobot™",
-	"maps": "Google Maps",
 	"meme": "Meme Maker",
 	"notes": "Notes",
 	"paint": "Paint",

@@ -40,7 +40,6 @@ async function genShortcuts() {
 		launcherOl.id = "launcher-ol";
 		launcherOl.classList.add("horizontal");
 		launcherSec.appendChild(launcherOl);
-		console.log("appended");
 	}
 
 	const res = await fetch(`/fetchLauncher?uuid=${localStorage.uuid}`);

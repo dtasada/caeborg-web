@@ -200,25 +200,15 @@ addButton.onclick = async () => {
 	}
 };
 
-flipButton.onclick = async () => {
+flipButton.onclick = () => {
 	[sourceLanguage, targetLanguage] = [targetLanguage, sourceLanguage];
 	[inputBox.value, outputBox.value] = [outputBox.value, inputBox.value];
-	let sourceLanguageFull = Object.keys(languages).find(key => languages[key] === sourceLanguage);
-	let targetLanguageFull = Object.keys(languages).find(key => languages[key] === targetLanguage);
 
-	document.querySelectorAll("#buttons button").forEach(element => {
-		if (element.innerHTML === sourceLanguageFull) {
-			console.log("srcl", element);
-			element.classList.remove("source");
-			element.classList.add("target");
-		} else if (element.innerHTML === targetLanguageFull) {
-			console.log("trgl", element);
-			element.classList.remove("target");
-			element.classList.add("source");
-		}
-		translate();
-		inputBox.focus();
-	});
+	document.querySelector("#buttons button.source")!.classList.replace("source", "target");
+	document.querySelector("#buttons button.target")!.classList.replace("target", "source");
+
+	translate();
+	inputBox.focus();
 };
 
 inputBox.onkeyup = () => translate();

@@ -62,10 +62,13 @@ html {
     #mid-sec {
       display: flex;
       flex-direction: row;
-      width: 100%;
-      padding: 0px;
-      height: 100%;
       align-self: center;
+
+      width: 100%;
+      height: 100%;
+      padding: 0px;
+
+      position: relative;
 
       #sidebar-ol {
         flex-grow: 1;
