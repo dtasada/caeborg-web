@@ -42,7 +42,7 @@ async function genShortcuts() {
 		launcherSec.appendChild(launcherOl);
 	}
 
-	const res = await fetch(`/fetchLauncher?uuid=${localStorage.uuid}`);
+	const res = await fetch(`/getLauncher?uuid=${localStorage.uuid}`);
 	const resText = await res.text()
 	if (resText !== "__userinvalid") {
 		obj = JSON.parse(resText);

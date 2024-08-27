@@ -28,6 +28,40 @@ func HandlePFP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func HandleGetUserSettings(w http.ResponseWriter, r *http.Request) {
+	uuid := r.URL.Query().Get("uuid")
+	username := ValidateUser(uuid)
+	if username == "__userinvalid" {
+		w.Write([]byte("__userinvalid"))
+		return
+	}
+
+	usersMap := parseUsersJSON()
+	userSettings := usersMap[username]["userSettings"]
+	settingsMap, err := json.Marshal(userSettings)
+	if err != nil {
+		log.Println("Could not marshal userSettings")
+	}
+	w.Write(settingsMap)
+}
+
+func HandleChangeUserSettings(w http.ResponseWriter, r *http.Request) {
+	body := parseBody[map[string]string](r).(map[string]string)
+
+	username := ValidateUser(body["uuid"])
+	usersMap := parseUsersJSON()
+
+	usersMap[username]["userSettings"] = body
+
+	marshaledUsersMap, err := json.MarshalIndent(usersMap, "", "\t")
+	if err != nil {
+		log.Println("HandleChangeUsername: Failed to marshal users map:", err)
+		return
+	}
+	os.WriteFile(AssetsPath+"/users.json", marshaledUsersMap, 0777)
+
+}
+
 func HandleChangePFP(w http.ResponseWriter, r *http.Request) {
 	body := parseBody[map[string]string](r).(map[string]string)
 
@@ -47,7 +81,6 @@ func HandleChangePFP(w http.ResponseWriter, r *http.Request) {
 		log.Println("HandleChangePFP: Could not write image to", fileName)
 		return
 	}
-
 }
 
 func HandleChangeUsername(w http.ResponseWriter, r *http.Request) {

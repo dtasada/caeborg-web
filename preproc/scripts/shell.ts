@@ -95,7 +95,7 @@ async function renderMessage(sender: string, msgs: string[]) {
 		const pfp = document.createElement("img") as HTMLImageElement;
 		pfp.classList.add("pfp");
 		if (sender === "user") {
-			const res = await fetch(`/fetchPFP?uuid=${localStorage.uuid}`);
+			const res = await fetch(`/getPFP?uuid=${localStorage.uuid}`);
 			pfp.src = await res.text();
 		} else if (sender === "caeborg") {
 			pfp.src = "/assets/users/caeborg.avif";

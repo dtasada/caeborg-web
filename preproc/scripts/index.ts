@@ -19,16 +19,19 @@ document.querySelectorAll("#sidebar-ol li > button").forEach(e => {
 	button.onclick = () => switchFrame(button.dataset.target!);
 });
 
-async function validate() {
-	const res = await fetch("/validate", {
+function validate() {
+	fetch("/validate", {
 		method: "POST",
 		headers: { "Content-Type": "text/plain" },
 		body: localStorage.uuid,
-	});
-	const resText = await res.text()
-	if (resText === "__userinvalid") localStorage.removeItem("uuid")
+	})
+		.then(r => r)
+		.then(r => r.text())
+		.then(resText => {
+			if (resText === "__userinvalid") localStorage.removeItem("uuid")
 
-	document.getElementById(localStorage.uuid ? "login-button" : "account-button")!.style.display = "none"
+			document.getElementById(localStorage.uuid ? "login-button" : "account-button")!.style.display = "none"
+		});
 }
 validate();
 

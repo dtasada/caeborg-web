@@ -143,24 +143,25 @@ func startServer() {
 	mux.HandleFunc("/logout", server.HandleLogout)
 	mux.HandleFunc("/logoutAll", server.HandleLogoutAll)
 	mux.HandleFunc("/validate", server.HandleValidation)
-	mux.HandleFunc("/fetchPFP", server.HandlePFP)
+	mux.HandleFunc("/getPFP", server.HandlePFP)
+	mux.HandleFunc("/getUserSettings", server.HandleGetUserSettings)
+	mux.HandleFunc("/changeUserSettings", server.HandleChangeUserSettings)
 	mux.HandleFunc("/changePFP", server.HandleChangePFP)
 	mux.HandleFunc("/changeUsername", server.HandleChangeUsername)
 	mux.HandleFunc("/changePassword", server.HandleChangePassword)
 	// /login and /account are already indexed
 
 	// launcher.go
-	mux.HandleFunc("/fetchLauncher", server.HandleFetchLauncher)
+	mux.HandleFunc("/getLauncher", server.HandleGetLauncher)
 	mux.HandleFunc("/postLauncher", server.HandlePostLauncher)
 
 	// chat.go
-	manager := server.Manager{
-		Clients: make(server.ClientList),
-	}
-
+	manager := server.Manager{Clients: make(server.ClientList)}
 	mux.HandleFunc("/chatSocket", manager.ServeChat)
-	mux.HandleFunc("/pingUser", server.HandlePingsMe)
-	mux.HandleFunc("/siteMetadata", server.HandleGetSiteMetadata)
+	mux.HandleFunc("/pingUser", server.HandleChatPingsMe)
+	mux.HandleFunc("/siteMetadata", server.HandleGetLinkPreviewMetadata)
+
+	// misc
 
 	// Icons
 	mux.HandleFunc("/icon", func(w http.ResponseWriter, r *http.Request) {

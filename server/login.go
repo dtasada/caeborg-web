@@ -33,13 +33,15 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 	// Read and parse request
 	requestBodyBytes := ReadBody(r)
 	var request map[string]string
-	err := json.Unmarshal(requestBodyBytes, &request); if err != nil {
+	err := json.Unmarshal(requestBodyBytes, &request)
+	if err != nil {
 		log.Printf("Could not unmarshal requested user password pair: %v", err)
 		return
 	}
 
 	// Encrypt password
-	encryptedPassword := encryptPassword(request["password"]); if encryptedPassword == "__error" {
+	encryptedPassword := encryptPassword(request["password"])
+	if encryptedPassword == "__error" {
 		w.Write([]byte("?error"))
 		return
 	}
@@ -61,7 +63,11 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 	} else {
 		userData = map[string]interface{}{
 			"launcher": map[string]string{},
-			"password": encryptedPassword,
+			"userSettings": map[string]string{
+				"colorScheme": "Catppuccin Dark",
+				"userFont":    "JetBrains Mono",
+			},
+			"password":  encryptedPassword,
 			"whitelist": map[string]interface{}{},
 		}
 		usersMap[request["username"]] = userData
@@ -70,7 +76,8 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 
 	userData["whitelist"].(map[string]interface{})[request["uuid"]] = time.Now().Unix()
 
-	writeBytes, err := json.MarshalIndent(usersMap, "", "\t"); if err != nil {
+	writeBytes, err := json.MarshalIndent(usersMap, "", "\t")
+	if err != nil {
 		log.Println("Could not marshal user-password map:", err)
 		return
 	}

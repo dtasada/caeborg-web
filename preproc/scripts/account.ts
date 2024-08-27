@@ -2,6 +2,8 @@ import { setUserSettings } from "./lib.js";
 setUserSettings();
 
 let pfpContent: string;
+let selectedColorScheme: string;
+let selectedUserFont: string;
 
 if (!localStorage.uuid) {
 	window.location.replace("/login")
@@ -15,6 +17,7 @@ if (window.innerWidth >= 1200) {
 	backButton.style.display = "none"
 	backButton.classList.add("anim-out");
 }
+
 window.onresize = () => {
 	if (window.innerWidth >= 1200 && !backButton.classList.contains("anim-in")) {
 		backButton.classList.add("anim-in");
@@ -114,6 +117,16 @@ document.getElementById("save-button")!.onclick = async () => {
 		});
 	}
 
+	await fetch("/changeUserData", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			uuid: localStorage.uuid,
+			colorScheme: selectedColorScheme,
+			userFont: selectedUserFont,
+		})
+	});
+
 	window.location.assign("/");
 };
 
@@ -121,7 +134,7 @@ document.getElementById("discard-button")!.onclick = () => window.location.reloa
 
 const pfpIMG = document.getElementById("pfp-img") as HTMLImageElement;
 async function getPFP() {
-	const res = await fetch(`/fetchPFP?uuid=${localStorage.uuid}`);
+	const res = await fetch(`/getPFP?uuid=${localStorage.uuid}`);
 	pfpIMG.src = await res.text()
 }
 getPFP();
@@ -154,3 +167,52 @@ pfpButton.onclick = () => {
 	}
 	inputFile.click();
 };
+
+async function setButtons() {
+	setUserSettings();
+
+	let themeList = document.getElementById("theme-list")! as HTMLDivElement;
+	let fontList = document.getElementById("font-list")! as HTMLDivElement;
+
+	const res = await fetch("/assets/settings.json");
+	const resText = await res.text();
+	let settings = JSON.parse(resText);
+
+	// Themes
+	for (let themeName of Object.keys(settings.colorSchemes)) {
+		let themeButton = document.createElement("button");
+		themeButton.innerHTML = themeName;
+		if (localStorage.colorScheme == themeButton.innerHTML) themeButton.classList.add("active");
+		themeList.append(themeButton);
+	}
+
+	// Fonts
+	for (let fontName of settings.fonts) {
+		let fontButton = document.createElement("button");
+		fontButton.innerHTML = fontName;
+		if (localStorage.userFont == fontButton.innerHTML) fontButton.classList.add("active");
+		fontList.append(fontButton);
+	}
+
+	themeList.querySelectorAll("button:not(.icon)").forEach(button => {
+		(button as HTMLButtonElement).onclick = () => {
+			selectedColorScheme = button.innerHTML;
+			document.querySelectorAll("#theme-div button").forEach(button => button.classList.remove("active"));
+			button.classList.add("active")
+			setUserSettings();
+		}
+	})
+
+	fontList.querySelectorAll("button:not(.icon)").forEach(button => {
+		(button as HTMLButtonElement).onclick = () => {
+			selectedUserFont = button.innerHTML;
+			document.querySelectorAll("#font-div button").forEach(button => button.classList.remove("active"));
+			button.classList.add("active")
+			setUserSettings();
+		}
+	})
+
+	setUserSettings();
+}
+
+setButtons()

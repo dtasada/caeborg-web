@@ -38,7 +38,7 @@
   padding: 16px;
   padding-bottom: 10px;
 
-  div p {
+  p {
     margin: 8px 16px 0px;
   }
 
@@ -65,11 +65,15 @@
       justify-content: center; // actual fucking insanity
       align-items: center; // pls ong frfr do not change this
 
-      &:hover {
-        #pfp-img {
-          opacity: 0.2;
-          filter: blur(2px) brightness(50%);
-        }
+      &:hover #pfp-img {
+        opacity: 0.2;
+        filter: blur(2px) brightness(50%);
+      }
+
+      #pfp-img {
+        height: inherit;
+        width: inherit;
+        border-radius: inherit;
       }
 
       #pfp-i {
@@ -79,12 +83,6 @@
         margin-bottom: 6px;
         font-size: 40px;
       }
-
-      #pfp-img {
-        height: inherit;
-        width: inherit;
-        border-radius: inherit;
-      }
     }
 
     #userchange-p {
@@ -92,6 +90,52 @@
       font-size: 0.75em;
       background: var(--col-crust);
       opacity: 90%;
+    }
+  }
+
+  #theme-div,
+  #font-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-top: 8px;
+
+    button {
+      border-radius: 0px;
+      height: 3em;
+
+      &:last-child {
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+      }
+    }
+
+    .icon {
+      width: 3em;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+
+      i {
+        font-size: 1.5em;
+      }
+    }
+
+    #theme-list,
+    #font-list {
+      display: flex;
+      transform-origin: left;
+
+      button {
+        height: 100%;
+        width: fit-content;
+
+        margin: 0px;
+
+        border: none;
+        align-self: center;
+        overflow: hidden;
+        text-align: center;
+      }
     }
   }
 
@@ -159,21 +203,21 @@
 
 @keyframes slideToLeft {
   from {
-    transform: translateX(-15%) scaleX(0);
+    transform: scaleX(0);
   }
 
   to {
-    transform: translateX(0%) scaleX(1);
+    transform: scaleX(1);
   }
 }
 
 @keyframes slideToRight {
   from {
-    transform: translateX(0%) scaleX(1);
+    transform: scaleX(1);
   }
 
   to {
-    transform: translateX(-15%) scaleX(0);
+    transform: scaleX(0);
   }
 }
 

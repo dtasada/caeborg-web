@@ -189,7 +189,7 @@ async function renderMessage(json: Message, shouldAppend = true) {
 
 	const pfp = document.createElement("img");
 	pfp.classList.add("pfp");
-	const res = await fetch(`/fetchPFP?username=${json.sender}`);
+	const res = await fetch(`/getPFP?username=${json.sender}`);
 	pfp.src = await res.text();
 	pfp.alt = `${json.sender}'s pfp`;
 	li.appendChild(pfp);
