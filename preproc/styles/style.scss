@@ -1,10 +1,12 @@
 @import "./settings";
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,500;0,700;0,800;1,100;1,500;1,700;1,800&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 @font-face {
   font-family: "CascadiaCode";
-  src: url("https://github.com/ryanoasis/nerd-fonts/blob/a2697b0fefe5e8d946c18a167a9496c6f224d7c9/patched-fonts/CascadiaCode/Regular/CaskaydiaCoveNerdFont-Regular.ttf") format("truetype");
+  src: url('/assets/misc/caskaydiacove.woff2') format('woff2'),
+    url('/assets/misc/caskaydiacove.woff') format('woff');
 }
 
 $border-radius: 32px;
@@ -20,10 +22,6 @@ $title-fontsize: 24px;
 $subtitle-fontsize: 20px;
 $body-fontsize: 16px;
 $smol-fontsize: 12px;
-
-:export {
-  sidebarSecWidth: $sidebar-sec-width;
-}
 
 * {
   font-family: var(--font), sans-serif;
@@ -54,16 +52,6 @@ $smol-fontsize: 12px;
   font-size: $title-fontsize;
 }
 
-
-iframe {
-  padding: 0px !important;
-  padding-inline-start: 0px !important;
-  margin: 0px !important;
-  left: 0px !important;
-  border: 0;
-  width: calc(100vw - #{$sidebarrightmargin-width});
-  height: calc(100vh - #{$headerfooter-height});
-}
 
 button {
   padding: 8px 8px;
@@ -121,16 +109,6 @@ ol {
 #pfp,
 .pfp {
   border-radius: 50px;
-}
-
-.button-list button {
-  // width: calc($sidebar-sec-width - 32px); // Rounded corners, centered buttons & text 
-  // padding-left: 20%; text-align: left; // Align center  
-
-  width: $sidebar-sec-width;
-  margin-left: 0px !important;
-
-  border-radius: 0px;
 }
 
 #launcher-sec {

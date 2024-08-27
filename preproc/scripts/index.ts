@@ -52,7 +52,7 @@ function switchFrame(page: string) {
 		frameBorder: "0",
 	});
 
-	document.getElementById("rest-sec")!.appendChild(newFrame);
+	document.getElementById("mid-sec")!.appendChild(newFrame);
 
 	document.title = `Caeborg - ${names[page]}`
 	setUserSettings();

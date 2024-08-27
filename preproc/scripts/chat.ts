@@ -51,10 +51,13 @@ ws.onmessage = async ({ data }) => {
 			break;
 		};
 		case "chatPostMessage": {
+			// Receiving a single message
 			await renderMessage(json);
 			break;
 		};
 		default: {
+			// Receiving a chunk
+			console.log("data:", json)
 			if (chunks === 1) {
 				// Set loading screen
 				outputOl.hidden = true;
@@ -72,15 +75,21 @@ ws.onmessage = async ({ data }) => {
 
 			// Loading in the background
 			(async () => {
-				for (let message of json) {
+				let shouldAppend = chunks === 1
+				let shouldScroll = outputSec.scrollTop > 0 || shouldAppend
+				let topMessage = outputOl.firstChild as HTMLElement;
+				let array = shouldAppend ? json : json.reverse();
+				for (let message of array) {
 					// if this is the first load, append everything. If scrolling up, prepend every message to the array
-					await renderMessage(message as Message, chunks === 1);
+					await renderMessage(message as Message, shouldAppend);
+					if (!shouldScroll && topMessage) topMessage.scrollIntoView();
 				}
 
 				// When done loading
 				outputOl.hidden = false;
-				if (outputSec.scrollTop !== 0 || chunks === 1) scrollBottom(false);
+				if (shouldScroll) scrollBottom(false)
 				outputOl.querySelectorAll("li").forEach(message => finishStyle(message));
+
 			})()
 			break;
 		}

@@ -12,105 +12,100 @@ html {
   body {
     height: 100vh;
     width: 100vw;
-    padding: inherit;
+    padding: 4px 28px 0px 14px;
     margin: inherit;
-  }
-}
+    display: flex;
+    flex-direction: column;
 
-#header-sec {
-  height: $header-sec-height;
-  margin: 10px;
-  background-color: var(--col-crust);
-
-  * {
-    float: left;
-  }
-
-
-  button {
-    height: 48px;
-    width: 48px;
-    margin-right: 12px;
-    padding: 12px;
-
-    border-radius: 4px;
-    text-align: center;
-
-    &#login-button,
-    &#colors-button,
-    &#account-button,
-    &#settings-button {
-      float: right;
-    }
-
-    &#login-button {
-      display: flex;
-
-      justify-content: center;
-      align-items: center;
-
-      width: 128px !important;
-      margin-right: 8px;
-    }
-
-    &#colors-button {
-      margin-right: 0px;
-    }
-
-    i {
-      font-size: 24px;
-      width: 24px;
-      height: 24px;
-      background-color: inherit;
-    }
-  }
-
-  button,
-  a {
-    position: relative;
-    bottom: 4px;
-  }
-}
-
-#footer-sec {
-  display: flex;
-  justify-content: center;
-
-  position: fixed;
-  left: $sidebar-sec-width;
-  bottom: 0px;
-
-  width: calc(100% - #{$sidebar-sec-width});
-  height: $footer-sec-height;
-
-  border-radius: 0px;
-  padding-top: 4px;
-}
-
-#sidebar-sec {
-  background: var(--col-crust);
-
-  ol {
-    list-style: none;
-    padding: 0px 0px;
-    position: fixed;
-
-    li+li {
-      border-top: 1px solid var(--col-surface);
-    }
-
-
-    li {
-      display: flex;
+    #header-sec {
+      height: 56px;
+      background-color: var(--col-crust);
 
       button {
-        border-radius: 12px;
-        font-size: $subtitle-fontsize;
-        background: var(--col-crust);
+        height: 48px;
+        width: 48px;
+        margin-right: 12px;
+        padding: 12px;
+
+        border-radius: 4px;
+        text-align: center;
+
+        &#login-button,
+        &#account-button,
+        &#settings-button {
+          float: right;
+        }
+
+        &#menu-button {
+          float: left;
+        }
+
+        &#login-button {
+          display: flex;
+
+          justify-content: center;
+          align-items: center;
+
+          width: 128px !important;
+          margin-right: 8px;
+        }
+
+        i {
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+          background-color: inherit;
+        }
       }
     }
+
+    #mid-sec {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      padding: 0px;
+      height: 100%;
+      align-self: center;
+
+      #sidebar-ol {
+        flex-grow: 1;
+        background: var(--col-crust);
+        list-style: none;
+        padding: 0px 4px;
+        margin-right: 14px;
+
+        li {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          button {
+            height: 100%;
+            width: 100%;
+            background: var(--col-crust);
+            font-size: $subtitle-fontsize;
+            border-radius: 12px;
+          }
+        }
+      }
+
+      iframe {
+        flex-grow: 20;
+        background: var(--col-base) !important;
+      }
+    }
+
+    #footer-sec {
+      display: flex;
+      justify-content: center;
+
+      border-radius: 0px;
+      padding: 4px;
+    }
+
   }
 }
+
 
 #launcher-sec {
   &.flexbox-container {
@@ -128,21 +123,5 @@ html {
         font-size: $subtitle-fontsize;
       }
     }
-  }
-}
-
-#rest-sec {
-  position: absolute;
-  width: calc(100% - #{$sidebarrightmargin-width});
-  height: calc(100% - #{$headerfooter-height});
-  left: $sidebar-sec-width;
-  top: $header-sec-height;
-  background: var(--col-base) !important;
-
-  iframe {
-    background: var(--col-base) !important;
-    position: absolute;
-    width: 100%;
-    height: 100%;
   }
 }
