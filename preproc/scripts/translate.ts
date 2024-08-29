@@ -339,5 +339,3 @@ function parseDict(json: any): string {
 
 	return ret.join("\n");
 }
-
-setUserSettings(); // Idk why this is necessary, but it seems to be

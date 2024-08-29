@@ -51,6 +51,7 @@ func HandleChangeUserSettings(w http.ResponseWriter, r *http.Request) {
 	username := ValidateUser(body["uuid"])
 	usersMap := parseUsersJSON()
 
+	delete(body, "uuid")
 	usersMap[username]["userSettings"] = body
 
 	marshaledUsersMap, err := json.MarshalIndent(usersMap, "", "\t")
@@ -58,8 +59,8 @@ func HandleChangeUserSettings(w http.ResponseWriter, r *http.Request) {
 		log.Println("HandleChangeUsername: Failed to marshal users map:", err)
 		return
 	}
-	os.WriteFile(AssetsPath+"/users.json", marshaledUsersMap, 0777)
 
+	os.WriteFile(AssetsPath+"/users.json", marshaledUsersMap, 0777)
 }
 
 func HandleChangePFP(w http.ResponseWriter, r *http.Request) {

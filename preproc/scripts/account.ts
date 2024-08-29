@@ -117,7 +117,7 @@ document.getElementById("save-button")!.onclick = async () => {
 		});
 	}
 
-	await fetch("/changeUserData", {
+	await fetch("/changeUserSettings", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
@@ -199,7 +199,6 @@ async function setButtons() {
 			selectedColorScheme = button.innerHTML;
 			document.querySelectorAll("#theme-div button").forEach(button => button.classList.remove("active"));
 			button.classList.add("active")
-			setUserSettings();
 		}
 	})
 
@@ -208,11 +207,8 @@ async function setButtons() {
 			selectedUserFont = button.innerHTML;
 			document.querySelectorAll("#font-div button").forEach(button => button.classList.remove("active"));
 			button.classList.add("active")
-			setUserSettings();
 		}
 	})
-
-	setUserSettings();
 }
 
 setButtons()

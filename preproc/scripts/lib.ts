@@ -10,6 +10,7 @@ export function getURL(str: string) {
 }
 
 export function setUserSettings() {
+	console.log("setUserSettings();");
 	fetch("/assets/settings.json")
 		.then(r => r)
 		.then(r => r.json())
