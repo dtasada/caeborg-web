@@ -263,11 +263,12 @@ async function renderMessage(json: Message, shouldAppend = true) {
 
 			img.onclick = () => {
 				img.classList.toggle("imagePreview")
+
+				img.addEventListener("transitionend", () => {
+					img.parentElement!.scrollIntoView({ behavior: "smooth" });
+				}, { once: true })
 			};
 
-			img.ontransitionend = () => {
-				img.parentElement!.scrollIntoView({ behavior: "smooth" });
-			};
 
 			img.onload = () => {
 				img.style.height = `${img.naturalHeight}px`;
