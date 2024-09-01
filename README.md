@@ -32,10 +32,12 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 
 # Notes
 * To run the web server, run `go run main.go` in `caeborg-web/`.
-* To run the server in its dev mode, run `go run main.go dev` in `caeborg-web/`. `dev` includes SCSS compilation.
+* To run the server in its dev mode, run `go run main.go dev` in `caeborg-web/`. `dev` includes SCSS and TypeScript compilation.
 * To compile SCSS to CSS separately, run `sass --watch ./client/public/styles:./client/public/.css` in `caeborg-web/`.
 
 # Setup
+* Clone the repository into ${webroot}. A home directory, or something like `/var/www` is recommended. My server uses has its webroot at `/var/www/caeborg.com`
+
 ## Server setup
 ```
 [Unit]
@@ -45,9 +47,9 @@ After=network.target systemd-ask-password-console.service multi-user.target
 
 [Service]
 User=root
-WorkingDirectory=/var/www/caeborg.dev
-ExecStart=/usr/bin/sudo /var/www/caeborg.dev/releases/caeborg_linux_arm64
-ExecReload=/usr/bin/sudo /var/www/caeborg.dev/releases/caeborg_linux_arm64
+WorkingDirectory=${webroot}
+ExecStart=/usr/bin/sudo ${webroot}/releases/caeborg_linux_arm64
+ExecReload=/usr/bin/sudo ${webroot}/releases/caeborg_linux_arm64
 Type=simple
 Restart=always
 TimeoutSec=360
@@ -55,9 +57,11 @@ TimeoutSec=360
 [Install]
 WantedBy=default.target
 ```
-* Copy the example systemd service file to the systemd services folder `/usr/lib/systemd/system/` as root.
+* Copy the example systemd service file to the systemd services folder `/usr/lib/systemd/system/caeborg.service` as root.
 * Enable the service with `systemctl enable --now caeborg`.
 * Don't forget to `chmod +x ./releases/*` and `chmod +x ./server/besticon/*` to avoid permission errors.
+* To setup SSL and HTTPS, install `certbot` and run `certbot certonly --webroot -w ${webroot}/client/public -d caeborg.com`
+
 ## Development
 For your development environment to work correctly, you need to set up HTTPS keys. These are self-signed keys intended only for development use.
 * Create a private key `openssl genrsa -out ./assets/credentials/privkey.pem 4096`.
@@ -75,6 +79,10 @@ For your development environment to work correctly, you need to set up HTTPS key
                 "YouTube": "youtube.com"
             },
             "password": "X3xikhbQf87bK0k=",
+            "userSettings": {
+                "colorScheme": "Catppuccin Dark",
+                "userFont": "JetBrains Mono"
+            },
             "whitelist": {
                 "a2eb9c82-071d-4b0a-a645-1c48273d6477": 1705572938
             }
