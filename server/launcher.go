@@ -8,7 +8,7 @@ import (
 )
 
 func HandleGetLauncher(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("cache-control", "max-age=120,proxy-revalidate")
+	w.Header().Add("cache-control", "no-store")
 
 	uuid := r.URL.Query().Get("uuid")
 	username := ValidateUser(uuid)
