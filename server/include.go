@@ -20,7 +20,7 @@ import (
 )
 
 var (
-	Domain    = "caeborg.dev"
+	Domain    = "caeborg.com"
 	TlsConfig = &tls.Config{}
 
 	CWD, _        = os.Getwd()

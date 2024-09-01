@@ -173,8 +173,7 @@ copyButton.onclick = () => navigator.clipboard.writeText(outputBox.value);
 addButton.onclick = async () => {
 	if (newlangSel.hidden === true) {
 		newlangSel.hidden = false;
-		addButton.classList.remove("fa-plus");
-		addButton.classList.add("fa-check");
+		addButton.classList.replace("fa-plus", "fa-check");
 
 		// make it the new language
 		addButton.addEventListener("click", async () => {

@@ -15,6 +15,7 @@ export function setUserSettings() {
 		.then(r => r)
 		.then(r => r.json())
 		.then(userSettingsJSON => {
+			console.log("usjson", userSettingsJSON)
 			if (localStorage.uuid) {
 				fetch(`/getUserSettings?uuid=${localStorage.uuid}`)
 					.then(r => r)
@@ -23,11 +24,14 @@ export function setUserSettings() {
 						localStorage.colorScheme = res.colorScheme;
 						localStorage.userFont = res.userFont;
 					});
+			} else {
+				console.log("fallback");
+				localStorage.colorScheme = "Catppuccin Dark";
+				localStorage.userFont = "JetBrains Mono";
 			}
-			if (!localStorage.colorScheme) localStorage.colorScheme = "Catppuccin Dark";
-			if (!localStorage.userFont) localStorage.userFont = "JetBrains Mono";
 
 			const colorsObject = userSettingsJSON.colorSchemes[localStorage.colorScheme];
+			console.log("colorsObject", colorsObject);
 
 			let root = document.querySelector(":root") as HTMLElement;
 			let iframe = document.getElementById("rest-iframe")! as HTMLIFrameElement

@@ -1,5 +1,7 @@
 import { setUserSettings } from "./lib.js";
 
+let sidebarOl = document.getElementById("sidebar-ol")!;
+
 let names: Record<string, string> = {
 	"calc": "Calculator",
 	"chat": "Chat",
@@ -14,7 +16,28 @@ let names: Record<string, string> = {
 	"launcher": "Launcher",
 }
 
-document.querySelectorAll("#sidebar-ol li > button").forEach(e => {
+if (window.innerWidth >= 1200) {
+	sidebarOl.style.display = "block";
+	sidebarOl.classList.add("anim-in");
+} else {
+	sidebarOl.style.display = "none"
+	sidebarOl.classList.add("anim-out");
+}
+
+window.addEventListener("resize", () => {
+	// Keep addEventListener instead of `onresize = () => {}`. addEventListener doesn't work for some reason
+	if (window.innerWidth >= 1200 && !sidebarOl.classList.contains("anim-in")) {
+		console.log("big");
+		sidebarOl.style.display = "block";
+		sidebarOl.classList.replace("anim-out", "anim-in");
+	} else if (window.innerWidth < 1200 && !sidebarOl.classList.contains("anim-out")) {
+		console.log("smol");
+		sidebarOl.style.display = "none";
+		sidebarOl.classList.replace("anim-in", "anim-out");
+	}
+});
+
+sidebarOl.querySelectorAll("li > button").forEach(e => {
 	let button = e as HTMLButtonElement
 	button.onclick = () => switchFrame(button.dataset.target!);
 });

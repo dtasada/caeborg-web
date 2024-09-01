@@ -76,6 +76,16 @@ html {
         padding: 0px 4px;
         margin-right: 14px;
 
+        &.anim-in {
+          animation: slide-in 0.5s;
+          transform: translateX(0%);
+        }
+
+        &.anim-out {
+          animation: slide-out 0.5s;
+          transform: translateX(-100%);
+        }
+
         li {
           display: flex;
           align-items: center;
@@ -125,5 +135,29 @@ html {
         font-size: $subtitle-fontsize;
       }
     }
+  }
+}
+
+@keyframes slide-in {
+  from {
+    display: none;
+    transform: translateX(-100%);
+  }
+
+  to {
+    display: block;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    display: block;
+    transform: translateX(0%);
+  }
+
+  to {
+    display: none;
+    transform: translateX(-100%);
   }
 }
