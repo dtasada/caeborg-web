@@ -143,7 +143,7 @@ func startServer() {
 	mux.HandleFunc("/logout", server.HandleLogout)
 	mux.HandleFunc("/logoutAll", server.HandleLogoutAll)
 	mux.HandleFunc("/validate", server.HandleValidation)
-	mux.HandleFunc("/getPFP", server.HandlePFP)
+	mux.HandleFunc("/getPFP", server.HandleGetPFP)
 	mux.HandleFunc("/getUserSettings", server.HandleGetUserSettings)
 	mux.HandleFunc("/changeUserSettings", server.HandleChangeUserSettings)
 	mux.HandleFunc("/changePFP", server.HandleChangePFP)
@@ -175,7 +175,7 @@ func startServer() {
 		}
 		res.Body.Close()
 
-		w.Header().Add("cache-control", "no-store,no-cache,must-revalidate,max-age=0")
+		w.Header().Add("cache-control", "max-age=3600,public,proxy-revalidate")
 		w.Write(imgBytes)
 	})
 

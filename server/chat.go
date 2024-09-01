@@ -277,6 +277,8 @@ func (c *Client) chatHandler() {
 }
 
 func HandleChatPingsMe(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("cache-control", "private")
+
 	body := parseBody[map[string]string](r).(map[string]string)
 	if body["username"] == ValidateUser(body["uuid"]) {
 		w.Write([]byte("true"))
@@ -286,6 +288,8 @@ func HandleChatPingsMe(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleGetLinkPreviewMetadata(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("cache-control", "max-age=86400, public")
+
 	url := r.URL.Query().Get("url")
 
 	res, err := http.Get(url)

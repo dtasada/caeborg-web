@@ -10,7 +10,9 @@ import (
 	"strings"
 )
 
-func HandlePFP(w http.ResponseWriter, r *http.Request) {
+func HandleGetPFP(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("cache-control", "max-age=120,proxy-revalidate")
+
 	username := r.URL.Query().Get("uuid")
 	if username != "" {
 		username = ValidateUser(username)
@@ -20,7 +22,6 @@ func HandlePFP(w http.ResponseWriter, r *http.Request) {
 
 	path := "/assets/users/" + username + ".avif"
 
-	w.Header().Add("cache-control", "no-store,no-cache,must-revalidate,max-age=0")
 	if fileExists(PublicPath + path) {
 		w.Write([]byte(path))
 	} else {
@@ -29,6 +30,8 @@ func HandlePFP(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleGetUserSettings(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("cache-control", "proxy-revalidate")
+
 	uuid := r.URL.Query().Get("uuid")
 	username := ValidateUser(uuid)
 	if username == "__userinvalid" {
@@ -141,6 +144,8 @@ func HandleChangePassword(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleLogout(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("cache-control", "no-store")
+
 	uuid := r.URL.Query().Get("uuid")
 	username := ValidateUser(uuid)
 	if username == "__userinvalid" {
@@ -164,6 +169,8 @@ func HandleLogout(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleLogoutAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("cache-control", "no-store")
+
 	uuid := r.URL.Query().Get("uuid")
 	username := ValidateUser(uuid)
 	if username == "__userinvalid" {

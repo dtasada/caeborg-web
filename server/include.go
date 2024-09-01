@@ -58,7 +58,7 @@ func ServeFile(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Couldn't read %s.html", page)
 	}
-	w.Header().Add("cache-control", "no-store,no-cache,must-revalidate,max-age=0")
+	w.Header().Add("cache-control", "private, no-cache")
 	w.Write(file)
 }
 

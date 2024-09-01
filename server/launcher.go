@@ -8,6 +8,8 @@ import (
 )
 
 func HandleGetLauncher(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("cache-control", "max-age=120,proxy-revalidate")
+
 	uuid := r.URL.Query().Get("uuid")
 	username := ValidateUser(uuid)
 	if username == "__userinvalid" {
