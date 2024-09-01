@@ -286,7 +286,6 @@ async function translate(source?: string, target?: string) {
 
 function parseDict(json: any): string {
 	let ret: any[] = [];
-	console.log("json", json)
 	json.forEach((definition: any, index: number) => {
 		const { word, phonetic, phonetics, origin, meanings } = definition;
 

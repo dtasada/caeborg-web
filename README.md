@@ -18,7 +18,6 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
     * Rebuild sidebar hiding
 * New features:
     * Chat features:
-        - change timestamp mechanic from client-side to server-side
         - image preview, confirm image sending
         - message menu, reply to message
         - optimize loading

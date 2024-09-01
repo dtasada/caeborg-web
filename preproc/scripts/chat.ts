@@ -19,8 +19,7 @@ function scrollBottom(smoothScrolling = true) {
 interface Message {
 	content: string,
 	sender: string,
-	date: string,
-	time: string,
+	datetime: string,
 	dataType: string,
 	type: string,
 	fileName?: string,
@@ -57,7 +56,6 @@ ws.onmessage = async ({ data }) => {
 		};
 		default: {
 			// Receiving a chunk
-			console.log("data:", json)
 			if (chunks === 1) {
 				// Set loading screen
 				outputOl.hidden = true;
@@ -119,8 +117,7 @@ function send(type: string, content: string, fileName?: string) {
 	ws.send(JSON.stringify({
 		content: content,
 		sender: localStorage.uuid,
-		date: `${new Date().toLocaleDateString()}`,
-		time: getTime(),
+		datetime: new Date().getTime().toString(),
 		dataType: type,
 		type: "chatPostMessage",
 		fileName: fileName
@@ -128,10 +125,11 @@ function send(type: string, content: string, fileName?: string) {
 }
 
 inputBox.onpaste = async (e) => {
+	console.log("123123123");
 	for (const file of Array.from(e!.clipboardData!.files)) {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
-		if (reader.result !== null) {
+		if (reader.result) {
 			reader.onload = () => send(file.type.startsWith("image/") ? "img" : "file", reader.result!.toString())
 		}
 	}
@@ -144,16 +142,6 @@ submit.onclick = () => {
 	inputBox.value = "";
 	localStorage.savedInputValue = inputBox.value;
 };
-
-function getTime(): string {
-	let time = new Date();
-	let hour = time.getHours().toString();
-	let minute = time.getMinutes().toString();
-	if (hour.length === 1) hour = "0" + hour
-	if (minute.length === 1) minute = "0" + minute
-
-	return `${hour}:${minute}`;
-}
 
 // Handle images
 addButton.onclick = () => {
@@ -200,12 +188,17 @@ async function renderMessage(json: Message, shouldAppend = true) {
 	li.appendChild(senderP);
 
 	const timedateP = document.createElement("p");
-	if (json.date === new Date().toLocaleDateString()) json.date = "Today";
-	if (json.time === getTime()) {
+	const messageDateTime = new Date(parseInt(json.datetime));
+	const now = new Date();
+
+	let date = messageDateTime.toLocaleDateString === now.toLocaleDateString ? "Today" : messageDateTime.toLocaleDateString();
+	let time = messageDateTime.toLocaleTimeString().replace(/:\d\d /, " ")
+
+	if (json.datetime === now.getTime().toString())
 		timedateP.innerHTML = "&ensp;now";
-	} else {
-		timedateP.innerHTML = `&ensp;${json.date} at ${json.time}`;
-	}
+	else
+		timedateP.innerHTML = `&ensp;${date} at ${time}`;
+
 	timedateP.classList.add("datetimeTag");
 	li.appendChild(timedateP);
 
@@ -268,11 +261,18 @@ async function renderMessage(json: Message, shouldAppend = true) {
 			img.src = json.content;
 			img.classList.add("imageMessage");
 
-			img.onclick = () => img.classList.toggle("imagePreview");
+			img.onclick = () => {
+				img.classList.toggle("imagePreview")
+			};
+
+			img.ontransitionend = () => {
+				img.parentElement!.scrollIntoView({ behavior: "smooth" });
+			};
 
 			img.onload = () => {
 				img.style.height = `${img.naturalHeight}px`;
 				img.style.width = `${img.naturalWidth}px`;
+				if (img.parentElement === outputOl.lastChild) scrollBottom()
 			};
 
 			li.appendChild(img);

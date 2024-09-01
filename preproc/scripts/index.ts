@@ -27,11 +27,9 @@ if (window.innerWidth >= 1200) {
 window.addEventListener("resize", () => {
 	// Keep addEventListener instead of `onresize = () => {}`. addEventListener doesn't work for some reason
 	if (window.innerWidth >= 1200 && !sidebarOl.classList.contains("anim-in")) {
-		console.log("big");
 		sidebarOl.style.display = "block";
 		sidebarOl.classList.replace("anim-out", "anim-in");
 	} else if (window.innerWidth < 1200 && !sidebarOl.classList.contains("anim-out")) {
-		console.log("smol");
 		sidebarOl.style.display = "none";
 		sidebarOl.classList.replace("anim-in", "anim-out");
 	}

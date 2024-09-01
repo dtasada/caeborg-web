@@ -130,7 +130,6 @@ async function parseInput(text: string) {
 	if (command in commands) {
 		const results = commands[command].command(args); // do not remove async/await (important for fetch functions (e.g. nk()))
 		if (results != null) renderMessage("caeborg", results);
-		else console.log("Function return is null!")
 	} else {
 		// console.log(`Command ${command} not found`);
 		renderMessage("caeborg", [`<i>Command "${command}" not found</i>`]);
@@ -306,6 +305,5 @@ function ascii(img: HTMLImageElement) {
 		const green = arr[i + 1];
 		const blue = arr[i + 2];
 		const alpha = arr[i + 3];
-		console.log(red, green, blue, alpha);
 	}
 }

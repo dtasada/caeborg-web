@@ -34,7 +34,6 @@ async function genShortcuts() {
 	let launcherOl = document.getElementById("launcher-ol")!;
 	if (launcherOl) {
 		launcherOl.innerHTML = "";
-		console.log("launcherOl", launcherOl);
 	} else {
 		launcherOl = document.createElement("ol");
 		launcherOl.id = "launcher-ol";

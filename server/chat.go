@@ -96,7 +96,12 @@ func getChat() []byte {
 	}
 
 	if string(chatBin) == "" {
-		chatBin := []byte(`[]`)
+		chatBin := []byte(`[{
+			"content": "Welcome to Caeborg Chat!",
+			"sender": "Caeborg",
+			"datetime": 0,
+			"dataType": "txt"
+		}]`)
 		if err := os.WriteFile(path, chatBin, 0777); err != nil {
 			log.Println("Error creating chat.json")
 		}
@@ -174,6 +179,12 @@ func (c *Client) chatHandler() {
 					break
 				}
 			}
+
+			if len(chunks) == 0 {
+				log.Println("chatGetChunk: Chat is empty")
+				return
+			}
+
 			chunkBytes, err := json.Marshal(chunks[len(chunks)-1])
 			if err != nil {
 				log.Println("chatGetChunk: Failed to get chunks", err)
@@ -190,6 +201,7 @@ func (c *Client) chatHandler() {
 				log.Println("chatGetChunk: Failed to send message:", err)
 				return
 			}
+
 		case "chatPostMessage":
 			username := ValidateUser(message["sender"])
 			if username != "__userinvalid" {
