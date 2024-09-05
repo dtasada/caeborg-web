@@ -99,7 +99,7 @@ func getChat() []byte {
 		chatBin := []byte(`[{
 			"content": "Welcome to Caeborg Chat!",
 			"sender": "Caeborg",
-			"datetime": 0,
+			"datetime": "0",
 			"dataType": "txt"
 		}]`)
 		if err := os.WriteFile(path, chatBin, 0777); err != nil {

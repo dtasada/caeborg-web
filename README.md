@@ -15,7 +15,6 @@ Caeborg is an all-in-one homepage that includes different tools for my day-to-da
 # Todo
 * Optimize frontend HTML CSS & JS
     * Fix `shell.ts` (pretty much broken)
-    * Rebuild sidebar hiding
     * Store translate prefs on server-side
 * New features:
     * Chat features:

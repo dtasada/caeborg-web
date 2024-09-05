@@ -191,7 +191,7 @@ async function renderMessage(json: Message, shouldAppend = true) {
 	const messageDateTime = new Date(parseInt(json.datetime));
 	const now = new Date();
 
-	let date = messageDateTime.toLocaleDateString === now.toLocaleDateString ? "Today" : messageDateTime.toLocaleDateString();
+	let date = messageDateTime.toLocaleDateString() === now.toLocaleDateString() ? "Today" : messageDateTime.toLocaleDateString();
 	let time = messageDateTime.toLocaleTimeString().replace(/:\d\d /, " ")
 
 	if (json.datetime === now.getTime().toString())

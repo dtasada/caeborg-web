@@ -58,7 +58,7 @@ validate();
 
 // Switching frames
 function switchFrame(page: string) {
-	document.querySelectorAll(`#sidebar-ol li > button`).forEach(e => {
+	sidebarOl.querySelectorAll(`li > button`).forEach(e => {
 		let button = e as HTMLButtonElement;
 		if (button.dataset.target === page) button.classList.add("active")
 		else button.classList.remove("active")
@@ -67,18 +67,18 @@ function switchFrame(page: string) {
 	localStorage.savedFrame = page;
 
 	document.getElementById("rest-iframe")!.remove();
-	const newFrame = document.createElement("iframe");
+	const newFrame = document.createElement("iframe") as HTMLIFrameElement;
 
 	Object.assign(newFrame, {
 		id: "rest-iframe",
 		src: `/pages/${page}.html${document.location.search}`,
 		frameBorder: "0",
 	});
+	newFrame.onload = setUserSettings;
 
 	document.getElementById("mid-sec")!.appendChild(newFrame);
 
 	document.title = `Caeborg - ${names[page]}`
-	setUserSettings();
 }
 
 for (const param of document.location.search.split("&")) {
